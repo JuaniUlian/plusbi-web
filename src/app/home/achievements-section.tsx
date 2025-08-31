@@ -17,7 +17,7 @@ import Autoplay from "embla-carousel-autoplay"
 
 const achievementsContent = {
     es: {
-        title: "Capacidad Operativa y Resultados Reales",
+        title: "Capacidad Operativa y Resultados",
         subtitle: "Nuestras soluciones ofrecen mejoras tangibles en eficiencia, control y transparencia.",
         achievements: [
             { value: '+67%', label: 'Más errores detectados vs revisión humana' },
@@ -28,7 +28,7 @@ const achievementsContent = {
         ]
     },
     en: {
-        title: "Operational Capacity & Real Results",
+        title: "Operational Capacity & Results",
         subtitle: "Our solutions deliver tangible improvements in efficiency, control, and transparency.",
         achievements: [
             { value: '+67%', label: 'More errors detected vs human review' },
