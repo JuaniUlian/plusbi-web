@@ -40,25 +40,25 @@ export function Footer() {
       style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
     >
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+            <div className="space-y-4 flex flex-col items-center md:items-start">
                 <Link href="/" className="flex items-center gap-2">
                     <Logo className="h-8 w-8" />
                     <span className="font-bold text-lg font-headline">PLUS BI</span>
                 </Link>
-                <p className="text-sm text-white/70">{c.slogan}</p>
+                <p className="text-sm text-white/70 max-w-xs">{c.slogan}</p>
             </div>
-            <div>
+            <div className="flex flex-col items-center md:items-start">
                 <h3 className="font-semibold mb-4">{c.navigation}</h3>
-                <nav className="flex flex-col space-y-2">
+                <nav className="flex flex-col space-y-2 items-center md:items-start">
                     <Link href="/" className="text-sm hover:underline text-white/70">{c.home}</Link>
                     <Link href="/products" className="text-sm hover:underline text-white/70">{c.products}</Link>
                     <Link href="/experience" className="text-sm hover:underline text-white/70">{c.experience}</Link>
                 </nav>
             </div>
-            <div>
+            <div className="flex flex-col items-center md:items-start">
                  <h3 className="font-semibold mb-4">{c.contactTitle}</h3>
-                 <p className="text-sm text-white/70 mb-4">{c.contactSubtitle}</p>
+                 <p className="text-sm text-white/70 mb-4 max-w-xs">{c.contactSubtitle}</p>
                  <Button asChild variant="secondary">
                      <a href="mailto:contacto@plusbi.com">{c.contactButton}</a>
                  </Button>
