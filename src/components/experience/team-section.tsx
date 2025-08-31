@@ -290,7 +290,7 @@ export function TeamSection() {
                         height={128}
                         style={{ objectFit: 'cover' }}
                         data-ai-hint="profile picture"
-                        className="rounded-full border-4 border-primary/20"
+                        className="rounded-full border-4 border-primary/20 size-32"
                     />
                 </div>
                  <CardTitle className="mt-4">{member.name}</CardTitle>
@@ -317,3 +317,5 @@ export function TeamSection() {
     </Accordion>
   );
 }
+
+    

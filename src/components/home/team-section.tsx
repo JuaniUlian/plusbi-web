@@ -14,11 +14,11 @@ const teamContent = {
         subtitle: "Nuestro equipo combina innovación tecnológica con una profunda visión humana, creando soluciones estratégicas y eficientes para problemas complejos.",
         buttonText: "Conoce más sobre nuestros expertos",
         team: [
-            { name: 'Cristian Ulian', title: 'Especialista en Políticas Públicas y Desarrollo Local', avatar: '/fotos/cristian.jpeg' },
-            { name: 'Juan Ignacio Ulian', title: 'Licenciado en Ciencia Política', avatar: '/fotos/juan.jpg' },
-            { name: 'Alejandro Gonzalez Carril', title: 'Licenciado en Relaciones Internacionales y Ciencias Políticas', avatar: '/fotos/alejandro.jpeg' },
-            { name: 'Analía Barberio', title: 'Especialista en Sistemas de Información y Transformación Digital', avatar: '/fotos/analia.jpg' },
-            { name: 'Pablo Martinez', title: 'Desarrollador Fullstack', avatar: '/fotos/pablo.jpg' },
+            { name: 'Cristian Ulian', title: 'Especialista en Políticas Públicas y Desarrollo Local', avatar: '/team/cristian.jpeg' },
+            { name: 'Juan Ignacio Ulian', title: 'Licenciado en Ciencia Política', avatar: '/team/juan.jpg' },
+            { name: 'Alejandro Gonzalez Carril', title: 'Licenciado en Relaciones Internacionales y Ciencias Políticas', avatar: '/team/alejandro.jpeg' },
+            { name: 'Analía Barberio', title: 'Especialista en Sistemas de Información y Transformación Digital', avatar: '/team/analia.jpg' },
+            { name: 'Pablo Martinez', title: 'Desarrollador Fullstack', avatar: '/team/pablo.jpg' },
         ]
     },
     en: {
@@ -26,11 +26,11 @@ const teamContent = {
         subtitle: "Our team combines technological innovation with deep human insight, creating strategic and efficient solutions for complex problems.",
         buttonText: "Learn More About Our Experts",
         team: [
-            { name: 'Cristian Ulian', title: 'Specialist in Public Policies and Local Development', avatar: '/fotos/cristian.jpeg' },
-            { name: 'Juan Ignacio Ulian', title: 'Bachelor in Political Science', avatar: '/fotos/juan.jpg' },
-            { name: 'Alejandro Gonzalez Carril', title: 'Graduate in International Relations and Political Sciences', avatar: '/fotos/alejandro.jpeg' },
-            { name: 'Analía Barberio', title: 'Information Systems and Digital Transformation Specialist', avatar: '/fotos/analia.jpg' },
-            { name: 'Pablo Martinez', title: 'Fullstack Developer', avatar: '/fotos/pablo.jpg' },
+            { name: 'Cristian Ulian', title: 'Specialist in Public Policies and Local Development', avatar: '/team/cristian.jpeg' },
+            { name: 'Juan Ignacio Ulian', title: 'Bachelor in Political Science', avatar: '/team/juan.jpg' },
+            { name: 'Alejandro Gonzalez Carril', title: 'Graduate in International Relations and Political Sciences', avatar: '/team/alejandro.jpeg' },
+            { name: 'Analía Barberio', title: 'Information Systems and Digital Transformation Specialist', avatar: '/team/analia.jpg' },
+            { name: 'Pablo Martinez', title: 'Fullstack Developer', avatar: '/team/pablo.jpg' },
         ]
     }
 }
@@ -75,3 +75,5 @@ export function TeamSection() {
         </section>
     );
 }
+
+    

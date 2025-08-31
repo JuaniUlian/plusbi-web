@@ -123,7 +123,7 @@ export default function Home() {
 
       <AchievementsSection />
       
-      <section id="products-wizard" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+      <section id="products-wizard" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.productsTitle}</h2>
@@ -180,3 +180,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

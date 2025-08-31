@@ -84,7 +84,7 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      <section id="team" className="py-16 md:py-24 bg-primary/5">
+      <section id="team" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.teamTitle}</h2>
@@ -96,7 +96,7 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-background text-center">
+      <section className="py-16 md:py-24 bg-background text-center" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
           <div className="container mx-auto px-4">
                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
@@ -108,3 +108,5 @@ export default function ExperiencePage() {
     </>
   );
 }
+
+    
