@@ -59,18 +59,17 @@ const content = {
         year: "2023",
         summary: "Este fue un año de consolidación y proyectos de alto impacto. Brindamos asesoramiento y mediciones clave en las Elecciones Presidenciales de Argentina, demostrando nuestra capacidad para manejar proyectos de gran escala y alta complejidad.",
         items: [
-          { event: "Asesoramiento en Elecciones Presidenciales de Argentina", icon: <Globe /> },
+          { event: "Asesoramiento en Elecciones Presidenciales de Argentina", description: "Margen de error 1.42% respecto a resultados finales.", icon: <Globe /> },
           { event: "Proyecciones de tendencias de demanda para Cámaras Empresariales", icon: <Building /> },
-          { event: "Desarrollo del producto 'Quest' para análisis de datos", icon: <Lightbulb /> },
+          { event: "Lanzamiento de Quest", icon: <Lightbulb /> },
         ],
       },
       {
         year: "2024",
         summary: "Nuestra experiencia nos abrió las puertas a nuevos desafíos. Comenzamos a brindar asesoramiento a Organismos Internacionales Multilaterales y aplicamos nuestros modelos de proyección en las Elecciones de la Ciudad de México.",
         items: [
-          { event: "Asesoramiento a Organismos Internacionales Multilaterales", icon: <Briefcase /> },
-          { event: "Proyecciones en las Elecciones de la Ciudad de México", icon: <Vote /> },
-          { event: "Lanzamiento de 'Mila' para validación de documentos", icon: <FileText /> },
+          { event: "Asesoramiento a Organismos Internacionales Multilaterales", description: "Utilización de Quest para medir índices de Conflictividad Social.", icon: <Briefcase /> },
+          { event: "Proyecciones en las Elecciones de la Ciudad de México", description: "Margen de error del 3% respecto a resultados finales.", icon: <Vote /> },
         ],
       },
       {
@@ -78,7 +77,6 @@ const content = {
         summary: "Nuestro compromiso con la transparencia y la innovación fue reconocido al ser seleccionados en el Top 20 del programa 'Corrupción Cero' de la CAF. Este hito nos impulsa a seguir creando soluciones que transforman la gestión pública.",
         items: [
           { event: "Seleccionados en el Top 20 del programa 'Corrupción Cero' de la CAF", icon: <Award /> },
-          { event: "Inicio del desarrollo de 'Vuro', nuestro súper-agente de IA", icon: <Rocket /> },
           { event: "Consolidación como referentes en GovTech en LATAM", icon: <Trophy /> },
         ],
       },
@@ -115,18 +113,17 @@ const content = {
         year: "2023",
         summary: "This was a year of consolidation and high-impact projects. We provided key advice and measurements in the Argentine Presidential Elections, demonstrating our ability to handle large-scale and highly complex projects.",
         items: [
-          { event: "Advisory in Argentine Presidential Elections", icon: <Globe /> },
+          { event: "Advisory in Argentine Presidential Elections", description: "1.42% margin of error compared to final results.", icon: <Globe /> },
           { event: "Demand trend projections for Business Chambers", icon: <Building /> },
-          { event: "Development of the 'Quest' product for data analysis", icon: <Lightbulb /> },
+          { event: "Launch of Quest", icon: <Lightbulb /> },
         ],
       },
       {
         year: "2024",
         summary: "Our experience opened doors to new challenges. We began advising Multilateral International Organizations and applied our projection models in the Mexico City Elections.",
         items: [
-          { event: "Advisory to Multilateral International Organizations", icon: <Briefcase /> },
-          { event: "Projections in the Mexico City Elections", icon: <Vote /> },
-          { event: "Launch of 'Mila' for document validation", icon: <FileText /> },
+          { event: "Advisory to Multilateral International Organizations", description: "Use of Quest to measure Social Conflict indexes.", icon: <Briefcase /> },
+          { event: "Projections in the Mexico City Elections", description: "3% margin of error compared to final results.", icon: <Vote /> },
         ],
       },
       {
@@ -134,7 +131,6 @@ const content = {
         summary: "Our commitment to transparency and innovation was recognized by being selected in the Top 20 of the CAF 'Zero Corruption' program. This milestone drives us to continue creating solutions that transform public management.",
         items: [
           { event: "Selected in the Top 20 of the CAF 'Zero Corruption' program", icon: <Award /> },
-          { event: "Start of development of 'Vuro', our AI super-agent", icon: <Rocket /> },
           { event: "Consolidation as GovTech leaders in LATAM", icon: <Trophy /> },
         ],
       },
@@ -172,7 +168,7 @@ export default function ExperiencePage() {
           </div>
           
           <Tabs value={activeYear} onValueChange={setActiveYear} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-8">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5 mb-8">
               {c.milestonesByYear.map((milestone) => (
                 <TabsTrigger key={milestone.year} value={milestone.year}>{milestone.year}</TabsTrigger>
               ))}
@@ -204,6 +200,9 @@ export default function ExperiencePage() {
                             </div>
                             <div>
                                 <h4 className="font-semibold text-lg">{item.event}</h4>
+                                {item.description && (
+                                  <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                                )}
                             </div>
                           </div>
                         ))}
@@ -241,5 +240,7 @@ export default function ExperiencePage() {
     </>
   );
 }
+
+    
 
     
