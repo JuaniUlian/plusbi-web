@@ -18,43 +18,43 @@ import {
 const teamMembers = [
     {
         name: 'Cristian Ulian',
-        title: 'Specialist in Public Policies and Local Development',
+        title: 'Especialista en Políticas Públicas y Desarrollo Local',
         avatar: 'https://picsum.photos/400/400?random=1',
         initials: 'CU',
         linkedin: '#',
-        fullExperience: "Cristian has over 15 years of experience advising governments on public policy innovation. He specializes in creating sustainable development models and strengthening community engagement. His work has been recognized internationally for its impact on local governance."
+        fullExperience: "Cristian tiene más de 15 años de experiencia asesorando a gobiernos en innovación de políticas públicas. Se especializa en la creación de modelos de desarrollo sostenible y en el fortalecimiento de la participación comunitaria. Su trabajo ha sido reconocido internacionalmente por su impacto en la gobernanza local."
     },
     {
         name: 'Juan Ignacio Ulian',
-        title: 'Bachelor in Political Science',
+        title: 'Licenciado en Ciencia Política',
         avatar: 'https://picsum.photos/400/400?random=2',
         initials: 'JU',
         linkedin: '#',
-        fullExperience: "Juan Ignacio is an expert in political analysis and strategy. He has worked on multiple successful campaigns, providing data-driven insights and communication strategies. His focus is on understanding citizen needs to foster more responsive and effective governments."
+        fullExperience: "Juan Ignacio es un experto en análisis y estrategia política. Ha trabajado en múltiples campañas exitosas, proporcionando conocimientos basados en datos y estrategias de comunicación. Su enfoque es comprender las necesidades de los ciudadanos para fomentar gobiernos más receptivos y eficaces."
     },
     {
         name: 'Alejandro Gonzalez Carril',
-        title: 'Graduate in International Relations and Political Sciences',
+        title: 'Licenciado en Relaciones Internacionales y Ciencias Políticas',
         avatar: 'https://picsum.photos/400/400?random=3',
         initials: 'AG',
         linkedin: '#',
-        fullExperience: "Alejandro brings a global perspective to the team, with experience in international cooperation and comparative politics. He has managed multi-stakeholder projects and is adept at navigating complex regulatory environments to achieve project goals."
+        fullExperience: "Alejandro aporta una perspectiva global al equipo, con experiencia en cooperación internacional y política comparada. Ha gestionado proyectos con múltiples partes interesadas y es experto en navegar por entornos regulatorios complejos para alcanzar los objetivos del proyecto."
     },
      {
         name: 'Analía Barberio',
-        title: 'Information Systems and Digital Transformation Specialist',
+        title: 'Especialista en Sistemas de Información y Transformación Digital',
         avatar: 'https://picsum.photos/400/400?random=4',
         initials: 'AB',
         linkedin: '#',
-        fullExperience: "Analía leads our digital transformation initiatives. With a background in information systems engineering, she designs and implements technological solutions that modernize institutions, improve efficiency, and ensure data security. Her work is at the core of our GovTech solutions."
+        fullExperience: "Analía lidera nuestras iniciativas de transformación digital. Con una formación en ingeniería de sistemas de información, diseña e implementa soluciones tecnológicas que modernizan las instituciones, mejoran la eficiencia y garantizan la seguridad de los datos. Su trabajo está en el núcleo de nuestras soluciones GovTech."
     },
      {
         name: 'Pablo Martinez',
-        title: 'Fullstack Developer',
+        title: 'Desarrollador Fullstack',
         avatar: 'https://picsum.photos/400/400?random=5',
         initials: 'PM',
         linkedin: '#',
-        fullExperience: "Pablo is the architect behind our advanced applications. As a full-stack developer, he masters both front-end and back-end technologies to build robust, scalable, and user-friendly platforms. He is passionate about using technology to solve real-world problems."
+        fullExperience: "Pablo es el arquitecto detrás de nuestras aplicaciones avanzadas. Como desarrollador full-stack, domina tanto las tecnologías de front-end como de back-end para construir plataformas robustas, escalables y fáciles de usar. Le apasiona usar la tecnología para resolver problemas del mundo real."
     }
 ];
 
