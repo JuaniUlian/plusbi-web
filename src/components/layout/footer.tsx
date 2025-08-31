@@ -12,9 +12,6 @@ const footerContent = {
     home: "Inicio",
     products: "Productos",
     experience: "Experiencia",
-    legal: "Legal",
-    privacy: "Política de Privacidad",
-    terms: "Términos de Servicio",
     contactTitle: "¿Hablamos?",
     contactSubtitle: "Construyamos juntos una administración más eficiente.",
     contactButton: "Agenda una reunión",
@@ -26,9 +23,6 @@ const footerContent = {
     home: "Home",
     products: "Products",
     experience: "Experience",
-    legal: "Legal",
-    privacy: "Privacy Policy",
-    terms: "Terms of Service",
     contactTitle: "Let's talk?",
     contactSubtitle: "Let's build a more efficient administration together.",
     contactButton: "Schedule a meeting",
@@ -46,7 +40,7 @@ export function Footer() {
       style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
     >
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div className="space-y-4">
                 <Link href="/" className="flex items-center gap-2">
                     <Logo className="h-8 w-8" />
@@ -60,13 +54,6 @@ export function Footer() {
                     <Link href="/" className="text-sm hover:underline text-white/70">{c.home}</Link>
                     <Link href="/products" className="text-sm hover:underline text-white/70">{c.products}</Link>
                     <Link href="/experience" className="text-sm hover:underline text-white/70">{c.experience}</Link>
-                </nav>
-            </div>
-            <div>
-                <h3 className="font-semibold mb-4">{c.legal}</h3>
-                <nav className="flex flex-col space-y-2">
-                     <Link href="#" className="text-sm hover:underline text-white/70">{c.privacy}</Link>
-                     <Link href="#" className="text-sm hover:underline text-white/70">{c.terms}</Link>
                 </nav>
             </div>
             <div>
