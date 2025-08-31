@@ -7,11 +7,13 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Linkedin } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/language-context";
+import { ScrollArea } from "../ui/scroll-area";
+
 
 const teamContent = {
     es: {
@@ -19,7 +21,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Fundador. Especialista en Políticas Públicas y Desarrollo Local',
-                avatar: '/team/cristian-ulian.jpg',
+                avatar: '/fotos/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -58,7 +60,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Fundador. Licenciado en Ciencia Política',
-                avatar: '/team/juan-ignacio-ulian.jpg',
+                avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -82,7 +84,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Experto Político. Licenciado en Relaciones Internacionales y Ciencias Políticas',
-                avatar: '/team/alejandro-gonzalez-carril.jpg',
+                avatar: '/fotos/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -116,7 +118,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
-                avatar: '/team/analia-barberio.jpg',
+                avatar: '/fotos/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -128,7 +130,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/team/pablo-martinez.jpg',
+                avatar: '/fotos/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -146,7 +148,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Founder. Specialist in Public Policies and Local Development',
-                avatar: '/team/cristian-ulian.jpg',
+                avatar: '/fotos/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -185,7 +187,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Founder. Bachelor in Political Science',
-                avatar: '/team/juan-ignacio-ulian.jpg',
+                avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -209,7 +211,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Political Expert. Graduate in International Relations and Political Sciences',
-                avatar: '/team/alejandro-gonzalez-carril.jpg',
+                avatar: '/fotos/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -243,7 +245,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Information Systems and Digital Transformation Specialist',
-                avatar: '/team/analia-barberio.jpg',
+                avatar: '/fotos/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -255,7 +257,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/team/pablo-martinez.jpg',
+                avatar: '/fotos/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -279,23 +281,28 @@ export function TeamSection() {
       {c.teamMembers.map((member) => (
         <AccordionItem key={member.name} value={member.name} className="border-none">
           <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col">
-            <div className="relative h-64 w-full">
-              <Image
-                src={member.avatar}
-                alt={`Photo of ${member.name}`}
-                fill
-                style={{ objectFit: 'cover' }}
-                data-ai-hint="profile picture"
-              />
-            </div>
-            <CardContent className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-primary">{member.name}</h3>
-                <p className="text-muted-foreground mt-1 flex-grow">{member.title}</p>
-                <AccordionTrigger className="mt-4 text-sm text-primary hover:underline">{c.seeMore}</AccordionTrigger>
+            <CardHeader>
+                <div className="relative h-64 w-full">
+                <Image
+                    src={member.avatar}
+                    alt={`Photo of ${member.name}`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    data-ai-hint="profile picture"
+                    className="rounded-t-lg"
+                />
+                </div>
+                 <CardTitle className="mt-4">{member.name}</CardTitle>
+                 <p className="text-muted-foreground mt-1 flex-grow">{member.title}</p>
+            </CardHeader>
+            <CardContent className="p-6 flex flex-col flex-grow items-center">
+                <AccordionTrigger className="mt-auto text-sm text-primary hover:underline">{c.seeMore}</AccordionTrigger>
             </CardContent>
             <AccordionContent>
               <div className="p-6 pt-0 text-left">
-                <div dangerouslySetInnerHTML={{ __html: member.fullExperience }} />
+                <ScrollArea className="h-72 w-full pr-4">
+                    <div dangerouslySetInnerHTML={{ __html: member.fullExperience }} />
+                </ScrollArea>
                  <div className="flex-shrink-0 pt-4 border-t mt-4">
                     <Button variant="link" asChild className="justify-start p-0 h-auto">
                         <a href={member.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2"/> {c.connectLinkedin}</a>

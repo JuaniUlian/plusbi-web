@@ -1,13 +1,7 @@
 
 'use client';
 import Link from 'next/link';
-import {
-  Database,
-  FileCheck2,
-  BrainCircuit,
-  Briefcase,
-  ChevronRight
-} from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -18,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/language-context';
+import Image from 'next/image';
 
 const content = {
   es: {
@@ -27,28 +22,28 @@ const content = {
       {
         name: 'Quest',
         description: 'Accede a enormes volúmenes de datos para tomar las mejores decisiones.',
-        icon: <Database className="size-10 text-primary" />,
+        icon: '/logo/quest.png',
         link: '/products/quest',
         tag: 'Análisis de Datos'
       },
       {
         name: 'Mila',
         description: 'Solución con IA para gobiernos que valida documentos en minutos.',
-        icon: <FileCheck2 className="size-10 text-primary" />,
-        link: '/products/mila',
+        icon: '/logo/mila.png',
+        link: 'products/mila',
         tag: 'Validación con IA'
       },
       {
         name: 'Vuro',
         description: 'Súper-agente de IA para expedientes públicos, próximamente.',
-        icon: <BrainCircuit className="size-10 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'Automatización con IA'
       },
       {
         name: 'Sistema de Expediente Electrónico',
         description: 'Instalamos, damos soporte y capacitamos en sistemas de expedientes electrónicos.',
-        icon: <Briefcase className="size-10 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Transformación Digital'
       },
@@ -62,28 +57,28 @@ const content = {
       {
         name: 'Quest',
         description: 'Access huge volumes of data to make the best decisions.',
-        icon: <Database className="size-10 text-primary" />,
+        icon: '/logo/quest.png',
         link: '/products/quest',
         tag: 'Data Analysis'
       },
       {
         name: 'Mila',
         description: 'AI solution for governments that validates documents in minutes.',
-        icon: <FileCheck2 className="size-10 text-primary" />,
+        icon: '/logo/mila.png',
         link: '/products/mila',
         tag: 'AI Validation'
       },
       {
         name: 'Vuro',
         description: 'AI super-agent for public records, coming soon.',
-        icon: <BrainCircuit className="size-10 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'AI Automation'
       },
       {
         name: 'Electronic File System',
         description: 'We install, support, and train in electronic file systems.',
-        icon: <Briefcase className="size-10 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Digital Transformation'
       },
@@ -98,24 +93,24 @@ export default function ProductsPage() {
 
   return (
     <>
-      <header className="py-20 bg-primary/10">
+      <header className="py-20 bg-primary/10" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-primary-dark font-headline">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white font-headline">
             {c.title}
           </h1>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             {c.subtitle}
           </p>
         </div>
       </header>
-      <main className="py-16 md:py-24">
+      <main className="py-16 md:py-24" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {c.products.map((product) => (
               <Card key={product.name} className="flex flex-col text-left shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism">
                 <CardHeader className="flex-row items-start gap-6">
-                  <div className="bg-primary/10 rounded-lg p-4 flex items-center justify-center">
-                    {product.icon}
+                  <div className="bg-primary/10 rounded-lg p-2 flex items-center justify-center">
+                    <Image src={product.icon} alt={`${product.name} logo`} width={40} height={40}/>
                   </div>
                   <div>
                     <CardTitle className="flex items-center gap-4">{product.name} <Badge variant="secondary">{product.tag}</Badge></CardTitle>

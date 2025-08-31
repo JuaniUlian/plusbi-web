@@ -54,16 +54,16 @@ export default function VuroPage() {
 
     return (
         <>
-            <header className="py-20 md:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+            <header className="py-20 md:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                 <div className="container mx-auto px-4 text-center">
                     <Badge variant="secondary" className="bg-white/20 border-0 text-white">{c.badge}</Badge>
-                    <h1 className="mt-4 text-4xl md:text-6xl font-bold font-headline">{c.title}</h1>
-                    <p className="mt-4 text-lg md:text-xl text-primary-foreground/80 max-w-3xl mx-auto">
+                    <h1 className="mt-4 text-4xl md:text-6xl font-bold font-headline text-white">{c.title}</h1>
+                    <p className="mt-4 text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
                         {c.subtitle}
                     </p>
                 </div>
             </header>
-            <main className="py-16 md:py-24 bg-background">
+            <main className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                  <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold font-headline">{c.futureTitle}</h2>

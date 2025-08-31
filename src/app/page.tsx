@@ -3,17 +3,12 @@
 import Link from 'next/link';
 import {
   ArrowRight,
-  BrainCircuit,
-  FileCheck2,
   ChevronRight,
-  Database,
-  Briefcase,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -25,6 +20,7 @@ import { TeamSection } from '@/components/home/team-section';
 import { AchievementsSection } from '@/components/home/achievements-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const content = {
   es: {
@@ -34,28 +30,28 @@ const content = {
       {
         name: 'Quest',
         description: 'Accede a enormes volúmenes de datos para tomar las mejores decisiones.',
-        icon: <Database className="size-8 text-primary" />,
+        icon: '/logo/quest.png',
         link: '/products/quest',
         tag: 'Análisis de Datos'
       },
       {
         name: 'Mila',
         description: 'Solución con IA para gobiernos que valida documentos en minutos.',
-        icon: <FileCheck2 className="size-8 text-primary" />,
+        icon: '/logo/mila.png',
         link: '/products/mila',
         tag: 'Validación Inteligente'
       },
       {
         name: 'Vuro',
         description: 'Súper-agente de IA para expedientes públicos, próximamente.',
-        icon: <BrainCircuit className="size-8 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'Automatización Total'
       },
       {
         name: 'Sistema de Expediente Electrónico',
         description: 'Instalamos, damos soporte y capacitamos en sistemas de expedientes electrónicos.',
-        icon: <Briefcase className="size-8 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Transformación Digital'
       },
@@ -75,28 +71,28 @@ const content = {
       {
         name: 'Quest',
         description: 'Access huge volumes of data to make the best decisions.',
-        icon: <Database className="size-8 text-primary" />,
+        icon: '/logo/quest.png',
         link: '/products/quest',
         tag: 'Data Analysis'
       },
       {
         name: 'Mila',
         description: 'AI solution for governments that validates documents in minutes.',
-        icon: <FileCheck2 className="size-8 text-primary" />,
+        icon: '/logo/mila.png',
         link: '/products/mila',
         tag: 'Intelligent Validation'
       },
       {
         name: 'Vuro',
         description: 'AI super-agent for public records, coming soon.',
-        icon: <BrainCircuit className="size-8 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'Total Automation'
       },
       {
         name: 'Electronic File System',
         description: 'We install, support, and train in electronic file systems.',
-        icon: <Briefcase className="size-8 text-primary" />,
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Digital Transformation'
       },
@@ -128,7 +124,7 @@ export default function Home() {
 
       <AchievementsSection />
       
-      <section id="products-wizard" className="py-16 md:py-24 bg-primary/5">
+      <section id="products-wizard" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             
@@ -145,8 +141,8 @@ export default function Home() {
                   <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
                     <CardHeader>
                       <div className="flex justify-between items-center">
-                        <div className="mx-auto bg-primary/10 rounded-full size-16 flex items-center justify-center mb-4">
-                          {product.icon}
+                        <div className="mx-auto bg-primary/10 rounded-full p-2 flex items-center justify-center mb-4">
+                          <Image src={product.icon} alt={`${product.name} logo`} width={48} height={48} />
                         </div>
                       </div>
                       <CardTitle>{product.name}</CardTitle>

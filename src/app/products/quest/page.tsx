@@ -42,16 +42,16 @@ export default function QuestPage() {
 
   return (
     <>
-      <header className="py-20 bg-primary/10">
+      <header className="py-20 bg-primary/10" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4 text-center">
           <Badge>{c.badge}</Badge>
-          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline">{c.title}</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
+          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
             {c.subtitle}
           </p>
         </div>
       </header>
-      <main className="py-16 md:py-24 bg-background">
+      <main className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">

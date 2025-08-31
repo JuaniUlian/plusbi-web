@@ -88,16 +88,16 @@ export default function MilaPage() {
 
   return (
     <>
-      <header className="py-20 bg-primary/10 text-center">
+      <header className="py-20 bg-primary/10 text-center" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <Badge>{c.badge}</Badge>
-          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline">{c.title}</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
+          <p className="mt-4 text-lg text-white/90 max-w-3xl mx-auto">
             {c.subtitle}
           </p>
         </div>
       </header>
-      <main className="py-16 md:py-24 bg-background">
+      <main className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold font-headline mb-4">{c.featuresTitle}</h2>
@@ -136,7 +136,7 @@ export default function MilaPage() {
               </ul>
             </div>
             <Image
-              src="/backgrounds/mila-interface.png"
+              src="/backgrounds/cuerpo.jpeg"
               alt="Mila interface diagram"
               width={500}
               height={500}

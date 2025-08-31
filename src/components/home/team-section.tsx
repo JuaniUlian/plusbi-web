@@ -14,11 +14,11 @@ const teamContent = {
         subtitle: "Nuestro equipo combina innovación tecnológica con una profunda visión humana, creando soluciones estratégicas y eficientes para problemas complejos.",
         buttonText: "Conoce más sobre nuestros expertos",
         team: [
-            { name: 'Cristian Ulian', title: 'Especialista en Políticas Públicas y Desarrollo Local', avatar: '/team/cristian-ulian.jpg' },
-            { name: 'Juan Ignacio Ulian', title: 'Licenciado en Ciencia Política', avatar: '/team/juan-ignacio-ulian.jpg' },
-            { name: 'Alejandro Gonzalez Carril', title: 'Licenciado en Relaciones Internacionales y Ciencias Políticas', avatar: '/team/alejandro-gonzalez-carril.jpg' },
-            { name: 'Analía Barberio', title: 'Especialista en Sistemas de Información y Transformación Digital', avatar: '/team/analia-barberio.jpg' },
-            { name: 'Pablo Martinez', title: 'Desarrollador Fullstack', avatar: '/team/pablo-martinez.jpg' },
+            { name: 'Cristian Ulian', title: 'Especialista en Políticas Públicas y Desarrollo Local', avatar: '/fotos/cristian.jpeg' },
+            { name: 'Juan Ignacio Ulian', title: 'Licenciado en Ciencia Política', avatar: '/fotos/juan.jpg' },
+            { name: 'Alejandro Gonzalez Carril', title: 'Licenciado en Relaciones Internacionales y Ciencias Políticas', avatar: '/fotos/alejandro.jpeg' },
+            { name: 'Analía Barberio', title: 'Especialista en Sistemas de Información y Transformación Digital', avatar: '/fotos/analia.jpg' },
+            { name: 'Pablo Martinez', title: 'Desarrollador Fullstack', avatar: '/fotos/pablo.jpg' },
         ]
     },
     en: {
@@ -26,11 +26,11 @@ const teamContent = {
         subtitle: "Our team combines technological innovation with deep human insight, creating strategic and efficient solutions for complex problems.",
         buttonText: "Learn More About Our Experts",
         team: [
-            { name: 'Cristian Ulian', title: 'Specialist in Public Policies and Local Development', avatar: '/team/cristian-ulian.jpg' },
-            { name: 'Juan Ignacio Ulian', title: 'Bachelor in Political Science', avatar: '/team/juan-ignacio-ulian.jpg' },
-            { name: 'Alejandro Gonzalez Carril', title: 'Graduate in International Relations and Political Sciences', avatar: '/team/alejandro-gonzalez-carril.jpg' },
-            { name: 'Analía Barberio', title: 'Information Systems and Digital Transformation Specialist', avatar: '/team/analia-barberio.jpg' },
-            { name: 'Pablo Martinez', title: 'Fullstack Developer', avatar: '/team/pablo-martinez.jpg' },
+            { name: 'Cristian Ulian', title: 'Specialist in Public Policies and Local Development', avatar: '/fotos/cristian.jpeg' },
+            { name: 'Juan Ignacio Ulian', title: 'Bachelor in Political Science', avatar: '/fotos/juan.jpg' },
+            { name: 'Alejandro Gonzalez Carril', title: 'Graduate in International Relations and Political Sciences', avatar: '/fotos/alejandro.jpeg' },
+            { name: 'Analía Barberio', title: 'Information Systems and Digital Transformation Specialist', avatar: '/fotos/analia.jpg' },
+            { name: 'Pablo Martinez', title: 'Fullstack Developer', avatar: '/fotos/pablo.jpg' },
         ]
     }
 }
@@ -40,7 +40,7 @@ export function TeamSection() {
     const c = teamContent[language];
 
     return (
-        <section id="team" className="py-16 md:py-24 bg-primary/10">
+        <section id="team" className="py-16 md:py-24 bg-primary/10" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.title}</h2>
