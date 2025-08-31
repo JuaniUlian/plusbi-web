@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from 'react';
 import { useLanguage } from '@/contexts/language-context';
 import { Rocket, Trophy, Users, Lightbulb, TrendingUp, Globe, Building } from 'lucide-react';
 import { cn } from '@/lib/utils';
