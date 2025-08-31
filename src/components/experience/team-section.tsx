@@ -1,19 +1,16 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Linkedin } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { ScrollArea } from "../ui/scroll-area";
 
 
 const teamMembers = [
@@ -147,52 +144,37 @@ const teamMembers = [
 
 export function TeamSection() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <Accordion type="single" collapsible className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {teamMembers.map((member) => (
-         <Dialog key={member.name}>
-            <DialogTrigger asChild>
-                <Card className="glassmorphism text-center overflow-hidden cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                    <div className="relative h-64 w-full">
-                        <Image 
-                            src={member.avatar} 
-                            alt={`Photo of ${member.name}`}
-                            fill
-                            style={{objectFit: 'cover'}}
-                            data-ai-hint="profile picture" 
-                        />
-                    </div>
-                    <CardContent className="p-6">
-                        <h3 className="text-xl font-bold text-primary">{member.name}</h3>
-                        <p className="text-muted-foreground mt-1">{member.title}</p>
-                    </CardContent>
-                </Card>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md md:max-w-lg lg:max-w-2xl glassmorphism flex flex-col max-h-[90vh]">
-                 <DialogHeader className="flex-shrink-0">
-                    <div className="flex items-center gap-4">
-                        <Avatar className="size-16">
-                            <AvatarImage src={member.avatar} alt={member.name} />
-                            <AvatarFallback>{member.initials}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <DialogTitle className="text-2xl">{member.name}</DialogTitle>
-                            <DialogDescription>{member.title}</DialogDescription>
-                        </div>
-                    </div>
-                </DialogHeader>
-                <ScrollArea className="flex-grow">
-                    <div className="py-4 pr-6" dangerouslySetInnerHTML={{ __html: member.fullExperience }} />
-                </ScrollArea>
-                 <div className="flex-shrink-0 pt-4 border-t">
+        <AccordionItem key={member.name} value={member.name} className="border-none">
+          <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col">
+            <div className="relative h-64 w-full">
+              <Image
+                src={member.avatar}
+                alt={`Photo of ${member.name}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint="profile picture"
+              />
+            </div>
+            <CardContent className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold text-primary">{member.name}</h3>
+                <p className="text-muted-foreground mt-1 flex-grow">{member.title}</p>
+                <AccordionTrigger className="mt-4 text-sm text-primary hover:underline">Ver más</AccordionTrigger>
+            </CardContent>
+            <AccordionContent>
+              <div className="p-6 pt-0 text-left">
+                <div dangerouslySetInnerHTML={{ __html: member.fullExperience }} />
+                 <div className="flex-shrink-0 pt-4 border-t mt-4">
                     <Button variant="link" asChild className="justify-start p-0 h-auto">
                         <a href={member.linkedin} target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2"/> Connect on LinkedIn</a>
                     </Button>
                 </div>
-            </DialogContent>
-         </Dialog>
+              </div>
+            </AccordionContent>
+          </Card>
+        </AccordionItem>
       ))}
-    </div>
+    </Accordion>
   );
 }
-
-    
