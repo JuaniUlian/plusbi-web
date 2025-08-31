@@ -16,7 +16,7 @@ import Autoplay from "embla-carousel-autoplay"
 
 const achievementsContent = {
     es: {
-        title: "Capacidad Operativa y Resultados Reales",
+        title: "Capacidad Operativa y Resultados",
         subtitle: "Nuestras soluciones ofrecen mejoras tangibles en eficiencia, control y transparencia.",
         achievements: [
             { value: '+67%', label: 'Más errores detectados vs revisión humana' },
@@ -27,7 +27,7 @@ const achievementsContent = {
         ]
     },
     en: {
-        title: "Operational Capacity & Real Results",
+        title: "Operational Capacity & Results",
         subtitle: "Our solutions deliver tangible improvements in efficiency, control, and transparency.",
         achievements: [
             { value: '+67%', label: 'More errors detected vs human review' },
@@ -44,7 +44,7 @@ export function AchievementsSection() {
     const c = achievementsContent[language];
     
     return (
-        <section id="achievements" className="py-16 md:py-24 bg-background">
+        <section id="achievements" className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold font-headline">
