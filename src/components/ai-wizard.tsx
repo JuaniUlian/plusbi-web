@@ -40,7 +40,7 @@ const content = {
     ideasText: "¿Cuál es tu objetivo principal? ¿Cuál es tu desafío actual?",
     errorTitle: "Error",
     errorDescription: "No se pudo obtener una recomendación. Por favor, inténtalo de nuevo.",
-    aiRecommendation: "Recomendación de IA",
+    aiRecommendation: "Nuestra recomendación",
     basedOnNeeds: "Basado en tus necesidades, aquí está nuestra sugerencia.",
     learnMore: "Ver más",
     contact: "Contactar",
@@ -62,7 +62,7 @@ const content = {
     ideasText: "What is your main goal? What is your current challenge?",
     errorTitle: "Error",
     errorDescription: "Could not get a recommendation. Please try again.",
-    aiRecommendation: "AI Recommendation",
+    aiRecommendation: "Our Recommendation",
     basedOnNeeds: "Based on your needs, here is our suggestion.",
     learnMore: "Learn More",
     contact: "Contact",
@@ -222,29 +222,29 @@ export default function AiWizard() {
 
       {step === "result" && recommendation && recommendedProductInfo && (
         <>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> {c.aiRecommendation}</CardTitle>
-                <CardDescription>
+            <CardHeader className="text-center">
+                <div className="flex justify-center mb-4">
+                     <Image src={recommendedProductInfo.icon} alt={`${recommendation.recommendedProduct} logo`} width={64} height={64} />
+                </div>
+                <CardTitle className="text-2xl font-bold">{c.aiRecommendation}</CardTitle>
+                <CardDescription className="text-foreground/80">
                 {c.basedOnNeeds}
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="p-4 bg-primary/10 rounded-lg">
-                    <div className="flex items-center gap-4 mb-2">
-                        <Image src={recommendedProductInfo.icon} alt={`${recommendation.recommendedProduct} logo`} width={40} height={40} />
-                        <h3 className="text-xl font-bold text-primary">{recommendation.recommendedProduct}</h3>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">{recommendation.reason}</p>
+                <div className="p-6 bg-primary/10 rounded-lg text-center">
+                    <h3 className="text-xl font-bold text-primary">{recommendation.recommendedProduct}</h3>
+                    <p className="mt-2 text-sm text-foreground/80">{recommendation.reason}</p>
                 </div>
             </CardContent>
-            <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                <Button asChild variant="outline" className="w-full sm:w-auto">
+            <CardFooter className="flex flex-col sm:flex-row justify-center items-center gap-2">
+                <Button asChild variant="outline">
                     <Link href={recommendedProductInfo.link}>{c.learnMore} <Eye /></Link>
                 </Button>
-                <Button asChild className="w-full sm:w-auto">
+                <Button asChild>
                     <a href={generateMailto(recommendation.recommendedProduct)}>{c.contact} <Mail /></a>
                 </Button>
-                <Button variant="ghost" onClick={handleStartOver} className="w-full sm:w-auto">{c.startOver} <RefreshCw /></Button>
+                <Button variant="ghost" onClick={handleStartOver}>{c.startOver} <RefreshCw /></Button>
             </CardFooter>
         </>
       )}
