@@ -41,8 +41,8 @@ export function Footer() {
   const c = footerContent[language];
 
   return (
-    <footer className="border-t bg-primary/5 text-white" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-      <div className="container mx-auto px-4 py-12 bg-black/50">
+    <footer className="border-t border-white/20 text-white">
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="space-y-4">
                 <Link href="/" className="flex items-center gap-2">

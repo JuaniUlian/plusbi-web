@@ -35,8 +35,9 @@ export default function RootLayout({
             'min-h-screen bg-background font-body antialiased',
             nunito.variable
           )}
+          style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundAttachment: 'fixed', backgroundSize: 'cover'}}
         >
-          <div className="relative flex min-h-dvh flex-col bg-background">
+          <div className="relative flex min-h-dvh flex-col bg-transparent">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
