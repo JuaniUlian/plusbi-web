@@ -94,41 +94,34 @@ export function MilestonesSection() {
     const c = milestonesContent[language];
 
     return (
-        <div className="relative">
+        <div className="relative max-w-3xl mx-auto">
             {/* The vertical line */}
-            <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2" aria-hidden="true"></div>
+            <div className="absolute left-0 top-0 h-full w-0.5 bg-border ml-6" aria-hidden="true"></div>
 
             <div className="space-y-12">
                 {c.items.map((item, index) => (
                     <div
                         key={item.title}
-                        className={cn(
-                            "flex items-center w-full",
-                            index % 2 === 0 ? "justify-start" : "justify-end"
-                        )}
+                        className="relative flex items-start"
                     >
+                        {/* The circle and icon */}
+                         <div className="flex-shrink-0">
+                             <div className="bg-background p-2 rounded-full border-2 border-border z-10 relative">
+                                <div className="bg-primary text-primary-foreground p-3 rounded-full">
+                                    {React.cloneElement(item.icon, { className: "w-6 h-6" })}
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div
-                            className={cn(
-                                "w-1/2 flex",
-                                index % 2 === 0 ? "justify-end pr-8" : "justify-start pl-8"
-                            )}
+                            className="ml-8 w-full"
                         >
                             <div
-                                className={cn(
-                                    "p-6 rounded-lg shadow-lg w-full max-w-md glassmorphism",
-                                    index % 2 === 0 ? "text-right" : "text-left"
-                                )}
+                                className="p-6 rounded-lg shadow-lg w-full glassmorphism"
                             >
                                 <p className="text-sm font-semibold text-primary">{item.year}</p>
                                 <h3 className="text-xl font-bold mt-1">{item.title}</h3>
                                 <p className="text-muted-foreground mt-2">{item.description}</p>
-                            </div>
-                        </div>
-
-                        {/* The circle and icon */}
-                        <div className="absolute left-1/2 -translate-x-1/2 bg-background p-2 rounded-full border-2 border-border">
-                            <div className="bg-primary text-primary-foreground p-3 rounded-full">
-                                {React.cloneElement(item.icon, { className: "w-6 h-6" })}
                             </div>
                         </div>
                     </div>
