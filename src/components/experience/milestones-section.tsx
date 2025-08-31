@@ -2,87 +2,128 @@
 
 import * as React from 'react';
 import { useLanguage } from '@/contexts/language-context';
-import { Rocket, Trophy, Users, Lightbulb, TrendingUp, Globe, Building } from 'lucide-react';
+import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 const milestonesContent = {
     es: {
-        items: [
+        years: [
             {
                 year: '2021',
-                title: 'Nacimiento de PLUS BI',
-                description: 'Fundamos la empresa con la misión de revolucionar la consultoría aplicando métodos y aplicaciones avanzadas.',
-                icon: <Rocket />,
+                items: [
+                    {
+                        title: 'Nacimiento de PLUS BI',
+                        description: 'Fundamos la empresa con la misión de revolucionar la consultoría aplicando métodos y aplicaciones avanzadas.',
+                        icon: <Rocket className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2022',
-                title: 'Lanzamiento de Quest',
-                description: 'Presentamos nuestra plataforma de Big Data e IA, permitiendo análisis predictivos para el sector público y campañas políticas.',
-                icon: <Lightbulb />,
+                items: [
+                    {
+                        title: 'Lanzamiento de Quest',
+                        description: 'Presentamos nuestra plataforma de Big Data e IA, permitiendo análisis predictivos para el sector público y campañas políticas.',
+                        icon: <Lightbulb className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2023',
-                title: 'Caso de Éxito: Elecciones Argentinas',
-                description: 'Analizamos más de 7.1 millones de puntos de datos durante las elecciones presidenciales, demostrando el poder de Quest.',
-                icon: <Trophy />,
-            },
-             {
-                year: '2023',
-                title: 'Lanzamiento de Mila',
-                description: 'Introducimos nuestra solución de IA para la validación de documentos legales en gobiernos, agilizando procesos y reduciendo errores.',
-                icon: <Building />,
+                items: [
+                    {
+                        title: 'Caso de Éxito: Elecciones Argentinas',
+                        description: 'Analizamos más de 7.1 millones de puntos de datos durante las elecciones presidenciales, demostrando el poder de Quest.',
+                        icon: <Trophy className="size-8 text-primary" />,
+                    },
+                    {
+                        title: 'Lanzamiento de Mila',
+                        description: 'Introducimos nuestra solución de IA para la validación de documentos legales en gobiernos, agilizando procesos y reduciendo errores.',
+                        icon: <Building className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2024',
-                title: 'Expansión de Servicios',
-                description: 'Comenzamos a ofrecer servicios de implementación para Sistemas de Expediente Electrónico, impulsando la transformación digital.',
-                icon: <TrendingUp />,
+                items: [
+                    {
+                        title: 'Expansión de Servicios',
+                        description: 'Comenzamos a ofrecer servicios de implementación para Sistemas de Expediente Electrónico, impulsando la transformación digital.',
+                        icon: <TrendingUp className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2025',
-                title: 'Próximamente: Vuro',
-                description: 'Anunciamos el desarrollo de Vuro, un súper-agente de IA para automatizar el ciclo de vida completo de los documentos públicos.',
-                icon: <Globe />,
+                items: [
+                    {
+                        title: 'Próximamente: Vuro',
+                        description: 'Anunciamos el desarrollo de Vuro, un súper-agente de IA para automatizar el ciclo de vida completo de los documentos públicos.',
+                        icon: <Globe className="size-8 text-primary" />,
+                    }
+                ]
             }
         ],
     },
     en: {
-        items: [
-            {
+        years: [
+             {
                 year: '2021',
-                title: 'Birth of PLUS BI',
-                description: 'We founded the company with the mission to revolutionize consulting by applying advanced methods and applications.',
-                icon: <Rocket />,
+                items: [
+                    {
+                        title: 'Birth of PLUS BI',
+                        description: 'We founded the company with the mission to revolutionize consulting by applying advanced methods and applications.',
+                        icon: <Rocket className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2022',
-                title: 'Launch of Quest',
-                description: 'We introduced our Big Data and AI platform, enabling predictive analysis for the public sector and political campaigns.',
-                icon: <Lightbulb />,
+                items: [
+                    {
+                        title: 'Launch of Quest',
+                        description: 'We introduced our Big Data and AI platform, enabling predictive analysis for the public sector and political campaigns.',
+                        icon: <Lightbulb className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2023',
-                title: 'Success Case: Argentine Elections',
-                description: 'We analyzed over 7.1 million data points during the presidential elections, demonstrating the power of Quest.',
-                icon: <Trophy />,
-            },
-            {
-                year: '2023',
-                title: 'Launch of Mila',
-                description: 'We introduced our AI solution for validating legal documents in governments, speeding up processes and reducing errors.',
-                icon: <Building />,
+                items: [
+                    {
+                        title: 'Success Case: Argentine Elections',
+                        description: 'We analyzed over 7.1 million data points during the presidential elections, demonstrating the power of Quest.',
+                        icon: <Trophy className="size-8 text-primary" />,
+                    },
+                    {
+                        title: 'Launch of Mila',
+                        description: 'We introduced our AI solution for validating legal documents in governments, speeding up processes and reducing errors.',
+                        icon: <Building className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2024',
-                title: 'Service Expansion',
-                description: 'We began offering implementation services for Electronic File Systems, driving digital transformation.',
-                icon: <TrendingUp />,
+                items: [
+                    {
+                        title: 'Service Expansion',
+                        description: 'We began offering implementation services for Electronic File Systems, driving digital transformation.',
+                        icon: <TrendingUp className="size-8 text-primary" />,
+                    },
+                ],
             },
             {
                 year: '2025',
-                title: 'Coming Soon: Vuro',
-                description: 'We announced the development of Vuro, an AI super-agent to automate the entire lifecycle of public documents.',
-                icon: <Globe />,
+                items: [
+                    {
+                        title: 'Coming Soon: Vuro',
+                        description: 'We announced the development of Vuro, an AI super-agent to automate the entire lifecycle of public documents.',
+                        icon: <Globe className="size-8 text-primary" />,
+                    }
+                ]
             }
         ],
     },
@@ -92,39 +133,35 @@ const milestonesContent = {
 export function MilestonesSection() {
     const { language } = useLanguage();
     const c = milestonesContent[language];
+    const [activeYear, setActiveYear] = useState(c.years[0].year);
+
+    const activeYearData = c.years.find(y => y.year === activeYear);
 
     return (
-        <div className="relative max-w-3xl mx-auto">
-            {/* The vertical line */}
-            <div className="absolute left-0 top-0 h-full w-0.5 bg-border ml-6" aria-hidden="true"></div>
-
-            <div className="space-y-12">
-                {c.items.map((item, index) => (
-                    <div
-                        key={item.title}
-                        className="relative flex items-start"
+        <div className="grid md:grid-cols-3 gap-8 items-start max-w-5xl mx-auto">
+            <div className="md:col-span-1 flex flex-col gap-2 md:sticky top-24">
+                {c.years.map(item => (
+                    <Button 
+                        key={item.year}
+                        variant={activeYear === item.year ? 'default' : 'outline'}
+                        onClick={() => setActiveYear(item.year)}
+                        className="w-full justify-start text-lg h-12"
                     >
-                        {/* The circle and icon */}
-                         <div className="flex-shrink-0">
-                             <div className="bg-background p-2 rounded-full border-2 border-border z-10 relative">
-                                <div className="bg-primary text-primary-foreground p-3 rounded-full">
-                                    {React.cloneElement(item.icon, { className: "w-6 h-6" })}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div
-                            className="ml-8 w-full"
-                        >
-                            <div
-                                className="p-6 rounded-lg shadow-lg w-full glassmorphism"
-                            >
-                                <p className="text-sm font-semibold text-primary">{item.year}</p>
-                                <h3 className="text-xl font-bold mt-1">{item.title}</h3>
+                        {item.year}
+                    </Button>
+                ))}
+            </div>
+            <div className="md:col-span-2 space-y-4">
+                 {activeYearData && activeYearData.items.map((item, index) => (
+                    <Card key={index} className="shadow-lg glassmorphism">
+                        <CardHeader className="flex flex-row items-start gap-4 space-y-0">
+                           <div className="bg-primary/10 rounded-lg p-3 mt-1.5"> {item.icon}</div>
+                            <div>
+                                <CardTitle>{item.title}</CardTitle>
                                 <p className="text-muted-foreground mt-2">{item.description}</p>
                             </div>
-                        </div>
-                    </div>
+                        </CardHeader>
+                    </Card>
                 ))}
             </div>
         </div>
