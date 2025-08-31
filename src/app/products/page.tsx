@@ -22,28 +22,28 @@ const products = [
     description: 'Access huge volumes of data to make the best decisions.',
     icon: <Database className="size-10 text-primary" />,
     link: '/products/quest',
-    tag: 'Big Data'
+    tag: 'Análisis de Datos'
   },
   {
     name: 'Mila',
     description: 'AI solution for governments that validates documents in minutes.',
     icon: <FileCheck2 className="size-10 text-primary" />,
     link: '/products/mila',
-    tag: 'AI Agent'
+    tag: 'Validación con IA'
   },
   {
     name: 'Vuro',
     description: 'AI super-agent for public records, coming soon.',
     icon: <BrainCircuit className="size-10 text-primary" />,
     link: '/products/vuro',
-    tag: 'AI Agent'
+    tag: 'Automatización con IA'
   },
   {
     name: 'Sistema de Expediente Electrónico',
     description: 'We install, support, and train in electronic file systems.',
     icon: <Briefcase className="size-10 text-primary" />,
     link: '/products/see',
-    tag: 'Digitalización'
+    tag: 'Transformación Digital'
   },
 ];
 
