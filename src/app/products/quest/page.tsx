@@ -76,17 +76,26 @@ export default function QuestPage() {
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 items-start">
                   <Card className="shadow-xl glassmorphism h-full">
-                    <CardContent className="p-8 space-y-8">
+                    <CardContent className="p-8 grid grid-cols-1 gap-8 text-center">
                         <div>
-                            <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Target className="text-primary size-7" /> {c.leapTitle}</h3>
+                            <div className="flex justify-center mb-4">
+                                <Target className="text-primary size-10" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3">{c.leapTitle}</h3>
                             <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
                         </div>
                          <div>
-                            <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Lightbulb className="text-primary size-7" /> {c.analysisTitle}</h3>
+                            <div className="flex justify-center mb-4">
+                                <Lightbulb className="text-primary size-10" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3">{c.analysisTitle}</h3>
                             <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.analysisDescription }} />
                         </div>
                         <div>
-                            <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><ShieldCheck className="text-primary size-7" /> {c.powerTitle}</h3>
+                            <div className="flex justify-center mb-4">
+                                <ShieldCheck className="text-primary size-10" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-3">{c.powerTitle}</h3>
                             <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
                         </div>
                     </CardContent>
