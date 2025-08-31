@@ -16,7 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import AiWizard from '@/components/ai-wizard';
 import { useLanguage } from '@/contexts/language-context';
-import { AchievementsSection } from '@/components/home/achievements-section';
+import { AchievementsSection } from '@/app/home/achievements-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
