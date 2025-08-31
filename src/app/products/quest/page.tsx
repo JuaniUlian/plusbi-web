@@ -70,25 +70,6 @@ export default function QuestPage() {
       <main>
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
-              <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold font-headline">{c.videoTitle}</h2>
-              </div>
-              <div className="flex justify-center mb-16">
-                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl">
-                      <div className="aspect-w-16 aspect-h-9">
-                          <iframe 
-                              className="w-full h-full rounded-lg"
-                              src="https://www.youtube.com/embed/2HKqp_RgOC0" 
-                              title="YouTube video player" 
-                              frameBorder="0" 
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                              allowFullScreen
-                              style={{ minHeight: '480px' }}
-                          ></iframe>
-                      </div>
-                  </Card>
-              </div>
-
               <div className="grid md:grid-cols-2 gap-12 items-center">
                   <div className="space-y-8">
                   <div>
@@ -118,6 +99,28 @@ export default function QuestPage() {
                   </Card>
               </div>
             </div>
+        </section>
+        <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+           <div className="container mx-auto px-4">
+               <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold font-headline text-white">{c.videoTitle}</h2>
+              </div>
+              <div className="flex justify-center">
+                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl">
+                      <div className="aspect-w-16 aspect-h-9">
+                          <iframe 
+                              className="w-full h-full rounded-lg"
+                              src="https://www.youtube.com/embed/2HKqp_RgOC0" 
+                              title="YouTube video player" 
+                              frameBorder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                              allowFullScreen
+                              style={{ minHeight: '480px' }}
+                          ></iframe>
+                      </div>
+                  </Card>
+              </div>
+           </div>
         </section>
         <section className="py-16 md:py-24 bg-primary/10 text-center">
             <div className="container mx-auto px-4">
