@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Lightbulb, Send, User, Mail, MessageSquare, Search, ArrowRight } from "lucide-react";
-import { Textarea } from "./ui/textarea";
+import { Loader2, Lightbulb, Send, Mail, Search, ArrowRight, RefreshCw, Eye } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import Link from "next/link";
+import Image from "next/image";
 
 const content = {
   es: {
@@ -70,11 +70,11 @@ const content = {
   }
 }
 
-const productLinks: Record<string, string> = {
-    'Quest': '/products/quest',
-    'Mila': '/products/mila',
-    'Vuro': '/products/vuro',
-    'Sistema de Expediente Electronico': '/products/see',
+const productInfo: Record<string, { link: string; icon: string }> = {
+    'Quest': { link: '/products/quest', icon: '/logo/quest.png' },
+    'Mila': { link: '/products/mila', icon: '/logo/mila.png' },
+    'Vuro': { link: '/products/vuro', icon: '/logo/plusbi.png' },
+    'Sistema de Expediente Electronico': { link: '/products/see', icon: '/logo/plusbi.png' },
 }
 
 type WizardValuesEs = z.infer<typeof content.es.wizardSchema>;
@@ -159,7 +159,7 @@ export default function AiWizard() {
 
   const onWizardSubmit = async (data: WizardValuesEs | WizardValuesEn) => {
     setIsLoading(true);
-    const result = await recommendProduct({ need: data.need });
+    const result = await recommendProduct({ need: data.need, language });
 
     if (result.success && result.data) {
       setRecommendation(result.data);
@@ -186,7 +186,7 @@ export default function AiWizard() {
     return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
   
-  const recommendedProductLink = recommendation ? productLinks[recommendation.recommendedProduct] : '#';
+  const recommendedProductInfo = recommendation ? productInfo[recommendation.recommendedProduct] : null;
 
   return (
     <Card className="shadow-2xl w-full glassmorphism">
@@ -220,7 +220,7 @@ export default function AiWizard() {
         </form>
       )}
 
-      {step === "result" && recommendation && (
+      {step === "result" && recommendation && recommendedProductInfo && (
         <>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> {c.aiRecommendation}</CardTitle>
@@ -230,18 +230,21 @@ export default function AiWizard() {
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="p-4 bg-primary/10 rounded-lg">
-                    <h3 className="text-xl font-bold text-primary">{recommendation.recommendedProduct}</h3>
+                    <div className="flex items-center gap-4 mb-2">
+                        <Image src={recommendedProductInfo.icon} alt={`${recommendation.recommendedProduct} logo`} width={40} height={40} />
+                        <h3 className="text-xl font-bold text-primary">{recommendation.recommendedProduct}</h3>
+                    </div>
                     <p className="mt-2 text-sm text-muted-foreground">{recommendation.reason}</p>
                 </div>
             </CardContent>
-            <CardFooter className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <Button asChild variant="outline" className="w-full">
-                    <Link href={recommendedProductLink}>{c.learnMore} <ArrowRight /></Link>
+            <CardFooter className="flex flex-col sm:flex-row justify-between items-center gap-2">
+                <Button asChild variant="outline" className="w-full sm:w-auto">
+                    <Link href={recommendedProductInfo.link}>{c.learnMore} <Eye /></Link>
                 </Button>
-                <Button asChild className="w-full">
+                <Button asChild className="w-full sm:w-auto">
                     <a href={generateMailto(recommendation.recommendedProduct)}>{c.contact} <Mail /></a>
                 </Button>
-                <Button variant="ghost" onClick={handleStartOver} className="w-full sm:col-span-3">{c.startOver}</Button>
+                <Button variant="ghost" onClick={handleStartOver} className="w-full sm:w-auto">{c.startOver} <RefreshCw /></Button>
             </CardFooter>
         </>
       )}

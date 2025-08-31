@@ -15,6 +15,7 @@ const ProductRecommendationInputSchema = z.object({
   need: z
     .string()
     .describe('The clients main need'),
+  language: z.enum(['es', 'en']).describe('The language for the response.'),
 });
 export type ProductRecommendationInput = z.infer<typeof ProductRecommendationInputSchema>;
 
@@ -41,6 +42,8 @@ const prompt = ai.definePrompt({
 
   Based on the client's stated need, recommend ONE of the products. 
   Explain your reasoning in a clear, friendly, and non-technical way. Focus on how the product solves their specific problem and what value it brings to them.
+  
+  Respond in the following language: {{{language}}}.
 
   Client Need: {{{need}}}`,
 });
