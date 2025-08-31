@@ -59,7 +59,7 @@ const content = {
         year: "2023",
         summary: "Este fue un año de consolidación y proyectos de alto impacto. Brindamos asesoramiento y mediciones clave en las Elecciones Presidenciales de Argentina, demostrando nuestra capacidad para manejar proyectos de gran escala y alta complejidad.",
         items: [
-          { event: "Asesoramiento en Elecciones Presidenciales de Argentina", description: "Margen de error 1.42% respecto a resultados finales.", icon: <Globe /> },
+          { event: "Asesoramiento en Elecciones Presidenciales de Argentina", description: "Con Quest, nuestros clientes tuvieron un margen de error 1.42% en las proyecciones respecto a resultados finales.", icon: <Globe /> },
           { event: "Proyecciones de tendencias de demanda para Cámaras Empresariales", icon: <Building /> },
           { event: "Lanzamiento de Quest", icon: <Lightbulb /> },
         ],
@@ -69,14 +69,14 @@ const content = {
         summary: "Nuestra experiencia nos abrió las puertas a nuevos desafíos. Comenzamos a brindar asesoramiento a Organismos Internacionales Multilaterales y aplicamos nuestros modelos de proyección en las Elecciones de la Ciudad de México.",
         items: [
           { event: "Asesoramiento a Organismos Internacionales Multilaterales", description: "Utilización de Quest para medir índices de Conflictividad Social.", icon: <Briefcase /> },
-          { event: "Proyecciones en las Elecciones de la Ciudad de México", description: "Margen de error del 3% respecto a resultados finales.", icon: <Vote /> },
+          { event: "Proyecciones en las Elecciones de la Ciudad de México", description: "Quest mostró sufiablidad respecto a sus proyecciones, obteniendo un margen de error del 3% respecto a resultados finales.", icon: <Vote /> },
         ],
       },
       {
         year: "2025",
         summary: "Nuestro compromiso con la transparencia y la innovación fue reconocido al ser seleccionados en el Top 20 del programa 'Corrupción Cero' de la CAF. Este hito nos impulsa a seguir creando soluciones que transforman la gestión pública.",
         items: [
-          { event: "Seleccionados en el Top 20 del programa 'Corrupción Cero' de la CAF", icon: <Award /> },
+          { event: "Mila es seleccionada en el Top 20 del programa 'Corrupción Cero' de la CAF", description: "Programa en el que participaron empresas y startups de 17 países de América Latina y el Caribe, España y Corea del Sur", icon: <Award /> },
           { event: "Consolidación como referentes en GovTech en LATAM", icon: <Trophy /> },
         ],
       },
@@ -113,7 +113,7 @@ const content = {
         year: "2023",
         summary: "This was a year of consolidation and high-impact projects. We provided key advice and measurements in the Argentine Presidential Elections, demonstrating our ability to handle large-scale and highly complex projects.",
         items: [
-          { event: "Advisory in Argentine Presidential Elections", description: "1.42% margin of error compared to final results.", icon: <Globe /> },
+          { event: "Advisory in Argentine Presidential Elections", description: "With Quest, our clients had a 1.42% margin of error in projections compared to final results.", icon: <Globe /> },
           { event: "Demand trend projections for Business Chambers", icon: <Building /> },
           { event: "Launch of Quest", icon: <Lightbulb /> },
         ],
@@ -123,14 +123,14 @@ const content = {
         summary: "Our experience opened doors to new challenges. We began advising Multilateral International Organizations and applied our projection models in the Mexico City Elections.",
         items: [
           { event: "Advisory to Multilateral International Organizations", description: "Use of Quest to measure Social Conflict indexes.", icon: <Briefcase /> },
-          { event: "Projections in the Mexico City Elections", description: "3% margin of error compared to final results.", icon: <Vote /> },
+          { event: "Projections in the Mexico City Elections", description: "Quest showed reliability in its projections, obtaining a 3% margin of error compared to final results.", icon: <Vote /> },
         ],
       },
       {
         year: "2025",
         summary: "Our commitment to transparency and innovation was recognized by being selected in the Top 20 of the CAF 'Zero Corruption' program. This milestone drives us to continue creating solutions that transform public management.",
         items: [
-          { event: "Selected in the Top 20 of the CAF 'Zero Corruption' program", icon: <Award /> },
+          { event: "Mila is selected in the Top 20 of the CAF 'Zero Corruption' program", description: "A program in which companies and startups from 17 countries in Latin America and the Caribbean, Spain, and South Korea participated.", icon: <Award /> },
           { event: "Consolidation as GovTech leaders in LATAM", icon: <Trophy /> },
         ],
       },
