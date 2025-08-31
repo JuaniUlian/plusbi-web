@@ -140,7 +140,7 @@ export default function MilaPage() {
                 ))}
                 </div>
             </div>
-            <Card className="grid md:grid-cols-2 gap-12 items-center bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
+            <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
                 <div>
                 <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
                 <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
@@ -150,14 +150,6 @@ export default function MilaPage() {
                     ))}
                 </ul>
                 </div>
-                <Image
-                src="/backgrounds/cuerpo.jpeg"
-                alt="Mila interface diagram"
-                width={500}
-                height={500}
-                className="rounded-lg"
-                data-ai-hint="interface diagram"
-                />
             </Card>
             </div>
         </section>
