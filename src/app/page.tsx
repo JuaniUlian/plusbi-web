@@ -167,12 +167,9 @@ export default function Home() {
                 <CardContent className="flex-grow">
                   <p className="text-muted-foreground">{product.description}</p>
                 </CardContent>
-                 <CardFooter className="justify-center mt-auto flex-col sm:flex-row gap-2">
+                 <CardFooter className="justify-center mt-auto">
                     <Button asChild variant="link">
                         <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
-                    </Button>
-                    <Button asChild>
-                        <a href={generateMailto(product.name)}>{c.contact} <Mail className="size-4 ml-1" /></a>
                     </Button>
                  </CardFooter>
               </Card>
