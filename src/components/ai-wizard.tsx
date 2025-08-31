@@ -222,17 +222,17 @@ export default function AiWizard() {
 
       {step === "result" && recommendation && recommendedProductInfo && (
         <>
-            <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                     <Image src={recommendedProductInfo.icon} alt={`${recommendation.recommendedProduct} logo`} width={64} height={64} />
-                </div>
-                <CardTitle className="text-2xl font-bold">{c.aiRecommendation}</CardTitle>
-                <CardDescription className="text-foreground/80">
+            <CardHeader>
+                <CardTitle className="text-left">{c.aiRecommendation}</CardTitle>
+                <CardDescription className="text-left text-foreground/80">
                 {c.basedOnNeeds}
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="p-6 bg-primary/10 rounded-lg text-center">
+                    <div className="flex justify-center mb-2">
+                         <Image src={recommendedProductInfo.icon} alt={`${recommendation.recommendedProduct} logo`} width={48} height={48} />
+                    </div>
                     <h3 className="text-xl font-bold text-primary">{recommendation.recommendedProduct}</h3>
                     <p className="mt-2 text-sm text-foreground/80">{recommendation.reason}</p>
                 </div>
