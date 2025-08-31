@@ -8,10 +8,6 @@ import { useLanguage } from '@/contexts/language-context';
 const footerContent = {
   es: {
     slogan: "Innovación GovTech para una sociedad más justa y transparente.",
-    navigation: "Navegación",
-    home: "Inicio",
-    products: "Productos",
-    experience: "Experiencia",
     contactTitle: "¿Hablamos?",
     contactSubtitle: "Construyamos juntos una administración más eficiente.",
     contactButton: "Agenda una reunión",
@@ -19,10 +15,6 @@ const footerContent = {
   },
   en: {
     slogan: "GovTech innovation for a more just and transparent society.",
-    navigation: "Navigation",
-    home: "Home",
-    products: "Products",
-    experience: "Experience",
     contactTitle: "Let's talk?",
     contactSubtitle: "Let's build a more efficient administration together.",
     contactButton: "Schedule a meeting",
@@ -39,25 +31,18 @@ export function Footer() {
       className="border-t border-white/20 text-white" 
       style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
     >
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
-            <div className="space-y-4 flex flex-col items-center md:items-start">
-                <Link href="/" className="flex items-center gap-2">
+      <div className="container mx-auto px-4 py-12 text-center">
+        <div className="flex flex-col items-center gap-8 mb-8">
+            <div className="space-y-4">
+                <Link href="/" className="inline-flex items-center gap-2">
                     <Logo className="h-8 w-8" />
                     <span className="font-bold text-lg font-headline">PLUS BI</span>
                 </Link>
-                <p className="text-sm text-white/70 max-w-xs">{c.slogan}</p>
+                <p className="text-sm text-white/70 max-w-xs mx-auto">{c.slogan}</p>
             </div>
-            <div className="flex flex-col items-center md:items-start">
-                <h3 className="font-semibold mb-4">{c.navigation}</h3>
-                <nav className="flex flex-col space-y-2 items-center md:items-start">
-                    <Link href="/" className="text-sm hover:underline text-white/70">{c.home}</Link>
-                    <Link href="/products" className="text-sm hover:underline text-white/70">{c.products}</Link>
-                    <Link href="/experience" className="text-sm hover:underline text-white/70">{c.experience}</Link>
-                </nav>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-                 <h3 className="font-semibold mb-4">{c.contactTitle}</h3>
+            
+            <div className="flex flex-col items-center">
+                 <h3 className="font-semibold mb-2 text-lg">{c.contactTitle}</h3>
                  <p className="text-sm text-white/70 mb-4 max-w-xs">{c.contactSubtitle}</p>
                  <Button asChild variant="secondary">
                      <a href="mailto:contacto@plusbi.com">{c.contactButton}</a>
