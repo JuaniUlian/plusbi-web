@@ -69,7 +69,7 @@ const content = {
         summary: "Nuestra experiencia nos abrió las puertas a nuevos desafíos. Comenzamos a brindar asesoramiento a Organismos Internacionales Multilaterales y aplicamos nuestros modelos de proyección en las Elecciones de la Ciudad de México.",
         items: [
           { event: "Asesoramiento a Organismos Internacionales Multilaterales", description: "Utilización de Quest para medir índices de Conflictividad Social.", icon: <Briefcase /> },
-          { event: "Proyecciones en las Elecciones de la Ciudad de México", description: "Quest mostró sufiablidad respecto a sus proyecciones, obteniendo un margen de error del 3% respecto a resultados finales.", icon: <Vote /> },
+          { event: "Proyecciones en las Elecciones de la Ciudad de México", description: "Quest mostró su fiabilidad respecto a sus proyecciones, obteniendo un margen de error del 3% respecto a resultados finales.", icon: <Vote /> },
         ],
       },
       {
@@ -168,7 +168,7 @@ export default function ExperiencePage() {
           </div>
           
           <Tabs value={activeYear} onValueChange={setActiveYear} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5 mb-8">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5 mb-8">
               {c.milestonesByYear.map((milestone) => (
                 <TabsTrigger key={milestone.year} value={milestone.year}>{milestone.year}</TabsTrigger>
               ))}

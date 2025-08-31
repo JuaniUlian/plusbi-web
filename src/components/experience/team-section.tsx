@@ -59,7 +59,7 @@ const teamContent = {
             },
             {
                 name: 'Juan Ignacio Ulian',
-                title: 'CEO & Co-Fundador. Licenciado en Ciencia Política',
+                title: 'CEO & Co-Fundador. Licenciado en Ciencias Políticas',
                 avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
@@ -186,7 +186,7 @@ const teamContent = {
             },
             {
                 name: 'Juan Ignacio Ulian',
-                title: 'CEO & Co-Founder. Bachelor in Political Science',
+                title: 'CEO & Co-Founder. Bachelor in Political Sciences',
                 avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
