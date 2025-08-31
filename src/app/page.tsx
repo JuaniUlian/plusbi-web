@@ -126,27 +126,15 @@ export default function Home() {
       <section id="products-wizard" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.productsTitle}</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">{c.productsTitle}</h2>
+            <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
               {c.productsSubtitle}
             </p>
           </div>
           
           <div className="max-w-2xl mx-auto mb-12">
-            <div className="text-center mb-6">
-                <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground">{c.aiWizardSection.badge}</Badge>
-                <h2 className="text-2xl font-bold font-headline">
-                  {c.aiWizardSection.title}
-                </h2>
-                <p className="mt-2 text-muted-foreground text-sm">
-                  {c.aiWizardSection.description}
-                </p>
-              </div>
               <div>
                 {isClient && <AiWizard />}
-              </div>
-              <div className="mt-4 border-l-4 border-primary/40 pl-4 text-left">
-                   <p className="text-muted-foreground italic text-xs">{c.aiWizardSection.quote}</p>
               </div>
           </div>
 
@@ -180,5 +168,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

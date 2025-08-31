@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -9,14 +10,14 @@ import { useLanguage } from "@/contexts/language-context";
 const content = {
     es: {
         badge: "Innovadores GovTech",
-        title: "PLUS BI: Tecnología para una Sociedad más Justa",
+        title: "Tecnología para un mejor Gobierno",
         subtitle: "Integramos la innovación tecnológica con una visión profundamente humana para construir una administración pública más transparente y participativa.",
         productsButton: "Nuestros Productos",
         experienceButton: "Nuestra Experiencia",
     },
     en: {
         badge: "GovTech Innovators",
-        title: "PLUS BI: Technology for a Fairer Society",
+        title: "Technology for a better Government",
         subtitle: "We integrate technological innovation with a deeply human vision to build a more transparent and participatory public administration.",
         productsButton: "Our Products",
         experienceButton: "Our Experience",
