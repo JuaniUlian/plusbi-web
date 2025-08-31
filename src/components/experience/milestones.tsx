@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Flag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Flag } from "lucide-react";
 import { useLanguage } from '@/contexts/language-context';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 const milestonesContent = {
     es: {
@@ -36,55 +40,39 @@ const milestonesContent = {
 export function Milestones() {
     const { language } = useLanguage();
     const c = milestonesContent[language];
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    const handlePrev = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? c.items.length - 1 : prevIndex - 1));
-    };
-
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === c.items.length - 1 ? 0 : prevIndex + 1));
-    };
-    
-    const visibleMilestones = 3;
-    const getVisibleIndices = () => {
-        const indices = [];
-        for (let i = 0; i < visibleMilestones; i++) {
-            indices.push((currentIndex + i) % c.items.length);
-        }
-        return indices;
-    };
-
-    const visibleIndices = getVisibleIndices();
 
     return (
-        <Card className="shadow-lg w-full glassmorphism">
-            <CardContent className="p-6">
-                <h3 className="text-2xl font-bold font-headline mb-6 text-center">{c.title}</h3>
-                <div className="relative flex items-center justify-center">
-                    <Button variant="outline" size="icon" className="absolute left-0 z-10" onClick={handlePrev}>
-                        <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <div className="flex justify-center items-stretch gap-4 w-full overflow-hidden">
-                        {visibleIndices.map((index, i) => {
-                             const milestone = c.items[index];
-                             const isCenter = i === Math.floor(visibleMilestones / 2);
-                             return (
-                                <div key={index} className={`transition-all duration-300 ${isCenter ? 'scale-110 z-10' : 'scale-90 opacity-60'}`}>
-                                    <Card className={`h-full flex flex-col items-center justify-center text-center p-4 ${isCenter ? 'bg-primary/10' : ''}`}>
-                                        <Flag className={`size-6 mb-2 ${isCenter ? 'text-primary' : 'text-muted-foreground'}`} />
-                                        <p className="font-bold text-lg">{milestone.year}</p>
-                                        <p className="text-sm text-muted-foreground">{milestone.event}</p>
-                                    </Card>
-                                </div>
-                             )
-                        })}
-                    </div>
-                    <Button variant="outline" size="icon" className="absolute right-0 z-10" onClick={handleNext}>
-                        <ChevronRight className="h-4 w-4" />
-                    </Button>
-                </div>
-            </CardContent>
-        </Card>
+        <section className="py-16 md:py-24 bg-primary/5">
+            <div className="container mx-auto px-4">
+                 <h3 className="text-3xl font-bold font-headline mb-8 text-center">{c.title}</h3>
+                <Carousel
+                  plugins={[
+                    Autoplay({
+                      delay: 2000,
+                      stopOnInteraction: true,
+                    }),
+                  ]}
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent>
+                    {c.items.map((milestone, index) => (
+                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+                        <div className="p-1 h-full">
+                           <Card className={`h-full flex flex-col items-center justify-center text-center p-4 glassmorphism`}>
+                                <Flag className={`size-6 mb-2 text-primary`} />
+                                <p className="font-bold text-lg">{milestone.year}</p>
+                                <p className="text-sm text-muted-foreground">{milestone.event}</p>
+                            </Card>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+            </div>
+        </section>
     );
 }

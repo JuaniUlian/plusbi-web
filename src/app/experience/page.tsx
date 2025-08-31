@@ -54,19 +54,18 @@ export default function ExperiencePage() {
 
       <section id="history" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                     <h2 className="text-3xl font-bold font-headline mb-4">{c.historyTitle}</h2>
-                     <div className="space-y-4 text-muted-foreground">
-                        <p>{c.historyP1}</p>
-                        <p>{c.historyP2}</p>
-                        <p>{c.historyP3}</p>
-                     </div>
-                </div>
-                <Milestones />
+            <div className="max-w-4xl mx-auto">
+                 <h2 className="text-3xl font-bold font-headline mb-4 text-center">{c.historyTitle}</h2>
+                 <div className="space-y-4 text-muted-foreground text-lg">
+                    <p>{c.historyP1}</p>
+                    <p>{c.historyP2}</p>
+                    <p>{c.historyP3}</p>
+                 </div>
             </div>
         </div>
       </section>
+
+      <Milestones />
 
       <section id="team" className="py-16 md:py-24 bg-primary/5">
         <div className="container mx-auto px-4">
