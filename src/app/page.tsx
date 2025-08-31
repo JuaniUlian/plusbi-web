@@ -22,8 +22,8 @@ import Image from 'next/image';
 
 const content = {
   es: {
-    productsTitle: "Tu Aliado con Núcleo de IA",
-    productsSubtitle: "¿No estás seguro de qué producto necesitas? Nuestro núcleo de IA está aquí para ayudarte. Describe tu desafío y nuestro asistente inteligente te recomendará la herramienta de PLUS BI perfecta para resolverlo.",
+    productsTitle: "Nuestros Productos",
+    productsSubtitle: "¿No estás seguro de qué producto necesitas? Somos una empresa AI Core, y te la dejamos a disposición para ayudarte. Describe tu desafío o problema y nuestro asistente te recomendará la herramienta de PLUS BI perfecta para resolverlo.",
     products: [
       {
         name: 'Quest',
@@ -63,8 +63,8 @@ const content = {
     }
   },
   en: {
-    productsTitle: "Your AI-Core Partner",
-    productsSubtitle: "Not sure which product you need? Our AI core is here to help. Describe your challenge and our intelligent assistant will recommend the perfect PLUS BI tool to solve it.",
+    productsTitle: "Our Products",
+    productsSubtitle: "Not sure which product you need? We are an AI Core company, and we make it available to help you. Describe your challenge or problem and our assistant will recommend the perfect PLUS BI tool to solve it.",
     products: [
       {
         name: 'Quest',
