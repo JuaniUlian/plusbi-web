@@ -96,6 +96,12 @@ export default function AiWizard() {
   const placeholderIndex = useRef(0);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -187,6 +193,10 @@ export default function AiWizard() {
   };
   
   const recommendedProductInfo = recommendation ? productInfo[recommendation.recommendedProduct] : null;
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <Card className="shadow-2xl w-full glassmorphism">

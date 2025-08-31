@@ -118,11 +118,6 @@ tag: 'Automatización Total'
 export default function Home() {
   const { language } = useLanguage();
   const c = content[language];
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   return (
     <div className="flex flex-col">
@@ -141,7 +136,7 @@ export default function Home() {
           
           <div className="max-w-2xl mx-auto mb-12">
               <div>
-                {isClient && <AiWizard />}
+                <AiWizard />
               </div>
           </div>
 
