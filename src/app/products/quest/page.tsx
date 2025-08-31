@@ -84,12 +84,12 @@ export default function QuestPage() {
                 </CardHeader>
                 <CardContent>
                     <Image
-                    src="/stats/quest-argentina-map.png"
-                    alt="Argentina map with data points"
+                    src="/stats/resultadosquest.png"
+                    alt="Resultados de Quest en elecciones de Argentina"
                     width={600}
                     height={400}
                     className="rounded-lg mb-4"
-                    data-ai-hint="argentina map"
+                    data-ai-hint="election results chart"
                     />
                     <p className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
                 </CardContent>
