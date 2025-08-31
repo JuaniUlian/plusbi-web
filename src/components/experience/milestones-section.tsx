@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 import { useLanguage } from '@/contexts/language-context';
-import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building } from 'lucide-react';
+import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
 
 const milestonesContent = {
@@ -163,19 +162,19 @@ const milestonesContent = {
 export function MilestonesSection() {
     const { language } = useLanguage();
     const c = milestonesContent[language];
-    const [activeYear, setActiveYear] = useState(c.years[0].year);
+    const [activeYear, setActiveYear] = useState(c.years[c.years.length - 1].year);
 
     const activeYearData = c.years.find(y => y.year === activeYear);
 
     return (
         <div className="grid md:grid-cols-3 gap-8 items-start max-w-5xl mx-auto">
-            <div className="md:col-span-1 grid grid-cols-2 md:flex md:flex-col gap-2 md:sticky top-24">
+            <div className="md:col-span-1 grid grid-cols-3 md:flex md:flex-col gap-2 md:sticky top-24">
                 {c.years.map(item => (
                     <Button 
                         key={item.year}
                         variant={activeYear === item.year ? 'default' : 'outline'}
                         onClick={() => setActiveYear(item.year)}
-                        className="w-full justify-start text-lg h-12"
+                        className="w-full justify-center md:justify-start text-lg h-12"
                     >
                         {item.year}
                     </Button>
