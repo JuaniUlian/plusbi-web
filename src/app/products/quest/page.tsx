@@ -17,6 +17,7 @@ const content = {
     badge: "Big Data & IA",
     title: "Quest",
     subtitle: "Accede a <strong>enormes volúmenes de datos</strong> para que, junto con tu asesor de Inteligencia Artificial, tomes las <strong>mejores decisiones</strong> desde tu smartphone o PC, ¡en cualquier momento!",
+    videoTitle: "Quest en Acción",
     leapTitle: "Da el salto de calidad",
     leapDescription: "<p>PLUS Quest es una plataforma que combina el poder del <strong>Big Data</strong>, la <strong>Inteligencia Artificial</strong> y la metodología de investigación desarrollada por PLUS.</p><p class='mt-2'>El resultado es la capacidad de <strong>predecir con precisión</strong> las tendencias del mercado, permitiéndote tomar decisiones informadas y estratégicas.</p>",
     powerTitle: "Potencia y Precisión",
@@ -31,6 +32,7 @@ const content = {
     badge: "Big Data & AI",
     title: "Quest",
     subtitle: "Access <strong>huge volumes of data</strong> so you, along with your Artificial Intelligence advisor, can make the <strong>best decisions</strong> from your smartphone or PC, anytime!",
+    videoTitle: "Quest in Action",
     leapTitle: "Take the leap in quality",
     leapDescription: "<p>PLUS Quest is a platform that combines the power of <strong>Big Data</strong>, <strong>Artificial Intelligence</strong>, and the research methodology developed by PLUS.</p><p class='mt-2'>The result is the ability to <strong>accurately predict</strong> market trends, allowing you to make informed and strategic decisions.</p>",
     powerTitle: "Power and Precision",
@@ -59,43 +61,62 @@ export default function QuestPage() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col items-center">
             <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} className="mb-4" />
-            <Badge>{c.badge}</Badge>
           </div>
-          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
+          <Badge className="mt-4">{c.badge}</Badge>
           <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto" dangerouslySetInnerHTML={{ __html: c.subtitle }}/>
         </div>
       </header>
       <main>
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-8">
-                <div>
-                    <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Rocket className="text-primary size-7" /> {c.leapTitle}</h3>
-                    <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><ShieldCheck className="text-primary size-7" /> {c.powerTitle}</h3>
-                    <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
-                </div>
-                </div>
-                <Card className="shadow-xl glassmorphism">
-                <CardHeader>
-                    <CardTitle className="text-xl">{c.caseTitle}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Image
-                    src="/stats/resultadosquest.png"
-                    alt="Resultados de Quest en elecciones de Argentina"
-                    width={600}
-                    height={400}
-                    className="rounded-lg mb-4"
-                    data-ai-hint="election results chart"
-                    />
-                    <div className="text-muted-foreground text-sm" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
-                </CardContent>
-                </Card>
-            </div>
+              <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold font-headline">{c.videoTitle}</h2>
+              </div>
+              <div className="flex justify-center mb-16">
+                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl">
+                      <div className="aspect-w-16 aspect-h-9">
+                          <iframe 
+                              className="w-full h-full rounded-lg"
+                              src="https://www.youtube.com/embed/2HKqp_RgOC0" 
+                              title="YouTube video player" 
+                              frameBorder="0" 
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                              allowFullScreen
+                              style={{ minHeight: '480px' }}
+                          ></iframe>
+                      </div>
+                  </Card>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="space-y-8">
+                  <div>
+                      <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Rocket className="text-primary size-7" /> {c.leapTitle}</h3>
+                      <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
+                  </div>
+                  <div>
+                      <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><ShieldCheck className="text-primary size-7" /> {c.powerTitle}</h3>
+                      <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
+                  </div>
+                  </div>
+                  <Card className="shadow-xl glassmorphism">
+                  <CardHeader>
+                      <CardTitle className="text-xl">{c.caseTitle}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <Image
+                      src="/stats/resultadosquest.png"
+                      alt="Resultados de Quest en elecciones de Argentina"
+                      width={600}
+                      height={400}
+                      className="rounded-lg mb-4"
+                      data-ai-hint="election results chart"
+                      />
+                      <div className="text-muted-foreground text-sm" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
+                  </CardContent>
+                  </Card>
+              </div>
             </div>
         </section>
         <section className="py-16 md:py-24 bg-primary/10 text-center">
