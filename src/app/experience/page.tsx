@@ -1,16 +1,15 @@
 
 "use client";
+import { useState } from 'react';
 import { TeamSection } from "@/components/experience/team-section";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/language-context';
-import { Milestones } from "@/components/experience/milestones";
+import { Milestones, type MilestoneItem } from "@/components/experience/milestones";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { AnimatePresence, motion } from "framer-motion";
 
 const content = {
   es: {
@@ -36,6 +35,11 @@ const content = {
 export default function ExperiencePage() {
   const { language } = useLanguage();
   const c = content[language];
+  const [activeMilestone, setActiveMilestone] = useState<MilestoneItem | null>(null);
+
+  const handleActiveMilestoneChange = (milestone: MilestoneItem | null) => {
+    setActiveMilestone(milestone);
+  };
 
   return (
     <>
@@ -52,7 +56,36 @@ export default function ExperiencePage() {
 
       <section id="history" className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
-          <Milestones />
+          <div className="grid md:grid-cols-2 gap-16 items-start">
+            <Card className="glassmorphism p-8 sticky top-24">
+              <CardContent className="p-0">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeMilestone ? activeMilestone.year : "initial"}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {activeMilestone ? (
+                      <div>
+                        <h3 className="text-2xl font-bold font-headline text-primary">{activeMilestone.event}</h3>
+                        <p className="text-muted-foreground font-semibold mt-1">{activeMilestone.year}</p>
+                        <div className="mt-4 text-muted-foreground prose" dangerouslySetInnerHTML={{ __html: activeMilestone.description }} />
+                      </div>
+                    ) : (
+                       <div>
+                        <h3 className="text-2xl font-bold font-headline">Nuestra Historia</h3>
+                        <p className="mt-4 text-muted-foreground">PLUS BI se conformó en 2021, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban. Hoy, somos un equipo unido por una convicción profunda: cada avance hacia una gestión pública más transparente y participativa es un paso hacia una sociedad más justa.</p>
+                        <p className="mt-2 text-muted-foreground">Navega por nuestros hitos para descubrir nuestra historia.</p>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </CardContent>
+            </Card>
+            <Milestones onActiveMilestoneChange={handleActiveMilestoneChange} />
+          </div>
         </div>
       </section>
 

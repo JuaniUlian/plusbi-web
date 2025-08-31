@@ -1,158 +1,155 @@
 
 "use client";
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  BarChartHorizontal,
-  Building,
-  Star,
+  Rocket,
+  TrendingUp,
+  Globe,
   Trophy,
-  Vote,
-  ChevronDown,
 } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { cn } from "@/lib/utils";
 
 const milestonesContent = {
   es: {
-    title: "Nuestra Historia y Hitos",
     items: [
       {
         year: "2022",
-        event: "Nacimiento de PLUS BI y Primeros Pasos",
-        icon: <Building />,
+        event: "Nacimiento y Primeros Pasos",
+        icon: <Rocket />,
         description:
-          "<strong>PLUS BI se conformó en 2021</strong>, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban. Durante 2022, comenzamos a dar nuestros primeros pasos, ofreciendo <strong>asesoramiento en campañas políticas locales</strong> y realizando nuestras primeras <strong>mediciones de intención de voto</strong>, sentando las bases de nuestra metodología.",
+          "<p><strong>PLUS BI se conformó en 2021</strong>, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban.</p><p class='mt-2'>Durante 2022, comenzamos a dar nuestros primeros pasos, ofreciendo <strong>asesoramiento en campañas políticas locales</strong> y realizando nuestras primeras <strong>mediciones de intención de voto</strong>, sentando las bases de nuestra metodología.</p>",
       },
       {
         year: "2023",
         event: "Consolidación y Proyectos de Alto Impacto",
-        icon: <Vote />,
+        icon: <TrendingUp />,
         description:
-          "Este fue un año de consolidación. Brindamos <strong>asesoramiento y mediciones clave en las Elecciones Presidenciales de Argentina</strong>, demostrando nuestra capacidad para manejar proyectos de gran escala. Además, desarrollamos <strong>proyecciones de tendencias de demanda</strong> para importantes Cámaras Empresariales Argentinas, diversificando nuestro campo de acción.",
+          "<p>Este fue un año de consolidación. Brindamos <strong>asesoramiento y mediciones clave en las Elecciones Presidenciales de Argentina</strong>, demostrando nuestra capacidad para manejar proyectos de gran escala.</p><p class='mt-2'>Además, desarrollamos <strong>proyecciones de tendencias de demanda</strong> para importantes Cámaras Empresariales Argentinas, diversificando nuestro campo de acción.</p>",
       },
       {
         year: "2024",
-        event: "Expansión y Reconocimiento Internacional",
-        icon: <Star />,
+        event: "Expansión Internacional",
+        icon: <Globe />,
         description:
-          "Nuestra experiencia nos abrió las puertas a nuevos desafíos. Comenzamos a brindar <strong>asesoramiento a Organismos Internacionales Multilaterales</strong> y aplicamos nuestros modelos de proyección en las <strong>Elecciones de la Ciudad de México</strong>, validando nuestra metodología en un nuevo contexto político y social.",
+          "<p>Nuestra experiencia nos abrió las puertas a nuevos desafíos. Comenzamos a brindar <strong>asesoramiento a Organismos Internacionales Multilaterales</strong> y aplicamos nuestros modelos de proyección en las <strong>Elecciones de la Ciudad de México</strong>, validando nuestra metodología en un nuevo contexto político y social.</p>",
       },
       {
         year: "2025",
-        event: "Innovación y Futuro: El Reconocimiento a Mila",
+        event: "Innovación y Reconocimiento",
         icon: <Trophy />,
         description:
-          "Nuestro compromiso con la transparencia y la innovación fue reconocido al ser seleccionados en el <strong>Top 20 del programa 'Corrupción Cero' de la CAF</strong>. Este hito no solo valida nuestro trabajo, sino que nos impulsa a seguir creando soluciones como <strong>Mila</strong>, que transforman la gestión pública. Nuestra pasión y propósito nos guían para construir un futuro más justo y equitativo para todos.",
+          "<p>Nuestro compromiso con la transparencia y la innovación fue reconocido al ser seleccionados en el <strong>Top 20 del programa 'Corrupción Cero' de la CAF</strong>.</p><p class='mt-2'>Este hito no solo valida nuestro trabajo, sino que nos impulsa a seguir creando soluciones como <strong>Mila</strong>, que transforman la gestión pública. Nuestra pasión y propósito nos guían para construir un futuro más justo y equitativo para todos.</p>",
       },
     ],
   },
   en: {
-    title: "Our History & Milestones",
     items: [
       {
         year: "2022",
-        event: "The Birth of PLUS BI and First Steps",
-        icon: <Building />,
+        event: "Birth and First Steps",
+        icon: <Rocket />,
         description:
-          "<strong>PLUS BI was formed in 2021</strong>, and on the very first day, something just clicked. We discovered our perspectives complemented and enhanced each other. During 2022, we took our first steps, offering <strong>advice on local political campaigns</strong> and conducting our first <strong>voting intention measurements</strong>, laying the foundation for our methodology.",
+          "<p><strong>PLUS BI was formed in 2021</strong>, and on the very first day, something just clicked. We discovered our perspectives complemented and enhanced each other.</p><p class='mt-2'>During 2022, we took our first steps, offering <strong>advice on local political campaigns</strong> and conducting our first <strong>voting intention measurements</strong>, laying the foundation for our methodology.</p>",
       },
       {
         year: "2023",
         event: "Consolidation and High-Impact Projects",
-        icon: <Vote />,
+        icon: <TrendingUp />,
         description:
-          "This was a year of consolidation. We provided key <strong>advice and measurements in the Argentine Presidential Elections</strong>, demonstrating our ability to handle large-scale projects. Additionally, we developed <strong>demand trend projections</strong> for major Argentine Business Chambers, diversifying our field of action.",
+          "<p>This was a year of consolidation. We provided key <strong>advice and measurements in the Argentine Presidential Elections</strong>, demonstrating our ability to handle large-scale projects.</p><p class='mt-2'>Additionally, we developed <strong>demand trend projections</strong> for major Argentine Business Chambers, diversifying our field of action.</p>",
       },
       {
         year: "2024",
-        event: "Expansion and International Recognition",
-        icon: <Star />,
+        event: "International Expansion",
+        icon: <Globe />,
         description:
-          "Our experience opened doors to new challenges. We began <strong>advising Multilateral International Organizations</strong> and applied our projection models to the <strong>Mexico City Elections</strong>, validating our methodology in a new political and social context.",
+          "<p>Our experience opened doors to new challenges. We began <strong>advising Multilateral International Organizations</strong> and applied our projection models to the <strong>Mexico City Elections</strong>, validating our methodology in a new political and social context.</p>",
       },
       {
         year: "2025",
-        event: "Innovation and Future: The Recognition of Mila",
+        event: "Innovation and Recognition",
         icon: <Trophy />,
         description:
-          "Our commitment to transparency and innovation was recognized by being selected in the <strong>Top 20 of the CAF 'Zero Corruption' program</strong>. This milestone not only validates our work but also drives us to continue creating solutions like <strong>Mila</strong> that transform public management. Our passion and purpose guide us to build a more just and equitable future for all.",
+          "<p>Our commitment to transparency and innovation was recognized by being selected in the <strong>Top 20 of the CAF 'Zero Corruption' program</strong>.</p><p class='mt-2'>This milestone not only validates our work but also drives us to continue creating solutions like <strong>Mila</strong> that transform public management. Our passion and purpose guide us to build a more just and equitable future for all.</p>",
       },
     ],
   },
 };
 
-export function Milestones() {
+export type MilestoneItem = {
+  year: string;
+  event: string;
+  icon: React.ReactNode;
+  description: string;
+};
+
+type MilestonesProps = {
+  onActiveMilestoneChange: (milestone: MilestoneItem | null) => void;
+};
+
+export function Milestones({ onActiveMilestoneChange }: MilestonesProps) {
   const { language } = useLanguage();
   const c = milestonesContent[language];
-  const [openYear, setOpenYear] = useState<string | null>(c.items[0].year);
+  const milestoneRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const toggleYear = (year: string) => {
-    setOpenYear(prev => (prev === year ? null : year));
-  };
+  useEffect(() => {
+    onActiveMilestoneChange(c.items[0]);
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = milestoneRefs.current.indexOf(entry.target as HTMLDivElement);
+            if (index > -1) {
+              onActiveMilestoneChange(c.items[index]);
+            }
+          }
+        });
+      },
+      {
+        root: null, // viewport
+        rootMargin: '-50% 0px -50% 0px', // trigger when milestone is in the vertical center
+        threshold: 0,
+      }
+    );
+
+    milestoneRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      milestoneRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+      onActiveMilestoneChange(null);
+    };
+  }, [c.items, onActiveMilestoneChange]);
 
   return (
-    <Card className="glassmorphism p-6 md:p-8 w-full">
-      <CardHeader className="text-center p-0 mb-8">
-        <CardTitle className="text-3xl font-bold font-headline">
-          {c.title}
-        </CardTitle>
-      </CardHeader>
-      <div className="relative pl-8">
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-primary/20"></div>
-        {c.items.map((milestone, index) => {
-          const isOpen = openYear === milestone.year;
-          return (
-            <div key={index} className="mb-4 relative">
-              <div
-                className="absolute -left-[2px] top-0 flex items-center justify-center bg-primary text-primary-foreground rounded-full size-8 border-4 border-background cursor-pointer"
-                onClick={() => toggleYear(milestone.year)}
-              >
-                <div className="transform transition-transform duration-300">
-                  {milestone.icon}
-                </div>
-              </div>
-              <div className="ml-12">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-between items-center text-left p-0 h-auto"
-                  onClick={() => toggleYear(milestone.year)}
-                >
-                  <div>
-                    <p className="font-bold text-lg text-primary">{milestone.year}</p>
-                    <p className="text-md text-muted-foreground font-semibold">{milestone.event}</p>
-                  </div>
-                  <ChevronDown
-                    className={cn(
-                      "size-5 text-primary transition-transform duration-300",
-                      isOpen ? "rotate-180" : ""
-                    )}
-                  />
-                </Button>
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-500 ease-in-out",
-                    isOpen ? "max-h-[500px] pt-4" : "max-h-0 pt-0"
-                  )}
-                >
-                  <CardContent className="p-4 bg-primary/5 rounded-lg">
-                    <p
-                      className="text-sm text-muted-foreground"
-                      dangerouslySetInnerHTML={{ __html: milestone.description }}
-                    />
-                  </CardContent>
-                </div>
+    <div className="relative pl-8">
+      <div className="absolute left-[3.1rem] top-0 bottom-0 w-0.5 bg-primary/20" style={{ transform: "translateX(-50%)" }}></div>
+      {c.items.map((milestone, index) => {
+        return (
+          <div
+            key={index}
+            ref={(el) => (milestoneRefs.current[index] = el)}
+            className="mb-24 relative"
+          >
+            <div
+              className="absolute -left-1 top-0 flex items-center justify-center bg-primary text-primary-foreground rounded-full size-12 border-4 border-background"
+            >
+              <div className="transform transition-transform duration-300">
+                {milestone.icon}
               </div>
             </div>
-          );
-        })}
-      </div>
-    </Card>
+            <div className="ml-12">
+              <p className="font-bold text-2xl text-primary">{milestone.year}</p>
+              <p className="text-md text-muted-foreground font-semibold mt-1">{milestone.event}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
