@@ -1,4 +1,5 @@
 
+      
 "use client";
 import { useState } from 'react';
 import { TeamSection } from "@/components/experience/team-section";
@@ -216,11 +217,11 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      <section id="team" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+      <section id="team" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.teamTitle}</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">{c.teamTitle}</h2>
+            <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
               {c.teamSubtitle}
             </p>
           </div>
@@ -240,3 +241,5 @@ export default function ExperiencePage() {
     </>
   );
 }
+
+    
