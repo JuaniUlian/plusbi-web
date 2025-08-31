@@ -8,19 +8,39 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./logo";
 import { cn } from "@/lib/utils";
+import { LanguageSwitcher, useLanguage } from "@/contexts/language-context";
 
-const navItems = [
-  { href: "/", label: "Inicio" },
-  { href: "/products", label: "Productos" },
-  { href: "/experience", label: "Experiencia" },
-];
+const navItemsContent = {
+  es: [
+    { href: "/", label: "Inicio" },
+    { href: "/products", label: "Productos" },
+    { href: "/experience", label: "Experiencia" },
+  ],
+  en: [
+    { href: "/", label: "Home" },
+    { href: "/products", label: "Products" },
+    { href: "/experience", label: "Experience" },
+  ]
+}
+
+const headerContent = {
+  es: {
+    contact: "Contáctanos"
+  },
+  en: {
+    contact: "Contact Us"
+  }
+}
 
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language } = useLanguage();
+  const navItems = navItemsContent[language];
+  const c = headerContent[language];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
       <div className="container flex h-16 max-w-7xl items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-8 w-8 text-primary" />
@@ -41,8 +61,9 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
+           <LanguageSwitcher />
           <Button asChild className="hidden md:flex">
-             <a href="mailto:contacto@plusbi.com">Contáctanos</a>
+             <a href="mailto:contacto@plusbi.com">{c.contact}</a>
           </Button>
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
@@ -79,7 +100,7 @@ export function Header() {
                   ))}
                 </nav>
                  <Button asChild className="w-full mt-8">
-                    <a href="mailto:contacto@plusbi.com">Contáctanos</a>
+                    <a href="mailto:contacto@plusbi.com">{c.contact}</a>
                 </Button>
               </div>
             </SheetContent>

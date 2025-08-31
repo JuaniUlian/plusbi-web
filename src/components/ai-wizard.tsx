@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { recommendProduct } from "@/app/actions";
@@ -16,15 +16,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Lightbulb, Send, User, Mail, MessageSquare } from "lucide-react";
+import { Loader2, Lightbulb, Send, User, Mail, MessageSquare, Search } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 const wizardSchema = z.object({
-  goal: z.string().min(1, "Please select a goal."),
-  challenge: z.string().min(10, "Please describe your challenge briefly."),
+  need: z.string().min(10, "Please describe your needs in a few words."),
 });
 
 type WizardValues = z.infer<typeof wizardSchema>;
@@ -44,7 +41,7 @@ export default function AiWizard() {
   const { toast } = useToast();
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<WizardValues>({
@@ -57,8 +54,7 @@ export default function AiWizard() {
 
   const onWizardSubmit = async (data: WizardValues) => {
     setIsLoading(true);
-    const need = `Goal: ${data.goal}. Challenge: ${data.challenge}`;
-    const result = await recommendProduct({ need });
+    const result = await recommendProduct({ need: data.need });
 
     if (result.success && result.data) {
       setRecommendation(result.data);
@@ -85,69 +81,31 @@ export default function AiWizard() {
   }
 
   return (
-    <Card className="shadow-2xl w-full">
+    <Card className="shadow-2xl w-full glassmorphism">
       {step === "wizard" && (
         <form onSubmit={handleSubmit(onWizardSubmit)}>
-          <CardHeader>
-            <CardTitle>AI Recommendation Wizard</CardTitle>
-            <CardDescription>
-              Answer 2 questions to get a personalized product recommendation.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-3">
-              <Label>1. What is your main goal?</Label>
-              <Controller
-                name="goal"
-                control={control}
-                render={({ field }) => (
-                  <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {[
-                      "Predict trends with Big Data",
-                      "Automate and validate legal documents",
-                      "Streamline administrative processes",
-                      "Digitize paper-based workflows",
-                    ].map((goal) => (
-                      <div key={goal}>
-                        <RadioGroupItem value={goal} id={goal} className="peer sr-only" />
-                        <Label htmlFor={goal} className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                          {goal}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                )}
-              />
-              {errors.goal && <p className="text-sm text-destructive">{errors.goal.message}</p>}
+          <CardContent className="pt-6">
+             <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                <Input 
+                    {...register("need")} 
+                    placeholder="Tell us what you need, for example: 'I need to automate legal document validation'"
+                    className="pl-10 h-12 text-base"
+                />
+                 <Button type="submit" disabled={isLoading} className="absolute right-2 top-1/2 -translate-y-1/2 h-8">
+                    {isLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                       <Send className="h-4 w-4" />
+                    )}
+                     <span className="sr-only">Get Recommendation</span>
+                </Button>
             </div>
-            <div className="space-y-3">
-              <Label htmlFor="challenge">2. Briefly describe your current challenge.</Label>
-              <Controller
-                name="challenge"
-                control={control}
-                render={({ field }) => (
-                  <Textarea
-                    id="challenge"
-                    placeholder="e.g., 'Our current process for reviewing decrees is slow and prone to human error.'"
-                    {...field}
-                  />
-                )}
-              />
-              {errors.challenge && <p className="text-sm text-destructive">{errors.challenge.message}</p>}
-            </div>
+             {errors.need && <p className="text-sm text-destructive mt-2 text-left">{errors.need.message}</p>}
+             <p className="text-xs text-muted-foreground mt-3 text-left">
+                <strong>Some ideas:</strong> What is your main goal? What is your current challenge?
+            </p>
           </CardContent>
-          <CardFooter>
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Getting Recommendation...
-                </>
-              ) : (
-                "Get AI Recommendation"
-              )}
-            </Button>
-          </CardFooter>
         </form>
       )}
 

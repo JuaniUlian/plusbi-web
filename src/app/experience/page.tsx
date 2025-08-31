@@ -1,43 +1,53 @@
+"use client";
 import { TeamSection } from "@/components/experience/team-section";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Flag } from "lucide-react";
+import { useLanguage } from '@/contexts/language-context';
+import { Milestones } from "@/components/experience/milestones";
 
-const milestones = [
-  {
-    year: "2024",
-    events: [
-      "⭐ Advice to Multilateral International Organizations",
-      "🗳️ Projections for the Mexico City Elections",
-    ],
+const content = {
+  es: {
+    title: "Nuestra Experiencia",
+    subtitle: "Desde 2021, revolucionando la consultoría empresarial, política y social. Desarrollamos métodos y aplicaciones avanzadas para transformar la estrategia, la comunicación y la implementación de acciones basadas en información.",
+    historyTitle: "Nuestra historia",
+    historyP1: "PLUS BI se conformó en 2021, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban.",
+    historyP2: "Hoy, somos un equipo unido por una convicción profunda: cada avance hacia una gestión pública más transparente y participativa es un paso hacia una sociedad más justa.",
+    historyP3: "Nuestro equipo se distingue por integrar la innovación tecnológica con una visión profundamente humana. Analía y Pablo tienen una sólida trayectoria en modernización institucional, creando soluciones que abordan problemáticas complejas de manera estratégica y eficiente. Cristian y Juan, con su experiencia en políticas públicas y trabajo comunitario, se aseguran de que cada proyecto se construya sobre valores de empatía y participación real.",
+    milestonesTitle: "Hitos",
+    teamTitle: "El Equipo",
+    teamSubtitle: "Conoce a los expertos que impulsan la innovación en PLUS BI.",
+    ctaTitle: "¡Descubre cómo podemos ayudarte!",
+    ctaSubtitle: "Trabajemos juntos para construir una administración más eficiente y transparente.",
+    contactButton: "Contáctanos"
   },
-  {
-    year: "2023",
-    events: [
-      "🇦🇷 Advice and measurements in the Argentina’s Presidential Elections",
-      "📊 Projections of product demand trends for Argentine Business Chambers",
-    ],
-  },
-  {
-    year: "2022",
-    events: [
-      "🏛️ Advice on local political campaigns",
-      "🗺️ Voting intention measurements for local political campaigns",
-    ],
-  },
-];
+  en: {
+    title: "Our Experience",
+    subtitle: "Since 2021, revolutionizing business, political, and social consulting. We develop advanced methods and applications to transform strategy, communication, and implementation of information-based actions.",
+    historyTitle: "Our History",
+    historyP1: "PLUS BI was formed in 2021, and on the very first day, something just clicked. We discovered that our perspectives not only complemented each other, but amplified one another.",
+    historyP2: "Today, we are a team united by a deep conviction: every step towards a more transparent and participatory public management is a step towards a more just society.",
+    historyP3: "Our team stands out for integrating technological innovation with a profoundly human vision. Analía and Pablo have a solid track record in institutional modernization, creating solutions that address complex issues strategically and efficiently. Cristian and Juan, with their experience in public policy and community work, ensure that every project is built on values of empathy and real participation.",
+    milestonesTitle: "Milestones",
+    teamTitle: "The Team",
+    teamSubtitle: "Meet the experts driving innovation at PLUS BI.",
+    ctaTitle: "Find out how we can help you!",
+    ctaSubtitle: "Let's work together to build a more efficient and transparent administration.",
+    contactButton: "Contact Us"
+  }
+}
 
 export default function ExperiencePage() {
+  const { language } = useLanguage();
+  const c = content[language];
+
   return (
     <>
       <header className="py-20 bg-primary/10">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-primary-dark font-headline">
-            Our Experience
+            {c.title}
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Since 2021, revolutionizing business, political, and social consulting. We develop advanced methods and applications to transform strategy, communication, and implementation of information-based actions.
+            {c.subtitle}
           </p>
         </div>
       </header>
@@ -46,35 +56,14 @@ export default function ExperiencePage() {
         <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                     <h2 className="text-3xl font-bold font-headline mb-4">Nuestra historia</h2>
+                     <h2 className="text-3xl font-bold font-headline mb-4">{c.historyTitle}</h2>
                      <div className="space-y-4 text-muted-foreground">
-                        <p>PLUS BI se conformó en 2021, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban.</p>
-                        <p>Hoy, somos un equipo unido por una convicción profunda: cada avance hacia una gestión pública más transparente y participativa es un paso hacia una sociedad más justa.</p>
-                        <p>Nuestro equipo se distingue por integrar la innovación tecnológica con una visión profundamente humana. Analía y Pablo tienen una sólida trayectoria en modernización institucional, creando soluciones que abordan problemáticas complejas de manera estratégica y eficiente. Cristian y Juan, con su experiencia en políticas públicas y trabajo comunitario, se aseguran de que cada proyecto se construya sobre valores de empatía y participación real.</p>
+                        <p>{c.historyP1}</p>
+                        <p>{c.historyP2}</p>
+                        <p>{c.historyP3}</p>
                      </div>
                 </div>
-                 <Card className="shadow-lg">
-                    <CardHeader>
-                        <CardTitle>Milestones</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="relative border-l-2 border-primary/20 pl-6 space-y-10">
-                            {milestones.map((milestone, index) => (
-                                <div key={milestone.year} className="relative">
-                                    <div className="absolute -left-[34px] top-1 bg-primary rounded-full p-2">
-                                        <Flag className="text-primary-foreground size-5" />
-                                    </div>
-                                    <Badge variant="secondary" className="mb-2 text-base">{milestone.year}</Badge>
-                                    <ul className="list-none space-y-2 mt-2">
-                                        {milestone.events.map(event => (
-                                            <li key={event} className="text-muted-foreground">{event}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                <Milestones />
             </div>
         </div>
       </section>
@@ -82,9 +71,9 @@ export default function ExperiencePage() {
       <section id="team" className="py-16 md:py-24 bg-primary/5">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">The Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.teamTitle}</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Meet the experts driving innovation at PLUS BI.
+              {c.teamSubtitle}
             </p>
           </div>
           <TeamSection />
@@ -93,10 +82,10 @@ export default function ExperiencePage() {
 
       <section className="py-16 md:py-24 bg-background text-center">
           <div className="container mx-auto px-4">
-               <h2 className="text-3xl font-bold font-headline">Find out how we can help you!</h2>
-               <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">Let's work together to build a more efficient and transparent administration.</p>
+               <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
+               <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
                <Button asChild size="lg" className="mt-8">
-                <a href="mailto:contacto@plusbi.com">Contact Us</a>
+                <a href="mailto:contacto@plusbi.com">{c.contactButton}</a>
               </Button>
           </div>
       </section>

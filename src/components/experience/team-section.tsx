@@ -92,10 +92,10 @@ const teamMembers = [
                 <p className="text-muted-foreground mb-4">Especialista en sistemas de información y transformación digital, con sólida trayectoria en la implementación de sistemas de gestión documental y ciberseguridad en entornos universitarios y organismos públicos.</p>
                  <h4 className="font-semibold mt-4 mb-2">Experiencia destacada</h4>
                  <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                    <li>Desarrollo SINTyS y SUDOCU.</li>
-                    <li>Desarrollos para CAF, PNUD y BID.</li>
-                    <li>Certificadora ISO 9001 y 27001.</li>
-                    <li>Coordinadora de la Comisión de Ciberseguridad CIN.</li>
+                    <li>Development of electronic file systems.</li>
+                    <li>Developments for CAF, UNDP and IDB.</li>
+                    <li>ISO 9001 and 27001 certifier.</li>
+                    <li>Coordinator of the CIN Cybersecurity Commission.</li>
                  </ul>
             </div>
         )
@@ -107,11 +107,11 @@ const teamMembers = [
         initials: 'PM',
         content: (
              <div>
-                <p className="text-muted-foreground mb-4">Desarrollador fullstack con énfasis en la transformación digital de procesos administrativos. Experto en integrar soluciones tecnológicas para agilizar y transparentar trámites en el sector público.</p>
+                <p className="text-muted-foreground mb-4">Fullstack developer with an emphasis on the digital transformation of administrative processes. Expert in integrating technological solutions to streamline and make procedures in the public sector more transparent.</p>
                  <h4 className="font-semibold mt-4 mb-2">Experiencia destacada</h4>
                  <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                    <li>Desarrollo SINTyS y SUDOCU.</li>
-                    <li>Desarrollos para CAF, PNUD y BID.</li>
+                    <li>Development of electronic file systems.</li>
+                    <li>Developments for CAF, UNDP and IDB.</li>
                  </ul>
             </div>
         )

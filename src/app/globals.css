@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    --background: 231 60% 94%; /* #E8EAF6 */
-    --foreground: 231 48% 15%; /* Dark Blue */
+    --background: 231 60% 94%;
+    --foreground: 231 48% 15%;
     --card: 0 0% 100%;
     --card-foreground: 231 48% 15%;
     --popover: 0 0% 100%;
     --popover-foreground: 231 48% 15%;
-    --primary: 231 48% 48%; /* #3F51B5 */
+    --primary: 231 48% 48%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 231 30% 88%; /* Lighter blue */
+    --secondary: 231 30% 88%;
     --secondary-foreground: 231 48% 15%;
     --muted: 231 30% 88%;
     --muted-foreground: 231 20% 45%;
-    --accent: 261 32% 58%; /* #7E57C2 */
+    --accent: 261 32% 58%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -32,8 +32,8 @@
   }
  
   .dark {
-    --background: 231 48% 10%; /* Dark blue bg */
-    --foreground: 231 60% 94%; /* Light blue text */
+    --background: 231 48% 10%;
+    --foreground: 231 60% 94%;
     --card: 231 48% 15%;
     --card-foreground: 231 60% 94%;
     --popover: 231 48% 10%;
@@ -44,7 +44,7 @@
     --secondary-foreground: 231 60% 94%;
     --muted: 231 48% 20%;
     --muted-foreground: 231 20% 65%;
-    --accent: 261 42% 68%; /* Lighter purple */
+    --accent: 261 42% 68%;
     --accent-foreground: 231 48% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -62,5 +62,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .glassmorphism {
+    @apply bg-card/60 backdrop-blur-xl border-white/20;
   }
 }
