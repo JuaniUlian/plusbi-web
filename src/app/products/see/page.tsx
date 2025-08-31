@@ -130,7 +130,7 @@ export default function ElectronicFilePage() {
                 </div>
             </header>
             <main>
-                <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
@@ -177,24 +177,32 @@ export default function ElectronicFilePage() {
                                 )}
                             </div>
                         </Card>
-                        
-                        <div className="text-center mt-24 mb-12">
-                            <h3 className="text-2xl font-bold font-headline">{c.featuresTitle}</h3>
+                    </div>
+                </section>
+                
+                <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl font-bold font-headline text-white">{c.featuresTitle}</h3>
                         </div>
                         <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
                             {c.features.map(f => (
                                 <Card key={f.title} className="text-center glassmorphism p-6 flex flex-col items-center">
-                                  <div className="flex justify-center mb-4">{f.icon}</div>
+                                  <div className="flex justify-center mb-4 text-white">{f.icon}</div>
                                   <CardHeader className="p-0">
-                                    <h4 className="text-lg font-semibold">{f.title}</h4>
+                                    <h4 className="text-lg font-semibold text-white">{f.title}</h4>
                                   </CardHeader>
                                   <CardContent className="p-0 mt-2">
-                                    <p className="text-sm text-muted-foreground">{f.description}</p>
+                                    <p className="text-sm text-white/80">{f.description}</p>
                                   </CardContent>
                                 </Card>
                             ))}
                         </div>
+                    </div>
+                </section>
 
+                <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                    <div className="container mx-auto px-4">
                         <div className="text-center mb-12">
                             <h3 className="text-2xl font-bold font-headline">{c.benefitsTitle}</h3>
                         </div>
