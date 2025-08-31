@@ -38,24 +38,28 @@ const products = [
     description: 'Access huge volumes of data to make the best decisions.',
     icon: <Database className="size-8 text-primary" />,
     link: '/products/quest',
+    tag: 'Big Data'
   },
   {
     name: 'Mila',
     description: 'AI solution for governments that validates documents in minutes.',
     icon: <FileCheck2 className="size-8 text-primary" />,
     link: '/products/mila',
+    tag: 'AI Agent'
   },
   {
     name: 'Vuro',
     description: 'AI super-agent for public records, coming soon.',
     icon: <BrainCircuit className="size-8 text-primary" />,
     link: '/products/vuro',
+    tag: 'AI Agent'
   },
   {
     name: 'Sistema de Expediente Electrónico',
     description: 'We install, support, and train in electronic file systems.',
     icon: <Briefcase className="size-8 text-primary" />,
     link: '/products/see',
+    tag: 'Digitalización'
   },
 ];
 
@@ -78,17 +82,20 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product) => (
-              <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism">
+              <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
                 <CardHeader>
-                  <div className="mx-auto bg-primary/10 rounded-full size-16 flex items-center justify-center mb-4">
-                    {product.icon}
+                  <div className="flex justify-between items-center">
+                    <div className="mx-auto bg-primary/10 rounded-full size-16 flex items-center justify-center mb-4">
+                      {product.icon}
+                    </div>
                   </div>
                   <CardTitle>{product.name}</CardTitle>
+                   <Badge variant="secondary" className="w-fit mx-auto">{product.tag}</Badge>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p className="text-muted-foreground">{product.description}</p>
                 </CardContent>
-                 <CardFooter className="justify-center">
+                 <CardFooter className="justify-center mt-auto">
                    <Button asChild variant="link">
                      <Link href={product.link}>Learn More <ChevronRight className="size-4 ml-1" /></Link>
                    </Button>
@@ -113,7 +120,7 @@ export default function Home() {
                  <p className="text-muted-foreground italic">"Clear, simple language to understand what you're looking for and what product might serve you best, generating a contact lead."</p>
                </div>
             </div>
-            <div className='mt-8'>
+            <div className='mt-8 max-w-2xl mx-auto'>
               <AiWizard />
             </div>
         </div>

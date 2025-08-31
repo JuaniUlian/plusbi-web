@@ -9,10 +9,10 @@ import {
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/language-context';
+import Autoplay from "embla-carousel-autoplay"
+
 
 const achievementsContent = {
     es: {
@@ -57,6 +57,12 @@ export function AchievementsSection() {
                     </p>
                 </div>
                 <Carousel
+                    plugins={[
+                        Autoplay({
+                          delay: 2000,
+                          stopOnInteraction: true,
+                        }),
+                    ]}
                     opts={{
                         align: 'start',
                         loop: true,
@@ -67,15 +73,11 @@ export function AchievementsSection() {
                         {c.achievements.map((item, index) => (
                             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                 <div className="p-1 h-full">
-                                    <Card className="flex flex-col justify-between h-full shadow-lg hover:shadow-xl transition-shadow duration-300 glassmorphism">
-                                        <CardHeader>
-                                            <CardTitle className="text-4xl font-extrabold text-primary">
-                                                {item.value}
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <p className="text-base text-muted-foreground">{item.label}</p>
-                                        </CardContent>
+                                    <Card className="flex flex-col justify-center text-center items-center h-full shadow-lg hover:shadow-xl transition-shadow duration-300 glassmorphism p-6">
+                                        <p className="text-5xl font-extrabold text-primary">
+                                            {item.value}
+                                        </p>
+                                        <p className="text-base text-muted-foreground mt-2">{item.label}</p>
                                     </Card>
                                 </div>
                             </CarouselItem>

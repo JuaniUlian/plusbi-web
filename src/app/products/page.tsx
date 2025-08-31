@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const products = [
   {
@@ -21,24 +22,28 @@ const products = [
     description: 'Access huge volumes of data to make the best decisions.',
     icon: <Database className="size-10 text-primary" />,
     link: '/products/quest',
+    tag: 'Big Data'
   },
   {
     name: 'Mila',
     description: 'AI solution for governments that validates documents in minutes.',
     icon: <FileCheck2 className="size-10 text-primary" />,
     link: '/products/mila',
+    tag: 'AI Agent'
   },
   {
     name: 'Vuro',
     description: 'AI super-agent for public records, coming soon.',
     icon: <BrainCircuit className="size-10 text-primary" />,
     link: '/products/vuro',
+    tag: 'AI Agent'
   },
   {
     name: 'Sistema de Expediente Electrónico',
     description: 'We install, support, and train in electronic file systems.',
     icon: <Briefcase className="size-10 text-primary" />,
     link: '/products/see',
+    tag: 'Digitalización'
   },
 ];
 
@@ -65,7 +70,7 @@ export default function ProductsPage() {
                     {product.icon}
                   </div>
                   <div>
-                    <CardTitle>{product.name}</CardTitle>
+                    <CardTitle className="flex items-center gap-4">{product.name} <Badge variant="secondary">{product.tag}</Badge></CardTitle>
                      <p className="text-muted-foreground mt-2">{product.description}</p>
                   </div>
                 </CardHeader>
