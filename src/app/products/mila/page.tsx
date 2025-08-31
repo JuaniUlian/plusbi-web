@@ -16,8 +16,10 @@ import {
   Link2,
   Share2,
   Award,
+  Mail,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
+import { Button } from '@/components/ui/button';
 
 const content = {
   es: {
@@ -48,7 +50,10 @@ const content = {
       { text: "<strong>Entiende documentos públicos:</strong> Identifica contratos, decretos y resoluciones con lógica jurídico-administrativa." },
       { text: "<strong>Detecta riesgos, no solo errores:</strong> Clasifica las observaciones por riesgo legal, operativo o de control con un sistema de semáforo." },
       { text: "<strong>Diseñada para gobiernos:</strong> Cada función está diseñada para secretarías legales, equipos técnicos y áreas administrativas del estado." },
-    ]
+    ],
+    ctaTitle: "¿Listo para optimizar tus procesos?",
+    ctaSubtitle: "Descubre cómo Mila puede reducir errores, acelerar validaciones y fortalecer el control interno en tu organización.",
+    ctaButton: "Solicita una demo de Mila",
   },
   en: {
     badge: "AI Document Validation",
@@ -78,13 +83,22 @@ const content = {
       { text: "<strong>Understands Public Documents:</strong> Identifies contracts, decrees, and resolutions with legal-administrative logic." },
       { text: "<strong>Detects Risks, Not Just Errors:</strong> Classifies observations by legal, operational, or control risk with a traffic-light system." },
       { text: "<strong>Designed for Governments:</strong> Every feature is designed for legal secretariats, technical teams, and administrative areas of the state." },
-    ]
+    ],
+    ctaTitle: "Ready to optimize your processes?",
+    ctaSubtitle: "Discover how Mila can reduce errors, speed up validations, and strengthen internal control in your organization.",
+    ctaButton: "Request a Mila demo",
   }
 }
 
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
+
+  const generateMailto = () => {
+    const subject = `Solicitud de demo de ${c.title}`;
+    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
+    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   return (
     <>
@@ -97,54 +111,65 @@ export default function MilaPage() {
           </p>
         </div>
       </header>
-      <main className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-headline mb-4">{c.featuresTitle}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{c.featuresSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {c.features.map(item => (
-              <Card key={item.title} className="flex gap-4 p-6 items-start glassmorphism">
-                <div className="bg-primary/10 p-3 rounded-lg h-fit">{item.icon}</div>
-                <div>
-                  <h4 className="font-semibold text-lg">{item.title}</h4>
-                  <p className="text-muted-foreground text-sm mt-1">{item.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-          <div className="text-center mb-16">
-            <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              {c.results.map(item => (
-                <Card key={item.label} className="p-4 glassmorphism">
-                  <p className="text-4xl font-extrabold text-primary">{item.value}</p>
-                  <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
+      <main>
+        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+            <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold font-headline mb-4">{c.featuresTitle}</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">{c.featuresSubtitle}</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                {c.features.map(item => (
+                <Card key={item.title} className="flex gap-4 p-6 items-start glassmorphism">
+                    <div className="bg-primary/10 p-3 rounded-lg h-fit">{item.icon}</div>
+                    <div>
+                    <h4 className="font-semibold text-lg">{item.title}</h4>
+                    <p className="text-muted-foreground text-sm mt-1">{item.description}</p>
+                    </div>
                 </Card>
-              ))}
-            </div>
-          </div>
-          <Card className="grid md:grid-cols-2 gap-12 items-center bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
-            <div>
-              <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
-              <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
-              <ul className="mt-6 space-y-4">
-                {c.diffPoints.map((point, index) => (
-                   <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
                 ))}
-              </ul>
             </div>
-            <Image
-              src="/backgrounds/cuerpo.jpeg"
-              alt="Mila interface diagram"
-              width={500}
-              height={500}
-              className="rounded-lg"
-              data-ai-hint="interface diagram"
-            />
-          </Card>
-        </div>
+            <div className="text-center mb-16">
+                <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                {c.results.map(item => (
+                    <Card key={item.label} className="p-4 glassmorphism">
+                    <p className="text-4xl font-extrabold text-primary">{item.value}</p>
+                    <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
+                    </Card>
+                ))}
+                </div>
+            </div>
+            <Card className="grid md:grid-cols-2 gap-12 items-center bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
+                <div>
+                <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
+                <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
+                <ul className="mt-6 space-y-4">
+                    {c.diffPoints.map((point, index) => (
+                    <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
+                    ))}
+                </ul>
+                </div>
+                <Image
+                src="/backgrounds/cuerpo.jpeg"
+                alt="Mila interface diagram"
+                width={500}
+                height={500}
+                className="rounded-lg"
+                data-ai-hint="interface diagram"
+                />
+            </Card>
+            </div>
+        </section>
+         <section className="py-16 md:py-24 bg-primary/10 text-center">
+            <div className="container mx-auto px-4">
+                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
+                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
+                <Button asChild size="lg" className="mt-8">
+                    <a href={generateMailto()}>{c.ctaButton} <Mail className="ml-2"/></a>
+                </Button>
+            </div>
+        </section>
       </main>
     </>
   );

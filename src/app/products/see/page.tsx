@@ -20,8 +20,10 @@ import {
   Users,
   Lock,
   Leaf,
+  Mail,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
+import { Button } from '@/components/ui/button';
 
 const content = {
     es: {
@@ -65,6 +67,9 @@ const content = {
             { value: "+40k", label: "Usuarios" },
             { value: "+10 millones", label: "Documentos gestionados" },
         ],
+        ctaTitle: "¿Tu organización necesita digitalizarse?",
+        ctaSubtitle: "Deja atrás el papel y da el salto a la gestión digital. Contáctanos para una consulta.",
+        ctaButton: "Más información sobre Expediente Electrónico",
     },
     en: {
         badge: "Digital Transformation",
@@ -107,12 +112,21 @@ const content = {
             { value: "+40k", label: "Users" },
             { value: "+10 million", label: "Managed documents" },
         ],
+        ctaTitle: "Does your organization need to go digital?",
+        ctaSubtitle: "Leave paper behind and make the leap to digital management. Contact us for a consultation.",
+        ctaButton: "Learn more about Electronic File System",
     }
 };
 
 export default function ElectronicFilePage() {
     const { language } = useLanguage();
     const c = content[language];
+
+    const generateMailto = () => {
+        const subject = `Solicitud de información sobre ${c.title}`;
+        const body = `Estimados,\n\nMe gustaría recibir más información sobre el ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
+        return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
 
     return (
         <>
@@ -125,50 +139,61 @@ export default function ElectronicFilePage() {
                     </p>
                 </div>
             </header>
-            <main className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-2 gap-8 mb-16">
-                        <Card className="glassmorphism">
-                            <CardHeader><CardTitle>{c.challengeTitle}</CardTitle></CardHeader>
-                            <CardContent className="space-y-3 text-muted-foreground">
-                                {c.challengePoints.map(p => <p key={p.text} className="flex items-center gap-2">{p.icon} {p.text}</p>)}
-                            </CardContent>
-                        </Card>
-                        <Card className="border-primary bg-primary/5 glassmorphism">
-                            <CardHeader><CardTitle>{c.solutionTitle}</CardTitle></CardHeader>
-                            <CardContent className="space-y-3 text-foreground">
-                                {c.solutionPoints.map(p => <p key={p.text} className="flex items-center gap-2">{p.icon} {p.text}</p>)}
-                            </CardContent>
-                        </Card>
-                    </div>
-                    
-                    <div className="text-center mb-12">
-                        <h3 className="text-2xl font-bold font-headline">{c.featuresTitle}</h3>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
-                        {c.features.map(f => <Card key={f.title} className="text-center glassmorphism"><CardHeader className='justify-center'>{f.icon}</CardHeader><CardContent><h4>{f.title}</h4><p className="text-sm text-muted-foreground">{f.description}</p></CardContent></Card>)}
-                    </div>
+            <main>
+                <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                    <div className="container mx-auto px-4">
+                        <div className="grid md:grid-cols-2 gap-8 mb-16">
+                            <Card className="glassmorphism">
+                                <CardHeader><CardTitle>{c.challengeTitle}</CardTitle></CardHeader>
+                                <CardContent className="space-y-3 text-muted-foreground">
+                                    {c.challengePoints.map(p => <p key={p.text} className="flex items-center gap-2">{p.icon} {p.text}</p>)}
+                                </CardContent>
+                            </Card>
+                            <Card className="border-primary bg-primary/5 glassmorphism">
+                                <CardHeader><CardTitle>{c.solutionTitle}</CardTitle></CardHeader>
+                                <CardContent className="space-y-3 text-foreground">
+                                    {c.solutionPoints.map(p => <p key={p.text} className="flex items-center gap-2">{p.icon} {p.text}</p>)}
+                                </CardContent>
+                            </Card>
+                        </div>
+                        
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl font-bold font-headline">{c.featuresTitle}</h3>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+                            {c.features.map(f => <Card key={f.title} className="text-center glassmorphism"><CardHeader className='justify-center'>{f.icon}</CardHeader><CardContent><h4>{f.title}</h4><p className="text-sm text-muted-foreground">{f.description}</p></CardContent></Card>)}
+                        </div>
 
-                    <div className="text-center mb-12">
-                        <h3 className="text-2xl font-bold font-headline">{c.benefitsTitle}</h3>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
-                        {c.benefits.map(b => <Card key={b.title} className="text-center glassmorphism"><CardHeader className='justify-center'>{b.icon}</CardHeader><CardContent><h4>{b.title}</h4><p className="text-sm text-muted-foreground">{b.description}</p></CardContent></Card>)}
-                    </div>
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl font-bold font-headline">{c.benefitsTitle}</h3>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+                            {c.benefits.map(b => <Card key={b.title} className="text-center glassmorphism"><CardHeader className='justify-center'>{b.icon}</CardHeader><CardContent><h4>{b.title}</h4><p className="text-sm text-muted-foreground">{b.description}</p></CardContent></Card>)}
+                        </div>
 
-                    <div className="text-center mb-12">
-                        <h3 className="text-2xl font-bold font-headline">{c.kpisTitle}</h3>
-                        <p className="text-muted-foreground mt-2">{c.kpisSubtitle}</p>
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl font-bold font-headline">{c.kpisTitle}</h3>
+                            <p className="text-muted-foreground mt-2">{c.kpisSubtitle}</p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                            {c.kpis.map(kpi => (
+                                <div key={kpi.label} className="p-6 bg-background rounded-lg shadow-md text-center glassmorphism">
+                                    <p className="text-4xl font-extrabold text-primary">{kpi.value}</p>
+                                    <p className="text-sm text-muted-foreground mt-2 uppercase tracking-wider">{kpi.label}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                        {c.kpis.map(kpi => (
-                            <div key={kpi.label} className="p-6 bg-background rounded-lg shadow-md text-center glassmorphism">
-                                <p className="text-4xl font-extrabold text-primary">{kpi.value}</p>
-                                <p className="text-sm text-muted-foreground mt-2 uppercase tracking-wider">{kpi.label}</p>
-                            </div>
-                        ))}
+                </section>
+                <section className="py-16 md:py-24 bg-primary/10 text-center">
+                    <div className="container mx-auto px-4">
+                        <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
+                        <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
+                        <Button asChild size="lg" className="mt-8">
+                            <a href={generateMailto()}>{c.ctaButton} <Mail className="ml-2"/></a>
+                        </Button>
                     </div>
-                </div>
+                </section>
             </main>
         </>
     );

@@ -12,8 +12,10 @@ import {
   Fingerprint,
   Layers,
   BarChart2,
+  Mail,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
+import { Button } from '@/components/ui/button';
 
 const content = {
   es: {
@@ -29,7 +31,10 @@ const content = {
       { icon: <FileEdit className="size-8 text-primary mt-1 shrink-0"/>, title: "Lenguaje Natural", description: "Entrada en lenguaje natural: sube documentos y proporciona instrucciones simples." },
       { icon: <Fingerprint className="size-8 text-primary mt-1 shrink-0"/>, title: "Integración", description: "Se integra con plataformas de firma digital." },
       { icon: <BarChart2 className="size-8 text-primary mt-1 shrink-0"/>, title: "Panel de Control", description: "Panel de control en tiempo real para seguir el progreso." },
-    ]
+    ],
+    ctaTitle: "Sé el primero en conocer el futuro",
+    ctaSubtitle: "Vuro está en desarrollo. Déjanos tu contacto para recibir noticias y acceso anticipado.",
+    ctaButton: "Quiero saber más de Vuro",
   },
   en: {
     badge: "Coming Soon",
@@ -44,13 +49,22 @@ const content = {
       { icon: <FileEdit className="size-8 text-primary mt-1 shrink-0"/>, title: "Natural Language", description: "Natural language input: upload documents and provide simple instructions." },
       { icon: <Fingerprint className="size-8 text-primary mt-1 shrink-0"/>, title: "Integration", description: "Integrates with digital signature platforms." },
       { icon: <BarChart2 className="size-8 text-primary mt-1 shrink-0"/>, title: "Control Panel", description: "Real-time control panel for tracking progress." },
-    ]
+    ],
+    ctaTitle: "Be the first to know the future",
+    ctaSubtitle: "Vuro is under development. Leave us your contact to receive news and early access.",
+    ctaButton: "I want to know more about Vuro",
   }
 }
 
 export default function VuroPage() {
     const { language } = useLanguage();
     const c = content[language];
+
+    const generateMailto = () => {
+        const subject = `Interesado en Vuro`;
+        const body = `Estimados,\n\nMe gustaría recibir más información sobre el próximo lanzamiento de Vuro.\n\nSaludos.`;
+        return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
 
     return (
         <>
@@ -63,22 +77,33 @@ export default function VuroPage() {
                     </p>
                 </div>
             </header>
-            <main className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold font-headline">{c.futureTitle}</h2>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{c.futureSubtitle}</p>
+            <main>
+                <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold font-headline">{c.futureTitle}</h2>
+                            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{c.futureSubtitle}</p>
+                        </div>
+                        <Card className="glassmorphism">
+                            <CardContent className="p-10">
+                                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                    {c.features.map(feature => (
+                                        <div key={feature.title} className="flex gap-4 items-start">{feature.icon}<div><h4 className='font-semibold text-lg'>{feature.title}</h4><span>{feature.description}</span></div></div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
-                    <Card className="glassmorphism">
-                        <CardContent className="p-10">
-                            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                {c.features.map(feature => (
-                                    <div key={feature.title} className="flex gap-4 items-start">{feature.icon}<div><h4 className='font-semibold text-lg'>{feature.title}</h4><span>{feature.description}</span></div></div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-                 </div>
+                </section>
+                <section className="py-16 md:py-24 bg-primary/10 text-center">
+                    <div className="container mx-auto px-4">
+                        <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
+                        <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
+                        <Button asChild size="lg" className="mt-8">
+                            <a href={generateMailto()}>{c.ctaButton} <Mail className="ml-2"/></a>
+                        </Button>
+                    </div>
+                </section>
             </main>
         </>
     );

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import {
   ChevronRight,
+  Mail,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -44,7 +45,7 @@ const content = {
         description: 'Súper-agente de IA para expedientes públicos, próximamente.',
         icon: '/logo/plusbi.png',
         link: '/products/vuro',
-        tag: 'Automatización Total'
+tag: 'Automatización Total'
       },
       {
         name: 'Sistema de Expediente Electrónico',
@@ -55,12 +56,16 @@ const content = {
       },
     ],
     learnMore: "Conocer más",
+    contact: "Contactar",
     aiWizardSection: {
         badge: "Núcleo de IA",
         title: "Encuentra el Producto Adecuado",
         description: "Responde una simple pregunta y nuestro asistente de IA te recomendará el producto de PLUS BI que mejor se adapte a tus necesidades.",
         quote: "\"Lenguaje claro y simple para entender qué buscas y qué producto podría servirte, generando un lead de contacto.\""
-    }
+    },
+    ctaTitle: "¿Listo para transformar tu organización?",
+    ctaSubtitle: "Hablemos de cómo nuestras soluciones de GovTech pueden ayudarte a alcanzar tus objetivos de eficiencia, transparencia y modernización.",
+    ctaButton: "Agenda una reunión",
   },
   en: {
     productsTitle: "Our Products",
@@ -96,12 +101,16 @@ const content = {
       },
     ],
     learnMore: "Learn More",
+    contact: "Contact",
     aiWizardSection: {
         badge: "AI Core",
         title: "Find the Right Product",
         description: "Answer a simple question and our AI assistant will recommend the PLUS BI product that best suits your needs.",
         quote: "\"Clear, simple language to understand what you're looking for and what product might serve you best, generating a contact lead.\""
-    }
+    },
+    ctaTitle: "Ready to transform your organization?",
+    ctaSubtitle: "Let's talk about how our GovTech solutions can help you achieve your goals of efficiency, transparency, and modernization.",
+    ctaButton: "Schedule a meeting",
   }
 };
 
@@ -114,6 +123,12 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const generateMailto = (productName: string) => {
+    const subject = `Solicitud de demo de ${productName}`;
+    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${productName}.\n\nMe interesa porque...\n\nSaludos.`;
+    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
 
   return (
@@ -152,15 +167,28 @@ export default function Home() {
                 <CardContent className="flex-grow">
                   <p className="text-muted-foreground">{product.description}</p>
                 </CardContent>
-                 <CardFooter className="justify-center mt-auto">
-                   <Button asChild variant="link">
-                     <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
-                   </Button>
+                 <CardFooter className="justify-center mt-auto flex-col sm:flex-row gap-2">
+                    <Button asChild variant="link">
+                        <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
+                    </Button>
+                    <Button asChild>
+                        <a href={generateMailto(product.name)}>{c.contact} <Mail className="size-4 ml-1" /></a>
+                    </Button>
                  </CardFooter>
               </Card>
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="py-16 md:py-24 bg-background text-center" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4">
+               <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
+               <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
+               <Button asChild size="lg" className="mt-8">
+                <a href="mailto:contacto@plusbi.com">{c.ctaButton}</a>
+              </Button>
+          </div>
       </section>
     </div>
   );

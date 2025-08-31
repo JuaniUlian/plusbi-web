@@ -18,19 +18,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Lightbulb, Send, User, Mail, MessageSquare, Search } from "lucide-react";
+import { Loader2, Lightbulb, Send, User, Mail, MessageSquare, Search, ArrowRight } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { useLanguage } from "@/contexts/language-context";
+import Link from "next/link";
 
 const content = {
   es: {
     wizardSchema: z.object({
       need: z.string().min(10, "Por favor, describe tus necesidades en pocas palabras."),
-    }),
-    contactSchema: z.object({
-      name: z.string().min(2, "El nombre es requerido."),
-      email: z.string().email("Dirección de correo electrónico inválida."),
-      message: z.string().optional(),
     }),
     placeholderTexts: [
         "Necesito automatizar la validación de documentos legales",
@@ -46,27 +42,13 @@ const content = {
     errorDescription: "No se pudo obtener una recomendación. Por favor, inténtalo de nuevo.",
     aiRecommendation: "Recomendación de IA",
     basedOnNeeds: "Basado en tus necesidades, aquí está nuestra sugerencia.",
-    interested: "¿Interesado? Contáctanos",
+    learnMore: "Ver más",
+    contact: "Contactar",
     startOver: "Empezar de Nuevo",
-    contactUs: "Contáctanos",
-    contactAbout: "Hablemos sobre cómo",
-    contactHelp: "puede ayudarte. Por favor, proporciona tus datos de contacto.",
-    yourName: "Tu Nombre",
-    yourEmail: "Tu Email",
-    optionalMessage: "Mensaje opcional...",
-    sendMessage: "Enviar Mensaje",
-    back: "Volver",
-    thankYou: "¡Gracias!",
-    messageSent: "Tu mensaje ha sido enviado. Nos pondremos en contacto contigo en breve."
   },
   en: {
     wizardSchema: z.object({
       need: z.string().min(10, "Please describe your needs in a few words."),
-    }),
-    contactSchema: z.object({
-      name: z.string().min(2, "Name is required."),
-      email: z.string().email("Invalid email address."),
-      message: z.string().optional(),
     }),
     placeholderTexts: [
         "I need to automate legal document validation",
@@ -82,34 +64,29 @@ const content = {
     errorDescription: "Could not get a recommendation. Please try again.",
     aiRecommendation: "AI Recommendation",
     basedOnNeeds: "Based on your needs, here is our suggestion.",
-    interested: "Interested? Contact Us",
+    learnMore: "Learn More",
+    contact: "Contact",
     startOver: "Start Over",
-    contactUs: "Contact Us",
-    contactAbout: "Let's talk about how",
-    contactHelp: "can help you. Please provide your contact details.",
-    yourName: "Your Name",
-    yourEmail: "Your Email",
-    optionalMessage: "Optional message...",
-    sendMessage: "Send Message",
-    back: "Back",
-    thankYou: "Thank you!",
-    messageSent: "Your message has been sent. We will contact you shortly."
   }
+}
+
+const productLinks: Record<string, string> = {
+    'Quest': '/products/quest',
+    'Mila': '/products/mila',
+    'Vuro': '/products/vuro',
+    'Sistema de Expediente Electronico': '/products/see',
 }
 
 type WizardValuesEs = z.infer<typeof content.es.wizardSchema>;
 type WizardValuesEn = z.infer<typeof content.en.wizardSchema>;
-type ContactValuesEs = z.infer<typeof content.es.contactSchema>;
-type ContactValuesEn = z.infer<typeof content.en.contactSchema>;
 
 
 export default function AiWizard() {
   const { language } = useLanguage();
   const c = content[language];
   const wizardSchema = c.wizardSchema;
-  const contactSchema = c.contactSchema;
 
-  const [step, setStep] = useState<"wizard" | "result" | "contact">("wizard");
+  const [step, setStep] = useState<"wizard" | "result">("wizard");
   const [isLoading, setIsLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<ProductRecommendationOutput | null>(null);
   const { toast } = useToast();
@@ -124,7 +101,7 @@ export default function AiWizard() {
     handleSubmit,
     formState: { errors },
     watch,
-    resetField,
+    reset,
   } = useForm<WizardValuesEs | WizardValuesEn>({
     resolver: zodResolver(wizardSchema),
     defaultValues: { need: "" },
@@ -180,10 +157,6 @@ export default function AiWizard() {
     }
   }
 
-  const contactForm = useForm<ContactValuesEs | ContactValuesEn>({
-    resolver: zodResolver(contactSchema),
-  });
-
   const onWizardSubmit = async (data: WizardValuesEs | WizardValuesEn) => {
     setIsLoading(true);
     const result = await recommendProduct({ need: data.need });
@@ -200,17 +173,20 @@ export default function AiWizard() {
     }
     setIsLoading(false);
   };
-  
-  const onContactSubmit = (data: ContactValuesEs | ContactValuesEn) => {
-    console.log("Lead captured:", data);
-    toast({
-      title: c.thankYou,
-      description: c.messageSent,
-    });
-    contactForm.reset();
+
+  const handleStartOver = () => {
     setStep("wizard");
     setRecommendation(null);
+    reset();
   }
+
+  const generateMailto = (productName: string) => {
+    const subject = `Solicitud de demo de ${productName}`;
+    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${productName}.\n\nMe interesa porque...\n\nSaludos.`;
+    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+  
+  const recommendedProductLink = recommendation ? productLinks[recommendation.recommendedProduct] : '#';
 
   return (
     <Card className="shadow-2xl w-full glassmorphism">
@@ -258,43 +234,18 @@ export default function AiWizard() {
                     <p className="mt-2 text-sm text-muted-foreground">{recommendation.reason}</p>
                 </div>
             </CardContent>
-            <CardFooter className="flex-col sm:flex-row gap-2">
-                 <Button onClick={() => setStep("contact")} className="w-full">{c.interested}</Button>
-                <Button variant="outline" onClick={() => { setStep("wizard"); setRecommendation(null); resetField("need"); }} className="w-full">{c.startOver}</Button>
+            <CardFooter className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <Button asChild variant="outline" className="w-full">
+                    <Link href={recommendedProductLink}>{c.learnMore} <ArrowRight /></Link>
+                </Button>
+                <Button asChild className="w-full">
+                    <a href={generateMailto(recommendation.recommendedProduct)}>{c.contact} <Mail /></a>
+                </Button>
+                <Button variant="ghost" onClick={handleStartOver} className="w-full sm:col-span-3">{c.startOver}</Button>
             </CardFooter>
         </>
       )}
 
-      {step === "contact" && (
-         <form onSubmit={contactForm.handleSubmit(onContactSubmit)}>
-            <CardHeader>
-                <CardTitle>{c.contactUs}</CardTitle>
-                <CardDescription>
-                {c.contactAbout} <strong>{recommendation?.recommendedProduct}</strong> {c.contactHelp}
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                 <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input {...contactForm.register("name")} placeholder={c.yourName} className="pl-8"/>
-                    {contactForm.formState.errors.name && <p className="text-sm text-destructive mt-1">{contactForm.formState.errors.name.message}</p>}
-                </div>
-                <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input {...contactForm.register("email")} placeholder={c.yourEmail} className="pl-8"/>
-                    {contactForm.formState.errors.email && <p className="text-sm text-destructive mt-1">{contactForm.formState.errors.email.message}</p>}
-                </div>
-                 <div className="relative">
-                    <MessageSquare className="absolute left-3 top-4 text-muted-foreground h-4 w-4" />
-                    <Textarea {...contactForm.register("message")} placeholder={c.optionalMessage} className="pl-8"/>
-                </div>
-            </CardContent>
-            <CardFooter className="flex-col sm:flex-row gap-2">
-                <Button type="submit" disabled={contactForm.formState.isSubmitting} className="w-full"><Send className="mr-2 h-4 w-4"/>{c.sendMessage}</Button>
-                <Button variant="ghost" onClick={() => setStep("result")} className="w-full">{c.back}</Button>
-            </CardFooter>
-        </form>
-      )}
     </Card>
   );
 }
