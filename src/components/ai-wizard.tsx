@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -19,29 +20,95 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Lightbulb, Send, User, Mail, MessageSquare, Search } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import { useLanguage } from "@/contexts/language-context";
 
-const wizardSchema = z.object({
-  need: z.string().min(10, "Please describe your needs in a few words."),
-});
+const content = {
+  es: {
+    wizardSchema: z.object({
+      need: z.string().min(10, "Por favor, describe tus necesidades en pocas palabras."),
+    }),
+    contactSchema: z.object({
+      name: z.string().min(2, "El nombre es requerido."),
+      email: z.string().email("Dirección de correo electrónico inválida."),
+      message: z.string().optional(),
+    }),
+    placeholderTexts: [
+        "Necesito automatizar la validación de documentos legales",
+        "¿Cómo puedo analizar grandes volúmenes de datos?",
+        "Quiero digitalizar mis procesos en papel",
+        "Necesitamos mejorar nuestros sistemas de control interno",
+    ],
+    staticPlaceholder: "Cuéntanos qué necesitas...",
+    getRecommendation: "Obtener Recomendación",
+    ideas: "Algunas ideas:",
+    ideasText: "¿Cuál es tu objetivo principal? ¿Cuál es tu desafío actual?",
+    errorTitle: "Error",
+    errorDescription: "No se pudo obtener una recomendación. Por favor, inténtalo de nuevo.",
+    aiRecommendation: "Recomendación de IA",
+    basedOnNeeds: "Basado en tus necesidades, aquí está nuestra sugerencia.",
+    interested: "¿Interesado? Contáctanos",
+    startOver: "Empezar de Nuevo",
+    contactUs: "Contáctanos",
+    contactAbout: "Hablemos sobre cómo",
+    contactHelp: "puede ayudarte. Por favor, proporciona tus datos de contacto.",
+    yourName: "Tu Nombre",
+    yourEmail: "Tu Email",
+    optionalMessage: "Mensaje opcional...",
+    sendMessage: "Enviar Mensaje",
+    back: "Volver",
+    thankYou: "¡Gracias!",
+    messageSent: "Tu mensaje ha sido enviado. Nos pondremos en contacto contigo en breve."
+  },
+  en: {
+    wizardSchema: z.object({
+      need: z.string().min(10, "Please describe your needs in a few words."),
+    }),
+    contactSchema: z.object({
+      name: z.string().min(2, "Name is required."),
+      email: z.string().email("Invalid email address."),
+      message: z.string().optional(),
+    }),
+    placeholderTexts: [
+        "I need to automate legal document validation",
+        "How can I analyze large volumes of data?",
+        "I want to digitize my paper-based processes",
+        "We need to improve our internal control systems",
+    ],
+    staticPlaceholder: "Tell us what you need...",
+    getRecommendation: "Get Recommendation",
+    ideas: "Some ideas:",
+    ideasText: "What is your main goal? What is your current challenge?",
+    errorTitle: "Error",
+    errorDescription: "Could not get a recommendation. Please try again.",
+    aiRecommendation: "AI Recommendation",
+    basedOnNeeds: "Based on your needs, here is our suggestion.",
+    interested: "Interested? Contact Us",
+    startOver: "Start Over",
+    contactUs: "Contact Us",
+    contactAbout: "Let's talk about how",
+    contactHelp: "can help you. Please provide your contact details.",
+    yourName: "Your Name",
+    yourEmail: "Your Email",
+    optionalMessage: "Optional message...",
+    sendMessage: "Send Message",
+    back: "Back",
+    thankYou: "Thank you!",
+    messageSent: "Your message has been sent. We will contact you shortly."
+  }
+}
 
-type WizardValues = z.infer<typeof wizardSchema>;
+type WizardValuesEs = z.infer<typeof content.es.wizardSchema>;
+type WizardValuesEn = z.infer<typeof content.en.wizardSchema>;
+type ContactValuesEs = z.infer<typeof content.es.contactSchema>;
+type ContactValuesEn = z.infer<typeof content.en.contactSchema>;
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is required."),
-  email: z.string().email("Invalid email address."),
-  message: z.string().optional(),
-});
-
-type ContactValues = z.infer<typeof contactSchema>;
-
-const placeholderTexts = [
-    "I need to automate legal document validation",
-    "How can I analyze large volumes of data?",
-    "I want to digitize my paper-based processes",
-    "We need to improve our internal control systems",
-];
 
 export default function AiWizard() {
+  const { language } = useLanguage();
+  const c = content[language];
+  const wizardSchema = c.wizardSchema;
+  const contactSchema = c.contactSchema;
+
   const [step, setStep] = useState<"wizard" | "result" | "contact">("wizard");
   const [isLoading, setIsLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<ProductRecommendationOutput | null>(null);
@@ -58,7 +125,7 @@ export default function AiWizard() {
     formState: { errors },
     watch,
     resetField,
-  } = useForm<WizardValues>({
+  } = useForm<WizardValuesEs | WizardValuesEn>({
     resolver: zodResolver(wizardSchema),
     defaultValues: { need: "" },
   });
@@ -67,7 +134,7 @@ export default function AiWizard() {
 
   useEffect(() => {
     const type = () => {
-      const fullText = placeholderTexts[placeholderIndex.current];
+      const fullText = c.placeholderTexts[placeholderIndex.current];
       if (isTyping) {
         if (placeholder.length < fullText.length) {
           setPlaceholder(fullText.substring(0, placeholder.length + 1));
@@ -82,13 +149,15 @@ export default function AiWizard() {
           typingTimeout.current = setTimeout(type, 50);
         } else {
           setIsTyping(true);
-          placeholderIndex.current = (placeholderIndex.current + 1) % placeholderTexts.length;
+          placeholderIndex.current = (placeholderIndex.current + 1) % c.placeholderTexts.length;
         }
       }
     };
 
     if (!userNeed) {
       typingTimeout.current = setTimeout(type, 100);
+    } else {
+        if (typingTimeout.current) clearTimeout(typingTimeout.current);
     }
 
     return () => {
@@ -96,26 +165,26 @@ export default function AiWizard() {
         clearTimeout(typingTimeout.current);
       }
     };
-  }, [placeholder, isTyping, userNeed]);
+  }, [placeholder, isTyping, userNeed, c.placeholderTexts]);
 
   const handleFocus = () => {
     if (typingTimeout.current) clearTimeout(typingTimeout.current);
-    setPlaceholder("Tell us what you need..."); // Static placeholder on focus
+    setPlaceholder(c.staticPlaceholder);
   };
 
   const handleBlur = () => {
     if (!userNeed) {
-        setPlaceholder(""); // Restart animation
+        setPlaceholder("");
         setIsTyping(true);
-        placeholderIndex.current = (placeholderIndex.current + 1) % placeholderTexts.length;
+        placeholderIndex.current = (placeholderIndex.current + 1) % c.placeholderTexts.length;
     }
   }
 
-  const contactForm = useForm<ContactValues>({
+  const contactForm = useForm<ContactValuesEs | ContactValuesEn>({
     resolver: zodResolver(contactSchema),
   });
 
-  const onWizardSubmit = async (data: WizardValues) => {
+  const onWizardSubmit = async (data: WizardValuesEs | WizardValuesEn) => {
     setIsLoading(true);
     const result = await recommendProduct({ need: data.need });
 
@@ -125,18 +194,18 @@ export default function AiWizard() {
     } else {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: result.error || "Could not get a recommendation. Please try again.",
+        title: c.errorTitle,
+        description: result.error || c.errorDescription,
       });
     }
     setIsLoading(false);
   };
   
-  const onContactSubmit = (data: ContactValues) => {
+  const onContactSubmit = (data: ContactValuesEs | ContactValuesEn) => {
     console.log("Lead captured:", data);
     toast({
-      title: "Thank you!",
-      description: "Your message has been sent. We will contact you shortly.",
+      title: c.thankYou,
+      description: c.messageSent,
     });
     contactForm.reset();
     setStep("wizard");
@@ -164,12 +233,12 @@ export default function AiWizard() {
                     ) : (
                        <Send className="h-4 w-4" />
                     )}
-                     <span className="sr-only">Get Recommendation</span>
+                     <span className="sr-only">{c.getRecommendation}</span>
                 </Button>
             </div>
              {errors.need && <p className="text-sm text-destructive mt-2 text-left">{errors.need.message}</p>}
              <p className="text-xs text-muted-foreground mt-3 text-left">
-                <strong>Some ideas:</strong> What is your main goal? What is your current challenge?
+                <strong>{c.ideas}</strong> {c.ideasText}
             </p>
           </CardContent>
         </form>
@@ -178,9 +247,9 @@ export default function AiWizard() {
       {step === "result" && recommendation && (
         <>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> AI Recommendation</CardTitle>
+                <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> {c.aiRecommendation}</CardTitle>
                 <CardDescription>
-                Based on your needs, here is our suggestion.
+                {c.basedOnNeeds}
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -190,8 +259,8 @@ export default function AiWizard() {
                 </div>
             </CardContent>
             <CardFooter className="flex-col sm:flex-row gap-2">
-                 <Button onClick={() => setStep("contact")} className="w-full">Interested? Contact Us</Button>
-                <Button variant="outline" onClick={() => { setStep("wizard"); setRecommendation(null); resetField("need"); }} className="w-full">Start Over</Button>
+                 <Button onClick={() => setStep("contact")} className="w-full">{c.interested}</Button>
+                <Button variant="outline" onClick={() => { setStep("wizard"); setRecommendation(null); resetField("need"); }} className="w-full">{c.startOver}</Button>
             </CardFooter>
         </>
       )}
@@ -199,30 +268,30 @@ export default function AiWizard() {
       {step === "contact" && (
          <form onSubmit={contactForm.handleSubmit(onContactSubmit)}>
             <CardHeader>
-                <CardTitle>Contact Us</CardTitle>
+                <CardTitle>{c.contactUs}</CardTitle>
                 <CardDescription>
-                Let's talk about how <strong>{recommendation?.recommendedProduct}</strong> can help you. Please provide your contact details.
+                {c.contactAbout} <strong>{recommendation?.recommendedProduct}</strong> {c.contactHelp}
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                  <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input {...contactForm.register("name")} placeholder="Your Name" className="pl-8"/>
+                    <Input {...contactForm.register("name")} placeholder={c.yourName} className="pl-8"/>
                     {contactForm.formState.errors.name && <p className="text-sm text-destructive mt-1">{contactForm.formState.errors.name.message}</p>}
                 </div>
                 <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input {...contactForm.register("email")} placeholder="Your Email" className="pl-8"/>
+                    <Input {...contactForm.register("email")} placeholder={c.yourEmail} className="pl-8"/>
                     {contactForm.formState.errors.email && <p className="text-sm text-destructive mt-1">{contactForm.formState.errors.email.message}</p>}
                 </div>
                  <div className="relative">
                     <MessageSquare className="absolute left-3 top-4 text-muted-foreground h-4 w-4" />
-                    <Textarea {...contactForm.register("message")} placeholder="Optional message..." className="pl-8"/>
+                    <Textarea {...contactForm.register("message")} placeholder={c.optionalMessage} className="pl-8"/>
                 </div>
             </CardContent>
             <CardFooter className="flex-col sm:flex-row gap-2">
-                <Button type="submit" disabled={contactForm.formState.isSubmitting} className="w-full"><Send className="mr-2 h-4 w-4"/> Send Message</Button>
-                <Button variant="ghost" onClick={() => setStep("result")} className="w-full">Back</Button>
+                <Button type="submit" disabled={contactForm.formState.isSubmitting} className="w-full"><Send className="mr-2 h-4 w-4"/>{c.sendMessage}</Button>
+                <Button variant="ghost" onClick={() => setStep("result")} className="w-full">{c.back}</Button>
             </CardFooter>
         </form>
       )}

@@ -1,3 +1,5 @@
+
+'use client';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -6,7 +8,6 @@ import {
   ChevronRight,
   Database,
   Briefcase,
-  Flag,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,55 +18,102 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 import { Badge } from '@/components/ui/badge';
 import AiWizard from '@/components/ai-wizard';
-import { HomeContent } from '@/content/home-content';
-import { LanguageSwitcher, useLanguage } from '@/contexts/language-context';
+import { useLanguage } from '@/contexts/language-context';
 import { TeamSection } from '@/components/home/team-section';
 import { AchievementsSection } from '@/components/home/achievements-section';
 import { HeroSection } from '@/components/home/hero-section';
-import Autoplay from 'embla-carousel-autoplay';
 
-const products = [
-  {
-    name: 'Quest',
-    description: 'Access huge volumes of data to make the best decisions.',
-    icon: <Database className="size-8 text-primary" />,
-    link: '/products/quest',
-    tag: 'Análisis de Datos'
+const content = {
+  es: {
+    productsTitle: "Nuestros Productos",
+    productsSubtitle: "Desarrollamos herramientas avanzadas para transformar la estrategia, la comunicación y la implementación de acciones basadas en información.",
+    products: [
+      {
+        name: 'Quest',
+        description: 'Accede a enormes volúmenes de datos para tomar las mejores decisiones.',
+        icon: <Database className="size-8 text-primary" />,
+        link: '/products/quest',
+        tag: 'Análisis de Datos'
+      },
+      {
+        name: 'Mila',
+        description: 'Solución con IA para gobiernos que valida documentos en minutos.',
+        icon: <FileCheck2 className="size-8 text-primary" />,
+        link: '/products/mila',
+        tag: 'Validación con IA'
+      },
+      {
+        name: 'Vuro',
+        description: 'Súper-agente de IA para expedientes públicos, próximamente.',
+        icon: <BrainCircuit className="size-8 text-primary" />,
+        link: '/products/vuro',
+        tag: 'Automatización con IA'
+      },
+      {
+        name: 'Sistema de Expediente Electrónico',
+        description: 'Instalamos, damos soporte y capacitamos en sistemas de expedientes electrónicos.',
+        icon: <Briefcase className="size-8 text-primary" />,
+        link: '/products/see',
+        tag: 'Transformación Digital'
+      },
+    ],
+    learnMore: "Conocer más",
+    aiWizardSection: {
+        badge: "Núcleo de IA",
+        title: "Encuentra el Producto Adecuado para tus Necesidades",
+        description: "Como empresa AI-Core, queremos ayudarte desde el primer momento. Responde una simple pregunta y nuestro asistente de IA te recomendará el producto de PLUS BI que mejor se adapte a tus necesidades.",
+        quote: "\"Lenguaje claro y simple para entender qué buscas y qué producto podría servirte, generando un lead de contacto.\""
+    }
   },
-  {
-    name: 'Mila',
-    description: 'AI solution for governments that validates documents in minutes.',
-    icon: <FileCheck2 className="size-8 text-primary" />,
-    link: '/products/mila',
-    tag: 'Validación con IA'
-  },
-  {
-    name: 'Vuro',
-    description: 'AI super-agent for public records, coming soon.',
-    icon: <BrainCircuit className="size-8 text-primary" />,
-    link: '/products/vuro',
-    tag: 'Automatización con IA'
-  },
-  {
-    name: 'Sistema de Expediente Electrónico',
-    description: 'We install, support, and train in electronic file systems.',
-    icon: <Briefcase className="size-8 text-primary" />,
-    link: '/products/see',
-    tag: 'Transformación Digital'
-  },
-];
+  en: {
+    productsTitle: "Our Products",
+    productsSubtitle: "We develop advanced tools to transform strategy, communication, and implementation of actions based on information.",
+    products: [
+      {
+        name: 'Quest',
+        description: 'Access huge volumes of data to make the best decisions.',
+        icon: <Database className="size-8 text-primary" />,
+        link: '/products/quest',
+        tag: 'Data Analysis'
+      },
+      {
+        name: 'Mila',
+        description: 'AI solution for governments that validates documents in minutes.',
+        icon: <FileCheck2 className="size-8 text-primary" />,
+        link: '/products/mila',
+        tag: 'AI Validation'
+      },
+      {
+        name: 'Vuro',
+        description: 'AI super-agent for public records, coming soon.',
+        icon: <BrainCircuit className="size-8 text-primary" />,
+        link: '/products/vuro',
+        tag: 'AI Automation'
+      },
+      {
+        name: 'Electronic File System',
+        description: 'We install, support, and train in electronic file systems.',
+        icon: <Briefcase className="size-8 text-primary" />,
+        link: '/products/see',
+        tag: 'Digital Transformation'
+      },
+    ],
+    learnMore: "Learn More",
+    aiWizardSection: {
+        badge: "AI Core",
+        title: "Find the Right Product for Your Needs",
+        description: "As an AI-Core company, we want to help you from the very first moment. Answer a simple question and our AI assistant will recommend the PLUS BI product that best suits your needs.",
+        quote: "\"Clear, simple language to understand what you're looking for and what product might serve you best, generating a contact lead.\""
+    }
+  }
+};
 
 
 export default function Home() {
+  const { language } = useLanguage();
+  const c = content[language];
 
   return (
     <div className="flex flex-col">
@@ -76,13 +124,13 @@ export default function Home() {
       <section id="products" className="py-16 md:py-24 bg-primary/10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">What We Do</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.productsTitle}</h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              We develop advanced tools to transform strategy, communication, and implementation of actions based on information.
+              {c.productsSubtitle}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.map((product) => (
+            {c.products.map((product) => (
               <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
                 <CardHeader>
                   <div className="flex justify-between items-center">
@@ -98,7 +146,7 @@ export default function Home() {
                 </CardContent>
                  <CardFooter className="justify-center mt-auto">
                    <Button asChild variant="link">
-                     <Link href={product.link}>Learn More <ChevronRight className="size-4 ml-1" /></Link>
+                     <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
                    </Button>
                  </CardFooter>
               </Card>
@@ -110,15 +158,15 @@ export default function Home() {
       <section id="ai-wizard" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-              <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground">AI Core</Badge>
+              <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground">{c.aiWizardSection.badge}</Badge>
               <h2 className="text-3xl md:text-4xl font-bold font-headline">
-                Find the Right Product for Your Needs
+                {c.aiWizardSection.title}
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                As an AI-Core company, we want to help you from the very first moment. Answer three simple questions and our AI assistant will recommend the PLUS BI product that best suits your needs.
+                {c.aiWizardSection.description}
               </p>
                <div className="mt-6 border-l-4 border-primary pl-4 text-left">
-                 <p className="text-muted-foreground italic">"Clear, simple language to understand what you're looking for and what product might serve you best, generating a contact lead."</p>
+                 <p className="text-muted-foreground italic">{c.aiWizardSection.quote}</p>
                </div>
             </div>
             <div className='mt-8 max-w-2xl mx-auto'>
