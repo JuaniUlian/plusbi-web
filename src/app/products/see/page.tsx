@@ -21,32 +21,27 @@ import {
   Lock,
   Leaf,
   Mail,
+  ArrowRight,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 const content = {
     es: {
         badge: "Transformación Digital",
         title: "Sistema de Expediente Electrónico",
         subtitle: "Modernizando tus procesos para mejorar radicalmente la eficiencia. Instalamos, damos soporte y capacitamos en sistemas de expedientes electrónicos.",
-        challengeTitle: "El Desafío: Gestión Basada en Papel",
-        challengePoints: [
-            { icon: <Zap className="text-destructive size-5" />, text: "Ineficiencia y Lentitud" },
-            { icon: <DollarSign className="text-destructive size-5" />, text: "Altos Costos Operativos" },
-            { icon: <Eye className="text-destructive size-5" />, text: "Baja Transparencia" },
-            { icon: <Users className="text-destructive size-5" />, text: "Accesibilidad Limitada" },
-            { icon: <Lock className="text-destructive size-5" />, text: "Seguridad Deficiente" },
-            { icon: <Leaf className="text-destructive size-5" />, text: "Impacto Ambiental" },
-        ],
-        solutionTitle: "La Solución: Digitalización",
-        solutionPoints: [
-            { icon: <Zap className="text-green-600 size-5" />, text: "Velocidad y Resultados" },
-            { icon: <DollarSign className="text-green-600 size-5" />, text: "Bajos Costos Operativos" },
-            { icon: <Eye className="text-green-600 size-5" />, text: "Trazabilidad Completa" },
-            { icon: <Cloud className="text-green-600 size-5" />, text: "Acceso Distribuido" },
-            { icon: <Lock className="text-green-600 size-5" />, text: "Altos Niveles de Seguridad" },
-            { icon: <Leaf className="text-green-600 size-5" />, text: "Responsabilidad Ecológica" },
+        interactiveTitle: "Del Problema a la Solución",
+        interactiveSubtitle: "Haz clic en un desafío para descubrir cómo lo solucionamos.",
+        challenges: [
+            { id: 'efficiency', challenge: "Ineficiencia y Lentitud", solution: "Velocidad y Resultados", description: "Digitalizamos los flujos de trabajo para agilizar trámites, reduciendo drásticamente los tiempos de espera y optimizando los procesos internos.", icon: <Zap className="text-green-600 size-6" /> },
+            { id: 'costs', challenge: "Altos Costos Operativos", solution: "Bajos Costos Operativos", description: "Eliminamos gastos de impresión, almacenamiento físico y logística de documentos, generando ahorros significativos para la institución.", icon: <DollarSign className="text-green-600 size-6" /> },
+            { id: 'transparency', challenge: "Baja Transparencia", solution: "Trazabilidad Completa", description: "Cada paso queda registrado. Nuestro sistema ofrece una trazabilidad total que permite auditorías rápidas y fomenta la confianza ciudadana.", icon: <Eye className="text-green-600 size-6" /> },
+            { id: 'accessibility', challenge: "Accesibilidad Limitada", solution: "Acceso Distribuido", description: "Accede a la información desde cualquier lugar y en cualquier momento a través de un portal seguro y centralizado.", icon: <Cloud className="text-green-600 size-6" /> },
+            { id: 'security', challenge: "Seguridad Deficiente", solution: "Altos Niveles de Seguridad", description: "Con encriptación de punta a punta y controles de acceso robustos, garantizamos la integridad y confidencialidad de la información.", icon: <Lock className="text-green-600 size-6" /> },
+            { id: 'environment', challenge: "Impacto Ambiental", solution: "Responsabilidad Ecológica", description: "Al eliminar el papel, reducimos la huella de carbono y promovemos una gestión pública más sostenible y responsable.", icon: <Leaf className="text-green-600 size-6" /> },
         ],
         featuresTitle: "Características Clave",
         features: [
@@ -75,23 +70,15 @@ const content = {
         badge: "Digital Transformation",
         title: "Electronic File System",
         subtitle: "Modernizing your processes to radically improve efficiency. We install, support, and train on electronic file systems.",
-        challengeTitle: "The Challenge: Paper-Based Management",
-        challengePoints: [
-            { icon: <Zap className="text-destructive size-5" />, text: "Inefficiency and Slowness" },
-            { icon: <DollarSign className="text-destructive size-5" />, text: "High Operational Costs" },
-            { icon: <Eye className="text-destructive size-5" />, text: "Low Transparency" },
-            { icon: <Users className="text-destructive size-5" />, text: "Limited Accessibility" },
-            { icon: <Lock className="text-destructive size-5" />, text: "Poor Security" },
-            { icon: <Leaf className="text-destructive size-5" />, text: "Environmental Impact" },
-        ],
-        solutionTitle: "The Solution: Digitalization",
-        solutionPoints: [
-            { icon: <Zap className="text-green-600 size-5" />, text: "Speed and Results" },
-            { icon: <DollarSign className="text-green-600 size-5" />, text: "Low Operational Costs" },
-            { icon: <Eye className="text-green-600 size-5" />, text: "Full Traceability" },
-            { icon: <Cloud className="text-green-600 size-5" />, text: "Distributed Access" },
-            { icon: <Lock className="text-green-600 size-5" />, text: "High Security Levels" },
-            { icon: <Leaf className="text-green-600 size-5" />, text: "Ecological Responsibility" },
+        interactiveTitle: "From Problem to Solution",
+        interactiveSubtitle: "Click on a challenge to discover how we solve it.",
+        challenges: [
+            { id: 'efficiency', challenge: "Inefficiency and Slowness", solution: "Speed and Results", description: "We digitize workflows to streamline procedures, drastically reducing waiting times and optimizing internal processes.", icon: <Zap className="text-green-600 size-6" /> },
+            { id: 'costs', challenge: "High Operational Costs", solution: "Low Operational Costs", description: "We eliminate expenses on printing, physical storage, and document logistics, generating significant savings for the institution.", icon: <DollarSign className="text-green-600 size-6" /> },
+            { id: 'transparency', challenge: "Low Transparency", solution: "Full Traceability", description: "Every step is recorded. Our system offers complete traceability that allows for quick audits and fosters public trust.", icon: <Eye className="text-green-600 size-6" /> },
+            { id: 'accessibility', challenge: "Limited Accessibility", solution: "Distributed Access", description: "Access information from anywhere, at any time, through a secure and centralized portal.", icon: <Cloud className="text-green-600 size-6" /> },
+            { id: 'security', challenge: "Poor Security", solution: "High Security Levels", description: "With end-to-end encryption and robust access controls, we guarantee the integrity and confidentiality of information.", icon: <Lock className="text-green-600 size-6" /> },
+            { id: 'environment', challenge: "Environmental Impact", solution: "Ecological Responsibility", description: "By eliminating paper, we reduce the carbon footprint and promote more sustainable and responsible public management.", icon: <Leaf className="text-green-600 size-6" /> },
         ],
         featuresTitle: "Key Features",
         features: [
@@ -121,12 +108,15 @@ const content = {
 export default function ElectronicFilePage() {
     const { language } = useLanguage();
     const c = content[language];
+    const [activeChallenge, setActiveChallenge] = useState(c.challenges[0].id);
 
     const generateMailto = () => {
         const subject = `Solicitud de información sobre ${c.title}`;
         const body = `Estimados,\n\nMe gustaría recibir más información sobre el ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
         return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     };
+
+    const currentDisplay = c.challenges.find(item => item.id === activeChallenge);
 
     return (
         <>
@@ -142,26 +132,53 @@ export default function ElectronicFilePage() {
             <main>
                 <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                     <div className="container mx-auto px-4">
-                        <div className="grid md:grid-cols-2 gap-8 mb-16 items-stretch">
-                            <Card className="glassmorphism p-6">
-                                <CardHeader className="pt-0 px-0">
-                                  <CardTitle>{c.challengeTitle}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-3 text-muted-foreground p-0">
-                                    {c.challengePoints.map(p => <p key={p.text} className="flex items-center gap-3">{p.icon} {p.text}</p>)}
-                                </CardContent>
-                            </Card>
-                            <Card className="border-primary bg-primary/5 glassmorphism p-6">
-                                <CardHeader className="pt-0 px-0">
-                                  <CardTitle>{c.solutionTitle}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-3 text-foreground p-0">
-                                    {c.solutionPoints.map(p => <p key={p.text} className="flex items-center gap-3">{p.icon} {p.text}</p>)}
-                                </CardContent>
-                            </Card>
-                        </div>
-                        
                         <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
+                            <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
+                        </div>
+                        <Card className="grid md:grid-cols-2 shadow-xl glassmorphism overflow-hidden">
+                            <div className="p-8 border-r border-border/10">
+                                <h3 className="font-semibold text-lg mb-4">El Desafío: Gestión Basada en Papel</h3>
+                                <div className="space-y-2">
+                                    {c.challenges.map(item => (
+                                        <button 
+                                            key={item.id}
+                                            onClick={() => setActiveChallenge(item.id)}
+                                            className={cn(
+                                                "w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3",
+                                                activeChallenge === item.id 
+                                                    ? "bg-primary/10 text-primary font-semibold" 
+                                                    : "hover:bg-primary/5"
+                                            )}
+                                        >
+                                            <Zap className={cn("size-5 shrink-0", activeChallenge === item.id ? "text-destructive" : "text-muted-foreground" )} />
+                                            {item.challenge}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="p-8 bg-primary/5 flex flex-col justify-center">
+                                {currentDisplay && (
+                                    <>
+                                        <h3 className="font-semibold text-lg mb-2">La Solución: Digitalización</h3>
+                                        <div className="flex items-center gap-3 text-2xl font-bold text-primary mb-4">
+                                            {currentDisplay.icon}
+                                            <h4>{currentDisplay.solution}</h4>
+                                        </div>
+                                        <p className="text-muted-foreground">{currentDisplay.description}</p>
+                                        
+                                        {currentDisplay.id === 'efficiency' && (
+                                            <div className="mt-4 pt-4 border-t border-border/10">
+                                                <p className="text-sm font-bold text-foreground">Indicador de Éxito:</p>
+                                                <p className="text-sm text-muted-foreground">Más de <strong>10 millones de documentos</strong> gestionados eficientemente en nuestras plataformas.</p>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        </Card>
+                        
+                        <div className="text-center mt-24 mb-12">
                             <h3 className="text-2xl font-bold font-headline">{c.featuresTitle}</h3>
                         </div>
                         <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
@@ -222,3 +239,5 @@ export default function ElectronicFilePage() {
         </>
     );
 }
+
+    
