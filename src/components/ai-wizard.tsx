@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -34,19 +34,82 @@ const contactSchema = z.object({
 
 type ContactValues = z.infer<typeof contactSchema>;
 
+const placeholderTexts = [
+    "I need to automate legal document validation",
+    "How can I analyze large volumes of data?",
+    "I want to digitize my paper-based processes",
+    "We need to improve our internal control systems",
+];
+
 export default function AiWizard() {
   const [step, setStep] = useState<"wizard" | "result" | "contact">("wizard");
   const [isLoading, setIsLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<ProductRecommendationOutput | null>(null);
   const { toast } = useToast();
 
+  const [placeholder, setPlaceholder] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+  const placeholderIndex = useRef(0);
+  const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    resetField,
   } = useForm<WizardValues>({
     resolver: zodResolver(wizardSchema),
+    defaultValues: { need: "" },
   });
+  
+  const userNeed = watch("need");
+
+  useEffect(() => {
+    const type = () => {
+      const fullText = placeholderTexts[placeholderIndex.current];
+      if (isTyping) {
+        if (placeholder.length < fullText.length) {
+          setPlaceholder(fullText.substring(0, placeholder.length + 1));
+          typingTimeout.current = setTimeout(type, 100);
+        } else {
+          setIsTyping(false);
+          typingTimeout.current = setTimeout(type, 2000); // Pause before deleting
+        }
+      } else {
+        if (placeholder.length > 0) {
+          setPlaceholder(placeholder.substring(0, placeholder.length - 1));
+          typingTimeout.current = setTimeout(type, 50);
+        } else {
+          setIsTyping(true);
+          placeholderIndex.current = (placeholderIndex.current + 1) % placeholderTexts.length;
+        }
+      }
+    };
+
+    if (!userNeed) {
+      typingTimeout.current = setTimeout(type, 100);
+    }
+
+    return () => {
+      if (typingTimeout.current) {
+        clearTimeout(typingTimeout.current);
+      }
+    };
+  }, [placeholder, isTyping, userNeed]);
+
+  const handleFocus = () => {
+    if (typingTimeout.current) clearTimeout(typingTimeout.current);
+    setPlaceholder("Tell us what you need..."); // Static placeholder on focus
+  };
+
+  const handleBlur = () => {
+    if (!userNeed) {
+        setPlaceholder(""); // Restart animation
+        setIsTyping(true);
+        placeholderIndex.current = (placeholderIndex.current + 1) % placeholderTexts.length;
+    }
+  }
 
   const contactForm = useForm<ContactValues>({
     resolver: zodResolver(contactSchema),
@@ -89,8 +152,11 @@ export default function AiWizard() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
                 <Input 
                     {...register("need")} 
-                    placeholder="Tell us what you need, for example: 'I need to automate legal document validation'"
+                    placeholder={placeholder}
                     className="pl-10 h-12 text-base"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    autoComplete="off"
                 />
                  <Button type="submit" disabled={isLoading} className="absolute right-2 top-1/2 -translate-y-1/2 h-8">
                     {isLoading ? (
@@ -125,7 +191,7 @@ export default function AiWizard() {
             </CardContent>
             <CardFooter className="flex-col sm:flex-row gap-2">
                  <Button onClick={() => setStep("contact")} className="w-full">Interested? Contact Us</Button>
-                <Button variant="outline" onClick={() => { setStep("wizard"); setRecommendation(null); }} className="w-full">Start Over</Button>
+                <Button variant="outline" onClick={() => { setStep("wizard"); setRecommendation(null); resetField("need"); }} className="w-full">Start Over</Button>
             </CardFooter>
         </>
       )}
