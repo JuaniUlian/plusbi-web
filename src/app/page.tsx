@@ -64,7 +64,7 @@ tag: 'Automatización Total'
         quote: "\"Lenguaje claro y simple para entender qué buscas y qué producto podría servirte, generando un lead de contacto.\""
     },
     ctaTitle: "¿Listo para transformar tu organización?",
-    ctaSubtitle: "Hablemos de cómo nuestras soluciones de GovTech pueden ayudarte a alcanzar tus objetivos de eficiencia, transparencia y modernización.",
+    ctaSubtitle: "Hablemos de cómo nuestras pueden ayudar a su gobierno a alcanzar tus objetivos de eficiencia, transparencia y modernización.",
     ctaButton: "Agenda una reunión",
   },
   en: {
@@ -123,13 +123,6 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true)
   }, [])
-
-  const generateMailto = (productName: string) => {
-    const subject = `Solicitud de demo de ${productName}`;
-    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${productName}.\n\nMe interesa porque...\n\nSaludos.`;
-    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-
 
   return (
     <div className="flex flex-col">
