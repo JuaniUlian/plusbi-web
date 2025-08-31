@@ -15,7 +15,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import AiWizard from '@/components/ai-wizard';
 import { useLanguage } from '@/contexts/language-context';
-import { TeamSection } from '@/components/home/team-section';
 import { AchievementsSection } from '@/components/home/achievements-section';
 import { HeroSection } from '@/components/home/hero-section';
 import { useEffect, useState } from 'react';
@@ -163,8 +162,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <TeamSection/>
     </div>
   );
 }
