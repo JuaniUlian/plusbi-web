@@ -20,7 +20,6 @@ const achievementsContent = {
         subtitle: "Nuestras soluciones ofrecen mejoras tangibles en eficiencia, control y transparencia.",
         achievements: [
             { value: '+67%', label: 'Más errores detectados vs revisión humana' },
-            { value: '-99%', label: 'Reducción en tiempos de revisión de documentos' },
             { value: '+82%', label: 'De mejora en el control interno reportada por gobiernos' },
             { value: '76%', label: 'De reducción en tiempos de validación para circuitos internos' },
             { value: '+10M', label: 'De documentos gestionados en nuestras plataformas' },
@@ -32,7 +31,6 @@ const achievementsContent = {
         subtitle: "Our solutions deliver tangible improvements in efficiency, control, and transparency.",
         achievements: [
             { value: '+67%', label: 'More errors detected vs human review' },
-            { value: '-99%', label: 'Reduction in document review times' },
             { value: '+82%', label: 'Improvement in internal control reported by governments' },
             { value: '76%', label: 'Reduction in validation times for internal circuits' },
             { value: '+10M', label: 'Documents managed on our platforms' },
