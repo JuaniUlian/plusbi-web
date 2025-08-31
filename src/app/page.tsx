@@ -24,6 +24,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { TeamSection } from '@/components/home/team-section';
 import { AchievementsSection } from '@/components/home/achievements-section';
 import { HeroSection } from '@/components/home/hero-section';
+import { useEffect, useState } from 'react';
 
 const content = {
   es: {
@@ -42,14 +43,14 @@ const content = {
         description: 'Solución con IA para gobiernos que valida documentos en minutos.',
         icon: <FileCheck2 className="size-8 text-primary" />,
         link: '/products/mila',
-        tag: 'Validación con IA'
+        tag: 'Validación Inteligente'
       },
       {
         name: 'Vuro',
         description: 'Súper-agente de IA para expedientes públicos, próximamente.',
         icon: <BrainCircuit className="size-8 text-primary" />,
         link: '/products/vuro',
-        tag: 'Automatización con IA'
+        tag: 'Automatización Total'
       },
       {
         name: 'Sistema de Expediente Electrónico',
@@ -83,14 +84,14 @@ const content = {
         description: 'AI solution for governments that validates documents in minutes.',
         icon: <FileCheck2 className="size-8 text-primary" />,
         link: '/products/mila',
-        tag: 'AI Validation'
+        tag: 'Intelligent Validation'
       },
       {
         name: 'Vuro',
         description: 'AI super-agent for public records, coming soon.',
         icon: <BrainCircuit className="size-8 text-primary" />,
         link: '/products/vuro',
-        tag: 'AI Automation'
+        tag: 'Total Automation'
       },
       {
         name: 'Electronic File System',
@@ -114,6 +115,12 @@ const content = {
 export default function Home() {
   const { language } = useLanguage();
   const c = content[language];
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
 
   return (
     <div className="flex flex-col">
@@ -170,7 +177,7 @@ export default function Home() {
                </div>
             </div>
             <div className='mt-8 max-w-2xl mx-auto'>
-              <AiWizard />
+              {isClient && <AiWizard />}
             </div>
         </div>
       </section>

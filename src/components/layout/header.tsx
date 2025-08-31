@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -38,6 +38,12 @@ export function Header() {
   const { language } = useLanguage();
   const navItems = navItemsContent[language];
   const c = headerContent[language];
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
@@ -61,7 +67,7 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
-           <LanguageSwitcher />
+          {isClient && <LanguageSwitcher />}
           <Button asChild className="hidden md:flex">
              <a href="mailto:contacto@plusbi.com">{c.contact}</a>
           </Button>
