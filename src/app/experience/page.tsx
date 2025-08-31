@@ -5,32 +5,14 @@ import { useState } from 'react';
 import { TeamSection } from "@/components/experience/team-section";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/language-context';
-import {
-  Card,
-  CardContent,
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Rocket,
-  TrendingUp,
-  Globe,
-  Trophy,
-  Users,
-  Building,
-  Lightbulb,
-  Briefcase,
-  Vote,
-  Target,
-  FileText,
-  Award,
-  CheckCircle,
-} from "lucide-react";
-
+import { MilestonesSection } from '@/components/experience/milestones-section';
 
 const content = {
   es: {
     title: "Nuestra Experiencia",
     subtitle: "Desde 2021, revolucionando la consultoría empresarial, política y social.",
+    milestonesTitle: "Nuestros Hitos",
+    milestonesSubtitle: "Un recorrido por nuestra trayectoria de innovación y crecimiento.",
     teamTitle: "El Equipo",
     teamSubtitle: "Conoce a los expertos que impulsan la innovación en PLUS BI.",
     ctaTitle: "¡Descubre cómo podemos ayudarte!",
@@ -40,6 +22,8 @@ const content = {
   en: {
     title: "Our Experience",
     subtitle: "Since 2021, revolutionizing business, political, and social consulting.",
+    milestonesTitle: "Our Milestones",
+    milestonesSubtitle: "A journey through our trajectory of innovation and growth.",
     teamTitle: "The Team",
     teamSubtitle: "Meet the experts driving innovation at PLUS BI.",
     ctaTitle: "Find out how we can help you!",
@@ -64,6 +48,18 @@ export default function ExperiencePage() {
           </p>
         </div>
       </header>
+
+      <section id="milestones" className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.milestonesTitle}</h2>
+                  <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                      {c.milestonesSubtitle}
+                  </p>
+              </div>
+              <MilestonesSection />
+          </div>
+      </section>
 
       <section id="team" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
