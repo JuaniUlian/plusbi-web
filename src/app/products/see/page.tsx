@@ -45,9 +45,9 @@ const content = {
         ],
         featuresTitle: "Características Clave",
         features: [
-            { icon: <ShieldCheck className="text-primary size-10"/>, title: "SEGURIDAD", description: "El sistema garantiza la seguridad de la información con encriptación y medidas de control de acceso." },
-            { icon: <Cpu className="text-primary size-10"/>, title: "TECNOLOGÍA DE CÓDIGO ABIERTO", description: "Basado en tecnología de código abierto, que garantiza flexibilidad y escalabilidad." },
-            { icon: <Fingerprint className="text-primary size-10"/>, title: "FIRMA ELECTRÓNICA", description: "Facilita la firma electrónica de documentos, agilizando procesos y asegurando la autenticidad." },
+            { icon: <ShieldCheck className="text-white size-10"/>, title: "SEGURIDAD", description: "El sistema garantiza la seguridad de la información con encriptación y medidas de control de acceso." },
+            { icon: <Cpu className="text-white size-10"/>, title: "TECNOLOGÍA DE CÓDIGO ABIERTO", description: "Basado en tecnología de código abierto, que garantiza flexibilidad y escalabilidad." },
+            { icon: <Fingerprint className="text-white size-10"/>, title: "FIRMA ELECTRÓNICA", description: "Facilita la firma electrónica de documentos, agilizando procesos y asegurando la autenticidad." },
         ],
         benefitsTitle: "Beneficios para las Instituciones",
         benefits: [
@@ -82,9 +82,9 @@ const content = {
         ],
         featuresTitle: "Key Features",
         features: [
-            { icon: <ShieldCheck className="text-primary size-10"/>, title: "SECURITY", description: "The system guarantees information security with encryption and access control measures." },
-            { icon: <Cpu className="text-primary size-10"/>, title: "OPEN SOURCE TECHNOLOGY", description: "Based on open source technology, which guarantees flexibility and scalability." },
-            { icon: <Fingerprint className="text-primary size-10"/>, title: "ELECTRONIC SIGNATURE", description: "Facilitates the electronic signing of documents, speeding up processes and ensuring authenticity." },
+            { icon: <ShieldCheck className="text-white size-10"/>, title: "SECURITY", description: "The system guarantees information security with encryption and access control measures." },
+            { icon: <Cpu className="text-white size-10"/>, title: "OPEN SOURCE TECHNOLOGY", description: "Based on open source technology, which guarantees flexibility and scalability." },
+            { icon: <Fingerprint className="text-white size-10"/>, title: "ELECTRONIC SIGNATURE", description: "Facilitates the electronic signing of documents, speeding up processes and ensuring authenticity." },
         ],
         benefitsTitle: "Benefits for Institutions",
         benefits: [
@@ -188,7 +188,7 @@ export default function ElectronicFilePage() {
                         <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
                             {c.features.map(f => (
                                 <Card key={f.title} className="text-center glassmorphism p-6 flex flex-col items-center">
-                                  <div className="flex justify-center mb-4 text-white">{f.icon}</div>
+                                  <div className="flex justify-center mb-4">{f.icon}</div>
                                   <CardHeader className="p-0">
                                     <h4 className="text-lg font-semibold text-white">{f.title}</h4>
                                   </CardHeader>
@@ -247,5 +247,3 @@ export default function ElectronicFilePage() {
         </>
     );
 }
-
-    
