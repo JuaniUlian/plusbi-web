@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle } from 'lucide-react';
+import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle, Lightbulb } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 
@@ -19,9 +19,11 @@ const content = {
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
     videoTitle: "Quest en Acción",
     leapTitle: "Decisiones Inteligentes para Gobiernos Modernos",
-    leapDescription: "<p>Quest transforma <strong>grandes volúmenes de datos</strong> —ya sean de fuentes públicas o de tus propias bases de datos— en visualizaciones claras e intuitivas. Nuestra plataforma de <strong>Big Data e Inteligencia Artificial</strong> está diseñada para que puedas entender el presente y anticiparte al futuro, tomando decisiones estratégicas con fundamentos sólidos.</p>",
-    powerTitle: "De los Datos a la Acción Concreta",
-    powerDescription: "<p>Quest no solo muestra datos, sino que te dice qué hacer con ellos. Obtén <strong>recomendaciones automáticas</strong> generadas por IA, desde <strong>sugerencias de políticas públicas</strong> listas para implementar hasta <strong>ajustes precisos para tu campaña electoral</strong>.</p><p class='mt-2'>Funciona tanto para la gestión diaria de gobiernos e instituciones como para el dinamismo de las campañas políticas, optimizando recursos y maximizando tu impacto.</p>",
+    leapDescription: "<p>Quest transforma <strong>grandes volúmenes de datos</strong> —ya sean de fuentes públicas o de tus propias bases de datos— en visualizaciones claras e intuitivas para que puedas entender el presente y anticiparte al futuro.</p>",
+    analysisTitle: "Del Análisis a la Acción",
+    analysisDescription: "<p>Quest no solo muestra datos, sino que te dice qué hacer con ellos. Obtén <strong>recomendaciones automáticas</strong> generadas por IA, desde <strong>sugerencias de políticas públicas</strong> listas para implementar hasta <strong>ajustes precisos para tu campaña electoral</strong>.</p>",
+    powerTitle: "Potencia y Precisión",
+    powerDescription: "<p>Funciona tanto para la gestión diaria de gobiernos e instituciones como para el dinamismo de las campañas políticas, optimizando recursos y maximizando tu impacto.</p>",
     caseTitle: "🇦🇷 Caso de Éxito: Elecciones Presidenciales de Argentina 2023",
     caseDescription: "<p>Realizamos un estudio diario entre enero y noviembre de 2023, recopilando más de <strong>7,100,000 puntos de datos</strong> sobre los candidatos presidenciales en Argentina, cubriendo todo el país.</p><p class='mt-2'>Esto proporcionó una <strong>visión sin precedentes</strong> del sentimiento y las tendencias de los votantes, demostrando la fiabilidad y el poder de Quest en entornos complejos.</p>",
     ctaTitle: "¿Listo para tomar decisiones basadas en datos?",
@@ -34,9 +36,11 @@ const content = {
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
     videoTitle: "Quest in Action",
     leapTitle: "Smart Decisions for Modern Governments",
-    leapDescription: "<p>Quest transforms <strong>large volumes of data</strong>—whether from public sources or your own databases—into clear and intuitive visualizations. Our <strong>Big Data and Artificial Intelligence</strong> platform is designed so you can understand the present and anticipate the future, making strategic, well-founded decisions.</p>",
-    powerTitle: "From Data to Concrete Action",
-    powerDescription: "<p>Quest doesn't just show you data; it tells you what to do with it. Get <strong>automatic AI-generated recommendations</strong>, from ready-to-implement <strong>public policy suggestions</strong> to <strong>precise adjustments for your electoral campaign</strong>.</p><p class='mt-2'>It works for the daily management of governments and institutions as well as for the fast-paced dynamics of political campaigns, optimizing resources and maximizing your impact.</p>",
+    leapDescription: "<p>Quest transforms <strong>large volumes of data</strong>—whether from public sources or your own databases—into clear and intuitive visualizations so you can understand the present and anticipate the future.</p>",
+    analysisTitle: "From Analysis to Action",
+    analysisDescription: "<p>Quest doesn't just show you data; it tells you what to do with it. Get <strong>automatic AI-generated recommendations</strong>, from ready-to-implement <strong>public policy suggestions</strong> to <strong>precise adjustments for your electoral campaign</strong>.</p>",
+    powerTitle: "Power and Precision",
+    powerDescription: "<p>It works for the daily management of governments and institutions as well as for the fast-paced dynamics of political campaigns, optimizing resources and maximizing your impact.</p>",
     caseTitle: "🇦🇷 Success Case: Argentine Presidential Elections 2023",
     caseDescription: "<p>A daily study was conducted between January and November 2023, collecting more than <strong>7,100,000 data points</strong> on presidential candidates in Argentina, covering the entire country.</p><p class='mt-2'>This provided <strong>unprecedented insight</strong> into voter sentiment and trends, demonstrating Quest's reliability and power in complex environments.</p>",
     ctaTitle: "Ready to make data-driven decisions?",
@@ -72,14 +76,18 @@ export default function QuestPage() {
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                   <div className="space-y-8">
-                  <div>
-                      <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Rocket className="text-primary size-7" /> {c.leapTitle}</h3>
-                      <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
-                  </div>
-                  <div>
-                      <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><ShieldCheck className="text-primary size-7" /> {c.powerTitle}</h3>
-                      <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
-                  </div>
+                      <div>
+                          <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Target className="text-primary size-7" /> {c.leapTitle}</h3>
+                          <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
+                      </div>
+                       <div>
+                          <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><Lightbulb className="text-primary size-7" /> {c.analysisTitle}</h3>
+                          <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.analysisDescription }} />
+                      </div>
+                      <div>
+                          <h3 className="text-2xl font-bold flex items-center gap-3 mb-3"><ShieldCheck className="text-primary size-7" /> {c.powerTitle}</h3>
+                          <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
+                      </div>
                   </div>
                   <Card className="shadow-xl glassmorphism">
                   <CardHeader>
