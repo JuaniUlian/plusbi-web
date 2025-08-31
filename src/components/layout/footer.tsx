@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -42,15 +43,15 @@ export function Footer() {
   const c = content[language];
 
   return (
-    <footer className="border-t bg-primary/5">
-      <div className="container mx-auto px-4 py-12">
+    <footer className="border-t bg-primary/5 text-white" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+      <div className="container mx-auto px-4 py-12 bg-black/50 rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <Logo className="h-8 w-8 text-primary" />
+              <Logo className="h-8 w-8" />
               <span className="font-bold text-xl font-headline">PLUS BI</span>
             </Link>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-white/80 text-sm">
               {c.slogan}
             </p>
           </div>
@@ -58,29 +59,29 @@ export function Footer() {
              <div>
               <h4 className="font-semibold mb-4 font-headline">{c.navigation}</h4>
               <ul className="space-y-2">
-                <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">{c.home}</Link></li>
-                <li><Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">{c.products}</Link></li>
-                <li><Link href="/experience" className="text-muted-foreground hover:text-primary transition-colors">{c.experience}</Link></li>
+                <li><Link href="/" className="text-white/80 hover:text-white transition-colors">{c.home}</Link></li>
+                <li><Link href="/products" className="text-white/80 hover:text-white transition-colors">{c.products}</Link></li>
+                <li><Link href="/experience" className="text-white/80 hover:text-white transition-colors">{c.experience}</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 font-headline">{c.legal}</h4>
               <ul className="space-y-2">
-                <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{c.privacy}</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{c.terms}</Link></li>
+                <li><Link href="#" className="text-white/80 hover:text-white transition-colors">{c.privacy}</Link></li>
+                <li><Link href="#" className="text-white/80 hover:text-white transition-colors">{c.terms}</Link></li>
               </ul>
             </div>
              <div>
               <h4 className="font-semibold mb-4 font-headline">{c.letsTalk}</h4>
-              <p className="text-muted-foreground text-sm mb-4">{c.letsTalkSub}</p>
+              <p className="text-white/80 text-sm mb-4">{c.letsTalkSub}</p>
               <Button asChild>
                 <a href="mailto:contacto@plusbi.com">{c.contact}</a>
               </Button>
             </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t">
-          <p className="text-center text-sm text-muted-foreground">
+        <div className="mt-12 pt-8 border-t border-white/20">
+          <p className="text-center text-sm text-white/80">
             {c.copyright}
           </p>
         </div>
