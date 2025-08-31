@@ -136,7 +136,7 @@ export default function MilaPage() {
               </ul>
             </div>
             <Image
-              src="https://picsum.photos/500/500?random=11"
+              src="/backgrounds/mila-interface.png"
               alt="Mila interface diagram"
               width={500}
               height={500}

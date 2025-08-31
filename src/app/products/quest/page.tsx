@@ -70,7 +70,7 @@ export default function QuestPage() {
               </CardHeader>
               <CardContent>
                 <Image
-                  src="https://picsum.photos/600/400?random=10"
+                  src="/stats/quest-argentina-map.png"
                   alt="Argentina map with data points"
                   width={600}
                   height={400}
