@@ -21,7 +21,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Fundador. Especialista en Políticas Públicas y Desarrollo Local',
-                avatar: '/team/cristian.jpeg',
+                avatar: '/fotos/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -60,7 +60,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Fundador. Licenciado en Ciencia Política',
-                avatar: '/team/juan.jpg',
+                avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Experto Político. Licenciado en Relaciones Internacionales y Ciencias Políticas',
-                avatar: '/team/alejandro.jpeg',
+                avatar: '/fotos/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -118,7 +118,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
-                avatar: '/team/analia.jpg',
+                avatar: '/fotos/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -130,7 +130,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/team/pablo.jpg',
+                avatar: '/fotos/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -148,7 +148,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Founder. Specialist in Public Policies and Local Development',
-                avatar: '/team/cristian.jpeg',
+                avatar: '/fotos/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -187,7 +187,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Founder. Bachelor in Political Science',
-                avatar: '/team/juan.jpg',
+                avatar: '/fotos/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -211,7 +211,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Political Expert. Graduate in International Relations and Political Sciences',
-                avatar: '/team/alejandro.jpeg',
+                avatar: '/fotos/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -245,7 +245,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Information Systems and Digital Transformation Specialist',
-                avatar: '/team/analia.jpg',
+                avatar: '/fotos/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -257,7 +257,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/team/pablo.jpg',
+                avatar: '/fotos/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -317,5 +317,7 @@ export function TeamSection() {
     </Accordion>
   );
 }
+
+    
 
     
