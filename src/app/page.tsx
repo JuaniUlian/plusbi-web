@@ -2,7 +2,6 @@
 'use client';
 import Link from 'next/link';
 import {
-  ArrowRight,
   ChevronRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -126,60 +125,53 @@ export default function Home() {
       
       <section id="products-wizard" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
-            
-            {/* Products Section (Left) */}
-            <div className="lg:col-span-8">
-              <div className="text-center lg:text-left mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.productsTitle}</h2>
-                <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-                  {c.productsSubtitle}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.productsTitle}</h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+              {c.productsSubtitle}
+            </p>
+          </div>
+          
+          <div className="max-w-2xl mx-auto mb-12">
+            <div className="text-center mb-6">
+                <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground">{c.aiWizardSection.badge}</Badge>
+                <h2 className="text-2xl font-bold font-headline">
+                  {c.aiWizardSection.title}
+                </h2>
+                <p className="mt-2 text-muted-foreground text-sm">
+                  {c.aiWizardSection.description}
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                {c.products.map((product) => (
-                  <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
-                    <CardHeader>
-                      <div className="flex justify-between items-center">
-                        <div className="mx-auto bg-primary/10 rounded-full p-2 flex items-center justify-center mb-4">
-                          <Image src={product.icon} alt={`${product.name} logo`} width={48} height={48} />
-                        </div>
-                      </div>
-                      <CardTitle>{product.name}</CardTitle>
-                       <Badge variant="secondary" className="w-fit mx-auto">{product.tag}</Badge>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                      <p className="text-muted-foreground">{product.description}</p>
-                    </CardContent>
-                     <CardFooter className="justify-center mt-auto">
-                       <Button asChild variant="link">
-                         <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
-                       </Button>
-                     </CardFooter>
-                  </Card>
-                ))}
+              <div>
+                {isClient && <AiWizard />}
               </div>
-            </div>
+              <div className="mt-4 border-l-4 border-primary/40 pl-4 text-left">
+                   <p className="text-muted-foreground italic text-xs">{c.aiWizardSection.quote}</p>
+              </div>
+          </div>
 
-            {/* AI Wizard Section (Right) */}
-            <div className="lg:col-span-4 lg:sticky lg:top-24">
-              <div className="text-center mb-6">
-                  <Badge variant="secondary" className="mb-4 bg-accent/20 text-accent-foreground">{c.aiWizardSection.badge}</Badge>
-                  <h2 className="text-2xl font-bold font-headline">
-                    {c.aiWizardSection.title}
-                  </h2>
-                  <p className="mt-2 text-muted-foreground text-sm">
-                    {c.aiWizardSection.description}
-                  </p>
-                </div>
-                <div>
-                  {isClient && <AiWizard />}
-                </div>
-                <div className="mt-4 border-l-4 border-primary/40 pl-4 text-left">
-                     <p className="text-muted-foreground italic text-xs">{c.aiWizardSection.quote}</p>
-                </div>
-            </div>
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {c.products.map((product) => (
+              <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <div className="mx-auto bg-primary/10 rounded-full p-2 flex items-center justify-center mb-4">
+                      <Image src={product.icon} alt={`${product.name} logo`} width={48} height={48} />
+                    </div>
+                  </div>
+                  <CardTitle>{product.name}</CardTitle>
+                   <Badge variant="secondary" className="w-fit mx-auto">{product.tag}</Badge>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-muted-foreground">{product.description}</p>
+                </CardContent>
+                 <CardFooter className="justify-center mt-auto">
+                   <Button asChild variant="link">
+                     <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
+                   </Button>
+                 </CardFooter>
+              </Card>
+            ))}
           </div>
         </div>
       </section>

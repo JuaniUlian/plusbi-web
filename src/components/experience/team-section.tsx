@@ -21,7 +21,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Fundador. Especialista en Políticas Públicas y Desarrollo Local',
-                avatar: '/fotos/cristian.jpeg',
+                avatar: '/team/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -60,7 +60,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Fundador. Licenciado en Ciencia Política',
-                avatar: '/fotos/juan.jpg',
+                avatar: '/team/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Experto Político. Licenciado en Relaciones Internacionales y Ciencias Políticas',
-                avatar: '/fotos/alejandro.jpeg',
+                avatar: '/team/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -118,7 +118,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
-                avatar: '/fotos/analia.jpg',
+                avatar: '/team/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -130,7 +130,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/fotos/pablo.jpg',
+                avatar: '/team/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -148,7 +148,7 @@ const teamContent = {
             {
                 name: 'Cristian Ulian',
                 title: 'Co-Founder. Specialist in Public Policies and Local Development',
-                avatar: '/fotos/cristian.jpeg',
+                avatar: '/team/cristian.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -187,7 +187,7 @@ const teamContent = {
             {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Founder. Bachelor in Political Science',
-                avatar: '/fotos/juan.jpg',
+                avatar: '/team/juan.jpg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
@@ -211,7 +211,7 @@ const teamContent = {
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Political Expert. Graduate in International Relations and Political Sciences',
-                avatar: '/fotos/alejandro.jpeg',
+                avatar: '/team/alejandro.jpeg',
                 linkedin: '#',
                 fullExperience: `
                   <div class="space-y-4">
@@ -245,7 +245,7 @@ const teamContent = {
             {
                 name: 'Analía Barberio',
                 title: 'CTO. Information Systems and Digital Transformation Specialist',
-                avatar: '/fotos/analia.jpg',
+                avatar: '/team/analia.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -257,7 +257,7 @@ const teamContent = {
             {
                 name: 'Pablo Martinez',
                 title: 'Chief Developer',
-                avatar: '/fotos/pablo.jpg',
+                avatar: '/team/pablo.jpg',
                 linkedin: '#',
                 fullExperience: `
                     <div class="space-y-2 text-sm text-muted-foreground">
@@ -282,15 +282,16 @@ export function TeamSection() {
         <AccordionItem key={member.name} value={member.name} className="border-none">
           <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col">
             <CardHeader>
-                <div className="relative h-64 w-full">
-                <Image
-                    src={member.avatar}
-                    alt={`Photo of ${member.name}`}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    data-ai-hint="profile picture"
-                    className="rounded-t-lg"
-                />
+                <div className="flex justify-center">
+                    <Image
+                        src={member.avatar}
+                        alt={`Photo of ${member.name}`}
+                        width={128}
+                        height={128}
+                        style={{ objectFit: 'cover' }}
+                        data-ai-hint="profile picture"
+                        className="rounded-full border-4 border-primary/20"
+                    />
                 </div>
                  <CardTitle className="mt-4">{member.name}</CardTitle>
                  <p className="text-muted-foreground mt-1 flex-grow">{member.title}</p>

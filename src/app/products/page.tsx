@@ -107,17 +107,17 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {c.products.map((product) => (
-              <Card key={product.name} className="flex flex-col text-left shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism">
-                <CardHeader className="flex-row items-start gap-6">
-                  <div className="bg-primary/10 rounded-lg p-2 flex items-center justify-center">
-                    <Image src={product.icon} alt={`${product.name} logo`} width={40} height={40}/>
+              <Card key={product.name} className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism">
+                <CardHeader className="items-center">
+                  <div className="bg-primary/10 rounded-full p-3 flex items-center justify-center mb-4">
+                    <Image src={product.icon} alt={`${product.name} logo`} width={64} height={64}/>
                   </div>
                   <div>
-                    <CardTitle className="flex items-center gap-4">{product.name} <Badge variant="secondary">{product.tag}</Badge></CardTitle>
-                     <p className="text-muted-foreground mt-2">{product.description}</p>
+                    <CardTitle className="text-2xl flex flex-col items-center gap-2">{product.name} <Badge variant="secondary">{product.tag}</Badge></CardTitle>
+                     <p className="text-muted-foreground mt-3 max-w-xs mx-auto">{product.description}</p>
                   </div>
                 </CardHeader>
-                 <CardFooter className="mt-auto justify-end">
+                 <CardFooter className="mt-auto justify-center">
                    <Button asChild variant="link">
                      <Link href={product.link}>{c.learnMore} <ChevronRight className="size-4 ml-1" /></Link>
                    </Button>
