@@ -9,9 +9,9 @@ const content = {
     title: "Nuestra Experiencia",
     subtitle: "Desde 2021, revolucionando la consultoría empresarial, política y social. Desarrollamos métodos y aplicaciones avanzadas para transformar la estrategia, la comunicación y la implementación de acciones basadas en información.",
     historyTitle: "Nuestra historia",
-    historyP1: "PLUS BI se conformó en 2021, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban.",
-    historyP2: "Hoy, somos un equipo unido por una convicción profunda: cada avance hacia una gestión pública más transparente y participativa es un paso hacia una sociedad más justa.",
-    historyP3: "Nuestro equipo se distingue por integrar la innovación tecnológica con una visión profundamente humana. Analía y Pablo tienen una sólida trayectoria en modernización institucional, creando soluciones que abordan problemáticas complejas de manera estratégica y eficiente. Cristian y Juan, con su experiencia en políticas públicas y trabajo comunitario, se aseguran de que cada proyecto se construya sobre valores de empatía y participación real.",
+    historyP1: "PLUS BI se conformó en 2021, y ya el primer día algo hizo click. Descubrimos que nuestras perspectivas no solo se complementaban, sino que se potenciaban. Hoy, somos un equipo unido por una convicción profunda: cada avance hacia una gestión pública más transparente y participativa es un paso hacia una sociedad más justa. Nuestro equipo se distingue por integrar la innovación tecnológica con una visión profundamente humana. Analía y Pablo tienen una sólida trayectoria en modernización institucional, creando soluciones que abordan problemáticas complejas de manera estratégica y eficiente. Cristian y Juan, con su experiencia en políticas públicas y trabajo comunitario, se aseguran de que cada proyecto se construya sobre valores de empatía y participación real. Juntos, hemos demostrado que nuestras habilidades se complementan de manera excepcional. No solo entendemos los desafíos técnicos, sino que también conocemos las realidades sociales y humanas detrás de cada problema. Nuestra experiencia colectiva nos ha enseñado que las soluciones más efectivas son aquellas que se construyen desde la transparencia, la colaboración y el compromiso ético. Nuestra experiencia en proyectos de alto impacto, junto con nuestra capacidad para abordar desafíos complejos con herramientas innovadoras, nos permite transformar ideas en soluciones reales. No solo tenemos las herramientas y el conocimiento, sino también la pasión y el propósito para llevarla adelante. Porque, para nosotros, Mila no es solo un proyecto; es una oportunidad para seguir construyendo un futuro más justo y equitativo para todos.",
+    historyP2: "",
+    historyP3: "",
     milestonesTitle: "Hitos",
     teamTitle: "El Equipo",
     teamSubtitle: "Conoce a los expertos que impulsan la innovación en PLUS BI.",
@@ -23,9 +23,9 @@ const content = {
     title: "Our Experience",
     subtitle: "Since 2021, revolutionizing business, political, and social consulting. We develop advanced methods and applications to transform strategy, communication, and implementation of information-based actions.",
     historyTitle: "Our History",
-    historyP1: "PLUS BI was formed in 2021, and on the very first day, something just clicked. We discovered that our perspectives not only complemented each other, but amplified one another.",
-    historyP2: "Today, we are a team united by a deep conviction: every step towards a more transparent and participatory public management is a step towards a more just society.",
-    historyP3: "Our team stands out for integrating technological innovation with a profoundly human vision. Analía and Pablo have a solid track record in institutional modernization, creating solutions that address complex issues strategically and efficiently. Cristian and Juan, with their experience in public policy and community work, ensure that every project is built on values of empathy and real participation.",
+    historyP1: "PLUS BI was formed in 2021, and on the very first day, something just clicked. We discovered that our perspectives not only complemented each other, but also enhanced one another. Today, we are a team united by a deep conviction: every step towards a more transparent and participatory public administration is a step towards a more just society. Our team is distinguished by integrating technological innovation with a deeply human vision. Analía and Pablo have a solid track record in institutional modernization, creating solutions that address complex problems in a strategic and efficient manner. Cristian and Juan, with their experience in public policy and community work, ensure that each project is built on values of empathy and real participation. Together, we have shown that our skills complement each other exceptionally. We not only understand the technical challenges, but we also know the social and human realities behind each problem. Our collective experience has taught us that the most effective solutions are those built on transparency, collaboration, and ethical commitment. Our experience in high-impact projects, along with our ability to tackle complex challenges with innovative tools, allows us to transform ideas into real solutions. We not only have the tools and knowledge, but also the passion and purpose to carry it forward. Because, for us, Mila is not just a project; it is an opportunity to continue building a more just and equitable future for all.",
+    historyP2: "",
+    historyP3: "",
     milestonesTitle: "Milestones",
     teamTitle: "The Team",
     teamSubtitle: "Meet the experts driving innovation at PLUS BI.",
@@ -58,8 +58,8 @@ export default function ExperiencePage() {
                  <h2 className="text-3xl font-bold font-headline mb-4 text-center">{c.historyTitle}</h2>
                  <div className="space-y-4 text-muted-foreground text-lg">
                     <p>{c.historyP1}</p>
-                    <p>{c.historyP2}</p>
-                    <p>{c.historyP3}</p>
+                    {c.historyP2 && <p>{c.historyP2}</p>}
+                    {c.historyP3 && <p>{c.historyP3}</p>}
                  </div>
             </div>
         </div>
