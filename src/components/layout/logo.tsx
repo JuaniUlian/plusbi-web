@@ -4,7 +4,7 @@ import Image from 'next/image';
 export function Logo(props: SVGProps<SVGSVGElement> & { className?: string }) {
   return (
     <Image
-      src="/logo/plus.png"
+      src="/logo/plusbi.png"
       alt="PLUS BI Logo"
       width={50}
       height={50}

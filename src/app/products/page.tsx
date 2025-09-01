@@ -36,14 +36,14 @@ const content = {
       {
         name: 'Vuro',
         description: 'Súper-agente de IA para expedientes públicos, próximamente.',
-        icon: '/logo/plus.png',
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'Automatización con IA'
       },
       {
         name: 'Sistema de Expediente Electrónico',
         description: 'Instalamos, damos soporte y capacitamos en sistemas de expedientes electrónicos.',
-        icon: '/logo/plus.png',
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Transformación Digital'
       },
@@ -71,14 +71,14 @@ const content = {
       {
         name: 'Vuro',
         description: 'AI super-agent for public records, coming soon.',
-        icon: '/logo/plus.png',
+        icon: '/logo/plusbi.png',
         link: '/products/vuro',
         tag: 'AI Automation'
       },
       {
         name: 'Electronic File System',
         description: 'We install, support, and train in electronic file systems.',
-        icon: '/logo/plus.png',
+        icon: '/logo/plusbi.png',
         link: '/products/see',
         tag: 'Digital Transformation'
       },
