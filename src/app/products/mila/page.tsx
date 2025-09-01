@@ -146,7 +146,7 @@ export default function MilaPage() {
                                         <Separator />
 
                                         {/* Solution Section */}
-                                        <div className="relative p-8 text-center" style={{backgroundImage: "url('/public/backgrounds/verde.png')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                                        <div className="relative p-8 text-center" style={{backgroundImage: "url('/backgrounds/verde.png')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                                              <div className="absolute inset-0 bg-black/20"></div>
                                              <div className="relative z-10 flex flex-col items-center gap-4">
                                                 {item.solutionIcon}
@@ -203,3 +203,5 @@ export default function MilaPage() {
     </>
   );
 }
+
+    
