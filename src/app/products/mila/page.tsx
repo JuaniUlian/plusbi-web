@@ -20,8 +20,6 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
 import {
   Carousel,
   CarouselContent,
@@ -29,6 +27,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { cn } from '@/lib/utils';
 
 const content = {
   es: {
@@ -38,10 +37,10 @@ const content = {
     interactiveTitle: "Del Problema a la Solución",
     interactiveSubtitle: "Explora cómo Mila transforma los desafíos de la gestión pública.",
     challenges: [
-        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto, evitando costosos errores.", challengeIcon: <AlertCircle className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas de idas y vueltas entre áreas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Normativo Garantizado", description: "Mila vincula cada observación a la norma o regulación específica, ofreciendo un puntaje legal y asegurando que cada documento esté 100% en regla.", challengeIcon: <Scale className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control de Versiones y Edición Centralizada", description: "Edita y corrige directamente en la plataforma. Mila gestiona el historial de cambios y genera una versión final corregida, lista para compartir.", challengeIcon: <TrendingUp className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto, evitando costosos errores.", challengeIcon: <AlertCircle className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas de idas y vueltas entre áreas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Normativo Garantizado", description: "Mila vincula cada observación a la norma o regulación específica, ofreciendo un puntaje legal y asegurando que cada documento esté 100% en regla.", challengeIcon: <Scale className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control de Versiones y Edición Centralizada", description: "Edita y corrige directamente en la plataforma. Mila gestiona el historial de cambios y genera una versión final corregida, lista para compartir.", challengeIcon: <TrendingUp className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -69,10 +68,10 @@ const content = {
     interactiveTitle: "From Problem to Solution",
     interactiveSubtitle: "Explore how Mila transforms public management challenges.",
      challenges: [
-        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss, avoiding costly mistakes.", challengeIcon: <AlertCircle className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth between departments, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Regulatory Compliance", description: "Mila links each observation to the specific norm or regulation, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
-        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Version Control and Centralized Editing", description: "Edit and correct directly on the platform. Mila manages the change history and generates a final, corrected version, ready to share.", challengeIcon: <TrendingUp className="size-6 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss, avoiding costly mistakes.", challengeIcon: <AlertCircle className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth between departments, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Regulatory Compliance", description: "Mila links each observation to the specific norm or regulation, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
+        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Version Control and Centralized Editing", description: "Edit and correct directly on the platform. Mila manages the change history and generates a final, corrected version, ready to share.", challengeIcon: <TrendingUp className="size-8 text-destructive" />, solutionIcon: <ShieldCheck className="text-green-500 size-8" /> },
     ],
     resultsTitle: "Real Results",
     results: [
@@ -98,10 +97,7 @@ const content = {
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
-  const [activeChallenge, setActiveChallenge] = useState(c.challenges[0].id);
-  const currentDisplay = c.challenges.find(item => item.id === activeChallenge);
-
-
+  
   const generateMailto = () => {
     const subject = `Solicitud de demo de ${c.title}`;
     const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
@@ -129,40 +125,39 @@ export default function MilaPage() {
                     <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
                     <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
                 </div>
-                 <Card className="grid md:grid-cols-2 shadow-xl glassmorphism overflow-hidden">
-                    <div className="p-8 border-r border-border/10">
-                        <h3 className="font-semibold text-lg mb-4">El Desafío: Gestión Basada en Papel</h3>
-                        <div className="space-y-2">
-                            {c.challenges.map(item => (
-                                <button 
-                                    key={item.id}
-                                    onClick={() => setActiveChallenge(item.id)}
-                                    className={cn(
-                                        "w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3",
-                                        activeChallenge === item.id 
-                                            ? "bg-primary/10 text-primary font-semibold" 
-                                            : "hover:bg-primary/5"
-                                    )}
-                                >
-                                    {item.challengeIcon}
-                                    {item.challenge}
-                                </button>
-                            ))}
-                        </div>
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    className="w-full max-w-2xl mx-auto"
+                >
+                    <CarouselContent>
+                        {c.challenges.map((item) => (
+                            <CarouselItem key={item.id}>
+                                <Card className="shadow-xl glassmorphism overflow-hidden m-1">
+                                    <div className="p-6 text-center">
+                                        <div className="inline-flex items-center gap-3">
+                                           {item.challengeIcon}
+                                           <h3 className="font-semibold text-lg">{item.challenge}</h3>
+                                        </div>
+                                    </div>
+                                    <div className="p-6 bg-primary/10 text-center">
+                                        <div className="flex items-center justify-center gap-3 text-xl font-bold text-primary mb-2">
+                                            {item.solutionIcon}
+                                            <h4>{item.solution}</h4>
+                                        </div>
+                                        <p className="text-muted-foreground text-sm">{item.description}</p>
+                                    </div>
+                                </Card>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <div className="flex justify-center gap-2 mt-4">
+                        <CarouselPrevious />
+                        <CarouselNext />
                     </div>
-                    <div className="p-8 bg-primary/5 flex flex-col justify-center">
-                        {currentDisplay && (
-                            <>
-                                <h3 className="font-semibold text-lg mb-2">La Solución de Mila</h3>
-                                <div className="flex items-center gap-3 text-2xl font-bold text-primary mb-4">
-                                    {currentDisplay.solutionIcon}
-                                    <h4>{currentDisplay.solution}</h4>
-                                </div>
-                                <p className="text-muted-foreground">{currentDisplay.description}</p>
-                            </>
-                        )}
-                    </div>
-                </Card>
+                </Carousel>
             
             <div className="text-center my-16">
                 <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
@@ -201,5 +196,3 @@ export default function MilaPage() {
     </>
   );
 }
-
-    
