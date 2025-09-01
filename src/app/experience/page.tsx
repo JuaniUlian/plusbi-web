@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/language-context';
 import { MilestonesSection } from '@/components/experience/milestones-section';
 import { StorySection } from '@/components/experience/story-section';
-import { TeamSection } from '@/components/experience/team-section';
 
 const content = {
   es: {
     title: "Nuestra Experiencia",
-    subtitle: "Desde 2021, revolucionando la consultoría empresarial, política y social.",
+    subtitle: "Desde 2021, revolucionando la consultoría política y social.",
     storyTitle: "De la Visión a la Realidad",
     milestonesTitle: "Hitos Clave",
     teamTitle: "El Equipo",
@@ -21,7 +20,7 @@ const content = {
   },
   en: {
     title: "Our Experience",
-    subtitle: "Since 2021, revolutionizing business, political, and social consulting.",
+    subtitle: "Since 2021, revolutionizing political, and social consulting.",
     storyTitle: "From Vision to Reality",
     milestonesTitle: "Key Milestones",
     teamTitle: "The Team",
