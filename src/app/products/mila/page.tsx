@@ -20,6 +20,7 @@ import {
   Clock,
   ShieldCheck,
   Scale,
+  ArrowRight,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
@@ -34,10 +35,10 @@ const content = {
     interactiveTitle: "Del Problema a la Solución",
     interactiveSubtitle: "Haz clic en un desafío para descubrir cómo Mila lo resuelve.",
     challenges: [
-        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto, evitando costosos errores.", icon: <AlertCircle className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas de idas y vueltas entre áreas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", icon: <Clock className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Normativo Garantizado", description: "Mila vincula cada observación a la norma o regulación específica, ofreciendo un puntaje legal y asegurando que cada documento esté 100% en regla.", icon: <Scale className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad", solution: "Control de Versiones y Edición Centralizada", description: "Edita y corrige directamente en la plataforma. Mila gestiona el historial de cambios y genera una versión final corregida, lista para compartir.", icon: <Eye className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto, evitando costosos errores.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas de idas y vueltas entre áreas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Normativo Garantizado", description: "Mila vincula cada observación a la norma o regulación específica, ofreciendo un puntaje legal y asegurando que cada documento esté 100% en regla.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad", solution: "Control de Versiones y Edición Centralizada", description: "Edita y corrige directamente en la plataforma. Mila gestiona el historial de cambios y genera una versión final corregida, lista para compartir.", solutionIcon: <Zap className="text-green-500 size-6" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -65,10 +66,10 @@ const content = {
     interactiveTitle: "From Problem to Solution",
     interactiveSubtitle: "Click on a challenge to discover how Mila solves it.",
      challenges: [
-        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss, avoiding costly mistakes.", icon: <AlertCircle className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth between departments, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", icon: <Clock className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Regulatory Compliance", description: "Mila links each observation to the specific norm or regulation, providing a legal score and ensuring every document is 100% compliant.", icon: <Scale className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
-        { id: 'traceability', challenge: "Lack of Traceability", solution: "Version Control and Centralized Editing", description: "Edit and correct directly on the platform. Mila manages the change history and generates a final, corrected version, ready to share.", icon: <Eye className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss, avoiding costly mistakes.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth between departments, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Regulatory Compliance", description: "Mila links each observation to the specific norm or regulation, providing a legal score and ensuring every document is 100% compliant.", solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'traceability', challenge: "Lack of Traceability", solution: "Version Control and Centralized Editing", description: "Edit and correct directly on the platform. Mila manages the change history and generates a final, corrected version, ready to share.", solutionIcon: <Zap className="text-green-500 size-6" /> },
     ],
     resultsTitle: "Real Results",
     results: [
@@ -140,7 +141,7 @@ export default function MilaPage() {
                                             : "hover:bg-primary/5"
                                     )}
                                 >
-                                    {item.icon}
+                                    <ArrowRight className={cn("size-5 shrink-0", activeChallenge === item.id ? "text-primary" : "text-muted-foreground" )} />
                                     {item.challenge}
                                 </button>
                             ))}
@@ -197,5 +198,7 @@ export default function MilaPage() {
     </>
   );
 }
+
+    
 
     
