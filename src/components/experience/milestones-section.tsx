@@ -179,7 +179,7 @@ export function MilestonesSection({ activeYear, setActiveYear }: MilestonesSecti
                         onClick={() => setActiveYear(item.year)}
                         className={cn(
                             "w-full justify-center text-md h-12 transition-all duration-200",
-                            activeYear !== item.year && 'bg-transparent text-foreground hover:bg-primary/10',
+                            activeYear === item.year ? 'bg-primary text-primary-foreground' : 'bg-transparent text-foreground hover:bg-primary/10',
                             'glassmorphism'
                         )}
                     >
