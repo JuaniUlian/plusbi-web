@@ -11,7 +11,8 @@ const content = {
   es: {
     title: "Nuestra Experiencia",
     subtitle: "Desde 2021, revolucionando la consultoría empresarial, política y social.",
-    storyTitle: "Nuestra Historia: De la Visión a la Realidad",
+    storyTitle: "Nuestra Historia",
+    storySubtitle: "De la Visión a la Realidad.",
     milestonesTitle: "Hitos Clave",
     milestonesSubtitle: "Un recorrido interactivo por nuestros logros más importantes. Selecciona un año para explorar.",
     teamTitle: "El Equipo",
@@ -23,7 +24,8 @@ const content = {
   en: {
     title: "Our Experience",
     subtitle: "Since 2021, revolutionizing business, political, and social consulting.",
-    storyTitle: "Our Story: From Vision to Reality",
+    storyTitle: "Our Story",
+    storySubtitle: "From Vision to Reality.",
     milestonesTitle: "Key Milestones",
     milestonesSubtitle: "An interactive journey through our most important achievements. Select a year to explore.",
     teamTitle: "The Team",
@@ -54,21 +56,20 @@ export default function ExperiencePage() {
 
       <section id="story-timeline" className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.storyTitle}</h2>
+                <p className="mt-2 text-lg text-muted-foreground">
+                    {c.storySubtitle}
+                </p>
+            </div>
           <div className="grid lg:grid-cols-2 lg:gap-16">
             <div className="mb-12 lg:mb-0">
                <div className="lg:sticky top-24">
-                 <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">{c.storyTitle}</h2>
                  <StorySection activeYear={activeYear} />
                </div>
             </div>
 
             <div>
-              <div className="text-center lg:text-left mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.milestonesTitle}</h2>
-                  <p className="mt-2 text-lg text-muted-foreground">
-                      {c.milestonesSubtitle}
-                  </p>
-              </div>
               <MilestonesSection activeYear={activeYear} setActiveYear={setActiveYear} />
             </div>
           </div>

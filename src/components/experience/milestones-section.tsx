@@ -5,6 +5,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building, Award, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 const milestonesContent = {
     es: {
@@ -176,7 +177,11 @@ export function MilestonesSection({ activeYear, setActiveYear }: MilestonesSecti
                         key={item.year}
                         variant={activeYear === item.year ? 'default' : 'outline'}
                         onClick={() => setActiveYear(item.year)}
-                        className="w-full justify-center text-md h-12"
+                        className={cn(
+                            "w-full justify-center text-md h-12 transition-all duration-200",
+                            activeYear !== item.year && 'bg-transparent text-foreground hover:bg-primary/10',
+                            'glassmorphism'
+                        )}
                     >
                         {item.year}
                     </Button>
