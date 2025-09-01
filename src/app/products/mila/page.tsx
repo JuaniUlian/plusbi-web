@@ -136,14 +136,14 @@ export default function MilaPage() {
                         {c.challenges.map((item) => (
                             <CarouselItem key={item.id}>
                                 <Card className="shadow-xl glassmorphism overflow-hidden m-1">
-                                    <div className="p-6 text-center">
+                                    <div className="p-6 text-center bg-destructive/10">
                                         <div className="inline-flex items-center gap-3">
                                            {item.challengeIcon}
-                                           <h3 className="font-semibold text-lg">{item.challenge}</h3>
+                                           <h3 className="font-semibold text-lg text-destructive-foreground">{item.challenge}</h3>
                                         </div>
                                     </div>
-                                    <div className="p-6 bg-primary/10 text-center">
-                                        <div className="flex items-center justify-center gap-3 text-xl font-bold text-primary mb-2">
+                                    <div className="p-6 bg-green-600/10 text-center">
+                                        <div className="flex items-center justify-center gap-3 text-xl font-bold text-green-700 mb-2">
                                             {item.solutionIcon}
                                             <h4>{item.solution}</h4>
                                         </div>
@@ -174,6 +174,7 @@ export default function MilaPage() {
                 <div>
                 <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
                 <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
+
                 <ul className="mt-6 space-y-4">
                     {c.diffPoints.map((point, index) => (
                     <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
