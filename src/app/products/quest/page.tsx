@@ -8,9 +8,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle, Lightbulb } from 'lucide-react';
+import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle, Lightbulb, Building2, TrendingUp, Users, Vote, Search } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const content = {
   es: {
@@ -18,12 +19,24 @@ const content = {
     title: "Quest",
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
     videoTitle: "Quest en Acción",
-    leapTitle: "Decisiones Inteligentes para Gobiernos Modernos",
-    leapDescription: "<p>Quest transforma <strong>grandes volúmenes de datos</strong> —ya sean de fuentes públicas o de tus propias bases de datos— en visualizaciones claras e intuitivas para que puedas entender el presente y anticiparte al futuro.</p>",
-    analysisTitle: "Del Análisis a la Acción",
-    analysisDescription: "<p>Quest no solo muestra datos, sino que te dice qué hacer con ellos. Obtén <strong>recomendaciones automáticas</strong> generadas por IA, desde <strong>sugerencias de políticas públicas</strong> listas para implementar hasta <strong>ajustes precisos para tu campaña electoral</strong>.</p>",
-    powerTitle: "Potencia y Precisión",
-    powerDescription: "<p>Funciona tanto para la gestión diaria de gobiernos e instituciones como para el dinamismo de las campañas políticas, optimizando recursos y maximizando tu impacto.</p>",
+    useCasesTitle: "Descubre lo que Quest puede hacer por ti",
+    useCasesSubtitle: "Selecciona tu área para ver cómo Quest transforma datos en decisiones estratégicas.",
+    tabs: {
+      governments: "Para Gobiernos",
+      campaigns: "Para Campañas Políticas"
+    },
+    govPoints: [
+      { icon: <Building2 className="text-primary size-8" />, title: "Gestión Eficiente", description: "Visualiza el estado de tu gestión y el impacto de tus políticas en tiempo real." },
+      { icon: <TrendingUp className="text-primary size-8" />, title: "Anticipación de Crisis", description: "Detecta tendencias y patrones para prever conflictos sociales o económicos." },
+      { icon: <Users className="text-primary size-8" />, title: "Conocimiento Ciudadano", description: "Comprende las demandas y el sentir de la población para guiar tus acciones." },
+      { icon: <Lightbulb className="text-primary size-8" />, title: "Recomendaciones de IA", description: "Recibe sugerencias de políticas públicas basadas en evidencia y datos." },
+    ],
+    campaignPoints: [
+        { icon: <Target className="text-primary size-8" />, title: "Optimización de Recursos", description: "Identifica las áreas geográficas clave para enfocar tus esfuerzos y tu presupuesto." },
+        { icon: <Vote className="text-primary size-8" />, title: "Segmentación de Votantes", description: "Conoce el perfil y las preocupaciones de distintos segmentos del electorado." },
+        { icon: <Search className="text-primary size-8" />, title: "Análisis de Competencia", description: "Monitorea el posicionamiento y la estrategia de tus adversarios." },
+        { icon: <Lightbulb className="text-primary size-8" />, title: "Mensajes Efectivos", description: "Ajusta tu discurso con recomendaciones de IA para conectar con cada audiencia." },
+    ],
     caseTitle: "🇦🇷 Caso de Éxito: Elecciones Presidenciales de Argentina 2023",
     caseDescription: "<p>Realizamos un estudio diario entre enero y noviembre de 2023, recopilando más de <strong>7,100,000 puntos de datos</strong> sobre los candidatos presidenciales en Argentina, cubriendo todo el país.</p><p class='mt-2'>Esto proporcionó una <strong>visión sin precedentes</strong> del sentimiento y las tendencias de los votantes, demostrando la fiabilidad y el poder de Quest en entornos complejos.</p>",
     ctaTitle: "¿Listo para tomar decisiones basadas en datos?",
@@ -35,12 +48,24 @@ const content = {
     title: "Quest",
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
     videoTitle: "Quest in Action",
-    leapTitle: "Smart Decisions for Modern Governments",
-    leapDescription: "<p>Quest transforms <strong>large volumes of data</strong>—whether from public sources or your own databases—into clear and intuitive visualizations so you can understand the present and anticipate the future.</p>",
-    analysisTitle: "From Analysis to Action",
-    analysisDescription: "<p>Quest doesn't just show you data; it tells you what to do with it. Get <strong>automatic AI-generated recommendations</strong>, from ready-to-implement <strong>public policy suggestions</strong> to <strong>precise adjustments for your electoral campaign</strong>.</p>",
-    powerTitle: "Power and Precision",
-    powerDescription: "<p>It works for the daily management of governments and institutions as well as for the fast-paced dynamics of political campaigns, optimizing resources and maximizing your impact.</p>",
+    useCasesTitle: "Discover what Quest can do for you",
+    useCasesSubtitle: "Select your area to see how Quest turns data into strategic decisions.",
+    tabs: {
+      governments: "For Governments",
+      campaigns: "For Political Campaigns"
+    },
+    govPoints: [
+      { icon: <Building2 className="text-primary size-8" />, title: "Efficient Management", description: "Visualize the state of your administration and the impact of your policies in real-time." },
+      { icon: <TrendingUp className="text-primary size-8" />, title: "Crisis Anticipation", description: "Detect trends and patterns to foresee social or economic conflicts." },
+      { icon: <Users className="text-primary size-8" />, title: "Citizen Insight", description: "Understand the demands and sentiments of the population to guide your actions." },
+      { icon: <Lightbulb className="text-primary size-8" />, title: "AI Recommendations", description: "Receive evidence-based public policy suggestions generated by AI." },
+    ],
+    campaignPoints: [
+        { icon: <Target className="text-primary size-8" />, title: "Resource Optimization", description: "Identify key geographical areas to focus your efforts and budget." },
+        { icon: <Vote className="text-primary size-8" />, title: "Voter Segmentation", description: "Know the profile and concerns of different voter segments." },
+        { icon: <Search className="text-primary size-8" />, title: "Competitor Analysis", description: "Monitor the positioning and strategy of your opponents." },
+        { icon: <Lightbulb className="text-primary size-8" />, title: "Effective Messaging", description: "Adjust your discourse with AI recommendations to connect with each audience." },
+    ],
     caseTitle: "🇦🇷 Success Case: Argentine Presidential Elections 2023",
     caseDescription: "<p>A daily study was conducted between January and November 2023, collecting more than <strong>7,100,000 data points</strong> on presidential candidates in Argentina, covering the entire country.</p><p class='mt-2'>This provided <strong>unprecedented insight</strong> into voter sentiment and trends, demonstrating Quest's reliability and power in complex environments.</p>",
     ctaTitle: "Ready to make data-driven decisions?",
@@ -75,31 +100,48 @@ export default function QuestPage() {
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 items-start">
-                  <Card className="shadow-xl glassmorphism h-full">
-                    <CardContent className="p-8 grid grid-cols-1 gap-8 text-center">
-                        <div>
-                            <div className="flex justify-center mb-4">
-                                <Target className="text-primary size-10" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-3">{c.leapTitle}</h3>
-                            <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.leapDescription }} />
-                        </div>
-                         <div>
-                            <div className="flex justify-center mb-4">
-                                <Lightbulb className="text-primary size-10" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-3">{c.analysisTitle}</h3>
-                            <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.analysisDescription }} />
-                        </div>
-                        <div>
-                            <div className="flex justify-center mb-4">
-                                <ShieldCheck className="text-primary size-10" />
-                            </div>
-                            <h3 className="text-2xl font-bold mb-3">{c.powerTitle}</h3>
-                            <div className="text-muted-foreground text-base space-y-4" dangerouslySetInnerHTML={{ __html: c.powerDescription }} />
-                        </div>
-                    </CardContent>
-                  </Card>
+                  
+                  <Tabs defaultValue="governments" className="w-full">
+                    <Card className="shadow-xl glassmorphism h-full flex flex-col">
+                        <CardHeader className="text-center">
+                            <CardTitle>{c.useCasesTitle}</CardTitle>
+                            <CardDescription>{c.useCasesSubtitle}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-grow flex flex-col">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="governments">{c.tabs.governments}</TabsTrigger>
+                                <TabsTrigger value="campaigns">{c.tabs.campaigns}</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="governments" className="flex-grow mt-6">
+                                <ul className="space-y-6">
+                                    {c.govPoints.map((point) => (
+                                        <li key={point.title} className="flex items-start gap-4">
+                                            <div className="bg-primary/10 p-3 rounded-lg h-fit">{point.icon}</div>
+                                            <div>
+                                                <h4 className="font-semibold text-lg">{point.title}</h4>
+                                                <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </TabsContent>
+                            <TabsContent value="campaigns" className="flex-grow mt-6">
+                                <ul className="space-y-6">
+                                     {c.campaignPoints.map((point) => (
+                                        <li key={point.title} className="flex items-start gap-4">
+                                            <div className="bg-primary/10 p-3 rounded-lg h-fit">{point.icon}</div>
+                                            <div>
+                                                <h4 className="font-semibold text-lg">{point.title}</h4>
+                                                <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </TabsContent>
+                        </CardContent>
+                    </Card>
+                  </Tabs>
+
                   <Card className="shadow-xl glassmorphism">
                   <CardHeader>
                       <CardTitle className="text-xl">{c.caseTitle}</CardTitle>
