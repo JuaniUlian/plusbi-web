@@ -24,7 +24,7 @@ const content = {
     useCasesSubtitle: "Selecciona tu área para ver cómo Quest transforma datos en decisiones estratégicas.",
     tabs: {
       governments: "Para Gobiernos",
-      campaigns: "Para Campañas Políticas"
+      campaigns: "Para Campañas Electorales"
     },
     govPoints: [
       { icon: <Building2 className="text-primary size-8" />, title: "Gestión Eficiente", description: "Visualiza el estado de tu gestión y el impacto de tus políticas en tiempo real." },
@@ -53,7 +53,7 @@ const content = {
     useCasesSubtitle: "Select your area to see how Quest turns data into strategic decisions.",
     tabs: {
       governments: "For Governments",
-      campaigns: "For Political Campaigns"
+      campaigns: "For Electoral Campaigns"
     },
     govPoints: [
       { icon: <Building2 className="text-primary size-8" />, title: "Efficient Management", description: "Visualize the state of your administration and the impact of your policies in real-time." },
