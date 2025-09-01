@@ -9,14 +9,14 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle, Lightbulb, Building2, TrendingUp, Users, Vote, Search } from 'lucide-react';
+import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const content = {
   es: {
-    badge: "Big Data & IA para Gobiernos",
+    badge: "Inteligencia para la Decisión",
     title: "Quest",
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
     videoTitle: "Quest en Acción",
@@ -45,7 +45,7 @@ const content = {
     ctaButton: "Solicita una presentación de Quest",
   },
   en: {
-    badge: "Big Data & AI for Governments",
+    badge: "Intelligence for Decision-Making",
     title: "Quest",
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
     videoTitle: "Quest in Action",
