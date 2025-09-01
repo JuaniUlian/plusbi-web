@@ -157,8 +157,8 @@ export default function MilaPage() {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className="hidden sm:flex" />
-                    <CarouselNext className="hidden sm:flex" />
+                    <CarouselPrevious className="flex" />
+                    <CarouselNext className="flex" />
                 </Carousel>
             
             <div className="text-center my-16">
@@ -198,7 +198,3 @@ export default function MilaPage() {
     </>
   );
 }
-
-    
-
-    
