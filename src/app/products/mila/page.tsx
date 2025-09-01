@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
-import { motion } from "framer-motion";
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -33,10 +32,10 @@ const content = {
     interactiveTitle: "Del Problema a la Solución",
     interactiveSubtitle: "Haz clic en cada tarjeta para descubrir cómo Mila transforma los desafíos de la gestión pública.",
     challenges: [
-        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <TrendingUp className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
+        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -65,10 +64,10 @@ const content = {
     interactiveTitle: "From Problem to Solution",
     interactiveSubtitle: "Click on each card to discover how Mila transforms public management challenges.",
      challenges: [
-        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
-        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <TrendingUp className="size-8" />, solutionIcon: <ShieldCheck className="size-8" /> },
+        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
     ],
     resultsTitle: "Real Results",
     results: [
@@ -136,8 +135,8 @@ export default function MilaPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 perspective">
                   {c.challenges.map((item) => (
-                    <div key={item.id} className="h-64 cursor-pointer" onClick={() => handleFlip(item.id)}>
-                      <div className={cn("flip-card", flippedCards[item.id] && "flipped")}>
+                    <div key={item.id} className="h-80 cursor-pointer" onClick={() => handleFlip(item.id)}>
+                      <div className={cn("relative w-full h-full flip-card", flippedCards[item.id] && "flipped")}>
                         {/* Front of the card (Problem) */}
                         <div className="flip-card-front">
                            <Card 
@@ -145,9 +144,9 @@ export default function MilaPage() {
                             style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
                            >
                             <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-                            <div className="relative z-10">
+                            <div className="relative z-10 flex flex-col items-center gap-4">
                               <div className="text-destructive-foreground">{item.challengeIcon}</div>
-                              <h3 className="font-semibold text-lg text-white mt-4">{item.challenge}</h3>
+                              <h3 className="font-semibold text-xl text-white">{item.challenge}</h3>
                               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1">
                                   <FlipHorizontal className="size-3" />
                                   {c.flipPrompt}
@@ -162,10 +161,10 @@ export default function MilaPage() {
                             style={{backgroundImage: "url('/backgrounds/celeste.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
                            >
                               <div className="absolute inset-0 bg-white/50 rounded-lg"></div>
-                               <div className="relative z-10">
+                               <div className="relative z-10 flex flex-col items-center gap-4">
                                 <div className="text-primary">{item.solutionIcon}</div>
-                                <h3 className="font-semibold text-lg text-primary-foreground mt-4">{item.solution}</h3>
-                                <p className="text-foreground/80 text-sm mt-2">{item.description}</p>
+                                <h3 className="font-semibold text-xl text-primary-foreground">{item.solution}</h3>
+                                <p className="text-foreground/80 text-base mt-2">{item.description}</p>
                               </div>
                            </Card>
                         </div>
