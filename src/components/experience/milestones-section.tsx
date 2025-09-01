@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 import { useLanguage } from '@/contexts/language-context';
-import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building, Award, BarChart, Target } from 'lucide-react';
+import { Rocket, Trophy, Lightbulb, TrendingUp, Globe, Building, Award, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { useState } from 'react';
 
 const milestonesContent = {
     es: {
@@ -158,11 +157,14 @@ const milestonesContent = {
     },
 };
 
+interface MilestonesSectionProps {
+    activeYear: string;
+    setActiveYear: (year: string) => void;
+}
 
-export function MilestonesSection() {
+export function MilestonesSection({ activeYear, setActiveYear }: MilestonesSectionProps) {
     const { language } = useLanguage();
     const c = milestonesContent[language];
-    const [activeYear, setActiveYear] = useState(c.years[0].year);
 
     const activeYearData = c.years.find(y => y.year === activeYear);
 
