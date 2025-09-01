@@ -4,37 +4,40 @@ import Image from 'next/image';
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   CheckCircle2,
-  AlertTriangle,
   FileEdit,
   BarChart,
   Link2,
   Share2,
   Award,
   Mail,
+  Zap,
+  Eye,
+  AlertCircle,
+  Clock,
+  ShieldCheck,
+  Scale,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 const content = {
   es: {
     badge: "Validación de Documentos con IA",
     title: "Mila",
     subtitle: "La herramienta de IA para gobiernos que acelera procesos, previene errores y asegura el cumplimiento normativo. Mila valida decretos, licitaciones y otros documentos en minutos.",
-    featuresTitle: "Características",
-    featuresSubtitle: "Descubre cómo Mila transforma la validación de documentos con sus potentes funciones impulsadas por IA.",
-    features: [
-      { icon: <BarChart className="text-primary" />, title: 'Análisis inteligente', description: 'Divide los documentos en bloques y analiza punto por punto para detectar errores y riesgos.' },
-      { icon: <AlertTriangle className="text-primary" />, title: 'Alertas automáticas', description: 'Clasifica los errores en niveles de riesgo (rojo, amarillo, verde) para que sepas qué atender primero.' },
-      { icon: <FileEdit className="text-primary" />, title: 'Edición ágil', description: 'Editá y corregí desde la plataforma, con control de versiones y sugerencias integradas.' },
-      { icon: <Award className="text-primary" />, title: 'Puntaje legal', description: 'Recibí una puntuación por documento o bloque, según el cumplimiento normativo.' },
-      { icon: <Link2 className="text-primary" />, title: 'Normas vinculadas', description: 'MILA te muestra en qué norma o resolución se basa cada sugerencia.' },
-      { icon: <Share2 className="text-primary" />, title: 'Exportá y compartí', description: 'Generá una versión corregida del documento para compartir fácilmente.' },
+    interactiveTitle: "Del Problema a la Solución",
+    interactiveSubtitle: "Haz clic en un desafío para descubrir cómo Mila lo resuelve.",
+    challenges: [
+        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto, evitando costosos errores.", icon: <AlertCircle className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas de idas y vueltas entre áreas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", icon: <Clock className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Normativo Garantizado", description: "Mila vincula cada observación a la norma o regulación específica, ofreciendo un puntaje legal y asegurando que cada documento esté 100% en regla.", icon: <Scale className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad", solution: "Control de Versiones y Edición Centralizada", description: "Edita y corrige directamente en la plataforma. Mila gestiona el historial de cambios y genera una versión final corregida, lista para compartir.", icon: <Eye className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -59,15 +62,13 @@ const content = {
     badge: "AI Document Validation",
     title: "Mila",
     subtitle: "The AI tool for governments that accelerates processes, prevents errors, and ensures regulatory compliance. Mila validates decrees, tenders, and other documents in minutes.",
-    featuresTitle: "Features",
-    featuresSubtitle: "Discover how Mila transforms document validation with its powerful, AI-driven features.",
-    features: [
-      { icon: <BarChart className="text-primary" />, title: 'Intelligent Analysis', description: 'Divides documents into blocks and analyzes them point by point to detect errors and risks.' },
-      { icon: <AlertTriangle className="text-primary" />, title: 'Automatic Alerts', description: 'Classifies errors into risk levels (red, yellow, green) so you know what to address first.' },
-      { icon: <FileEdit className="text-primary" />, title: 'Agile Editing', description: 'Edit and correct from the platform, with version control and integrated suggestions.' },
-      { icon: <Award className="text-primary" />, title: 'Legal Score', description: 'Receive a score per document or block, according to regulatory compliance.' },
-      { icon: <Link2 className="text-primary" />, title: 'Linked Regulations', description: 'MILA shows you which regulation or resolution each suggestion is based on.' },
-      { icon: <Share2 className="text-primary" />, title: 'Export and Share', description: 'Generate a corrected version of the document to share easily.' },
+    interactiveTitle: "From Problem to Solution",
+    interactiveSubtitle: "Click on a challenge to discover how Mila solves it.",
+     challenges: [
+        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss, avoiding costly mistakes.", icon: <AlertCircle className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth between departments, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", icon: <Clock className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Regulatory Compliance", description: "Mila links each observation to the specific norm or regulation, providing a legal score and ensuring every document is 100% compliant.", icon: <Scale className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
+        { id: 'traceability', challenge: "Lack of Traceability", solution: "Version Control and Centralized Editing", description: "Edit and correct directly on the platform. Mila manages the change history and generates a final, corrected version, ready to share.", icon: <Eye className="text-destructive size-6" />, solutionIcon: <Zap className="text-green-500 size-6" /> },
     ],
     resultsTitle: "Real Results",
     results: [
@@ -93,12 +94,15 @@ const content = {
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
+  const [activeChallenge, setActiveChallenge] = useState(c.challenges[0].id);
 
   const generateMailto = () => {
     const subject = `Solicitud de demo de ${c.title}`;
     const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
     return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
+
+  const currentDisplay = c.challenges.find(item => item.id === activeChallenge);
 
   return (
     <>
@@ -117,22 +121,46 @@ export default function MilaPage() {
       <main>
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold font-headline mb-4">{c.featuresTitle}</h2>
-                <p className="text-muted-foreground max-w-2xl mx-auto">{c.featuresSubtitle}</p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                {c.features.map(item => (
-                <Card key={item.title} className="flex gap-4 p-6 items-start glassmorphism">
-                    <div className="bg-primary/10 p-3 rounded-lg h-fit">{item.icon}</div>
-                    <div>
-                    <h4 className="font-semibold text-lg">{item.title}</h4>
-                    <p className="text-muted-foreground text-sm mt-1">{item.description}</p>
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
+                    <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
+                </div>
+                <Card className="grid md:grid-cols-2 shadow-xl glassmorphism overflow-hidden">
+                    <div className="p-8 border-r border-border/10">
+                        <h3 className="font-semibold text-lg mb-4">El Desafío de la Gestión Pública</h3>
+                        <div className="space-y-2">
+                            {c.challenges.map(item => (
+                                <button 
+                                    key={item.id}
+                                    onClick={() => setActiveChallenge(item.id)}
+                                    className={cn(
+                                        "w-full text-left p-3 rounded-lg transition-colors flex items-center gap-3",
+                                        activeChallenge === item.id 
+                                            ? "bg-primary/10 text-primary font-semibold" 
+                                            : "hover:bg-primary/5"
+                                    )}
+                                >
+                                    {item.icon}
+                                    {item.challenge}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="p-8 bg-primary/5 flex flex-col justify-center">
+                        {currentDisplay && (
+                            <>
+                                <h3 className="font-semibold text-lg mb-2">La Solución de Mila</h3>
+                                <div className="flex items-center gap-3 text-2xl font-bold text-primary mb-4">
+                                    {currentDisplay.solutionIcon}
+                                    <h4>{currentDisplay.solution}</h4>
+                                </div>
+                                <p className="text-muted-foreground">{currentDisplay.description}</p>
+                            </>
+                        )}
                     </div>
                 </Card>
-                ))}
-            </div>
-            <div className="text-center mb-16">
+            
+            <div className="text-center my-16">
                 <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                 {c.results.map(item => (
@@ -169,3 +197,5 @@ export default function MilaPage() {
     </>
   );
 }
+
+    
