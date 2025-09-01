@@ -111,7 +111,7 @@ export default function MilaPage() {
       <header className="py-20 bg-primary/10 text-center" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center">
-            <Image src="/logo/Logo en blanco sin fondo.png" alt="Mila Logo" width={80} height={80} className="mb-4" />
+            <Image src="/logo/Logo en blanco sin fondo2.png" alt="Mila Logo" width={80} height={80} className="mb-4" />
           </div>
           <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
           <Badge className="mt-4">{c.badge}</Badge>
