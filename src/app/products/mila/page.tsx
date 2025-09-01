@@ -137,11 +137,7 @@ export default function MilaPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 perspective">
                   {c.challenges.map((item) => (
                     <div key={item.id} className="h-64 cursor-pointer" onClick={() => handleFlip(item.id)}>
-                      <motion.div 
-                        className={cn("flip-card", flippedCards[item.id] && "flipped")}
-                        transition={{ duration: 0.6 }}
-                        animate={{ rotateY: flippedCards[item.id] ? 180 : 0 }}
-                      >
+                      <div className={cn("flip-card", flippedCards[item.id] && "flipped")}>
                         {/* Front of the card (Problem) */}
                         <div className="flip-card-front">
                            <Card 
@@ -152,7 +148,7 @@ export default function MilaPage() {
                             <div className="relative z-10">
                               <div className="text-destructive-foreground">{item.challengeIcon}</div>
                               <h3 className="font-semibold text-lg text-white mt-4">{item.challenge}</h3>
-                              <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1">
+                              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1">
                                   <FlipHorizontal className="size-3" />
                                   {c.flipPrompt}
                               </div>
@@ -173,7 +169,7 @@ export default function MilaPage() {
                               </div>
                            </Card>
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
                   ))}
                 </div>
