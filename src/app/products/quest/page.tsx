@@ -28,7 +28,7 @@ const content = {
     caseDescription: "<p>Realizamos un estudio diario entre enero y noviembre de 2023, recopilando más de <strong>7,100,000 puntos de datos</strong> sobre los candidatos presidenciales en Argentina, cubriendo todo el país.</p><p class='mt-2'>Esto proporcionó una <strong>visión sin precedentes</strong> del sentimiento y las tendencias de los votantes, demostrando la fiabilidad y el poder de Quest en entornos complejos.</p>",
     ctaTitle: "¿Listo para tomar decisiones basadas en datos?",
     ctaSubtitle: "Descubre cómo Quest puede darte la visión estratégica que necesitas para anticiparte al futuro.",
-    ctaButton: "Solicita una demo de Quest",
+    ctaButton: "Solicita una presentación de Quest",
   },
   en: {
     badge: "Big Data & AI for Governments",
@@ -45,7 +45,7 @@ const content = {
     caseDescription: "<p>A daily study was conducted between January and November 2023, collecting more than <strong>7,100,000 data points</strong> on presidential candidates in Argentina, covering the entire country.</p><p class='mt-2'>This provided <strong>unprecedented insight</strong> into voter sentiment and trends, demonstrating Quest's reliability and power in complex environments.</p>",
     ctaTitle: "Ready to make data-driven decisions?",
     ctaSubtitle: "Discover how Quest can give you the strategic insight you need to anticipate the future.",
-    ctaButton: "Request a Quest demo",
+    ctaButton: "Request a Quest presentation",
   }
 }
 
@@ -54,8 +54,8 @@ export default function QuestPage() {
   const c = content[language];
 
   const generateMailto = () => {
-    const subject = `Solicitud de demo de ${c.title}`;
-    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
+    const subject = `Solicitud de presentación de ${c.title}`;
+    const body = `Estimados,\n\nMe gustaría coordinar una reunión para una presentación de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
     return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
