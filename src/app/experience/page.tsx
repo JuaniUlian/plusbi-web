@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/language-context';
 import { MilestonesSection } from '@/components/experience/milestones-section';
 import { StorySection } from '@/components/experience/story-section';
+import { TeamSection } from '@/components/experience/team-section';
 
 const content = {
   es: {
