@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const content = {
   es: {
-    badge: "Inteligencia para Decisiones Estratégicas",
+    badge: "Análisis de Datos",
     title: "Quest",
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
     videoTitle: "Quest en Acción",
@@ -45,7 +45,7 @@ const content = {
     ctaButton: "Solicita una presentación de Quest",
   },
   en: {
-    badge: "Intelligence for Strategic Decisions",
+    badge: "Data Analysis",
     title: "Quest",
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
     videoTitle: "Quest in Action",
