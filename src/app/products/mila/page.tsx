@@ -135,7 +135,7 @@ export default function MilaPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 perspective">
                   {c.challenges.map((item) => (
-                    <div key={item.id} className="h-80 cursor-pointer" onClick={() => handleFlip(item.id)}>
+                    <div key={item.id} className="h-80 cursor-pointer group" onClick={() => handleFlip(item.id)}>
                       <div className={cn("relative w-full h-full flip-card", flippedCards[item.id] && "flipped")}>
                         {/* Front of the card (Problem) */}
                         <div className="flip-card-front">
@@ -147,7 +147,7 @@ export default function MilaPage() {
                             <div className="relative z-10 flex flex-col items-center gap-4">
                               {item.challengeIcon}
                               <h3 className="font-semibold text-xl text-white">{item.challenge}</h3>
-                              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1">
+                              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
                                   <FlipHorizontal className="size-3" />
                                   {c.flipPrompt}
                               </div>
