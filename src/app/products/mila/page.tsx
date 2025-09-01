@@ -21,8 +21,15 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { Separator } from '@/components/ui/separator';
+
 
 const content = {
   es: {
@@ -30,12 +37,12 @@ const content = {
     title: "Mila",
     subtitle: "La herramienta de IA para gobiernos que acelera procesos, previene errores y asegura el cumplimiento normativo. Mila valida decretos, licitaciones y otros documentos en minutos.",
     interactiveTitle: "Del Problema a la Solución",
-    interactiveSubtitle: "Haz clic en cada tarjeta para descubrir cómo Mila transforma los desafíos de la gestión pública.",
+    interactiveSubtitle: "Desliza para descubrir cómo Mila transforma los desafíos de la gestión pública.",
     challenges: [
-        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-primary" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-primary" /> },
-        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-primary" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-primary" /> },
+        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-green-500" /> },
+        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -55,19 +62,18 @@ const content = {
     ctaTitle: "¿Listo para optimizar tus procesos?",
     ctaSubtitle: "Descubre cómo Mila puede reducir errores, acelerar validaciones y fortalecer el control interno en tu organización.",
     ctaButton: "Solicita una demo de Mila",
-    flipPrompt: "Haz clic para ver la solución",
   },
   en: {
     badge: "AI Document Validation",
     title: "Mila",
     subtitle: "The AI tool for governments that accelerates processes, prevents errors, and ensures regulatory compliance. Mila validates decrees, tenders, and other documents in minutes.",
     interactiveTitle: "From Problem to Solution",
-    interactiveSubtitle: "Click on each card to discover how Mila transforms public management challenges.",
+    interactiveSubtitle: "Swipe to discover how Mila transforms public management challenges.",
      challenges: [
-        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-primary" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-primary" /> },
-        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-primary" /> },
-        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-primary" /> },
+        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-green-500" /> },
+        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
+        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
     resultsTitle: "Real Results",
     results: [
@@ -87,23 +93,12 @@ const content = {
     ctaTitle: "Ready to optimize your processes?",
     ctaSubtitle: "Discover how Mila can reduce errors, speed up validations, and strengthen internal control in your organization.",
     ctaButton: "Request a Mila demo",
-    flipPrompt: "Click to see the solution",
   }
 }
 
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
-  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({
-      'errors': false,
-      'delays': true,
-      'compliance': false,
-      'traceability': true,
-  });
-
-  const handleFlip = (id: string) => {
-      setFlippedCards(prev => ({ ...prev, [id]: !prev[id] }));
-  }
   
   const generateMailto = () => {
     const subject = `Solicitud de demo de ${c.title}`;
@@ -133,69 +128,66 @@ export default function MilaPage() {
                     <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 perspective">
-                  {c.challenges.map((item) => (
-                    <div key={item.id} className="h-80 cursor-pointer group" onClick={() => handleFlip(item.id)}>
-                      <div className={cn("relative w-full h-full flip-card", flippedCards[item.id] && "flipped")}>
-                        {/* Front of the card (Problem) */}
-                        <div className="flip-card-front">
-                           <Card 
-                            className="h-full flex flex-col justify-center items-center text-center p-6 text-white hover:shadow-xl transition-shadow relative"
-                            style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
-                           >
-                            <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
-                            <div className="relative z-10 flex flex-col items-center gap-4">
-                              {item.challengeIcon}
-                              <h3 className="font-semibold text-xl text-white">{item.challenge}</h3>
-                              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
-                                  <FlipHorizontal className="size-3" />
-                                  {c.flipPrompt}
-                              </div>
-                            </div>
-                          </Card>
-                        </div>
-                        {/* Back of the card (Solution) */}
-                        <div className="flip-card-back">
-                           <Card 
-                            className="h-full flex flex-col justify-center items-center text-center p-6 text-foreground hover:shadow-xl transition-shadow relative"
-                            style={{backgroundImage: "url('/backgrounds/celeste.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
-                           >
-                              <div className="absolute inset-0 bg-white/50 rounded-lg"></div>
-                               <div className="relative z-10 flex flex-col items-center gap-4">
-                                {item.solutionIcon}
-                                <h3 className="font-semibold text-xl text-primary">{item.solution}</h3>
-                                <p className="text-foreground/80 text-base mt-2">{item.description}</p>
-                              </div>
-                           </Card>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-            
-            <div className="text-center my-16">
-                <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-                {c.results.map(item => (
-                    <Card key={item.label} className="p-4 glassmorphism">
-                    <p className="text-4xl font-extrabold text-primary">{item.value}</p>
-                    <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
-                    </Card>
-                ))}
-                </div>
-            </div>
-            <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
-                <div>
-                <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
-                <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
+                <Carousel className="w-full max-w-2xl mx-auto">
+                    <CarouselContent>
+                        {c.challenges.map((item) => (
+                            <CarouselItem key={item.id}>
+                                <div className="p-1">
+                                    <Card className="overflow-hidden shadow-xl">
+                                        {/* Problem Section */}
+                                        <div className="relative p-8 text-center text-white" style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                                            <div className="absolute inset-0 bg-black/50"></div>
+                                            <div className="relative z-10 flex flex-col items-center gap-4">
+                                                {item.challengeIcon}
+                                                <h3 className="text-xl font-semibold">{item.challenge}</h3>
+                                            </div>
+                                        </div>
 
-                <ul className="mt-6 space-y-4">
-                    {c.diffPoints.map((point, index) => (
-                    <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
+                                        <Separator />
+
+                                        {/* Solution Section */}
+                                        <div className="relative p-8 text-center" style={{backgroundImage: "url('/backgrounds/verde.png')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                                             <div className="absolute inset-0 bg-black/20"></div>
+                                             <div className="relative z-10 flex flex-col items-center gap-4">
+                                                {item.solutionIcon}
+                                                <h3 className="text-xl font-semibold text-white">{item.solution}</h3>
+                                                <p className="text-white/90 text-base">{item.description}</p>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <div className="flex justify-center items-center gap-4 mt-4">
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </div>
+                </Carousel>
+            
+                <div className="text-center my-16">
+                    <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    {c.results.map(item => (
+                        <Card key={item.label} className="p-4 glassmorphism">
+                        <p className="text-4xl font-extrabold text-primary">{item.value}</p>
+                        <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
+                        </Card>
                     ))}
-                </ul>
+                    </div>
                 </div>
-            </Card>
+                <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
+                    <div>
+                    <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
+                    <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
+
+                    <ul className="mt-6 space-y-4">
+                        {c.diffPoints.map((point, index) => (
+                        <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
+                        ))}
+                    </ul>
+                    </div>
+                </Card>
             </div>
         </section>
          <section className="py-16 md:py-24 bg-primary/10 text-center">
