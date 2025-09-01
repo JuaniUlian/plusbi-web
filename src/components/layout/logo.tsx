@@ -6,8 +6,8 @@ export function Logo(props: SVGProps<SVGSVGElement> & { className?: string }) {
     <Image
       src="/logo/Logo en blanco sin fondo.png"
       alt="PLUS BI Logo"
-      width={40}
-      height={40}
+      width={50}
+      height={50}
       className={props.className}
     />
   );

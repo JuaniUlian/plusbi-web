@@ -35,7 +35,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-8 mb-8">
             <div className="space-y-4">
                 <Link href="/" className="inline-flex items-center gap-2">
-                    <Logo className="h-8 w-8" />
+                    <Logo className="h-10 w-10" />
                     <span className="font-bold text-lg font-headline">PLUS BI</span>
                 </Link>
                 <p className="text-sm text-white/70 max-w-xs mx-auto">{c.slogan}</p>

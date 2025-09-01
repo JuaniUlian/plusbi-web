@@ -50,8 +50,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
       <div className="container flex h-16 max-w-7xl items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-8 w-8 text-primary" />
-          <span className="font-bold text-lg font-headline">PLUS BI</span>
+          <Logo className="h-10 w-10 text-primary" />
+          <span className="font-bold text-xl font-headline">PLUS BI</span>
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           {navItems.map((item) => (
@@ -83,7 +83,7 @@ export function Header() {
               <div className="p-4">
                 <div className="flex justify-between items-center mb-8">
                   <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
-                    <Logo className="h-8 w-8 text-primary" />
+                    <Logo className="h-10 w-10 text-primary" />
                     <span className="font-bold text-lg font-headline">PLUS BI</span>
                   </Link>
                   <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
