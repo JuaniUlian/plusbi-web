@@ -57,6 +57,7 @@ interface StorySectionProps {
 export function StorySection({ activeYear }: StorySectionProps) {
   const { language } = useLanguage();
   const story = storyContent[language];
+  const activeStory = story.find(s => s.year === activeYear);
 
   return (
     <div className="prose prose-lg text-muted-foreground space-y-4">
