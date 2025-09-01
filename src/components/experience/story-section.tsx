@@ -7,7 +7,7 @@ const storyContent = {
   es: [
     {
       year: '2025',
-      paragraph: "Mirando hacia el futuro, en 2025 lanzamos <strong>Mila</strong>, una herramienta de IA que redefine la validación de documentos, y que ya ha sido <strong>reconocida internacionalmente</strong> por su potencial para combatir la corrupción. Nuestra historia es una de crecimiento constante, impulsada por el deseo de generar un impacto real y positivo."
+      paragraph: "En 2025, dimos un salto cualitativo con el lanzamiento de <strong>Mila</strong>. Esta herramienta de IA fue diseñada para transformar la gestión pública, permitiendo a los gobiernos revisar licitaciones y trámites con una eficiencia sin precedentes, garantizando transparencia y eliminando errores. Un hito que nos posicionó como líderes en la innovación GovTech."
     },
     {
       year: '2024',
@@ -29,7 +29,7 @@ const storyContent = {
   en: [
      {
       year: '2025',
-      paragraph: "Looking to the future, in 2025 we launched <strong>Mila</strong>, an AI tool that redefines document validation, and has already been <strong>internationally recognized</strong> for its potential to combat corruption. Our story is one of constant growth, driven by the desire to generate a real and positive impact."
+      paragraph: "In 2025, we took a qualitative leap forward with the launch of <strong>Mila</strong>. This AI tool was designed to transform public administration, enabling governments to review tenders and processes with unprecedented efficiency, ensuring transparency and eliminating errors. A milestone that positioned us as leaders in GovTech innovation."
     },
     {
       year: '2024',
