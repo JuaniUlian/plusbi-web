@@ -10,33 +10,28 @@ import { cn } from '@/lib/utils';
 const milestonesContent = {
     es: {
         years: [
-             {
-                year: '2025',
+            {
+                year: '2021',
                 items: [
-                     {
-                        title: "Mila es seleccionada en el Top 20 del programa 'Corrupción Cero' de la CAF",
-                        description: "Programa en el que participaron empresas y startups de 17 países de América Latina y el Caribe, España y Corea del Sur.",
-                        icon: <Award className="size-8 text-primary" />,
-                    },
                     {
-                        title: 'Lanzamiento de Mila',
-                        description: 'Introducimos nuestra solución de IA para la validación de documentos legales en gobiernos, agilizando procesos y reduciendo errores.',
-                        icon: <Lightbulb className="size-8 text-primary" />,
+                        title: 'Nacimiento de PLUS BI',
+                        description: 'Fundamos la empresa en Julio con la misión de revolucionar la consultoría aplicando métodos y aplicaciones avanzadas.',
+                        icon: <Rocket className="size-8 text-primary" />,
                     },
-                ]
+                ],
             },
             {
-                year: '2024',
+                year: '2022',
                 items: [
-                     {
-                        title: 'Asesoramiento a Organismos Internacionales Multilaterales',
-                        description: 'Utilización de Quest para medir índices de Conflictividad Social.',
-                        icon: <Globe className="size-8 text-primary" />,
+                    {
+                        title: 'Asesoramiento en campañas políticas locales',
+                        description: '',
+                        icon: <Building className="size-8 text-primary" />,
                     },
-                     {
-                        title: 'Proyecciones en las Elecciones de la Ciudad de México',
-                        description: 'Quest mostró su fiablidad respecto a sus proyecciones, obteniendo un margen de error del 3% respecto a resultados finales.',
-                        icon: <Trophy className="size-8 text-primary" />,
+                    {
+                        title: 'Mediciones de intención de voto para campañas políticas locales',
+                        description: '',
+                        icon: <Target className="size-8 text-primary" />,
                     },
                 ],
             },
@@ -56,61 +51,61 @@ const milestonesContent = {
                 ],
             },
             {
-                year: '2022',
+                year: '2024',
                 items: [
-                    {
-                        title: 'Asesoramiento en campañas políticas locales',
-                        description: '',
-                        icon: <Building className="size-8 text-primary" />,
+                     {
+                        title: 'Asesoramiento a Organismos Internacionales Multilaterales',
+                        description: 'Utilización de Quest para medir índices de Conflictividad Social.',
+                        icon: <Globe className="size-8 text-primary" />,
                     },
-                    {
-                        title: 'Mediciones de intención de voto para campañas políticas locales',
-                        description: '',
-                        icon: <Target className="size-8 text-primary" />,
+                     {
+                        title: 'Proyecciones en las Elecciones de la Ciudad de México',
+                        description: 'Quest mostró su fiablidad respecto a sus proyecciones, obteniendo un margen de error del 3% respecto a resultados finales.',
+                        icon: <Trophy className="size-8 text-primary" />,
                     },
                 ],
             },
             {
-                year: '2021',
+                year: '2025',
                 items: [
-                    {
-                        title: 'Nacimiento de PLUS BI',
-                        description: 'Fundamos la empresa en Julio con la misión de revolucionar la consultoría aplicando métodos y aplicaciones avanzadas.',
-                        icon: <Rocket className="size-8 text-primary" />,
+                     {
+                        title: "Mila es seleccionada en el Top 20 del programa 'Corrupción Cero' de la CAF",
+                        description: "Programa en el que participaron empresas y startups de 17 países de América Latina y el Caribe, España y Corea del Sur.",
+                        icon: <Award className="size-8 text-primary" />,
                     },
-                ],
-            },
+                    {
+                        title: 'Lanzamiento de Mila',
+                        description: 'Introducimos nuestra solución de IA para la validación de documentos legales en gobiernos, agilizando procesos y reduciendo errores.',
+                        icon: <Lightbulb className="size-8 text-primary" />,
+                    },
+                ]
+            }
         ],
     },
     en: {
         years: [
-             {
-                year: '2025',
+            {
+                year: '2021',
                 items: [
                     {
-                        title: "Mila is selected in the Top 20 of the CAF's 'Zero Corruption' program",
-                        description: "A program in which companies and startups from 17 countries in Latin America and the Caribbean, Spain, and South Korea participated.",
-                        icon: <Award className="size-8 text-primary" />,
+                        title: 'Birth of PLUS BI',
+                        description: 'We founded the company in July with the mission to revolutionize consulting by applying advanced methods and applications.',
+                        icon: <Rocket className="size-8 text-primary" />,
                     },
-                    {
-                        title: 'Launch of Mila',
-                        description: 'We introduced our AI solution for validating legal documents in governments, speeding up processes and reducing errors.',
-                        icon: <Lightbulb className="size-8 text-primary" />,
-                    },
-                ]
+                ],
             },
             {
-                year: '2024',
+                year: '2022',
                 items: [
                     {
-                        title: 'Advice to Multilateral International Organizations',
-                        description: 'Using Quest to measure Social Conflict indexes.',
-                        icon: <Globe className="size-8 text-primary" />,
+                        title: 'Advice on local political campaigns',
+                        description: '',
+                        icon: <Building className="size-8 text-primary" />,
                     },
-                    {
-                        title: 'Projections in the Mexico City Elections',
-                        description: 'Quest showed its reliability regarding its projections, obtaining a 3% margin of error compared to the final results.',
-                        icon: <Trophy className="size-8 text-primary" />,
+                     {
+                        title: 'Voting intention measurements for local political campaigns',
+                        description: '',
+                        icon: <Target className="size-8 text-primary" />,
                     },
                 ],
             },
@@ -130,30 +125,35 @@ const milestonesContent = {
                 ],
             },
             {
-                year: '2022',
+                year: '2024',
                 items: [
                     {
-                        title: 'Advice on local political campaigns',
-                        description: '',
-                        icon: <Building className="size-8 text-primary" />,
+                        title: 'Advice to Multilateral International Organizations',
+                        description: 'Using Quest to measure Social Conflict indexes.',
+                        icon: <Globe className="size-8 text-primary" />,
                     },
-                     {
-                        title: 'Voting intention measurements for local political campaigns',
-                        description: '',
-                        icon: <Target className="size-8 text-primary" />,
+                    {
+                        title: 'Projections in the Mexico City Elections',
+                        description: 'Quest showed its reliability regarding its projections, obtaining a 3% margin of error compared to the final results.',
+                        icon: <Trophy className="size-8 text-primary" />,
                     },
                 ],
             },
-            {
-                year: '2021',
+             {
+                year: '2025',
                 items: [
                     {
-                        title: 'Birth of PLUS BI',
-                        description: 'We founded the company in July with the mission to revolutionize consulting by applying advanced methods and applications.',
-                        icon: <Rocket className="size-8 text-primary" />,
+                        title: "Mila is selected in the Top 20 of the CAF's 'Zero Corruption' program",
+                        description: "A program in which companies and startups from 17 countries in Latin America and the Caribbean, Spain, and South Korea participated.",
+                        icon: <Award className="size-8 text-primary" />,
                     },
-                ],
-            },
+                    {
+                        title: 'Launch of Mila',
+                        description: 'We introduced our AI solution for validating legal documents in governments, speeding up processes and reducing errors.',
+                        icon: <Lightbulb className="size-8 text-primary" />,
+                    },
+                ]
+            }
         ],
     },
 };
