@@ -144,21 +144,33 @@ export default function MilaPage() {
                       >
                         {/* Front of the card (Problem) */}
                         <div className="flip-card-front">
-                          <Card className="h-full flex flex-col justify-center items-center text-center p-6 glassmorphism border-destructive/20 bg-destructive/5 hover:shadow-xl transition-shadow">
-                            <div className="text-destructive">{item.challengeIcon}</div>
-                            <h3 className="font-semibold text-lg text-destructive-foreground mt-4">{item.challenge}</h3>
-                            <div className="absolute bottom-4 text-xs text-muted-foreground flex items-center gap-1">
-                                <FlipHorizontal className="size-3" />
-                                {c.flipPrompt}
+                           <Card 
+                            className="h-full flex flex-col justify-center items-center text-center p-6 text-white hover:shadow-xl transition-shadow relative"
+                            style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
+                           >
+                            <div className="absolute inset-0 bg-black/50 rounded-lg"></div>
+                            <div className="relative z-10">
+                              <div className="text-destructive-foreground">{item.challengeIcon}</div>
+                              <h3 className="font-semibold text-lg text-white mt-4">{item.challenge}</h3>
+                              <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 text-xs text-white/70 flex items-center gap-1">
+                                  <FlipHorizontal className="size-3" />
+                                  {c.flipPrompt}
+                              </div>
                             </div>
                           </Card>
                         </div>
                         {/* Back of the card (Solution) */}
                         <div className="flip-card-back">
-                           <Card className="h-full flex flex-col justify-center items-center text-center p-6 glassmorphism border-green-500/20 bg-green-500/5">
-                            <div className="text-green-500">{item.solutionIcon}</div>
-                            <h3 className="font-semibold text-lg text-green-700 mt-4">{item.solution}</h3>
-                            <p className="text-muted-foreground text-sm mt-2">{item.description}</p>
+                           <Card 
+                            className="h-full flex flex-col justify-center items-center text-center p-6 text-foreground hover:shadow-xl transition-shadow relative"
+                            style={{backgroundImage: "url('/backgrounds/celeste.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
+                           >
+                              <div className="absolute inset-0 bg-white/50 rounded-lg"></div>
+                               <div className="relative z-10">
+                                <div className="text-primary">{item.solutionIcon}</div>
+                                <h3 className="font-semibold text-lg text-primary-foreground mt-4">{item.solution}</h3>
+                                <p className="text-foreground/80 text-sm mt-2">{item.description}</p>
+                              </div>
                            </Card>
                         </div>
                       </motion.div>
