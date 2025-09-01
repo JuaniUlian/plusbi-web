@@ -56,7 +56,7 @@ export default function ExperiencePage() {
             <div className="mb-12 lg:mb-0">
                <div className="lg:sticky top-24">
                  <div className="text-center lg:text-left mb-8">
-                    <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.storyTitle}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold font-headline text-center">{c.storyTitle}</h2>
                  </div>
                  <StorySection activeYear={activeYear} />
                </div>
@@ -64,7 +64,7 @@ export default function ExperiencePage() {
 
             <div>
               <div className="text-center lg:text-left mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold font-headline">{c.milestonesTitle}</h2>
+                <h2 className="text-3xl md:text-4xl font-bold font-headline text-center">{c.milestonesTitle}</h2>
               </div>
               <MilestonesSection activeYear={activeYear} setActiveYear={setActiveYear} />
             </div>

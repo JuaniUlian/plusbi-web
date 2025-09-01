@@ -173,15 +173,19 @@ export function MilestonesSection({ activeYear, setActiveYear }: MilestonesSecti
         <div className="flex flex-col gap-8">
             <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
                 {c.years.map(item => (
-                    <Button 
+                    <Button
                         key={item.year}
                         variant={activeYear === item.year ? 'default' : 'outline'}
                         onClick={() => setActiveYear(item.year)}
                         className={cn(
-                            "w-full justify-center text-md h-12 transition-all duration-200",
-                            activeYear === item.year ? 'bg-primary text-primary-foreground' : 'bg-transparent text-foreground hover:bg-primary/10',
-                            'glassmorphism'
+                            "w-full justify-center text-md h-12 transition-all duration-200 glassmorphism",
+                            activeYear === item.year ? 'text-white font-bold' : 'bg-transparent text-foreground hover:bg-primary/10'
                         )}
+                        style={activeYear === item.year ? {
+                            backgroundImage: "url('/backgrounds/titulos.jpeg')",
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                        } : {}}
                     >
                         {item.year}
                     </Button>
