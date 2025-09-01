@@ -69,4 +69,29 @@
   .glassmorphism {
     @apply bg-card/50 backdrop-blur-2xl border-white/20;
   }
+
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .flip-card {
+    @apply w-full h-full;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  .flip-card.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    @apply absolute w-full h-full;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
 }
