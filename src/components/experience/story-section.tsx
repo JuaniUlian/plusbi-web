@@ -2,6 +2,7 @@
 import { useLanguage } from '@/contexts/language-context';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const storyContent = {
   es: [
@@ -60,18 +61,16 @@ export function StorySection({ activeYear }: StorySectionProps) {
   const activeStory = story.find(s => s.year === activeYear);
 
   return (
-    <div className="prose prose-lg text-muted-foreground space-y-4">
-      {story.map((item, index) => (
-        <p
-          key={index}
-          className={cn(
-            "transition-opacity duration-500",
-            activeYear === item.year ? "opacity-100 font-semibold text-foreground" : "opacity-50"
-          )}
-        >
-          {item.paragraph}
-        </p>
-      ))}
-    </div>
+    <Card className="glassmorphism">
+      <CardContent className="prose prose-lg text-muted-foreground p-6">
+        {activeStory ? (
+          <p className="transition-opacity duration-500 opacity-100 font-semibold text-foreground">
+            {activeStory.paragraph}
+          </p>
+        ) : (
+          <p>Selecciona un año para ver la historia.</p>
+        )}
+      </CardContent>
+    </Card>
   );
 }
