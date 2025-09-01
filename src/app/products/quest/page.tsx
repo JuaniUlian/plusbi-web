@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Rocket, ShieldCheck, Mail, Target, BarChart, CheckCircle, Lightbulb, Building2, TrendingUp, Users, Vote, Search } from 'lucide-react';
