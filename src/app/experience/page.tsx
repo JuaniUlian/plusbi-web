@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/language-context';
 import { MilestonesSection } from '@/components/experience/milestones-section';
 import { StorySection } from '@/components/experience/story-section';
+import { TeamSection } from '@/components/experience/team-section';
 
 const content = {
   es: {
@@ -76,12 +77,12 @@ export default function ExperiencePage() {
       <section id="team" className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">El Equipo</h2>
+            <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">{c.teamTitle}</h2>
             <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
-              Conoce a los expertos que impulsan la innovación en PLUS BI.
+              {c.teamSubtitle}
             </p>
           </div>
-          {/* Omitted for brevity */}
+          <TeamSection />
         </div>
       </section>
 

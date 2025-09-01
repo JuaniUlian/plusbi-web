@@ -317,7 +317,3 @@ export function TeamSection() {
     </Accordion>
   );
 }
-
-    
-
-    
