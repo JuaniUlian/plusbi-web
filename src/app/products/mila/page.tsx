@@ -33,9 +33,9 @@ const content = {
     interactiveSubtitle: "Haz clic en cada tarjeta para descubrir cómo Mila transforma los desafíos de la gestión pública.",
     challenges: [
         { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10" />, solutionIcon: <Zap className="size-10" /> },
         { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <Eye className="size-10" /> },
     ],
     resultsTitle: "Resultados Reales",
     results: [
@@ -65,9 +65,9 @@ const content = {
     interactiveSubtitle: "Click on each card to discover how Mila transforms public management challenges.",
      challenges: [
         { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10" />, solutionIcon: <Zap className="size-10" /> },
         { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
-        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <ShieldCheck className="size-10" /> },
+        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <TrendingUp className="size-10" />, solutionIcon: <Eye className="size-10" /> },
     ],
     resultsTitle: "Real Results",
     results: [
