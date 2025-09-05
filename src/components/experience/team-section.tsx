@@ -81,6 +81,18 @@ const teamContent = {
                   </div>
                 `
             },
+             {
+                name: 'Analía Barberio',
+                title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
+                avatar: '/fotos/analia.jpg',
+                linkedin: '#',
+                fullExperience: `
+                    <div class="space-y-2 text-sm text-muted-foreground">
+                        <p>Especialista en <strong>sistemas de información y transformación digital</strong>, con sólida trayectoria en la implementación de <strong>sistemas de gestión documental</strong> y <strong>ciberseguridad</strong> en entornos universitarios y organismos públicos.</p>
+                        <p><span class="font-semibold text-primary">Experiencia destacada:</span> Desarrollo <strong>SINTyS</strong>. Desarrollos para <strong>CAF, PNUD y BID</strong>. Certificadora <strong>ISO 9001 y 27001</strong>. Coordinadora de la Comisión de Ciberseguridad CIN.</p>
+                    </div>
+                `
+            },
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Experto Político. Licenciado en Relaciones Internacionales y Ciencias Políticas',
@@ -113,18 +125,6 @@ const teamContent = {
                       </ul>
                     </div>
                   </div>
-                `
-            },
-            {
-                name: 'Analía Barberio',
-                title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
-                avatar: '/fotos/analia.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                        <p>Especialista en <strong>sistemas de información y transformación digital</strong>, con sólida trayectoria en la implementación de <strong>sistemas de gestión documental</strong> y <strong>ciberseguridad</strong> en entornos universitarios y organismos públicos.</p>
-                        <p><span class="font-semibold text-primary">Experiencia destacada:</span> Desarrollo <strong>SINTyS</strong>. Desarrollos para <strong>CAF, PNUD y BID</strong>. Certificadora <strong>ISO 9001 y 27001</strong>. Coordinadora de la Comisión de Ciberseguridad CIN.</p>
-                    </div>
                 `
             },
             {
@@ -208,6 +208,18 @@ const teamContent = {
                   </div>
                 `
             },
+             {
+                name: 'Analía Barberio',
+                title: 'CTO. Information Systems and Digital Transformation Specialist',
+                avatar: '/fotos/analia.jpg',
+                linkedin: '#',
+                fullExperience: `
+                    <div class="space-y-2 text-sm text-muted-foreground">
+                        <p>Specialist in <strong>information systems and digital transformation</strong>, with a solid track record in implementing <strong>document management systems</strong> and <strong>cybersecurity</strong> in university environments and public bodies.</p>
+                        <p><span class="font-semibold text-primary">Key experience:</span> Development of <strong>SINTyS</strong>. Developments for <strong>CAF, UNDP, and IDB</strong>. <strong>ISO 9001 and 27001</strong> certifier. Coordinator of the CIN Cybersecurity Commission.</p>
+                    </div>
+                `
+            },
             {
                 name: 'Alejandro Gonzalez Carril',
                 title: 'Political Expert. Graduate in International Relations and Political Sciences',
@@ -240,18 +252,6 @@ const teamContent = {
                       </ul>
                     </div>
                   </div>
-                `
-            },
-            {
-                name: 'Analía Barberio',
-                title: 'CTO. Information Systems and Digital Transformation Specialist',
-                avatar: '/fotos/analia.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                        <p>Specialist in <strong>information systems and digital transformation</strong>, with a solid track record in implementing <strong>document management systems</strong> and <strong>cybersecurity</strong> in university environments and public bodies.</p>
-                        <p><span class="font-semibold text-primary">Key experience:</span> Development of <strong>SINTyS</strong>. Developments for <strong>CAF, UNDP, and IDB</strong>. <strong>ISO 9001 and 27001</strong> certifier. Coordinator of the CIN Cybersecurity Commission.</p>
-                    </div>
                 `
             },
             {
