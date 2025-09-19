@@ -224,10 +224,10 @@ export default function MilaPage() {
                     <div className="bg-primary/10 rounded-full p-4 mb-4">
                       {module.icon}
                     </div>
-                    <CardTitle className="text-xl text-white">{module.title}</CardTitle>
+                    <CardTitle className="text-xl text-foreground">{module.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex-grow p-0 mt-4">
-                    <p className="text-white/80">{module.description}</p>
+                    <p className="text-muted-foreground">{module.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -275,5 +275,7 @@ export default function MilaPage() {
     </>
   );
 }
+
+    
 
     
