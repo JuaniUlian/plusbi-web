@@ -199,7 +199,7 @@ export default function AiWizard() {
   }
 
   return (
-    <Card className="shadow-2xl w-full glassmorphism">
+    <Card className="shadow-2xl w-full glassmorphism card-hud-effect">
       {step === "wizard" && (
         <form onSubmit={handleSubmit(onWizardSubmit)}>
           <CardContent className="pt-6">

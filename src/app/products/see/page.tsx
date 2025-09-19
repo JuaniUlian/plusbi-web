@@ -136,7 +136,7 @@ export default function ElectronicFilePage() {
                             <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
                             <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
                         </div>
-                        <Card className="grid md:grid-cols-2 shadow-xl glassmorphism overflow-hidden">
+                        <Card className="grid md:grid-cols-2 shadow-xl glassmorphism overflow-hidden card-hud-effect">
                             <div className="p-8 border-r border-border/10">
                                 <h3 className="font-semibold text-lg mb-4">El Desafío: Gestión Basada en Papel</h3>
                                 <div className="space-y-2">
@@ -187,7 +187,7 @@ export default function ElectronicFilePage() {
                         </div>
                         <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
                             {c.features.map(f => (
-                                <Card key={f.title} className="text-center glassmorphism p-6 flex flex-col items-center">
+                                <Card key={f.title} className="text-center glassmorphism p-6 flex flex-col items-center card-hud-effect">
                                   <div className="flex justify-center mb-4">{f.icon}</div>
                                   <CardHeader className="p-0">
                                     <h4 className="text-lg font-semibold text-white">{f.title}</h4>
@@ -208,7 +208,7 @@ export default function ElectronicFilePage() {
                         </div>
                         <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
                            {c.benefits.map(b => (
-                                <Card key={b.title} className="text-center glassmorphism p-6 flex flex-col items-center">
+                                <Card key={b.title} className="text-center glassmorphism p-6 flex flex-col items-center card-hud-effect">
                                   <div className="flex justify-center mb-4">{b.icon}</div>
                                   <CardHeader className="p-0">
                                     <h4 className="text-lg font-semibold">{b.title}</h4>
@@ -226,7 +226,7 @@ export default function ElectronicFilePage() {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
                             {c.kpis.map(kpi => (
-                                <div key={kpi.label} className="p-6 bg-background rounded-lg shadow-md text-center glassmorphism">
+                                <div key={kpi.label} className="p-6 bg-background rounded-lg shadow-md text-center glassmorphism card-hud-effect">
                                     <p className="text-4xl font-extrabold text-primary">{kpi.value}</p>
                                     <p className="text-sm text-muted-foreground mt-2 uppercase tracking-wider">{kpi.label}</p>
                                 </div>

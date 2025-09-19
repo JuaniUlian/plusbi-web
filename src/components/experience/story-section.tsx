@@ -60,7 +60,7 @@ export function StorySection({ activeYear }: StorySectionProps) {
   const activeStory = story.find(s => s.year === activeYear);
 
   return (
-    <Card className="glassmorphism h-full">
+    <Card className="glassmorphism h-full card-hud-effect">
       <CardContent className="prose prose-lg text-muted-foreground p-8">
         {activeStory ? (
           <p 

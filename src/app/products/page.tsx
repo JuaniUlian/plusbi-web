@@ -107,7 +107,7 @@ export default function ProductsPage() {
         <div className="container mx-auto px-4">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {c.products.map((product) => (
-              <Card key={product.name} className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism">
+              <Card key={product.name} className="flex flex-col text-center glassmorphism card-hud-effect">
                 <CardHeader className="items-center">
                   <div className="bg-primary/10 rounded-full p-3 flex items-center justify-center mb-4">
                     <Image src={product.icon} alt={`${product.name} logo`} width={64} height={64}/>

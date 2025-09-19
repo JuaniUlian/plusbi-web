@@ -193,7 +193,7 @@ export function MilestonesSection({ activeYear, setActiveYear }: MilestonesSecti
             </div>
             <div className="space-y-4">
                  {activeYearData && activeYearData.items.map((item, index) => (
-                    <Card key={index} className="shadow-lg glassmorphism">
+                    <Card key={index} className="glassmorphism card-hud-effect">
                         <CardHeader className="flex flex-row items-start gap-4 space-y-0">
                            <div className="bg-primary/10 rounded-lg p-3 mt-1.5 shrink-0"> {item.icon}</div>
                             <div>

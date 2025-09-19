@@ -142,7 +142,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {c.products.map((product) => (
-              <Card key={product.name} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 glassmorphism flex flex-col">
+              <Card key={product.name} className="text-center glassmorphism flex flex-col card-hud-effect">
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <div className="mx-auto bg-primary/10 rounded-full p-2 flex items-center justify-center mb-4">

@@ -72,7 +72,7 @@ export function AchievementsSectionClient() {
                         {c.achievements.map((item, index) => (
                             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                 <div className="p-1 h-full">
-                                    <Card className="flex flex-col justify-center text-center items-center h-full shadow-lg hover:shadow-xl transition-shadow duration-300 glassmorphism p-6">
+                                    <Card className="flex flex-col justify-center text-center items-center h-full glassmorphism p-6 card-hud-effect">
                                         <div className="bg-primary/10 rounded-full p-4 mb-4">
                                             {item.icon}
                                         </div>

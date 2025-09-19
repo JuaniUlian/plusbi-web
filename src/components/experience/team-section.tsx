@@ -164,7 +164,7 @@ export function TeamSection() {
     <Accordion type="single" collapsible className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8">
       {c.teamMembers.map((member) => (
         <AccordionItem key={member.name} value={member.name} className="border-none">
-          <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col">
+          <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col card-hud-effect">
             <CardHeader>
                 <div className="flex justify-center">
                     <Image

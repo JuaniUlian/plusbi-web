@@ -177,7 +177,7 @@ export default function MilaPage() {
                         {c.challenges.map((item) => (
                             <CarouselItem key={item.id}>
                                 <div className="p-1">
-                                    <Card className="overflow-hidden shadow-xl">
+                                    <Card className="overflow-hidden shadow-xl card-hud-effect">
                                         {/* Problem Section */}
                                         <div className="relative p-8 text-center text-white" style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
                                             <div className="absolute inset-0 bg-black/50"></div>
@@ -219,7 +219,7 @@ export default function MilaPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {c.modules.map((module) => (
-                <Card key={module.title} className="glassmorphism text-center flex flex-col p-6">
+                <Card key={module.title} className="glassmorphism text-center flex flex-col p-6 card-hud-effect">
                   <CardHeader className="items-center p-0">
                     <div className="bg-primary/10 rounded-full p-4 mb-4">
                       {module.icon}
@@ -241,14 +241,14 @@ export default function MilaPage() {
                     <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
                     {c.results.map(item => (
-                        <Card key={item.label} className="p-4 glassmorphism">
+                        <Card key={item.label} className="p-4 glassmorphism card-hud-effect">
                         <p className="text-4xl font-extrabold text-primary">{item.value}</p>
                         <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
                         </Card>
                     ))}
                     </div>
                 </div>
-                <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism">
+                <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism card-hud-effect">
                     <div>
                     <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
                     <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>

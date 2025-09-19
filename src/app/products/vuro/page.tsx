@@ -84,7 +84,7 @@ export default function VuroPage() {
                             <h2 className="text-3xl font-bold font-headline">{c.futureTitle}</h2>
                             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{c.futureSubtitle}</p>
                         </div>
-                        <Card className="glassmorphism">
+                        <Card className="glassmorphism card-hud-effect">
                             <CardContent className="p-10">
                                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                                     {c.features.map(feature => (

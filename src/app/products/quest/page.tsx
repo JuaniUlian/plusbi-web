@@ -103,7 +103,7 @@ export default function QuestPage() {
               <div className="grid md:grid-cols-2 gap-12 items-start">
                   
                   <Tabs defaultValue="governments" className="w-full">
-                    <Card className="shadow-xl glassmorphism h-full flex flex-col">
+                    <Card className="shadow-xl glassmorphism h-full flex flex-col card-hud-effect">
                         <CardHeader className="text-center">
                             <CardTitle>{c.useCasesTitle}</CardTitle>
                             <CardDescription>{c.useCasesSubtitle}</CardDescription>
@@ -143,7 +143,7 @@ export default function QuestPage() {
                     </Card>
                   </Tabs>
 
-                  <Card className="shadow-xl glassmorphism">
+                  <Card className="shadow-xl glassmorphism card-hud-effect">
                   <CardHeader>
                       <CardTitle className="text-xl">{c.caseTitle}</CardTitle>
                   </CardHeader>
@@ -168,7 +168,7 @@ export default function QuestPage() {
                   <h2 className="text-3xl font-bold font-headline text-white">{c.videoTitle}</h2>
               </div>
               <div className="flex justify-center">
-                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl">
+                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl card-hud-effect">
                       <div className="aspect-w-16 aspect-h-9">
                           <iframe 
                               className="w-full h-full rounded-lg"

@@ -95,4 +95,13 @@
   .flip-card-back {
     transform: rotateY(180deg);
   }
+
+  .card-hud-effect {
+    @apply border-transparent transition-all duration-300;
+  }
+
+  .card-hud-effect:hover {
+    @apply shadow-lg shadow-primary/20 border-primary/30;
+    transform: translateY(-2px);
+  }
 }
