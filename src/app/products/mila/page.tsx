@@ -4,6 +4,9 @@ import Image from 'next/image';
 import {
   Card,
   CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -18,6 +21,9 @@ import {
   ArrowRight,
   TrendingUp,
   FlipHorizontal,
+  ClipboardCheck,
+  Files,
+  GanttChartSquare,
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
@@ -44,6 +50,26 @@ const content = {
         { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
         { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
+    modulesTitle: "Mila para cada Caso",
+    modulesSubtitle: "Elige un módulo para ver los trámites preconfigurados o ve al modo manual para un análisis personalizado.",
+    modules: [
+      {
+        icon: <ClipboardCheck className="size-8 text-primary" />,
+        title: "OPERATIVO",
+        description: "Trámites del día a día: solicitudes de reserva de espacio, comprar elementos de oficina, contratar limpieza o arreglar un aire acondicionado. Verifica que se cumplan los requisitos básicos.",
+      },
+      {
+        icon: <Files className="size-8 text-primary" />,
+        title: "TÉCNICO",
+        description: "Contratos que necesitan conocimiento especializado: abogados, arquitectos, sistemas informáticos o equipos médicos. Revisa que las propuestas técnicas sean correctas y cumplan las normas.",
+      },
+      {
+        icon: <GanttChartSquare className="size-8 text-primary" />,
+        title: "ESTRATÉGICO",
+        description: "Decisiones importantes: obras grandes, concesiones de servicios públicos o proyectos de infraestructura. Analiza si hay dinero suficiente, si es viable técnicamente y si cumple con todas las leyes y reglamentos.",
+      },
+    ],
+    selectButton: "Seleccionar",
     resultsTitle: "Resultados Reales",
     results: [
       { value: '+67%', label: 'Errores detectados vs revisión humana' },
@@ -75,6 +101,26 @@ const content = {
         { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
         { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
+    modulesTitle: "Mila for Every Case",
+    modulesSubtitle: "Choose a module to see pre-configured procedures or go to manual mode for a custom analysis.",
+    modules: [
+      {
+        icon: <ClipboardCheck className="size-8 text-primary" />,
+        title: "OPERATIONAL",
+        description: "Day-to-day tasks: space reservation requests, purchasing office supplies, hiring cleaning services, or fixing an air conditioner. Verifies that basic requirements are met.",
+      },
+      {
+        icon: <Files className="size-8 text-primary" />,
+        title: "TECHNICAL",
+        description: "Contracts that require specialized knowledge: lawyers, architects, IT systems, or medical equipment. Reviews that technical proposals are correct and comply with regulations.",
+      },
+      {
+        icon: <GanttChartSquare className="size-8 text-primary" />,
+        title: "STRATEGIC",
+        description: "Important decisions: large-scale works, public service concessions, or infrastructure projects. Analyzes if there is enough money, if it is technically viable, and if it complies with all laws and regulations.",
+      },
+    ],
+    selectButton: "Select",
     resultsTitle: "Real Results",
     results: [
       { value: '+67%', label: 'More errors detected vs human review' },
@@ -164,7 +210,38 @@ export default function MilaPage() {
                         <CarouselNext />
                     </div>
                 </Carousel>
-            
+            </div>
+        </section>
+
+        <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold font-headline text-white">{c.modulesTitle}</h2>
+              <p className="mt-2 text-white/80 max-w-2xl mx-auto">{c.modulesSubtitle}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {c.modules.map((module) => (
+                <Card key={module.title} className="glassmorphism text-center flex flex-col">
+                  <CardHeader className="items-center">
+                    <div className="bg-primary/10 rounded-full p-4 mb-4">
+                      {module.icon}
+                    </div>
+                    <CardTitle className="text-xl text-white">{module.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-white/80">{module.description}</p>
+                  </CardContent>
+                  <CardFooter className="justify-center">
+                    <Button variant="link" className="text-white/90">{c.selectButton}</Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+        
+        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+            <div className="container mx-auto px-4">
                 <div className="text-center my-16">
                     <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
@@ -203,5 +280,3 @@ export default function MilaPage() {
     </>
   );
 }
-
-    
