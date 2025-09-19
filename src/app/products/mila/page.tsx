@@ -54,17 +54,17 @@ const content = {
     modulesSubtitle: "Una solución flexible que se adapta a la complejidad de cada trámite, desde lo cotidiano hasta lo estratégico.",
     modules: [
       {
-        icon: <ClipboardCheck className="size-8 text-primary" />,
+        icon: <ClipboardCheck className="size-8 text-foreground" />,
         title: "OPERATIVO",
         description: "Trámites del día a día: solicitudes de reserva de espacio, comprar elementos de oficina, contratar limpieza o arreglar un aire acondicionado. Verifica que se cumplan los requisitos básicos.",
       },
       {
-        icon: <FileStack className="size-8 text-primary" />,
+        icon: <FileStack className="size-8 text-foreground" />,
         title: "TÉCNICO",
         description: "Contratos que necesitan conocimiento especializado: abogados, arquitectos, sistemas informáticos o equipos médicos. Revisa que las propuestas técnicas sean correctas y cumplan las normas.",
       },
       {
-        icon: <PieChart className="size-8 text-primary" />,
+        icon: <PieChart className="size-8 text-foreground" />,
         title: "ESTRATÉGICO",
         description: "Decisiones importantes: obras grandes, concesiones de servicios públicos o proyectos de infraestructura. Analiza si hay dinero suficiente, si es viable técnicamente y si cumple con todas las leyes y reglamentos.",
       },
@@ -104,17 +104,17 @@ const content = {
     modulesSubtitle: "A flexible solution that adapts to the complexity of each procedure, from the everyday to the strategic.",
     modules: [
       {
-        icon: <ClipboardCheck className="size-8 text-primary" />,
+        icon: <ClipboardCheck className="size-8 text-foreground" />,
         title: "OPERATIONAL",
         description: "Day-to-day tasks: space reservation requests, purchasing office supplies, hiring cleaning services, or fixing an air conditioner. Verifies that basic requirements are met.",
       },
       {
-        icon: <FileStack className="size-8 text-primary" />,
+        icon: <FileStack className="size-8 text-foreground" />,
         title: "TECHNICAL",
         description: "Contracts that require specialized knowledge: lawyers, architects, IT systems, or medical equipment. Reviews that technical proposals are correct and comply with regulations.",
       },
       {
-        icon: <PieChart className="size-8 text-primary" />,
+        icon: <PieChart className="size-8 text-foreground" />,
         title: "STRATEGIC",
         description: "Important decisions: large-scale works, public service concessions, or infrastructure projects. Analyzes if there is enough money, if it is technically viable, and if it complies with all laws and regulations.",
       },
@@ -275,9 +275,5 @@ export default function MilaPage() {
     </>
   );
 }
-
-    
-
-    
 
     
