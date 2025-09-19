@@ -22,7 +22,7 @@ const teamContent = {
                 name: 'Cristian Ulian',
                 title: 'Co-Fundador. Especialista en Políticas Públicas y Desarrollo Local',
                 avatar: '/fotos/cristian.jpeg',
-                linkedin: '#',
+                linkedin: 'https://www.linkedin.com/in/cristian-uli%C3%A1n-223a8556/',
                 fullExperience: `
                   <div class="space-y-4">
                     <div>
@@ -61,7 +61,7 @@ const teamContent = {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Fundador. Licenciado en Ciencias Políticas',
                 avatar: '/fotos/juan.jpg',
-                linkedin: '#',
+                linkedin: 'https://www.linkedin.com/in/juanulian/',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
                     <p>🏅 Soy <strong>Licenciado en Ciencia Política</strong> con una destacada trayectoria en los <strong>ámbitos deportivo y político</strong>. Mi experiencia en la selección argentina de atletismo refleja mi compromiso, disciplina y capacidad para rendir bajo presión, habilidades que ahora aplico como líder de PLUS BI, donde utilizo mis conocimientos en ciencia política para asesorar a organizaciones y candidatos en <strong>estrategias efectivas basadas en datos</strong>.</p>
@@ -80,64 +80,6 @@ const teamContent = {
                     </div>
                   </div>
                 `
-            },
-             {
-                name: 'Analía Barberio',
-                title: 'CTO. Especialista en Sistemas de Información y Transformación Digital',
-                avatar: '/fotos/analia.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                        <p>Especialista en <strong>sistemas de información y transformación digital</strong>, con sólida trayectoria en la implementación de <strong>sistemas de gestión documental</strong> y <strong>ciberseguridad</strong> en entornos universitarios y organismos públicos.</p>
-                        <p><span class="font-semibold text-primary">Experiencia destacada:</span> Desarrollo <strong>SINTyS</strong>. Desarrollos para <strong>CAF, PNUD y BID</strong>. Certificadora <strong>ISO 9001 y 27001</strong>. Coordinadora de la Comisión de Ciberseguridad CIN.</p>
-                    </div>
-                `
-            },
-            {
-                name: 'Alejandro Gonzalez Carril',
-                title: 'Experto Político. Licenciado en Relaciones Internacionales y Ciencias Políticas',
-                avatar: '/fotos/alejandro.jpeg',
-                linkedin: '#',
-                fullExperience: `
-                  <div class="space-y-4">
-                    <div>
-                      <h4 class="font-bold text-primary">PERFIL PROFESIONAL</h4>
-                      <p class="text-sm text-muted-foreground mt-1">🎓 Soy un profesional con doble titulación en <strong>Ciencia Política y Relaciones Internacionales</strong>, con amplia experiencia en el sector público y la consultoría política. Mi trabajo en la Dirección de Relaciones Internacionales del Gobierno de la Provincia de Entre Ríos me ha proporcionado un profundo conocimiento de la dinámica gubernamental y la cooperación internacional.</p>
-                      <p class="text-sm text-muted-foreground mt-1">🏅 Becado por COMCA en <strong>Gestión de Bienes Públicos</strong>, un programa organizado por el Gobierno de Corea del Sur y el Banco Interamericano de Desarrollo (BID), donde adquirí conocimientos avanzados en la gestión eficiente de los recursos públicos.</p>
-                       <p class="text-sm text-muted-foreground mt-1">📣 He participado en la <strong>consultoría de comunicación y marketing político</strong> para dos campañas presidenciales clave (2015 y 2023), aportando estrategias efectivas para potenciar la presencia y el mensaje de los candidatos en un entorno altamente competitivo.</p>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-primary">Experiencia</h4>
-                       <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
-                        <li>🏛️ <strong>Técnico en el Gobierno de la Provincia de Entre Ríos</strong> – Dirección de Relaciones Internacionales</li>
-                        <li>📣 <strong>Consultor de Comunicación y Marketing Político</strong> – Campaña Presidencial 2015</li>
-                        <li>📣 <strong>Consultor de Comunicación y Marketing Político</strong> – Campaña Presidencial 2023</li>
-                      </ul>
-                    </div>
-                     <div>
-                      <h4 class="font-bold text-primary">Habilidades y Competencias</h4>
-                       <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
-                        <li>🏛️ <strong>Políticas Públicas</strong></li>
-                        <li>📊 <strong>Planificación Estratégica</strong></li>
-                        <li>💼 <strong>Estrategia Empresarial</strong></li>
-                        <li>🤝 <strong>Liderazgo de Equipos</strong></li>
-                        <li>🗣️ <strong>Negociación</strong></li>
-                      </ul>
-                    </div>
-                  </div>
-                `
-            },
-            {
-                name: 'Pablo Martinez',
-                title: 'Chief Developer',
-                avatar: '/fotos/pablo.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                         <p>Desarrollador <strong>fullstack</strong> con énfasis en la <strong>transformación digital</strong> de procesos administrativos. Experto en integrar soluciones tecnológicas para agilizar y transparentar trámites en el sector público.</p>
-                         <p><span class="font-semibold text-primary">Experiencia destacada:</span> Desarrollo <strong>SINTyS y SUDOCU</strong>. Desarrollos para <strong>CAF, PNUD y BID</strong>.</p>
-                    </div>
-                `
             }
         ],
         seeMore: "Ver más",
@@ -149,7 +91,7 @@ const teamContent = {
                 name: 'Cristian Ulian',
                 title: 'Co-Founder. Specialist in Public Policies and Local Development',
                 avatar: '/fotos/cristian.jpeg',
-                linkedin: '#',
+                linkedin: 'https://www.linkedin.com/in/cristian-uli%C3%A1n-223a8556/',
                 fullExperience: `
                   <div class="space-y-4">
                     <div>
@@ -188,7 +130,7 @@ const teamContent = {
                 name: 'Juan Ignacio Ulian',
                 title: 'CEO & Co-Founder. Bachelor in Political Sciences',
                 avatar: '/fotos/juan.jpg',
-                linkedin: '#',
+                linkedin: 'https://www.linkedin.com/in/juanulian/',
                 fullExperience: `
                   <div class="space-y-4 text-sm text-muted-foreground">
                     <p>🏅 I hold a <strong>Bachelor’s Degree in Political Science</strong> with a distinguished track record in both the <strong>sports and political spheres</strong>. My experience with the Argentine national athletics team reflects my commitment, discipline, and ability to perform under pressure, skills I now apply as the leader of PLUS BI, where I use my political science background to advise organizations and candidates on effective <strong>data-driven strategies</strong>.</p>
@@ -207,64 +149,6 @@ const teamContent = {
                     </div>
                   </div>
                 `
-            },
-             {
-                name: 'Analía Barberio',
-                title: 'CTO. Information Systems and Digital Transformation Specialist',
-                avatar: '/fotos/analia.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                        <p>Specialist in <strong>information systems and digital transformation</strong>, with a solid track record in implementing <strong>document management systems</strong> and <strong>cybersecurity</strong> in university environments and public bodies.</p>
-                        <p><span class="font-semibold text-primary">Key experience:</span> Development of <strong>SINTyS</strong>. Developments for <strong>CAF, UNDP, and IDB</strong>. <strong>ISO 9001 and 27001</strong> certifier. Coordinator of the CIN Cybersecurity Commission.</p>
-                    </div>
-                `
-            },
-            {
-                name: 'Alejandro Gonzalez Carril',
-                title: 'Political Expert. Graduate in International Relations and Political Sciences',
-                avatar: '/fotos/alejandro.jpeg',
-                linkedin: '#',
-                fullExperience: `
-                  <div class="space-y-4">
-                    <div>
-                      <h4 class="font-bold text-primary">PROFESSIONAL BACKGROUND</h4>
-                      <p class="text-sm text-muted-foreground mt-1">🎓 I am a professional with a double degree in <strong>Political Science and International Relations</strong>, with extensive experience in the public sector and political consulting. My work at the Directorate of International Relations of the Government of the Province of Entre Ríos has provided me with a deep understanding of governmental dynamics and international cooperation.</p>
-                      <p class="text-sm text-muted-foreground mt-1">🏅 Awarded a scholarship by COMCA in <strong>Public Goods Management</strong>, a program organized by the Government of South Korea and the Inter-American Development Bank (IDB), where I gained advanced knowledge in the efficient management of public resources.</p>
-                       <p class="text-sm text-muted-foreground mt-1">📣 I have participated in <strong>political communication and marketing consulting</strong> for two key presidential campaigns (2015 and 2023), contributing effective strategies to enhance the candidates’ presence and messaging in a highly competitive environment.</p>
-                    </div>
-                    <div>
-                      <h4 class="font-bold text-primary">Experience</h4>
-                       <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
-                        <li>🏛️ <strong>Technician at the Government of the Province of Entre Ríos</strong> – Directorate of International Relations</li>
-                        <li>📣 <strong>Political Communication and Marketing Consultant</strong> – 2015 Presidential Campaign</li>
-                        <li>📣 <strong>Political Communication and Marketing Consultant</strong> – 2023 Presidential Campaign</li>
-                      </ul>
-                    </div>
-                     <div>
-                      <h4 class="font-bold text-primary">Skills and abilities</h4>
-                       <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
-                        <li>🏛️ <strong>Public Policy</strong></li>
-                        <li>📊 <strong>Strategic Planning</strong></li>
-                        <li>💼 <strong>Business Strategy</strong></li>
-                        <li>🤝 <strong>Team Leadership</strong></li>
-                        <li>🗣️ <strong>Negotiation</strong></li>
-                      </ul>
-                    </div>
-                  </div>
-                `
-            },
-            {
-                name: 'Pablo Martinez',
-                title: 'Chief Developer',
-                avatar: '/fotos/pablo.jpg',
-                linkedin: '#',
-                fullExperience: `
-                    <div class="space-y-2 text-sm text-muted-foreground">
-                         <p><strong>Fullstack developer</strong> with an emphasis on the <strong>digital transformation</strong> of administrative processes. Expert in integrating technological solutions to streamline and bring transparency to procedures in the public sector.</p>
-                         <p><span class="font-semibold text-primary">Key experience:</span> Development of <strong>SINTyS and SUDOCU</strong>. Developments for <strong>CAF, UNDP, and IDB</strong>.</p>
-                    </div>
-                `
             }
         ],
         seeMore: "See more",
@@ -277,7 +161,7 @@ export function TeamSection() {
     const c = teamContent[language];
 
   return (
-    <Accordion type="single" collapsible className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <Accordion type="single" collapsible className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8">
       {c.teamMembers.map((member) => (
         <AccordionItem key={member.name} value={member.name} className="border-none">
           <Card className="glassmorphism text-center overflow-hidden h-full flex flex-col">
