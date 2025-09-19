@@ -50,8 +50,8 @@ const content = {
         { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
         { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
-    modulesTitle: "Mila para cada Caso",
-    modulesSubtitle: "Elige un módulo para ver los trámites preconfigurados o ve al modo manual para un análisis personalizado.",
+    modulesTitle: "Mila para cada caso",
+    modulesSubtitle: "Una solución flexible que se adapta a la complejidad de cada trámite, desde lo cotidiano hasta lo estratégico.",
     modules: [
       {
         icon: <ClipboardCheck className="size-8 text-primary" />,
@@ -69,7 +69,6 @@ const content = {
         description: "Decisiones importantes: obras grandes, concesiones de servicios públicos o proyectos de infraestructura. Analiza si hay dinero suficiente, si es viable técnicamente y si cumple con todas las leyes y reglamentos.",
       },
     ],
-    selectButton: "Seleccionar",
     resultsTitle: "Resultados Reales",
     results: [
       { value: '+67%', label: 'Errores detectados vs revisión humana' },
@@ -102,7 +101,7 @@ const content = {
         { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
     ],
     modulesTitle: "Mila for Every Case",
-    modulesSubtitle: "Choose a module to see pre-configured procedures or go to manual mode for a custom analysis.",
+    modulesSubtitle: "A flexible solution that adapts to the complexity of each procedure, from the everyday to the strategic.",
     modules: [
       {
         icon: <ClipboardCheck className="size-8 text-primary" />,
@@ -120,7 +119,6 @@ const content = {
         description: "Important decisions: large-scale works, public service concessions, or infrastructure projects. Analyzes if there is enough money, if it is technically viable, and if it complies with all laws and regulations.",
       },
     ],
-    selectButton: "Select",
     resultsTitle: "Real Results",
     results: [
       { value: '+67%', label: 'More errors detected vs human review' },
@@ -221,19 +219,16 @@ export default function MilaPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {c.modules.map((module) => (
-                <Card key={module.title} className="glassmorphism text-center flex flex-col">
-                  <CardHeader className="items-center">
+                <Card key={module.title} className="glassmorphism text-center flex flex-col p-6">
+                  <CardHeader className="items-center p-0">
                     <div className="bg-primary/10 rounded-full p-4 mb-4">
                       {module.icon}
                     </div>
                     <CardTitle className="text-xl text-white">{module.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-grow">
+                  <CardContent className="flex-grow p-0 mt-4">
                     <p className="text-white/80">{module.description}</p>
                   </CardContent>
-                  <CardFooter className="justify-center">
-                    <Button variant="link" className="text-white/90">{c.selectButton}</Button>
-                  </CardFooter>
                 </Card>
               ))}
             </div>
