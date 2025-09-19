@@ -119,6 +119,12 @@ export default function Home() {
   const { language } = useLanguage();
   const c = content[language];
 
+  const generateMailto = () => {
+    const subject = "Solicitud de reunión general";
+    const body = "Hola, equipo de PLUS BI.\n\nMe gustaría agendar una reunión para discutir cómo sus soluciones pueden ayudar a mi organización.\n\nSaludos.";
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div className="flex flex-col">
       <HeroSection />
@@ -171,7 +177,7 @@ export default function Home() {
                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
                <Button asChild size="lg" className="mt-8">
-                <a href="mailto:contacto@plusbi.com">{c.ctaButton}</a>
+                <a href={generateMailto()}>{c.ctaButton}</a>
               </Button>
           </div>
       </section>

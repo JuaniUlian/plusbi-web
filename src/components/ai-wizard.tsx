@@ -187,9 +187,9 @@ export default function AiWizard() {
   }
 
   const generateMailto = (productName: string) => {
-    const subject = `Solicitud de demo de ${productName}`;
-    const body = `Estimados,\n\nMe gustaría coordinar una reunión para un demo de ${productName}.\n\nMe interesa porque...\n\nSaludos.`;
-    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const subject = `Interés en ${productName} (desde el Asistente de IA)`;
+    const body = `Hola Juan,\n\nEl asistente de IA me ha recomendado su producto "${productName}" y me gustaría saber más.\n\nMi necesidad es: "${userNeed}"\n\n¿Podríamos agendar una reunión?\n\nSaludos.`;
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
   
   const recommendedProductInfo = recommendation ? productInfo[recommendation.recommendedProduct] : null;

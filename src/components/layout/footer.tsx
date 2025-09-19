@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -26,6 +27,12 @@ export function Footer() {
   const { language } = useLanguage();
   const c = footerContent[language];
 
+  const generateMailto = () => {
+    const subject = "Solicitud de reunión desde el sitio web";
+    const body = "Hola Juan,\n\nHe visto su sitio web y me gustaría agendar una reunión para conversar sobre cómo PLUS BI puede ayudar a mi organización.\n\nSaludos.";
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <footer 
       className="border-t border-white/20 text-white" 
@@ -45,7 +52,7 @@ export function Footer() {
                  <h3 className="font-semibold mb-2 text-lg">{c.contactTitle}</h3>
                  <p className="text-sm text-white/70 mb-4 max-w-xs">{c.contactSubtitle}</p>
                  <Button asChild variant="secondary">
-                     <a href="mailto:contacto@plusbi.com">{c.contactButton}</a>
+                     <a href={generateMailto()}>{c.contactButton}</a>
                  </Button>
             </div>
         </div>

@@ -112,8 +112,8 @@ export default function ElectronicFilePage() {
 
     const generateMailto = () => {
         const subject = `Solicitud de información sobre ${c.title}`;
-        const body = `Estimados,\n\nMe gustaría recibir más información sobre el ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
-        return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const body = `Estimado Juan,\n\nMe gustaría recibir más información sobre el ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
+        return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     };
 
     const currentDisplay = c.challenges.find(item => item.id === activeChallenge);

@@ -81,8 +81,8 @@ export default function QuestPage() {
 
   const generateMailto = () => {
     const subject = `Solicitud de presentación de ${c.title}`;
-    const body = `Estimados,\n\nMe gustaría coordinar una reunión para una presentación de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
-    return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const body = `Estimado Juan,\n\nMe gustaría coordinar una reunión para una presentación de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (

@@ -45,6 +45,12 @@ export function Header() {
     setIsClient(true)
   }, [])
 
+  const generateMailto = () => {
+    const subject = "Contacto desde el sitio web de PLUS BI";
+    const body = "Hola Juan,\n\nEstoy interesado/a en conocer más sobre sus servicios.\n\nSaludos.";
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
@@ -70,7 +76,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           {isClient && <LanguageSwitcher />}
           <Button asChild className="hidden md:flex">
-             <a href="mailto:contacto@plusbi.com">{c.contact}</a>
+             <a href={generateMailto()}>{c.contact}</a>
           </Button>
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
@@ -107,7 +113,7 @@ export function Header() {
                   ))}
                 </nav>
                  <Button asChild className="w-full mt-8">
-                    <a href="mailto:contacto@plusbi.com">{c.contact}</a>
+                    <a href={generateMailto()}>{c.contact}</a>
                 </Button>
               </div>
             </SheetContent>

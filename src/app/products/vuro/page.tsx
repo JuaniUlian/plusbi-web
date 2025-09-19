@@ -62,8 +62,8 @@ export default function VuroPage() {
 
     const generateMailto = () => {
         const subject = `Interesado en Vuro`;
-        const body = `Estimados,\n\nMe gustaría recibir más información sobre el próximo lanzamiento de Vuro.\n\nSaludos.`;
-        return `mailto:contacto@plusbi.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const body = `Estimado Juan,\n\nMe gustaría recibir más información sobre el próximo lanzamiento de Vuro.\n\nSaludos.`;
+        return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     };
 
     return (

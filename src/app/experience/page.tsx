@@ -37,6 +37,12 @@ export default function ExperiencePage() {
   const c = content[language];
   const [activeYear, setActiveYear] = useState('2025');
 
+  const generateMailto = () => {
+    const subject = "Solicitud de contacto desde la página de Experiencia";
+    const body = "Hola, equipo de PLUS BI.\n\nEstoy interesado/a en conocer más sobre cómo pueden ayudar a mi organización.\n\nSaludos.";
+    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <>
       <header className="py-20 bg-primary/10" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
@@ -89,7 +95,7 @@ export default function ExperiencePage() {
                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
                <Button asChild size="lg" className="mt-8">
-                <a href="mailto:contacto@plusbi.com">{c.contactButton}</a>
+                <a href={generateMailto()}>{c.contactButton}</a>
               </Button>
           </div>
       </section>
