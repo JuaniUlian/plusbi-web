@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: 'PLUS BI - GovTech Innovators',
   description: 'Revolutionizing business, political, and social consulting with advanced methods and applications.',
   icons: {
-    icon: '/logo/Icono PLUS.ico',
+    icon: '/logo/favicon-16x16.png',
   },
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
     <LanguageProvider>
       <html lang="es" className="scroll-smooth">
         <head>
-          <link rel="icon" href="/logo/Icono PLUS.ico" sizes="any" />
+          <link rel="icon" href="/logo/favicon-16x16.png" sizes="any" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet" />
