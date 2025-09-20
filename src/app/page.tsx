@@ -64,7 +64,7 @@ tag: 'Automatización Total'
         quote: "\"Lenguaje claro y simple para entender qué buscas y qué producto podría servirte, generando un lead de contacto.\""
     },
     ctaTitle: "¿Listo para transformar tu organización?",
-    ctaSubtitle: "Hablemos de cómo nuestras pueden ayudar a su gobierno a alcanzar tus objetivos de eficiencia, transparencia y modernización.",
+    ctaSubtitle: "Hablemos de cómo nuestras soluciones pueden ayudar a su gobierno a alcanzar tus objetivos de eficiencia, transparencia y modernización.",
     ctaButton: "Agenda una reunión",
   },
   en: {

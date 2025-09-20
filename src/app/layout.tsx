@@ -13,8 +13,8 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: 'PLUS BI - GovTech Innovators',
-  description: 'Revolutionizing business, political, and social consulting with advanced methods and applications.',
+  title: 'PLUS BI - Innovations for Governments',
+  description: 'Technology for a better Governments',
   icons: {
     icon: '/logo/favicon-16x16.png',
   },
