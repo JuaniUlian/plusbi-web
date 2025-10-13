@@ -8,7 +8,7 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb } from 'lucide-react';
+import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -19,6 +19,9 @@ const content = {
     badge: "Análisis de Datos",
     title: "Quest",
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
+    cta2025Title: "Accede a las proyecciones para las Elecciones Legislativas Argentina 2025",
+    cta2025Description: "Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.",
+    cta2025Button: "Acceder al Dashboard",
     videoTitle: "Quest en Acción",
     useCasesTitle: "Descubre lo que Quest puede hacer por ti",
     useCasesSubtitle: "Selecciona tu área para ver cómo Quest transforma datos en decisiones estratégicas.",
@@ -49,6 +52,9 @@ const content = {
     badge: "Data Analysis",
     title: "Quest",
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
+    cta2025Title: "Access projections for the 2025 Argentine Legislative Elections",
+    cta2025Description: "Explore data, analyze trends, and get a strategic overview for the upcoming elections.",
+    cta2025Button: "Access Dashboard",
     videoTitle: "Quest in Action",
     useCasesTitle: "Discover what Quest can do for you",
     useCasesSubtitle: "Select your area to see how Quest turns data into strategic decisions.",
@@ -90,11 +96,6 @@ export default function QuestPage() {
   return (
     <>
       <header className="py-20 bg-primary/10 relative" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="absolute top-4 right-4">
-          <Button asChild variant="secondary" size="lg">
-            <Link href="/products/quest/login">{c.loginButton}</Link>
-          </Button>
-        </div>
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col items-center">
             <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} className="mb-4" />
@@ -105,6 +106,16 @@ export default function QuestPage() {
         </div>
       </header>
       <main>
+        <section className="py-16 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4">
+               <h2 className="text-3xl font-bold font-headline">{c.cta2025Title}</h2>
+               <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.cta2025Description}</p>
+               <Button asChild size="lg" className="mt-8">
+                <Link href="/products/quest/login">{c.cta2025Button} <ArrowRight className="ml-2" /></Link>
+              </Button>
+          </div>
+        </section>
+
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
               <div className="grid md:grid-cols-2 gap-12 items-start">
