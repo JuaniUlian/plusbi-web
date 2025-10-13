@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FileText, LogOut, Crown, User, Info } from 'lucide-react';
+import { FileText, LogOut, Crown, User, Info, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
@@ -125,6 +125,13 @@ export default function DashboardPage() {
   useEffect(() => {
     if (selectedChamber === 'Todas' && selectedProvince === 'Todas' && selectedPollster !== 'Todas') {
       const pollsterData = encuestasData.filter(e => e.pollster === selectedPollster);
+      const pollsterHasNationalData = pollsterData.some(d => d.scope === 'national');
+
+      if (pollsterHasNationalData) {
+        setSelectedProvince('Todas');
+        return;
+      }
+
       const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null && p !== undefined)));
       if (provinces.length > 0) {
         provinces.sort();
@@ -146,7 +153,6 @@ export default function DashboardPage() {
         }
 
         const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
         
         if (selectedProvince !== 'Todas') {
             return chamberMatch && pollsterMatch && e.province === selectedProvince;
@@ -207,7 +213,8 @@ export default function DashboardPage() {
 
   const ultimaActualizacion = useMemo(() => {
       if (encuestasData.length === 0) return '-';
-      const fechas = encuestasData.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
+      const fechas = encuestasData.map(d => new Date(d.date));
+      fechas.sort((a, b) => b.getTime() - a.getTime());
       return fechas[0].toLocaleDateString('es-AR');
   }, [encuestasData]);
 
@@ -268,6 +275,12 @@ export default function DashboardPage() {
         setSelectedProvince('Todas');
       }
     }
+  };
+
+  const handleResetFilters = () => {
+    setSelectedChamber('Todas');
+    setSelectedPollster('Todas');
+    setSelectedProvince('Todas');
   };
 
   const handleGeneralReport = async () => {
@@ -393,6 +406,25 @@ export default function DashboardPage() {
           </Button>
         </motion.div>
         
+        <div className="flex justify-end">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Info className="h-5 w-5 text-muted-foreground" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Interpretación de datos</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Los porcentajes mostrados en las tarjetas son promedios de la última encuesta de cada consultora.
+                    </p>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         <StatsCards
           totalLLA={totalLLA}
           totalFP={totalFP}
@@ -419,7 +451,7 @@ export default function DashboardPage() {
                       <div className="space-y-2">
                         <h4 className="font-medium leading-none">Interpretación de datos</h4>
                         <p className="text-sm text-muted-foreground">
-                          Los porcentajes mostrados en las tarjetas son <strong>promedios de la última encuesta de cada consultora</strong> para evitar sesgo de frecuencia. El gráfico muestra la evolución temporal de todas las encuestas disponibles según el filtro. Para senadores, los datos son de ámbito nacional.
+                          El gráfico muestra la evolución temporal de todas las encuestas disponibles según el filtro.
                         </p>
                       </div>
                     </div>
@@ -488,6 +520,10 @@ export default function DashboardPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                 <Button onClick={handleResetFilters} variant="outline" size="sm" className="gap-2">
+                  <RefreshCw className="h-4 w-4" />
+                  Restablecer
+                </Button>
               </div>
             </CardHeader>
             <CardContent>
@@ -517,13 +553,13 @@ export default function DashboardPage() {
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Comparativo de Encuestadoras</CardTitle>
+              <CardTitle className="text-2xl">Comparativo de Encuestadoras (VS)</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Última encuesta disponible para cada encuestadora según los filtros seleccionados.
+                Selecciona dos encuestadoras para comparar sus últimos sondeos.
               </p>
             </CardHeader>
             <CardContent>
-              <PollsterComparisonTable data={datosFiltrados} />
+              <PollsterComparisonTable data={datosFiltrados} pollsters={POLLSTERS.filter(p => p !== 'Todas')} />
             </CardContent>
           </Card>
         </motion.div>

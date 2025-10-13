@@ -1,16 +1,9 @@
 
 'use client';
 
-import { useMemo } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '../ui/badge';
+import { useMemo, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface EncuestaData {
   date: string;
@@ -30,66 +23,117 @@ interface EncuestaData {
 
 interface PollsterComparisonTableProps {
   data: EncuestaData[];
+  pollsters: string[];
 }
 
-export function PollsterComparisonTable({ data }: PollsterComparisonTableProps) {
-  const latestPollsByPollster = useMemo(() => {
-    const latestPolls: { [key: string]: EncuestaData } = {};
+const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
+  if (!poll) {
+    return (
+      <Card className="flex-1 h-full flex items-center justify-center">
+        <p className="text-muted-foreground">Selecciona una encuestadora</p>
+      </Card>
+    );
+  }
 
+  const formatPercentage = (value: number | null) => (value !== null ? `${value.toFixed(1)}%` : 'N/A');
+
+  return (
+    <Card className="flex-1 bg-background/50">
+      <CardHeader>
+        <CardTitle className="text-lg">{poll.pollster}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm">
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Fecha:</span>
+          <span className="font-medium">{new Date(poll.date).toLocaleDateString('es-AR')}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Muestra:</span>
+          <span className="font-medium">N/A</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Método:</span>
+          <span className="font-medium">N/A</span>
+        </div>
+        <hr className="my-2 border-border" />
+        <div className="flex justify-between font-bold" style={{ color: '#7c3aed' }}>
+          <span>LLA:</span>
+          <span>{formatPercentage(poll.LLA)}</span>
+        </div>
+        <div className="flex justify-between font-bold" style={{ color: '#3b82f6' }}>
+          <span>FP:</span>
+          <span>{formatPercentage(poll.FP)}</span>
+        </div>
+        <div className="flex justify-between font-bold" style={{ color: '#f97316' }}>
+          <span>PU:</span>
+          <span>{formatPercentage(poll.PU)}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonTableProps) {
+  const [pollster1, setPollster1] = useState<string | undefined>(undefined);
+  const [pollster2, setPollster2] = useState<string | undefined>(undefined);
+
+  const latestPollsMap = useMemo(() => {
+    const map = new Map<string, EncuestaData>();
     data.forEach((poll) => {
-      if (
-        !latestPolls[poll.pollster] ||
-        new Date(poll.date) > new Date(latestPolls[poll.pollster].date)
-      ) {
-        latestPolls[poll.pollster] = poll;
+      if (!map.has(poll.pollster) || new Date(poll.date) > new Date(map.get(poll.pollster)!.date)) {
+        map.set(poll.pollster, poll);
       }
     });
-
-    return Object.values(latestPolls).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return map;
   }, [data]);
 
-  const formatPercentage = (value: number | null) => {
-    return value !== null ? `${value.toFixed(1)}%` : 'N/A';
-  };
+  const selectedPoll1Data = pollster1 ? latestPollsMap.get(pollster1) : undefined;
+  const selectedPoll2Data = pollster2 ? latestPollsMap.get(pollster2) : undefined;
 
-  if (latestPollsByPollster.length === 0) {
+  const availablePollsters1 = pollsters.filter(p => p !== pollster2);
+  const availablePollsters2 = pollsters.filter(p => p !== pollster1);
+
+  if (pollsters.length < 2) {
     return (
       <div className="flex items-center justify-center h-40 text-muted-foreground">
-        No hay datos de encuestas para la selección actual.
+        No hay suficientes encuestadoras para comparar con los filtros actuales.
       </div>
     );
   }
 
   return (
-    <div className="w-full overflow-x-auto">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="font-bold">Encuestadora</TableHead>
-            <TableHead className="text-center">Fecha</TableHead>
-            <TableHead className="text-center">Muestra</TableHead>
-            <TableHead className="text-center">Método</TableHead>
-            <TableHead className="text-center font-bold" style={{ color: '#7c3aed' }}>LLA</TableHead>
-            <TableHead className="text-center font-bold" style={{ color: '#3b82f6' }}>FP</TableHead>
-            <TableHead className="text-center font-bold" style={{ color: '#f97316' }}>PU</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {latestPollsByPollster.map((poll) => (
-            <TableRow key={poll.pollster}>
-              <TableCell className="font-medium">{poll.pollster}</TableCell>
-              <TableCell className="text-center">
-                {new Date(poll.date).toLocaleDateString('es-AR')}
-              </TableCell>
-              <TableCell className="text-center text-muted-foreground">N/A</TableCell>
-              <TableCell className="text-center text-muted-foreground">N/A</TableCell>
-              <TableCell className="text-center font-semibold">{formatPercentage(poll.LLA)}</TableCell>
-              <TableCell className="text-center font-semibold">{formatPercentage(poll.FP)}</TableCell>
-              <TableCell className="text-center font-semibold">{formatPercentage(poll.PU)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Pollster 1 Selector */}
+        <div className="w-full sm:w-1/2">
+          <Select value={pollster1} onValueChange={setPollster1}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona Encuestadora 1" />
+            </SelectTrigger>
+            <SelectContent>
+              {availablePollsters1.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="text-muted-foreground font-bold">VS</div>
+
+        {/* Pollster 2 Selector */}
+        <div className="w-full sm:w-1/2">
+          <Select value={pollster2} onValueChange={setPollster2}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona Encuestadora 2" />
+            </SelectTrigger>
+            <SelectContent>
+              {availablePollsters2.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-4 mt-4">
+        <PollCard poll={selectedPoll1Data} />
+        <PollCard poll={selectedPoll2Data} />
+      </div>
     </div>
   );
 }
