@@ -80,7 +80,8 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
   const latestPollsMap = useMemo(() => {
     const map = new Map<string, EncuestaData>();
     data.forEach((poll) => {
-      if (!map.has(poll.pollster) || new Date(poll.date) > new Date(map.get(poll.pollster)!.date)) {
+      const existingPoll = map.get(poll.pollster);
+      if (!existingPoll || new Date(poll.date) > new Date(existingPoll.date)) {
         map.set(poll.pollster, poll);
       }
     });
@@ -96,7 +97,7 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
   if (pollsters.length < 2) {
     return (
       <div className="flex items-center justify-center h-40 text-muted-foreground">
-        No hay suficientes encuestadoras para comparar con los filtros actuales.
+        No hay suficientes encuestadoras para comparar.
       </div>
     );
   }
@@ -135,5 +136,3 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
     </div>
   );
 }
-
-    

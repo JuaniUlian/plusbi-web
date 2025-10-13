@@ -164,7 +164,11 @@ export default function DashboardPage() {
         }
 
         if(selectedPollster !== 'Todas' && selectedProvince === 'Todas') {
-           const pollsterHasNationalData = encuestasData.some(d => d.pollster === selectedPollster && d.scope === 'national');
+           const pollsterHasNationalData = encuestasData.some(d => {
+             let dPollster = d.pollster.toLowerCase();
+             if (dPollster.includes('federico gonzalez')) dPollster = 'federico gonzalez y asociados';
+             return dPollster === selectedPollster.toLowerCase() && d.scope === 'national'
+           });
            if (pollsterHasNationalData) {
              return pollsterMatch && chamberMatch && e.scope === 'national';
            }
@@ -564,7 +568,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <PollsterComparisonTable data={datosFiltrados} pollsters={POLLSTERS.filter(p => p !== 'Todas')} />
+              <PollsterComparisonTable data={encuestasData} pollsters={POLLSTERS.filter(p => p !== 'Todas')} />
             </CardContent>
           </Card>
         </motion.div>
