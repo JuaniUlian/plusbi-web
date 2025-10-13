@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -61,7 +62,6 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setMounted(true);
-    // Cargar datos de encuestas
     fetch('/data/encuestas_argentina_2025.json')
       .then(res => res.json())
       .then(data => setEncuestasData(data))
@@ -74,116 +74,105 @@ export default function DashboardPage() {
     }
   }, [mounted, isAuthenticated, router]);
 
-  if (!mounted || !isAuthenticated) {
-    return null;
-  }
+  const datosFiltrados = useMemo(() => {
+    return encuestasData.filter(e => {
+      const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+      const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
+      
+      let scopeMatch = true;
+      if (selectedProvince === 'Todas') {
+        // Si la cámara es senadores, solo mostrar nacional. Si no, mostrar nacional.
+        scopeMatch = e.scope === 'national';
+        if (selectedChamber === 'diputados' && selectedPollster !== 'Todas') {
+             scopeMatch = true; // Allow provincial and national
+        } else if (selectedChamber !== 'senadores') {
+             scopeMatch = e.scope === 'national';
+        }
 
-  // Procesar datos
-  const datosNacionales = encuestasData.filter(e => e.scope === 'national');
-  const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
+      } else {
+        scopeMatch = e.scope === 'provincial' && e.province === selectedProvince;
+      }
+      
+      return chamberMatch && pollsterMatch && scopeMatch;
+    });
+  }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
-  // Calcular promedios
+  const datosGrafico = useMemo(() => {
+    return datosFiltrados
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .map(d => ({
+        date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
+        LLA: d.LLA,
+        FP: d.FP,
+        PU: d.PU
+      }));
+  }, [datosFiltrados]);
+
+  const datosNacionales = useMemo(() => encuestasData.filter(e => e.scope === 'national'), [encuestasData]);
+  const datosProvinciales = useMemo(() => encuestasData.filter(e => e.scope === 'provincial'), [encuestasData]);
+  
   const calcularPromedio = (campo: keyof EncuestaData, datos: EncuestaData[]) => {
     const valores = datos.map(d => d[campo]).filter(v => v !== null) as number[];
     return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
   };
 
-  const totalLLA = calcularPromedio('LLA', datosNacionales);
-  const totalFP = calcularPromedio('FP', datosNacionales);
+  const totalLLA = useMemo(() => calcularPromedio('LLA', datosNacionales), [datosNacionales]);
+  const totalFP = useMemo(() => calcularPromedio('FP', datosNacionales), [datosNacionales]);
 
-  // Última actualización
-  const fechas = datosNacionales.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
-  const ultimaActualizacion = fechas.length > 0 ? fechas[0].toLocaleDateString('es-AR') : '-';
+  const ultimaActualizacion = useMemo(() => {
+      const fechas = datosNacionales.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
+      return fechas.length > 0 ? fechas[0].toLocaleDateString('es-AR') : '-';
+  }, [datosNacionales]);
 
-  // Filtrar datos según selección
-  const datosFiltrados = encuestasData.filter(e => {
-    let esValido = true;
+  const MOCK_PROVINCES: ProvinceData[] = useMemo(() => {
+    const provincesMap: { [key: string]: { LLA: number[], FP: number[], PU: number[], Provincial: number[] } } = {};
+    datosProvinciales.forEach(d => {
+      if (!d.province) return;
+      if (!provincesMap[d.province]) {
+        provincesMap[d.province] = { LLA: [], FP: [], PU: [], Provincial: [] };
+      }
+      if (d.LLA) provincesMap[d.province].LLA.push(d.LLA);
+      if (d.FP) provincesMap[d.province].FP.push(d.FP);
+      if (d.PU) provincesMap[d.province].PU.push(d.PU);
+      if (d.Provincial) provincesMap[d.province].Provincial.push(d.Provincial);
+    });
 
-    // Filtro de cámara
-    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) esValido = false;
+    return Object.keys(provincesMap).map(prov => {
+      const promedios = {
+        LLA: provincesMap[prov].LLA.length > 0 ? provincesMap[prov].LLA.reduce((a, b) => a + b, 0) / provincesMap[prov].LLA.length : 0,
+        FP: provincesMap[prov].FP.length > 0 ? provincesMap[prov].FP.reduce((a, b) => a + b, 0) / provincesMap[prov].FP.length : 0,
+        PU: provincesMap[prov].PU.length > 0 ? provincesMap[prov].PU.reduce((a, b) => a + b, 0) / provincesMap[prov].PU.length : 0,
+        Provincial: provincesMap[prov].Provincial.length > 0 ? provincesMap[prov].Provincial.reduce((a, b) => a + b, 0) / provincesMap[prov].Provincial.length : 0,
+      };
 
-    // Filtro de encuestadora
-    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) esValido = false;
+      const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
+      const colores: { [key: string]: string } = {
+        LLA: '#7c3aed', FP: '#3b82f6', PU: '#10b981', Provincial: '#f59e0b'
+      };
 
-    // Filtro de provincia
-    if (selectedProvince === 'Todas') {
-      if(e.scope !== 'national') esValido = false;
-    } else {
-      if(e.scope !== 'provincial' || e.province !== selectedProvince) esValido = false;
-    }
+      const percentages: { [key: string]: number } = {};
+      if (promedios.LLA > 0) percentages['LLA'] = Math.round(promedios.LLA * 10) / 10;
+      if (promedios.FP > 0) percentages['FP'] = Math.round(promedios.FP * 10) / 10;
+      if (promedios.PU > 0) percentages['PU'] = Math.round(promedios.PU * 10) / 10;
+      if (promedios.Provincial > 0) percentages['Provincial'] = Math.round(promedios.Provincial * 10) / 10;
 
-    return esValido;
-  });
+      return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages };
+    });
+  }, [datosProvinciales]);
 
-  // Preparar datos para gráfico (múltiples líneas)
-  const datosGrafico = datosFiltrados
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .map(d => ({
-      date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
-      LLA: d.LLA,
-      FP: d.FP,
-      PU: d.PU
-    }));
-
-  // Preparar datos provinciales para mapa
-  const provincesMap: { [key: string]: { LLA: number[], FP: number[], PU: number[], Provincial: number[] } } = {};
-
-  datosProvinciales.forEach(d => {
-    if (!d.province) return;
-    if (!provincesMap[d.province]) {
-      provincesMap[d.province] = { LLA: [], FP: [], PU: [], Provincial: [] };
-    }
-    if (d.LLA) provincesMap[d.province].LLA.push(d.LLA);
-    if (d.FP) provincesMap[d.province].FP.push(d.FP);
-    if (d.PU) provincesMap[d.province].PU.push(d.PU);
-    if (d.Provincial) provincesMap[d.province].Provincial.push(d.Provincial);
-  });
-
-  const MOCK_PROVINCES: ProvinceData[] = Object.keys(provincesMap).map(prov => {
-    const promedios = {
-      LLA: provincesMap[prov].LLA.length > 0 ? provincesMap[prov].LLA.reduce((a, b) => a + b, 0) / provincesMap[prov].LLA.length : 0,
-      FP: provincesMap[prov].FP.length > 0 ? provincesMap[prov].FP.reduce((a, b) => a + b, 0) / provincesMap[prov].FP.length : 0,
-      PU: provincesMap[prov].PU.length > 0 ? provincesMap[prov].PU.reduce((a, b) => a + b, 0) / provincesMap[prov].PU.length : 0,
-      Provincial: provincesMap[prov].Provincial.length > 0 ? provincesMap[prov].Provincial.reduce((a, b) => a + b, 0) / provincesMap[prov].Provincial.length : 0,
-    };
-
-    const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
-    const colores: { [key: string]: string } = {
-      LLA: '#7c3aed',
-      FP: '#3b82f6',
-      PU: '#10b981',
-      Provincial: '#f59e0b'
-    };
-
-    const percentages: { [key: string]: number } = {};
-    if (promedios.LLA > 0) percentages['LLA'] = Math.round(promedios.LLA * 10) / 10;
-    if (promedios.FP > 0) percentages['FP'] = Math.round(promedios.FP * 10) / 10;
-    if (promedios.PU > 0) percentages['PU'] = Math.round(promedios.PU * 10) / 10;
-    if (promedios.Provincial > 0) percentages['Provincial'] = Math.round(promedios.Provincial * 10) / 10;
+  const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
+    const chamberFilteredData = encuestasData.filter(e => selectedChamber === 'Todas' || e.chamber === selectedChamber);
+    const provinceFilteredData = chamberFilteredData.filter(e => selectedProvince === 'Todas' || e.province === selectedProvince);
+    
+    const pollsterFilteredData = encuestasData.filter(e => selectedPollster === 'Todas' || e.pollster === selectedPollster);
+    const chamberAfterPollsterData = pollsterFilteredData.filter(e => selectedChamber === 'Todas' || e.chamber === selectedChamber);
 
     return {
-      name: prov,
-      winner: maxPartido[0],
-      color: colores[maxPartido[0]] || '#64748b',
-      percentages
+      CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
+      POLLSTERS: ['Todas', ...Array.from(new Set(provinceFilteredData.map(d => d.pollster)))],
+      PROVINCES_LIST: ['Todas', ...Array.from(new Set(chamberAfterPollsterData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]]
     };
-  });
-
-  // Listas dinámicas para filtros basadas en los datos disponibles
-  const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
-
-  // Filtrar opciones de encuestadoras según los filtros activos
-  const datosParaFiltros = encuestasData.filter(e => {
-    let valido = true;
-    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) valido = false;
-    if (selectedProvince !== 'Todas') {
-      if (e.scope !== 'provincial' || e.province !== selectedProvince) valido = false;
-    }
-    return valido;
-  });
-
-  const POLLSTERS = ['Todas', ...Array.from(new Set(datosParaFiltros.map(d => d.pollster)))];
-  const PROVINCES_LIST = ['Todas', ...Array.from(new Set(encuestasData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]];
+  }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
   const handleFilterAction = () => {
     if (!isPaidUser) {
@@ -191,6 +180,15 @@ export default function DashboardPage() {
       return false;
     }
     return true;
+  };
+  
+  const handleChamberChange = (value: string) => {
+    if (handleFilterAction()) {
+      setSelectedChamber(value);
+      if(value === 'senadores'){
+        setSelectedProvince('Todas');
+      }
+    }
   };
 
   const handleGeneralReport = () => {
@@ -218,6 +216,10 @@ export default function DashboardPage() {
     logout();
     router.push('/products/quest');
   };
+  
+  if (!mounted || !isAuthenticated) {
+    return null;
+  }
 
   return (
     <div
@@ -229,7 +231,6 @@ export default function DashboardPage() {
         backgroundAttachment: 'fixed'
       }}
     >
-      {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -255,7 +256,6 @@ export default function DashboardPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-6">
-        {/* Botón Ver Informe General */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -267,14 +267,12 @@ export default function DashboardPage() {
           </Button>
         </motion.div>
 
-        {/* Cards de Totales */}
         <StatsCards
           totalLLA={totalLLA}
           totalFP={totalFP}
           lastUpdate={ultimaActualizacion}
         />
 
-        {/* Gráfico de Líneas */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -286,9 +284,7 @@ export default function DashboardPage() {
               <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap">
                 <Select
                   value={selectedChamber}
-                  onValueChange={(value) => {
-                    if (handleFilterAction()) setSelectedChamber(value);
-                  }}
+                  onValueChange={handleChamberChange}
                 >
                   <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder="Cámara" />
@@ -325,6 +321,7 @@ export default function DashboardPage() {
                   onValueChange={(value) => {
                     if (handleFilterAction()) setSelectedProvince(value);
                   }}
+                  disabled={selectedChamber === 'senadores'}
                 >
                   <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder="Provincia" />
@@ -353,7 +350,6 @@ export default function DashboardPage() {
           </Card>
         </motion.div>
 
-        {/* Mapa de Calor */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -373,7 +369,6 @@ export default function DashboardPage() {
         </motion.div>
       </main>
 
-      {/* Modales */}
       <AnimatePresence>
         {showUpgradeModal && (
           <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
@@ -476,3 +471,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
