@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
@@ -81,7 +82,7 @@ export default function DashboardPage() {
       router.push('/products/quest/login');
     }
   }, [mounted, isAuthenticated, router]);
-  
+
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
       const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
@@ -96,14 +97,6 @@ export default function DashboardPage() {
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
-  const pieChartSingleData = useMemo(() => {
-    if (datosGrafico.length === 1) {
-      const { date, ...rest } = datosGrafico[0];
-      return rest;
-    }
-    return null;
-  }, [datosGrafico]);
-
   const datosGrafico = useMemo(() => {
     return datosFiltrados
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -114,6 +107,14 @@ export default function DashboardPage() {
         PU: d.PU
       }));
   }, [datosFiltrados]);
+
+  const pieChartSingleData = useMemo(() => {
+    if (datosGrafico.length === 1) {
+      const { date, ...rest } = datosGrafico[0];
+      return rest;
+    }
+    return null;
+  }, [datosGrafico]);
 
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
     if (datos.length === 0) return 0;
@@ -510,3 +511,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
