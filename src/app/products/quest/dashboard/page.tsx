@@ -7,9 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { FileText, LogOut, Crown, User, MapPin } from 'lucide-react';
+import { FileText, LogOut, Crown, User } from 'lucide-react';
 import Image from 'next/image';
+import { PremiumLineChart } from '@/components/quest/premium-line-chart';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Tipos de datos temporales - se reemplazarán con datos reales
 interface PollData {
@@ -27,17 +29,23 @@ interface ProvinceData {
 }
 
 const MOCK_DATA: PollData[] = [
-  { date: '2025-01', value: 45, pollster: 'Encuestadora A', province: 'Buenos Aires' },
-  { date: '2025-02', value: 47, pollster: 'Encuestadora A', province: 'Buenos Aires' },
-  { date: '2025-03', value: 46, pollster: 'Encuestadora A', province: 'Buenos Aires' },
-  { date: '2025-04', value: 48, pollster: 'Encuestadora A', province: 'Buenos Aires' },
-  { date: '2025-05', value: 50, pollster: 'Encuestadora A', province: 'Buenos Aires' },
+  { date: 'Ene', value: 45 },
+  { date: 'Feb', value: 47 },
+  { date: 'Mar', value: 46 },
+  { date: 'Abr', value: 48 },
+  { date: 'May', value: 50 },
+  { date: 'Jun', value: 52 },
+  { date: 'Jul', value: 54 },
+  { date: 'Ago', value: 53 },
+  { date: 'Sep', value: 55 },
+  { date: 'Oct', value: 57 },
 ];
 
 const MOCK_PROVINCES: ProvinceData[] = [
   { name: 'Buenos Aires', winner: 'Partido A', color: '#3b82f6', percentages: { 'Partido A': 48, 'Partido B': 35, 'Partido C': 17 } },
-  { name: 'Córdoba', winner: 'Partido B', color: '#ef4444', percentages: { 'Partido A': 30, 'Partido B': 45, 'Partido C': 25 } },
+  { name: 'Cordoba', winner: 'Partido B', color: '#ef4444', percentages: { 'Partido A': 30, 'Partido B': 45, 'Partido C': 25 } },
   { name: 'Santa Fe', winner: 'Partido A', color: '#3b82f6', percentages: { 'Partido A': 42, 'Partido B': 38, 'Partido C': 20 } },
+  { name: 'Mendoza', winner: 'Partido C', color: '#10b981', percentages: { 'Partido A': 25, 'Partido B': 30, 'Partido C': 45 } },
 ];
 
 const POLLSTERS = ['Todas', 'Encuestadora A', 'Encuestadora B', 'Encuestadora C'];
@@ -84,7 +92,6 @@ export default function DashboardPage() {
     }
     setGeneratingReport(true);
     setShowGeneralReport(true);
-    // Simular generación de informe
     setTimeout(() => setGeneratingReport(false), 2000);
   };
 
@@ -141,226 +148,230 @@ export default function DashboardPage() {
 
       <main className="container mx-auto px-4 py-8 space-y-6">
         {/* Botón Ver Informe General */}
-        <div className="flex justify-end">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex justify-end"
+        >
           <Button onClick={handleGeneralReport} size="lg" className="gap-2">
             <FileText className="h-5 w-5" />
             Ver Informe General
           </Button>
-        </div>
+        </motion.div>
 
         {/* Gráfico de Líneas */}
-        <Card className="glassmorphism shadow-xl card-hud-effect">
-          <CardHeader>
-            <CardTitle>Evolución de Intención de Voto</CardTitle>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Select
-                value={selectedPollster}
-                onValueChange={(value) => {
-                  if (handleFilterAction()) setSelectedPollster(value);
-                }}
-              >
-                <SelectTrigger className="w-full sm:w-[200px]">
-                  <SelectValue placeholder="Encuestadora" />
-                </SelectTrigger>
-                <SelectContent>
-                  {POLLSTERS.map((pollster) => (
-                    <SelectItem key={pollster} value={pollster}>
-                      {pollster}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Card className="neomorphism shadow-2xl border-2">
+            <CardHeader>
+              <CardTitle className="text-2xl">Evolución de Intención de Voto</CardTitle>
+              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                <Select
+                  value={selectedPollster}
+                  onValueChange={(value) => {
+                    if (handleFilterAction()) setSelectedPollster(value);
+                  }}
+                >
+                  <SelectTrigger className="w-full sm:w-[200px]">
+                    <SelectValue placeholder="Encuestadora" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {POLLSTERS.map((pollster) => (
+                      <SelectItem key={pollster} value={pollster}>
+                        {pollster}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              <Select
-                value={selectedProvince}
-                onValueChange={(value) => {
-                  if (handleFilterAction()) setSelectedProvince(value);
-                }}
-              >
-                <SelectTrigger className="w-full sm:w-[200px]">
-                  <SelectValue placeholder="Provincia" />
-                </SelectTrigger>
-                <SelectContent>
-                  {PROVINCES_LIST.map((province) => (
-                    <SelectItem key={province} value={province}>
-                      {province}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={MOCK_DATA}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={2} name="Intención de Voto %" />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+                <Select
+                  value={selectedProvince}
+                  onValueChange={(value) => {
+                    if (handleFilterAction()) setSelectedProvince(value);
+                  }}
+                >
+                  <SelectTrigger className="w-full sm:w-[200px]">
+                    <SelectValue placeholder="Provincia" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PROVINCES_LIST.map((province) => (
+                      <SelectItem key={province} value={province}>
+                        {province}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <PremiumLineChart data={MOCK_DATA} />
+            </CardContent>
+          </Card>
+        </motion.div>
 
         {/* Mapa de Calor */}
-        <Card className="glassmorphism shadow-xl card-hud-effect">
-          <CardHeader>
-            <CardTitle>Mapa de Calor por Provincias</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {MOCK_PROVINCES.map((province) => (
-                <Card
-                  key={province.name}
-                  className="cursor-pointer hover:scale-105 transition-transform border-2"
-                  style={{ borderColor: province.color, backgroundColor: `${province.color}20` }}
-                  onClick={() => handleProvinceClick(province)}
-                >
-                  <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <MapPin className="h-5 w-5" />
-                      {province.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm font-semibold">Ganador: {province.winner}</p>
-                    <div className="mt-2 space-y-1">
-                      {Object.entries(province.percentages).map(([party, percentage]) => (
-                        <div key={party} className="text-xs flex justify-between">
-                          <span>{party}:</span>
-                          <span className="font-bold">{percentage}%</span>
-                        </div>
-                      ))}
-                    </div>
-                    <Button className="w-full mt-4" size="sm" variant="outline">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Ver Informe
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Card className="neomorphism shadow-2xl border-2">
+            <CardHeader>
+              <CardTitle className="text-2xl">Mapa de Calor Electoral - Argentina</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Haz clic en una provincia para ver el informe detallado con análisis de IA
+              </p>
+            </CardHeader>
+            <CardContent>
+              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+            </CardContent>
+          </Card>
+        </motion.div>
       </main>
 
       {/* Modal de Upgrade */}
-      <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
-        <DialogContent className="glassmorphism">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Crown className="h-6 w-6 text-yellow-500" />
-              Funcionalidad Premium
-            </DialogTitle>
-            <DialogDescription className="space-y-4 pt-4">
-              <p className="text-base">
-                Esta funcionalidad está disponible solo para usuarios registrados.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">
-                  Cerrar
-                </Button>
-                <Button
-                  onClick={() => window.open('https://forms.google.com', '_blank')}
-                  className="flex-1"
-                >
-                  Registrarme Ahora
-                </Button>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <AnimatePresence>
+        {showUpgradeModal && (
+          <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+            <DialogContent className="glassmorphism-solid">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-2xl">
+                  <Crown className="h-6 w-6 text-yellow-500" />
+                  Funcionalidad Premium
+                </DialogTitle>
+                <DialogDescription className="space-y-4 pt-4">
+                  <p className="text-base">
+                    Esta funcionalidad está disponible solo para usuarios registrados.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                    <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">
+                      Cerrar
+                    </Button>
+                    <Button
+                      onClick={() => window.open('https://forms.google.com', '_blank')}
+                      className="flex-1"
+                    >
+                      Registrarme Ahora
+                    </Button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
 
       {/* Modal de Informe General */}
-      <Dialog open={showGeneralReport} onOpenChange={setShowGeneralReport}>
-        <DialogContent className="glassmorphism max-w-3xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Informe General de Situación Electoral</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            {generatingReport ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
+      <AnimatePresence>
+        {showGeneralReport && (
+          <Dialog open={showGeneralReport} onOpenChange={setShowGeneralReport}>
+            <DialogContent className="glassmorphism-solid max-w-3xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl">Informe General de Situación Electoral</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                {generatingReport ? (
+                  <div className="flex flex-col items-center justify-center py-12">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full"
+                    />
+                    <p className="mt-4 text-muted-foreground">Generando informe con IA...</p>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Basado en el análisis de datos consolidados de múltiples encuestadoras, se observa una tendencia
+                      de crecimiento sostenido en la intención de voto del candidato principal, alcanzando el 57% en
+                      el último período medido. Las provincias clave muestran una distribución favorable, con Buenos
+                      Aires y Santa Fe liderando con el Partido A, mientras que Córdoba presenta un escenario más
+                      competitivo.
+                    </p>
+                    <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                      <li>Buenos Aires mantiene una ventaja de 13 puntos sobre el segundo competidor</li>
+                      <li>Córdoba muestra la competencia más reñida, con solo 5 puntos de diferencia</li>
+                      <li>Santa Fe presenta estabilidad en los últimos 3 meses</li>
+                      <li>Mendoza emerge como provincia sorpresa con liderazgo del Partido C</li>
+                    </ul>
+                    <h3 className="font-semibold text-lg mt-6">Recomendaciones Estratégicas</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Se sugiere reforzar la presencia en Córdoba mediante campañas focalizadas, mientras se mantiene
+                      la consolidación en Buenos Aires. El monitoreo continuo de Santa Fe es crítico para prevenir
+                      posibles fluctuaciones. La tendencia ascendente general indica un momento favorable para
+                      intensificar la comunicación de logros y propuestas.
+                    </p>
+                  </>
+                )}
               </div>
-            ) : (
-              <>
-                <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Basado en el análisis de datos consolidados de múltiples encuestadoras, se observa una tendencia
-                  de crecimiento sostenido en la intención de voto del candidato principal, alcanzando el 50% en
-                  el último período medido. Las provincias clave muestran una distribución favorable, con Buenos
-                  Aires y Santa Fe liderando con el Partido A, mientras que Córdoba presenta un escenario más
-                  competitivo.
-                </p>
-                <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
-                <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                  <li>Buenos Aires mantiene una ventaja de 13 puntos sobre el segundo competidor</li>
-                  <li>Córdoba muestra la competencia más reñida, con solo 5 puntos de diferencia</li>
-                  <li>Santa Fe presenta estabilidad en los últimos 3 meses</li>
-                </ul>
-                <h3 className="font-semibold text-lg mt-6">Recomendaciones Estratégicas</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Se sugiere reforzar la presencia en Córdoba mediante campañas focalizadas, mientras se mantiene
-                  la consolidación en Buenos Aires. El monitoreo continuo de Santa Fe es crítico para prevenir
-                  posibles fluctuaciones.
-                </p>
-              </>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
 
       {/* Modal de Informe Provincial */}
-      <Dialog open={showProvinceReport} onOpenChange={setShowProvinceReport}>
-        <DialogContent className="glassmorphism max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Informe de {selectedProvinceData?.name}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            {generatingReport ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-              </div>
-            ) : (
-              <>
-                <div className="bg-primary/10 p-4 rounded-lg">
-                  <h3 className="font-semibold">Situación Actual</h3>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Ganador actual: <strong>{selectedProvinceData?.winner}</strong>
-                  </p>
-                  <div className="mt-3 space-y-1">
-                    {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
-                      <div key={party} className="flex justify-between text-sm">
-                        <span>{party}</span>
-                        <span className="font-bold">{percentage}%</span>
-                      </div>
-                    ))}
+      <AnimatePresence>
+        {showProvinceReport && (
+          <Dialog open={showProvinceReport} onOpenChange={setShowProvinceReport}>
+            <DialogContent className="glassmorphism-solid max-w-2xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl">Informe de {selectedProvinceData?.name}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                {generatingReport ? (
+                  <div className="flex flex-col items-center justify-center py-12">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full"
+                    />
+                    <p className="mt-4 text-muted-foreground">Analizando datos con IA...</p>
                   </div>
-                </div>
-                <h3 className="font-semibold text-lg">Análisis de IA</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  La provincia de {selectedProvinceData?.name} presenta un escenario donde {selectedProvinceData?.winner} lidera
-                  con ventaja significativa. Los datos históricos muestran estabilidad en esta tendencia durante los últimos
-                  meses. Se recomienda mantener presencia constante y reforzar mensajes en los segmentos donde la competencia
-                  es más estrecha.
-                </p>
-                <h3 className="font-semibold text-lg mt-4">Factores Clave</h3>
-                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                  <li>Alto nivel de decisión de voto en el electorado</li>
-                  <li>Temas prioritarios: economía y seguridad</li>
-                  <li>Distribución geográfica favorable en principales centros urbanos</li>
-                </ul>
-              </>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+                ) : (
+                  <>
+                    <div className="bg-primary/10 p-4 rounded-lg">
+                      <h3 className="font-semibold">Situación Actual</h3>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Ganador actual: <strong>{selectedProvinceData?.winner}</strong>
+                      </p>
+                      <div className="mt-3 space-y-1">
+                        {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
+                          <div key={party} className="flex justify-between text-sm">
+                            <span>{party}</span>
+                            <span className="font-bold">{percentage}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <h3 className="font-semibold text-lg">Análisis de IA</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      La provincia de {selectedProvinceData?.name} presenta un escenario donde {selectedProvinceData?.winner} lidera
+                      con ventaja significativa. Los datos históricos muestran estabilidad en esta tendencia durante los últimos
+                      meses. Se recomienda mantener presencia constante y reforzar mensajes en los segmentos donde la competencia
+                      es más estrecha.
+                    </p>
+                    <h3 className="font-semibold text-lg mt-4">Factores Clave</h3>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                      <li>Alto nivel de decisión de voto en el electorado</li>
+                      <li>Temas prioritarios: economía y seguridad</li>
+                      <li>Distribución geográfica favorable en principales centros urbanos</li>
+                      <li>Oportunidades de crecimiento en zonas rurales</li>
+                    </ul>
+                  </>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

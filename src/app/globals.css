@@ -70,6 +70,18 @@
     @apply bg-card/50 backdrop-blur-2xl border-white/20;
   }
 
+  .glassmorphism-solid {
+    @apply bg-card/95 backdrop-blur-xl border-white/30 shadow-2xl;
+  }
+
+  .neomorphism {
+    @apply bg-card/90 backdrop-blur-md;
+    box-shadow:
+      12px 12px 24px rgba(0, 0, 0, 0.15),
+      -12px -12px 24px rgba(255, 255, 255, 0.7),
+      inset 2px 2px 4px rgba(255, 255, 255, 0.1);
+  }
+
   .perspective {
     perspective: 1000px;
   }
