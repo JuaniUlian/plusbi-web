@@ -48,7 +48,7 @@ interface EncuestaData {
 
 type PartyKey = 'LLA' | 'FP' | 'PU' | 'UCR' | 'PRO' | 'FIT' | 'Provincial' | 'Others';
 
-interface ProvinceData {
+export interface ProvinceData {
   name: string;
   winner: string;
   color: string;
@@ -673,5 +673,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    

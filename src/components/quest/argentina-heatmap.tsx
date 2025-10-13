@@ -1,18 +1,11 @@
+
 'use client';
 
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { Tooltip } from 'react-tooltip';
+import type { ProvinceData } from '@/app/products/quest/dashboard/page';
 
-// TopoJSON de Argentina con coordenadas completas
 const ARGENTINA_TOPO_JSON = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/argentina/argentina-provinces.json';
-
-interface ProvinceData {
-  name: string;
-  winner: string;
-  color: string;
-  percentages: { [key: string]: number };
-}
 
 interface ArgentinaHeatmapProps {
   provincesData: ProvinceData[];
@@ -20,9 +13,6 @@ interface ArgentinaHeatmapProps {
 }
 
 export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHeatmapProps) {
-  const [hoveredProvince, setHoveredProvince] = useState<ProvinceData | null>(null);
-  const [coords, setCoords] = useState<[number, number]>([0, 0]);
-
   const normalizeName = (name: string) => {
     const cleanedName = name
       .normalize('NFD')
@@ -31,7 +21,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
       .trim();
 
     if (cleanedName.includes('tierra del fuego')) {
-        return 'tierra del fuego';
+      return 'tierra del fuego';
     }
     return cleanedName;
   };
@@ -40,8 +30,8 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
     const normalizedGeoName = normalizeName(geoName);
 
     const nameMappings: { [key: string]: string } = {
-        'ciudad autonoma de buenos aires': 'caba',
-        'buenos aires': 'buenos aires', // Explicit mapping
+      'ciudad autonoma de buenos aires': 'caba',
+      'buenos aires': 'buenos aires',
     };
 
     const mappedGeoName = nameMappings[normalizedGeoName] || normalizedGeoName;
@@ -50,6 +40,19 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
       const normalizedDataName = normalizeName(p.name.toLowerCase());
       return normalizedDataName === mappedGeoName;
     });
+  };
+
+  const getTooltipContent = (province: ProvinceData) => {
+    const percentages = Object.entries(province.percentages)
+      .map(([party, value]) => `<div>${party}: <strong>${value}%</strong></div>`)
+      .join('');
+    return `
+      <div class="text-left">
+        <h3 class="font-bold text-lg mb-2">${province.name}</h3>
+        <p class="text-sm mb-2"><strong>Ganador:</strong> ${province.winner}</p>
+        <div class="space-y-1">${percentages}</div>
+      </div>
+    `;
   };
 
   return (
@@ -61,6 +64,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
           center: [-64, -40],
         }}
         className="w-full h-full"
+        data-tooltip-id="province-tooltip"
       >
         <Geographies geography={ARGENTINA_TOPO_JSON}>
           {({ geographies }) =>
@@ -94,57 +98,25 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
                       outline: 'none',
                     },
                   }}
-                  onMouseEnter={(event: any) => {
-                    if (provinceData) {
-                        setHoveredProvince(provinceData);
-                        setCoords([event.clientX, event.clientY]);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredProvince(null);
-                  }}
+                  onMouseEnter={() => {}}
+                  onMouseLeave={() => {}}
                   onClick={() => {
                     if (provinceData) {
                       onProvinceClick(provinceData);
                     }
                   }}
+                  data-tooltip-html={provinceData ? getTooltipContent(provinceData) : undefined}
                 />
               );
             })
           }
         </Geographies>
       </ComposableMap>
-
-      {hoveredProvince && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed z-50 pointer-events-none"
-          style={{
-            left: coords[0] + 20,
-            top: coords[1] - 20,
-          }}
-        >
-          <div className="glassmorphism-solid p-4 rounded-lg shadow-2xl border max-w-xs">
-            <h3 className="font-bold text-lg mb-2">{hoveredProvince.name}</h3>
-            <p className="text-sm mb-2">
-              <strong>Ganador:</strong> {hoveredProvince.winner}
-            </p>
-            <div className="space-y-1">
-              {Object.entries(hoveredProvince.percentages).map(
-                ([party, percentage]) => (
-                  <div key={party} className="flex justify-between text-sm">
-                    <span>{party}:</span>
-                    <span className="font-bold">{percentage}%</span>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </motion.div>
-      )}
-
+      <Tooltip 
+        id="province-tooltip" 
+        className="z-50 glassmorphism-solid !p-4 !rounded-lg !shadow-2xl"
+        style={{ backgroundColor: 'hsl(var(--card)/0.95)', color: 'hsl(var(--card-foreground))', border: '1px solid hsl(var(--border))' }}
+      />
       <div className="absolute bottom-4 right-4 bg-background/80 p-3 rounded-lg shadow-md border">
         <h4 className="font-bold text-sm mb-2">Leyenda</h4>
         <div className="space-y-2">
@@ -158,5 +130,3 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
     </div>
   );
 }
-
-    
