@@ -77,25 +77,21 @@ export default function DashboardPage() {
       .then(data => {
         const unifiedData = data.map((d: EncuestaData) => ({
           ...d,
-          pollster: d.pollster.replace(/Córdoba/i, 'Cordoba').trim()
+          pollster: d.pollster
+            .replace(/Córdoba/i, 'Cordoba')
+            .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
+            .trim()
         }));
         setEncuestasData(unifiedData);
       })
       .catch(err => console.error('Error cargando encuestas:', err));
   }, []);
 
-  useEffect(() => {
-    if (mounted && !isAuthenticated) {
-      router.push('/products/quest/login');
-    }
-  }, [mounted, isAuthenticated, router]);
-  
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
     const uniquePollsters = new Set<string>();
     encuestasData.forEach(d => {
       if(d.pollster) {
-        const normalized = d.pollster.replace(/Córdoba/i, 'Cordoba').trim();
-        uniquePollsters.add(normalized);
+        uniquePollsters.add(d.pollster);
       }
     });
   
@@ -132,19 +128,35 @@ export default function DashboardPage() {
     return encuestasData.filter(e => {
         let chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
         const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-        let provinceMatch = selectedProvince === 'Todas' ? (e.scope === 'national' || e.province !== null) : e.province === selectedProvince;
+        let provinceMatch = selectedProvince === 'Todas' ? e.scope === 'national' || e.province !== null : e.province === selectedProvince;
 
         if (selectedChamber === 'senadores') {
             chamberMatch = e.chamber === 'senadores';
-            provinceMatch = e.scope === 'national'; // senadores are national level
+            // For senators, we show national data, province is ignored in favor of scope.
+            return chamberMatch && pollsterMatch && e.scope === 'national';
         }
 
-        return chamberMatch && pollsterMatch && provinceMatch;
+        if (selectedProvince !== 'Todas') {
+          return chamberMatch && pollsterMatch && e.province === selectedProvince;
+        }
+
+        if(selectedPollster !== 'Todas' && selectedProvince === 'Todas' && selectedChamber === 'Todas') {
+            return pollsterMatch; // Show all data for this pollster initially
+        }
+        
+        // Default behavior for "Todas" provinces
+        return chamberMatch && pollsterMatch && (e.scope === 'national' || selectedProvince === 'Todas');
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
-
+  
   const datosGrafico = useMemo(() => {
-    return datosFiltrados
+    let dataToGraph = datosFiltrados;
+
+    if (selectedProvince === 'Todas' && selectedChamber !== 'senadores') {
+       dataToGraph = datosFiltrados.filter(e => e.scope === 'national');
+    }
+
+    return dataToGraph
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .map(d => ({
         date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
@@ -152,7 +164,7 @@ export default function DashboardPage() {
         FP: d.FP,
         PU: d.PU
       }));
-  }, [datosFiltrados]);
+  }, [datosFiltrados, selectedProvince, selectedChamber]);
 
   const pieChartSingleData = useMemo(() => {
     if (datosGrafico.length === 1) {
@@ -316,6 +328,12 @@ export default function DashboardPage() {
   
   const datosNacionales = encuestasData.filter(e => e.scope === 'national');
   
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      router.push('/products/quest/login');
+    }
+  }, [mounted, isAuthenticated, router]);
+  
   if (!mounted || !isAuthenticated) {
     return null;
   }
@@ -465,10 +483,10 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               {datosGrafico.length > 0 ? (
-                 datosGrafico.length > 1 ? (
+                 datosGrafico.length >= 1 ? (
                     <PremiumLineChart data={datosGrafico.slice(-10)} />
                  ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
-                    <PremiumLineChart data={datosGrafico} /> // Show line chart even for one point
+                    <PremiumPieChart data={pieChartSingleData} />
                  ) : (
                     <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
                       No hay datos disponibles para los filtros seleccionados
