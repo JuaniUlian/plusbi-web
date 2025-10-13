@@ -16,6 +16,7 @@ import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
 import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
+import ReactMarkdown from 'react-markdown';
 
 interface EncuestaData {
   date: string;
@@ -62,6 +63,8 @@ export default function DashboardPage() {
   const [selectedProvinceData, setSelectedProvinceData] = useState<ProvinceData | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
+  const [generatedReport, setGeneratedReport] = useState<string>('');
+  const [generatedProvinceReport, setGeneratedProvinceReport] = useState<string>('');
 
   useEffect(() => {
     setMounted(true);
@@ -87,11 +90,6 @@ export default function DashboardPage() {
     return encuestasData.filter(e => {
         const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
         const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-
-        if (selectedChamber === 'senadores') {
-            return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
-        }
-        
         const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
         return chamberMatch && pollsterMatch && provinceMatch;
@@ -228,17 +226,36 @@ export default function DashboardPage() {
     }
   };
 
-  const handleGeneralReport = () => {
+  const handleGeneralReport = async () => {
     if (!isPaidUser) {
       setShowUpgradeModal(true);
       return;
     }
     setGeneratingReport(true);
     setShowGeneralReport(true);
-    setTimeout(() => setGeneratingReport(false), 2000);
+
+    try {
+      const response = await fetch('/api/generate-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'national',
+          encuestasData: encuestasData
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setGeneratedReport(data.report);
+      }
+    } catch (error) {
+      console.error('Error generando reporte:', error);
+    } finally {
+      setGeneratingReport(false);
+    }
   };
 
-  const handleProvinceClick = (province: ProvinceData) => {
+  const handleProvinceClick = async (province: ProvinceData) => {
     if (!isPaidUser) {
       setShowUpgradeModal(true);
       return;
@@ -246,7 +263,27 @@ export default function DashboardPage() {
     setSelectedProvinceData(province);
     setGeneratingReport(true);
     setShowProvinceReport(true);
-    setTimeout(() => setGeneratingReport(false), 2000);
+
+    try {
+      const response = await fetch('/api/generate-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'provincial',
+          province: province.name,
+          encuestasData: encuestasData
+        })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setGeneratedProvinceReport(data.report);
+      }
+    } catch (error) {
+      console.error('Error generando reporte provincial:', error);
+    } finally {
+      setGeneratingReport(false);
+    }
   };
 
   const handleLogout = () => {
@@ -459,6 +496,10 @@ export default function DashboardPage() {
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
                     <p className="mt-4 text-muted-foreground">Generando informe con IA...</p>
                   </div>
+                ) : generatedReport ? (
+                  <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <ReactMarkdown>{generatedReport}</ReactMarkdown>
+                  </div>
                 ) : (
                   <>
                     <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
@@ -495,6 +536,24 @@ export default function DashboardPage() {
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
                     <p className="mt-4 text-muted-foreground">Analizando datos con IA...</p>
                   </div>
+                ) : generatedProvinceReport ? (
+                  <>
+                    <div className="bg-primary/10 p-4 rounded-lg mb-4">
+                      <h3 className="font-semibold">Situación Actual</h3>
+                      <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
+                      <div className="mt-3 space-y-1">
+                        {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
+                          <div key={party} className="flex justify-between text-sm">
+                            <span>{party}</span>
+                            <span className="font-bold">{percentage}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      <ReactMarkdown>{generatedProvinceReport}</ReactMarkdown>
+                    </div>
+                  </>
                 ) : (
                   <>
                     <div className="bg-primary/10 p-4 rounded-lg">
