@@ -79,19 +79,17 @@ export default function DashboardPage() {
   
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
-        const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-        const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
-
-        if (selectedChamber === 'senadores') {
-            return e.chamber === 'senadores' && pollsterMatch;
-        }
-
-        if (selectedProvince !== 'Todas') {
-            return e.province === selectedProvince && chamberMatch && pollsterMatch;
-        }
-        
-        return chamberMatch && pollsterMatch && provinceMatch;
+      const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+      const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
+      const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
+  
+      // Caso especial para senadores, que son nacionales y no tienen provincia.
+      if (selectedChamber === 'senadores') {
+        return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
+      }
+  
+      // Para otras cámaras, aplicar todos los filtros.
+      return chamberMatch && pollsterMatch && provinceMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
@@ -186,16 +184,16 @@ export default function DashboardPage() {
     if (selectedChamber !== 'Todas') {
       chamberFilteredData = encuestasData.filter(e => e.chamber === selectedChamber);
     }
-
-    let pollsterFilteredData = encuestasData;
+  
+    let pollsterFilteredData = chamberFilteredData;
     if (selectedPollster !== 'Todas') {
-        pollsterFilteredData = encuestasData.filter(e => e.pollster === selectedPollster);
+        pollsterFilteredData = chamberFilteredData.filter(e => e.pollster === selectedPollster);
     }
     
     return {
       CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
       POLLSTERS: ['Todas', ...Array.from(new Set(chamberFilteredData.map(d => d.pollster).filter(Boolean)))],
-      PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]]
+      PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b)),
     };
   }, [encuestasData, selectedChamber, selectedPollster]);
   
