@@ -1,7 +1,14 @@
 'use client';
-
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import {
+  MapContainer,
+  TileLayer,
+  CircleMarker,
+  Popup,
+  Tooltip
+} from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Button } from '@/components/ui/button';
+import { FileText } from 'lucide-react';
 
 interface ProvinceData {
   name: string;
@@ -16,164 +23,112 @@ interface ArgentinaMapProps {
   onProvinceClick: (province: ProvinceData) => void;
 }
 
-// Coordenadas simplificadas de las provincias de Argentina para visualización
-const PROVINCES_COORDINATES = [
-  { name: 'Buenos Aires', x: 280, y: 440, width: 120, height: 100 },
-  { name: 'Ciudad Autónoma de Buenos Aires', x: 300, y: 430, width: 20, height: 20 },
-  { name: 'Catamarca', x: 220, y: 260, width: 60, height: 70 },
-  { name: 'Chaco', x: 280, y: 240, width: 80, height: 60 },
-  { name: 'Chubut', x: 220, y: 540, width: 100, height: 80 },
-  { name: 'Córdoba', x: 240, y: 350, width: 80, height: 80 },
-  { name: 'Corrientes', x: 320, y: 260, width: 70, height: 60 },
-  { name: 'Entre Ríos', x: 300, y: 340, width: 70, height: 70 },
-  { name: 'Formosa', x: 300, y: 200, width: 80, height: 50 },
-  { name: 'Jujuy', x: 240, y: 180, width: 50, height: 50 },
-  { name: 'La Pampa', x: 220, y: 460, width: 90, height: 70 },
-  { name: 'La Rioja', x: 200, y: 300, width: 60, height: 70 },
-  { name: 'Mendoza', x: 180, y: 380, width: 70, height: 80 },
-  { name: 'Misiones', x: 360, y: 240, width: 40, height: 60 },
-  { name: 'Neuquén', x: 180, y: 480, width: 70, height: 60 },
-  { name: 'Río Negro', x: 210, y: 500, width: 90, height: 70 },
-  { name: 'Salta', x: 240, y: 200, width: 70, height: 80 },
-  { name: 'San Juan', x: 180, y: 340, width: 60, height: 60 },
-  { name: 'San Luis', x: 210, y: 390, width: 60, height: 60 },
-  { name: 'Santa Cruz', x: 180, y: 600, width: 120, height: 120 },
-  { name: 'Santa Fe', x: 290, y: 300, width: 70, height: 80 },
-  { name: 'Santiago del Estero', x: 250, y: 260, width: 80, height: 70 },
-  { name: 'Tierra del Fuego', x: 200, y: 730, width: 100, height: 50 },
-  { name: 'Tucumán', x: 240, y: 240, width: 50, height: 50 },
-];
+const provinceCoordinates: { [key: string]: [number, number] } = {
+    'Buenos Aires': [-34.6037, -58.3816],
+    'Catamarca': [-28.4696, -65.7852],
+    'Chaco': [-27.4606, -58.9839],
+    'Chubut': [-43.3002, -65.1023],
+    'Cordoba': [-31.4201, -64.1888],
+    'Corrientes': [-27.4692, -58.8306],
+    'Entre Rios': [-31.7346, -60.5238],
+    'Formosa': [-26.1775, -58.1756],
+    'Jujuy': [-24.1858, -65.2995],
+    'La Pampa': [-36.6167, -64.2833],
+    'La Rioja': [-29.4131, -66.8557],
+    'Mendoza': [-32.8895, -68.8458],
+    'Misiones': [-27.3671, -55.8961],
+    'Neuquen': [-38.9516, -68.0591],
+    'Rio Negro': [-40.8135, -63.0019],
+    'Salta': [-24.7821, -65.4232],
+    'San Juan': [-31.5375, -68.5364],
+    'San Luis': [-33.295, -66.3356],
+    'Santa Cruz': [-51.6226, -69.2181],
+    'Santa Fe': [-31.6107, -60.6973],
+    'Santiago del Estero': [-27.7951, -64.2612],
+    'Tierra del Fuego': [-54.8072, -68.3044],
+    'Tucuman': [-26.8083, -65.2176],
+    'CABA': [-34.6037, -58.3816]
+};
+
 
 export function ArgentinaMapSimple({ provincesData, onProvinceClick }: ArgentinaMapProps) {
-  const [hoveredProvince, setHoveredProvince] = useState<ProvinceData | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const normalizeName = (name: string) => {
-    return name
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, ' ');
-  };
-
   const getProvinceData = (provinceName: string): ProvinceData | undefined => {
-    const normalized = normalizeName(provinceName);
-    return provincesData.find((p) => normalizeName(p.name) === normalized);
+    return provincesData.find((p) => p.name === provinceName);
   };
+  
+  if (typeof window === 'undefined') {
+    return null;
+  }
 
   return (
-    <div className="relative w-full" style={{ height: '800px' }}>
-      <svg
-        viewBox="0 0 600 800"
-        className="w-full h-full"
-        style={{ maxWidth: '100%' }}
-      >
-        {/* Mapa de Argentina usando rectángulos posicionados */}
-        {PROVINCES_COORDINATES.map((province) => {
-          const data = getProvinceData(province.name);
-          const fillColor = data?.color || '#cbd5e1';
+    <MapContainer
+      center={[-40.0, -64.0]}
+      zoom={4}
+      style={{ height: '600px', width: '100%', borderRadius: '0.5rem' }}
+      scrollWheelZoom={false}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+      />
+      {Object.entries(provinceCoordinates).map(([provinceName, coords]) => {
+        const provinceData = getProvinceData(provinceName);
+        if (!provinceData) return null;
 
-          return (
-            <g key={province.name}>
-              <rect
-                x={province.x}
-                y={province.y}
-                width={province.width}
-                height={province.height}
-                fill={fillColor}
-                stroke="#ffffff"
-                strokeWidth="2"
-                className="transition-all duration-200 cursor-pointer hover:opacity-80"
-                style={{
-                  filter: hoveredProvince?.name === province.name ? 'brightness(1.2)' : 'none',
-                }}
-                onMouseEnter={(e) => {
-                  if (data) {
-                    setHoveredProvince(data);
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    setMousePos({ x: rect.left + rect.width / 2, y: rect.top });
-                  }
-                }}
-                onMouseLeave={() => setHoveredProvince(null)}
-                onClick={() => data && onProvinceClick(data)}
-              />
-              {/* Nombre de la provincia */}
-              <text
-                x={province.x + province.width / 2}
-                y={province.y + province.height / 2}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[8px] font-bold pointer-events-none select-none"
-                fill="#1e293b"
-                style={{ textShadow: '0 0 3px white' }}
-              >
-                {province.name.length > 15 ? province.name.substring(0, 12) + '...' : province.name}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-
-      {/* Tooltip flotante */}
-      {hoveredProvince && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="fixed z-50 pointer-events-none bg-white dark:bg-gray-800 p-4 rounded-lg shadow-2xl border-2"
-          style={{
-            left: mousePos.x,
-            top: mousePos.y - 10,
-            transform: 'translate(-50%, -100%)',
-            maxWidth: '300px',
-          }}
-        >
-          <h3 className="font-bold text-lg mb-2">{hoveredProvince.name}</h3>
-          <p className="text-sm mb-2">
-            <strong>Ganador:</strong> {hoveredProvince.winner}
-          </p>
-          {hoveredProvince.pollsters && hoveredProvince.pollsters.length > 0 && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-              <strong>Encuestadoras:</strong> {hoveredProvince.pollsters.join(', ')}
-            </p>
-          )}
-          <div className="space-y-1">
-            {Object.entries(hoveredProvince.percentages).map(([party, percentage]) => (
-              <div key={party} className="flex justify-between text-sm">
-                <span>{party}:</span>
-                <span className="font-bold">{percentage}%</span>
+        return (
+          <CircleMarker
+            key={provinceName}
+            center={coords}
+            radius={15}
+            pathOptions={{
+              color: provinceData.color,
+              fillColor: provinceData.color,
+              fillOpacity: 0.7
+            }}
+          >
+            <Tooltip>
+                <div>
+                    <h3 className="font-bold">{provinceName}</h3>
+                </div>
+            </Tooltip>
+            <Popup>
+              <div>
+                <h3 className="font-bold text-lg mb-2">{provinceData.name}</h3>
+                <div className="space-y-1">
+                  {Object.entries(provinceData.percentages).map(
+                    ([party, percentage]) => (
+                      <div key={party} className="flex justify-between text-sm">
+                        <span>{party}:</span>
+                        <span className="font-bold">{percentage}%</span>
+                      </div>
+                    )
+                  )}
+                </div>
+                <Button 
+                    size="sm" 
+                    className="w-full mt-4" 
+                    onClick={() => onProvinceClick(provinceData)}
+                >
+                    <FileText className="mr-2 h-4 w-4" /> Ver Informe
+                </Button>
               </div>
-            ))}
-          </div>
-        </motion.div>
-      )}
+            </Popup>
+          </CircleMarker>
+        );
+      })}
 
-      {/* Leyenda */}
-      <div className="absolute bottom-4 right-4 bg-white/90 dark:bg-gray-800/90 p-4 rounded-lg shadow-xl border-2">
-        <h4 className="font-bold text-sm mb-3">Leyenda</h4>
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded" style={{ backgroundColor: '#7c3aed' }}></div>
-            <span className="text-xs">LLA</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
-            <span className="text-xs">FP</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded" style={{ backgroundColor: '#f97316' }}></div>
-            <span className="text-xs">PU</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded" style={{ backgroundColor: '#f59e0b' }}></div>
-            <span className="text-xs">Provincial</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded" style={{ backgroundColor: '#cbd5e1' }}></div>
-            <span className="text-xs">Sin datos</span>
-          </div>
+      <div className="leaflet-bottom leaflet-right">
+        <div className="leaflet-control leaflet-bar bg-white p-2 rounded shadow">
+            <h4 className="font-bold text-sm mb-2">Leyenda</h4>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#7c3aed'}}></div><span className="text-xs">LLA</span></div>
+              <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#3b82f6'}}></div><span className="text-xs">FP</span></div>
+              <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#f97316'}}></div><span className="text-xs">PU</span></div>
+              <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#f59e0b'}}></div><span className="text-xs">Provincial</span></div>
+              <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#e5e7eb'}}></div><span className="text-xs">Sin datos</span></div>
+            </div>
         </div>
       </div>
-    </div>
+    </MapContainer>
   );
 }

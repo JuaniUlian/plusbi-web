@@ -15,7 +15,7 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
+import { ArgentinaMapSimple } from '@/components/quest/argentina-map-simple';
 import ReactMarkdown from 'react-markdown';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -80,6 +80,7 @@ export default function DashboardPage() {
           pollster: d.pollster
             .replace(/Córdoba/i, 'Cordoba')
             .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
+            .replace(/Federico Gonzalez y Asoc\./, 'Federico Gonzalez y Asociados')
             .trim()
         }));
         setEncuestasData(unifiedData);
@@ -88,13 +89,6 @@ export default function DashboardPage() {
   }, []);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
-    const uniquePollsters = new Set<string>();
-    encuestasData.forEach(d => {
-      if(d.pollster) {
-        uniquePollsters.add(d.pollster);
-      }
-    });
-  
     const chambersList = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
     
     let relevantData = encuestasData;
@@ -116,7 +110,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (selectedChamber === 'Todas' && selectedProvince === 'Todas' && selectedPollster !== 'Todas') {
       const pollsterData = encuestasData.filter(e => e.pollster === selectedPollster);
-      const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null)));
+      const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null && p !== undefined)));
       if (provinces.length > 0) {
         provinces.sort();
         setSelectedProvince(provinces[0] as string);
@@ -128,35 +122,28 @@ export default function DashboardPage() {
     return encuestasData.filter(e => {
         let chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
         const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-        let provinceMatch = selectedProvince === 'Todas' ? e.scope === 'national' || e.province !== null : e.province === selectedProvince;
 
         if (selectedChamber === 'senadores') {
-            chamberMatch = e.chamber === 'senadores';
-            // For senators, we show national data, province is ignored in favor of scope.
-            return chamberMatch && pollsterMatch && e.scope === 'national';
+          return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
         }
 
         if (selectedProvince !== 'Todas') {
           return chamberMatch && pollsterMatch && e.province === selectedProvince;
         }
 
-        if(selectedPollster !== 'Todas' && selectedProvince === 'Todas' && selectedChamber === 'Todas') {
-            return pollsterMatch; // Show all data for this pollster initially
+        if(selectedPollster !== 'Todas' && selectedProvince === 'Todas') {
+           const pollsterHasNationalData = encuestasData.some(d => d.pollster === selectedPollster && d.scope === 'national');
+           if (pollsterHasNationalData) {
+             return pollsterMatch && chamberMatch && e.scope === 'national';
+           }
         }
         
-        // Default behavior for "Todas" provinces
-        return chamberMatch && pollsterMatch && (e.scope === 'national' || selectedProvince === 'Todas');
+        return chamberMatch && pollsterMatch && e.scope === 'national';
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
   
   const datosGrafico = useMemo(() => {
-    let dataToGraph = datosFiltrados;
-
-    if (selectedProvince === 'Todas' && selectedChamber !== 'senadores') {
-       dataToGraph = datosFiltrados.filter(e => e.scope === 'national');
-    }
-
-    return dataToGraph
+    return datosFiltrados
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .map(d => ({
         date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
@@ -164,7 +151,7 @@ export default function DashboardPage() {
         FP: d.FP,
         PU: d.PU
       }));
-  }, [datosFiltrados, selectedProvince, selectedChamber]);
+  }, [datosFiltrados]);
 
   const pieChartSingleData = useMemo(() => {
     if (datosGrafico.length === 1) {
@@ -179,7 +166,8 @@ export default function DashboardPage() {
     const ultimasEncuestas: { [key: string]: EncuestaData } = {};
   
     datos.forEach(encuesta => {
-      if (encuesta[campo] !== null && typeof encuesta[campo] === 'number') {
+      const valor = encuesta[campo];
+      if (valor !== null && typeof valor === 'number') {
         if (!ultimasEncuestas[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestas[encuesta.pollster].date)) {
           ultimasEncuestas[encuesta.pollster] = encuesta;
         }
@@ -188,7 +176,7 @@ export default function DashboardPage() {
   
     const valores = Object.values(ultimasEncuestas)
       .map(d => d[campo])
-      .filter(v => v !== null) as number[];
+      .filter(v => v !== null && typeof v === 'number') as number[];
   
     return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
   };
@@ -326,7 +314,7 @@ export default function DashboardPage() {
     router.push('/products/quest');
   };
   
-  const datosNacionales = encuestasData.filter(e => e.scope === 'national');
+  const datosNacionales = useMemo(() => encuestasData.filter(e => e.scope === 'national'), [encuestasData]);
   
   useEffect(() => {
     if (mounted && !isAuthenticated) {
@@ -483,7 +471,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               {datosGrafico.length > 0 ? (
-                 datosGrafico.length >= 1 ? (
+                 (datosGrafico.length > 1) ? (
                     <PremiumLineChart data={datosGrafico.slice(-10)} />
                  ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
                     <PremiumPieChart data={pieChartSingleData} />
@@ -508,13 +496,13 @@ export default function DashboardPage() {
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Mapa de Calor Electoral - Argentina</CardTitle>
+              <CardTitle className="text-2xl">Mapa Electoral - Argentina</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 Haz clic en una provincia para ver el informe detallado con análisis de IA
               </p>
             </CardHeader>
             <CardContent>
-              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaMapSimple provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>

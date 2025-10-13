@@ -1,10 +1,8 @@
 'use client';
 
-import { ComposableMap, Geographies, Geography, Popup } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
 
 // TopoJSON de Argentina con coordenadas completas
 const ARGENTINA_TOPO_JSON = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/argentina/argentina-provinces.json';
@@ -26,27 +24,30 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
   const [coords, setCoords] = useState<[number, number]>([0, 0]);
 
   const normalizeName = (name: string) => {
-    return name
+    const cleanedName = name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
       .trim();
+
+    if (cleanedName.includes('tierra del fuego')) {
+        return 'tierra del fuego';
+    }
+    return cleanedName;
   };
 
   const getProvinceData = (geoName: string): ProvinceData | undefined => {
     const normalizedGeoName = normalizeName(geoName);
 
-    // Mapeos para nombres comunes que no coinciden
     const nameMappings: { [key: string]: string } = {
         'ciudad autonoma de buenos aires': 'caba',
-        'buenos aires': 'bsas',
-        'tierra del fuego': 'tierra del fuego, antartida e islas del atlantico sur'
+        'buenos aires': 'buenos aires', // Explicit mapping
     };
 
     const mappedGeoName = nameMappings[normalizedGeoName] || normalizedGeoName;
 
     return provincesData.find((p) => {
-      const normalizedDataName = normalizeName(p.name);
+      const normalizedDataName = normalizeName(p.name.toLowerCase());
       return normalizedDataName === mappedGeoName;
     });
   };
