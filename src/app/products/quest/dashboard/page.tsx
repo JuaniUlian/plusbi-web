@@ -8,16 +8,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FileText, LogOut, Crown, User } from 'lucide-react';
+import { FileText, LogOut, Crown, User, Info } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaMapSimple } from '@/components/quest/argentina-map-simple';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
 import ReactMarkdown from 'react-markdown';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
 
 interface EncuestaData {
   date: string;
@@ -90,9 +92,21 @@ export default function DashboardPage() {
   
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
-        const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+        let chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+        
+        // Si es senadores, solo datos nacionales
+        if (selectedChamber === 'senadores') {
+            chamberMatch = e.chamber === 'senadores' && e.scope === 'national';
+        }
+
         const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
+        
+        let provinceMatch = true;
+        if (selectedProvince !== 'Todas') {
+            provinceMatch = e.province === selectedProvince;
+        } else if (selectedChamber !== 'senadores') { // Para evitar que el filtro de provincia interfiera
+             provinceMatch = e.scope === 'national' || e.province !== null;
+        }
 
         return chamberMatch && pollsterMatch && provinceMatch;
     });
@@ -187,16 +201,6 @@ export default function DashboardPage() {
   }, [encuestasData]);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
-    let chamberFilteredData = encuestasData;
-    if (selectedChamber !== 'Todas') {
-      chamberFilteredData = encuestasData.filter(e => e.chamber === selectedChamber);
-    }
-  
-    let pollsterFilteredData = chamberFilteredData;
-    if (selectedPollster !== 'Todas') {
-        pollsterFilteredData = chamberFilteredData.filter(e => e.pollster === selectedPollster);
-    }
-    
     const uniquePollsters = new Set<string>();
     encuestasData.forEach(d => {
       if(d.pollster) {
@@ -204,13 +208,24 @@ export default function DashboardPage() {
         uniquePollsters.add(normalized);
       }
     });
-
+  
+    const chambersList = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
+    
+    let relevantData = encuestasData;
+    if (selectedChamber !== 'Todas') {
+      relevantData = encuestasData.filter(d => d.chamber === selectedChamber);
+    }
+  
+    const pollstersList = ['Todas', ...Array.from(new Set(relevantData.map(d => d.pollster).filter(Boolean)))].sort((a,b) => a.localeCompare(b));
+    
+    const provincesList = ['Todas', ...Array.from(new Set(relevantData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b));
+  
     return {
-      CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
-      POLLSTERS: ['Todas', ...Array.from(uniquePollsters)].sort((a,b) => a.localeCompare(b)),
-      PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b)),
+      CHAMBERS: chambersList,
+      POLLSTERS: pollstersList,
+      PROVINCES_LIST: provincesList,
     };
-  }, [encuestasData, selectedChamber, selectedPollster]);
+  }, [encuestasData, selectedChamber]);
   
   
   const handleFilterAction = () => {
@@ -224,7 +239,7 @@ export default function DashboardPage() {
   const handleChamberChange = (value: string) => {
     if (handleFilterAction()) {
       setSelectedChamber(value);
-      if(value === 'senadores'){
+      if (value === 'senadores') {
         setSelectedProvince('Todas');
       }
     }
@@ -346,17 +361,7 @@ export default function DashboardPage() {
             Ver Informe General
           </Button>
         </motion.div>
-
-        <Card className="glassmorphism-light shadow-xl border-2 mb-6">
-          <CardContent className="pt-6">
-            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4">
-              <p className="text-sm text-blue-900 dark:text-blue-100">
-                <strong>📊 Interpretación de datos:</strong> Los porcentajes mostrados son <strong>promedios de la última encuesta de cada consultora</strong> para evitar sesgo de frecuencia. El gráfico muestra evolución temporal. Para senadores, los datos son <strong>por provincia</strong> (no hay elecciones nacionales de senadores).
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
+        
         <StatsCards
           totalLLA={totalLLA}
           totalFP={totalFP}
@@ -371,11 +376,24 @@ export default function DashboardPage() {
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
               <div className="flex justify-between items-start mb-4">
-                <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto por Partido</CardTitle>
-                <Button onClick={handleGeneralReport} variant="outline" size="sm" className="gap-2">
-                  <FileText className="h-4 w-4" />
-                  Generar Informe
-                </Button>
+                <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto</CardTitle>
+                 <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Info className="h-5 w-5 text-muted-foreground" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">Interpretación de datos</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Los porcentajes mostrados en las tarjetas son <strong>promedios de la última encuesta de cada consultora</strong> para evitar sesgo de frecuencia. El gráfico muestra la evolución temporal de todas las encuestas disponibles según el filtro. Para senadores, los datos son de ámbito nacional.
+                        </p>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap items-end">
                 <div className='flex-1 min-w-[150px]'>
@@ -428,7 +446,7 @@ export default function DashboardPage() {
                     disabled={selectedChamber === 'senadores'}
                   >
                     <SelectTrigger id="province-select" className="w-full">
-                      <SelectValue placeholder="Provincia" />
+                       <SelectValue placeholder={selectedChamber === 'senadores' ? 'Nacional' : 'Provincia'} />
                     </SelectTrigger>
                     <SelectContent>
                       {PROVINCES_LIST.length > 1 ? PROVINCES_LIST.map((province) => (
@@ -468,7 +486,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <ArgentinaMapSimple provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>
@@ -600,3 +618,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
