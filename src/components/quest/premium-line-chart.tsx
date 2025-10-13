@@ -31,6 +31,11 @@ interface MultiLineData {
   LLA?: number | null;
   FP?: number | null;
   PU?: number | null;
+  UCR?: number | null;
+  PRO?: number | null;
+  FIT?: number | null;
+  Provincial?: number | null;
+  Others?: number | null;
   [key: string]: string | number | null | undefined;
 }
 
@@ -38,83 +43,56 @@ interface PremiumLineChartProps {
   data: MultiLineData[];
 }
 
+// Configuración de colores para cada partido
+const PARTY_COLORS: { [key: string]: { border: string; rgb: string } } = {
+  LLA: { border: '#7c3aed', rgb: '124, 58, 237' },
+  FP: { border: '#3b82f6', rgb: '59, 130, 246' },
+  PU: { border: '#f97316', rgb: '249, 115, 22' },
+  UCR: { border: '#ef4444', rgb: '239, 68, 68' },
+  PRO: { border: '#eab308', rgb: '234, 179, 8' },
+  FIT: { border: '#dc2626', rgb: '220, 38, 38' },
+  Provincial: { border: '#f59e0b', rgb: '245, 158, 11' },
+  Others: { border: '#64748b', rgb: '100, 116, 139' },
+};
+
 export function PremiumLineChart({ data }: PremiumLineChartProps) {
+  // Identificar qué partidos tienen al menos un dato no nulo
+  const activeParties = Object.keys(PARTY_COLORS).filter(party =>
+    data.some(d => d[party] != null)
+  );
+
+  // Crear datasets dinámicamente solo para partidos con datos
+  const datasets = activeParties.map(party => {
+    const colors = PARTY_COLORS[party];
+    return {
+      label: party,
+      data: data.map((d) => d[party] || null),
+      borderColor: colors.border,
+      backgroundColor: (context: any) => {
+        const ctx = context.chart.ctx;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, `rgba(${colors.rgb}, 0.3)`);
+        gradient.addColorStop(1, `rgba(${colors.rgb}, 0)`);
+        return gradient;
+      },
+      fill: true,
+      tension: 0.4,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      pointBackgroundColor: colors.border,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointHoverBackgroundColor: colors.border,
+      pointHoverBorderColor: '#fff',
+      pointHoverBorderWidth: 3,
+      borderWidth: 3,
+      spanGaps: true,
+    };
+  });
+
   const chartData = {
     labels: data.map((d) => d.date),
-    datasets: [
-      {
-        label: 'LLA',
-        data: data.map((d) => d.LLA || null),
-        borderColor: '#7c3aed',
-        backgroundColor: (context: any) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(124, 58, 237, 0.3)');
-          gradient.addColorStop(1, 'rgba(124, 58, 237, 0)');
-          return gradient;
-        },
-        fill: true,
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#7c3aed',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverBackgroundColor: '#7c3aed',
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 3,
-        borderWidth: 3,
-        spanGaps: true, // This will connect points with null data
-      },
-      {
-        label: 'FP',
-        data: data.map((d) => d.FP || null),
-        borderColor: '#3b82f6',
-        backgroundColor: (context: any) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
-          gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
-          return gradient;
-        },
-        fill: true,
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#3b82f6',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverBackgroundColor: '#3b82f6',
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 3,
-        borderWidth: 3,
-        spanGaps: true, // This will connect points with null data
-      },
-      {
-        label: 'PU',
-        data: data.map((d) => d.PU || null),
-        borderColor: '#f97316', // Orange color
-        backgroundColor: (context: any) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
-          gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
-          return gradient;
-        },
-        fill: true,
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#f97316',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverBackgroundColor: '#f97316',
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 3,
-        borderWidth: 3,
-        spanGaps: true, // This will connect points with null data
-      },
-    ],
+    datasets,
   };
 
   const options: ChartOptions<'line'> = {
@@ -128,7 +106,7 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
           color: 'rgb(100, 116, 139)',
           font: {
             size: 14,
-            weight: '600',
+            weight: 600,
           },
           usePointStyle: true,
           padding: 20,
@@ -173,7 +151,6 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         },
         grid: {
           color: 'rgba(203, 213, 225, 0.3)',
-          drawBorder: false,
         },
       },
       x: {
@@ -187,7 +164,6 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         },
         grid: {
           display: false,
-          drawBorder: false,
         },
       },
     },

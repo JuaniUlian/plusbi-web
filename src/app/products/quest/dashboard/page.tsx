@@ -185,7 +185,12 @@ export default function DashboardPage() {
         date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
         LLA: d.LLA,
         FP: d.FP,
-        PU: d.PU
+        PU: d.PU,
+        UCR: d.UCR,
+        PRO: d.PRO,
+        FIT: d.FIT,
+        Provincial: d.Provincial,
+        Others: d.Others
       }));
   }, [datosFiltrados]);
 
