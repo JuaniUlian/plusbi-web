@@ -15,10 +15,11 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaMapSimple } from '@/components/quest/argentina-map-simple';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
 import ReactMarkdown from 'react-markdown';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
 
 
 interface EncuestaData {
@@ -96,7 +97,13 @@ export default function DashboardPage() {
       relevantData = encuestasData.filter(d => d.chamber === selectedChamber);
     }
   
-    const pollstersList = ['Todas', ...Array.from(new Set(relevantData.map(d => d.pollster).filter(Boolean)))].sort((a,b) => a.localeCompare(b));
+    const uniquePollsters = [...new Set(relevantData.map(d => d.pollster).filter(Boolean).map(p => {
+        if (p.toLowerCase().includes('federico gonzalez')) return 'Federico Gonzalez y Asociados';
+        if (p.toLowerCase().includes('zuban cordoba')) return 'Zuban Cordoba';
+        return p;
+    }))];
+
+    const pollstersList = ['Todas', ...uniquePollsters].sort((a, b) => a.localeCompare(b));
     
     const provincesList = ['Todas', ...Array.from(new Set(relevantData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b));
   
@@ -120,15 +127,21 @@ export default function DashboardPage() {
 
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
-        let chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-        const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
+        let pollster = e.pollster;
+        if (pollster.toLowerCase().includes('federico gonzalez')) pollster = 'Federico Gonzalez y Asociados';
+        if (pollster.toLowerCase().includes('zuban cordoba')) pollster = 'Zuban Cordoba';
+
+        const pollsterMatch = selectedPollster === 'Todas' || pollster === selectedPollster;
 
         if (selectedChamber === 'senadores') {
-          return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
+            return e.chamber === 'senadores' && pollsterMatch;
         }
 
+        const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
+        
         if (selectedProvince !== 'Todas') {
-          return chamberMatch && pollsterMatch && e.province === selectedProvince;
+            return chamberMatch && pollsterMatch && e.province === selectedProvince;
         }
 
         if(selectedPollster !== 'Todas' && selectedProvince === 'Todas') {
@@ -138,7 +151,7 @@ export default function DashboardPage() {
            }
         }
         
-        return chamberMatch && pollsterMatch && e.scope === 'national';
+        return chamberMatch && pollsterMatch && (e.scope === 'national' || selectedProvince !== 'Todas');
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
   
@@ -492,6 +505,24 @@ export default function DashboardPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="glassmorphism-light shadow-2xl border-2">
+            <CardHeader>
+              <CardTitle className="text-2xl">Comparativo de Encuestadoras</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                Última encuesta disponible para cada encuestadora según los filtros seleccionados.
+              </p>
+            </CardHeader>
+            <CardContent>
+              <PollsterComparisonTable data={datosFiltrados} />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
@@ -502,7 +533,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <ArgentinaMapSimple provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>
