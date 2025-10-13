@@ -55,8 +55,9 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
         backgroundColor: colors,
         borderColor: colors.map(c => c),
         borderWidth: 2,
-        hoverBorderWidth: 3,
+        hoverBorderWidth: 4,
         hoverBorderColor: '#fff',
+        hoverOffset: 10,
       },
     ],
   };
@@ -73,14 +74,15 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
         labels: {
           color: 'rgb(55, 65, 81)',
           font: {
-            size: 16,
-            weight: '700',
+            size: 14,
+            weight: '600',
+            family: 'Nunito, sans-serif'
           },
           usePointStyle: true,
-          pointStyle: 'circle',
+          pointStyle: 'rectRounded',
           padding: 25,
-          boxWidth: 20,
-          boxHeight: 20,
+          boxWidth: 18,
+          boxHeight: 18,
         },
       },
       tooltip: {
@@ -89,21 +91,21 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
         titleColor: '#fff',
         bodyColor: '#fff',
         titleFont: {
-          size: 16,
+          size: 14,
           weight: 'bold',
         },
         bodyFont: {
-          size: 15,
+          size: 13,
         },
-        padding: 16,
-        cornerRadius: 10,
+        padding: 12,
+        cornerRadius: 8,
         displayColors: true,
         boxPadding: 8,
         callbacks: {
           label: (context) => {
-            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
-            const percentage = ((context.parsed / total) * 100).toFixed(1);
-            return ` ${context.label}: ${context.parsed}% (${percentage}% del total)`;
+            const label = context.label || '';
+            const value = context.parsed;
+            return ` ${label}: ${value.toFixed(1)}%`;
           },
         },
       },
@@ -111,12 +113,12 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
   };
 
   return (
-    <div className="w-full h-[600px] flex flex-col items-center justify-center py-8 px-4">
-      <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">Distribución de Intención de Voto</h3>
-        <p className="text-base text-gray-600">Datos de la encuesta seleccionada</p>
+    <div className="w-full h-[400px] flex flex-col items-center justify-center">
+      <div className="text-center mb-4">
+        <h3 className="text-xl font-bold text-gray-800">Distribución de Intención de Voto</h3>
+        <p className="text-sm text-gray-600">Encuesta más reciente</p>
       </div>
-      <div className="w-full max-w-2xl h-[450px]">
+      <div className="w-full max-w-sm h-[300px]">
         <Pie data={chartData} options={options} />
       </div>
     </div>

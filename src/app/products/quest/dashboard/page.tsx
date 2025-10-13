@@ -82,12 +82,12 @@ export default function DashboardPage() {
       const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
       const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
       const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
-  
+
       // Caso especial para senadores, que son nacionales y no tienen provincia.
       if (selectedChamber === 'senadores') {
         return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
       }
-  
+
       // Para otras cámaras, aplicar todos los filtros.
       return chamberMatch && pollsterMatch && provinceMatch;
     });
@@ -112,8 +112,6 @@ export default function DashboardPage() {
     }
     return null;
   }, [datosGrafico]);
-
-  const datosProvinciales = useMemo(() => encuestasData.filter(e => e.scope === 'provincial'), [encuestasData]);
   
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
     if (datos.length === 0) return 0;
@@ -144,27 +142,31 @@ export default function DashboardPage() {
   }, [encuestasData]);
 
   const MOCK_PROVINCES: ProvinceData[] = useMemo(() => {
-    const provincesMap: { [key: string]: { LLA: number[], FP: number[], PU: number[], Provincial: number[] } } = {};
+    const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
+    const provincesMap: { [key: string]: { [pollster: string]: EncuestaData } } = {};
+  
     datosProvinciales.forEach(d => {
       if (!d.province) return;
       if (!provincesMap[d.province]) {
-        provincesMap[d.province] = { LLA: [], FP: [], PU: [], Provincial: [] };
+        provincesMap[d.province] = {};
       }
-      if (d.LLA) provincesMap[d.province].LLA.push(d.LLA);
-      if (d.FP) provincesMap[d.province].FP.push(d.FP);
-      if (d.PU) provincesMap[d.province].PU.push(d.PU);
-      if (d.Provincial) provincesMap[d.province].Provincial.push(d.Provincial);
+      // Guardar solo la encuesta más reciente por encuestadora y provincia
+      if (!provincesMap[d.province][d.pollster] || new Date(d.date) > new Date(provincesMap[d.province][d.pollster].date)) {
+        provincesMap[d.province][d.pollster] = d;
+      }
     });
-
+  
     return Object.keys(provincesMap).map(prov => {
+      const ultimasEncuestas = Object.values(provincesMap[prov]);
       const promedios = {
-        LLA: provincesMap[prov].LLA.length > 0 ? provincesMap[prov].LLA.reduce((a, b) => a + b, 0) / provincesMap[prov].LLA.length : 0,
-        FP: provincesMap[prov].FP.length > 0 ? provincesMap[prov].FP.reduce((a, b) => a + b, 0) / provincesMap[prov].FP.length : 0,
-        PU: provincesMap[prov].PU.length > 0 ? provincesMap[prov].PU.reduce((a, b) => a + b, 0) / provincesMap[prov].PU.length : 0,
-        Provincial: provincesMap[prov].Provincial.length > 0 ? provincesMap[prov].Provincial.reduce((a, b) => a + b, 0) / provincesMap[prov].Provincial.length : 0,
+        LLA: ultimasEncuestas.map(e => e.LLA).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.LLA!=null).length || 0,
+        FP: ultimasEncuestas.map(e => e.FP).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.FP!=null).length || 0,
+        PU: ultimasEncuestas.map(e => e.PU).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.PU!=null).length || 0,
+        Provincial: ultimasEncuestas.map(e => e.Provincial).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.Provincial!=null).length || 0,
       };
-
+      
       const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
+      
       const colores: { [key: string]: string } = {
         LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#f59e0b'
       };
@@ -177,7 +179,7 @@ export default function DashboardPage() {
 
       return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages };
     });
-  }, [datosProvinciales]);
+  }, [encuestasData]);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
     let chamberFilteredData = encuestasData;
@@ -373,7 +375,7 @@ export default function DashboardPage() {
             <CardContent>
               {datosGrafico.length > 1 ? (
                 <PremiumLineChart data={datosGrafico.slice(-10)} />
-              ) : pieChartSingleData ? (
+              ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
                  <PremiumPieChart data={pieChartSingleData} />
               ) : (
                 <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
