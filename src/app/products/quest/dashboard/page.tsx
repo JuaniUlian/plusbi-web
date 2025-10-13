@@ -64,6 +64,20 @@ export default function DashboardPage() {
   const [generatingReport, setGeneratingReport] = useState(false);
 
   // Mover hooks al principio
+  useEffect(() => {
+    setMounted(true);
+    fetch('/data/encuestas_argentina_2025.json')
+      .then(res => res.json())
+      .then(data => setEncuestasData(data))
+      .catch(err => console.error('Error cargando encuestas:', err));
+  }, []);
+
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      router.push('/products/quest/login');
+    }
+  }, [mounted, isAuthenticated, router]);
+  
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
       const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
@@ -71,11 +85,8 @@ export default function DashboardPage() {
       const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
       if (selectedChamber === 'senadores') {
+        // For senators, we only care about national scope and pollster. Province filter is ignored.
         return chamberMatch && pollsterMatch && e.scope === 'national';
-      }
-      
-      if (selectedProvince !== 'Todas') {
-        return chamberMatch && pollsterMatch && e.province === selectedProvince;
       }
       
       return chamberMatch && pollsterMatch && provinceMatch;
@@ -186,19 +197,6 @@ export default function DashboardPage() {
     return null;
   }, [datosGrafico]);
   
-  useEffect(() => {
-    setMounted(true);
-    fetch('/data/encuestas_argentina_2025.json')
-      .then(res => res.json())
-      .then(data => setEncuestasData(data))
-      .catch(err => console.error('Error cargando encuestas:', err));
-  }, []);
-
-  useEffect(() => {
-    if (mounted && !isAuthenticated) {
-      router.push('/products/quest/login');
-    }
-  }, [mounted, isAuthenticated, router]);
   
   const handleFilterAction = () => {
     if (!isPaidUser) {
@@ -506,3 +504,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
