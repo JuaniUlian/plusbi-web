@@ -160,22 +160,20 @@ export default function DashboardPage() {
     };
   });
 
-  // Listas dinámicas para filtros basadas en los datos filtrados actuales
-  // Esto asegura que solo se muestren opciones con datos disponibles
-  const datosParaFiltros = encuestasData.filter(e => {
+  // Listas dinámicas para filtros basadas en los datos disponibles
+  const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
+
+  // Filtrar opciones de encuestadoras según los filtros activos
+  const encuestadorasDisponibles = encuestasData.filter(e => {
     let valido = true;
     if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) valido = false;
     if (selectedProvince !== 'Todas') {
       if (e.scope !== 'provincial' || e.province !== selectedProvince) valido = false;
-    } else {
-      if (e.scope !== 'national') valido = false;
     }
-    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) valido = false;
     return valido;
   });
 
-  const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
-  const POLLSTERS = ['Todas', ...Array.from(new Set(datosParaFiltros.map(d => d.pollster)))];
+  const POLLSTERS = ['Todas', ...Array.from(new Set(encuestadorasDisponibles.map(d => d.pollster)))];
   const PROVINCES_LIST = ['Todas', ...Array.from(new Set(encuestasData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]];
 
   const handleFilterAction = () => {
@@ -334,7 +332,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               {datosGrafico.length === 1 ? (
-                <PremiumPieChart data={datosGrafico[0]} />
+                <PremiumPieChart data={{ LLA: datosGrafico[0].LLA, FP: datosGrafico[0].FP, PU: datosGrafico[0].PU }} />
               ) : datosGrafico.length > 0 ? (
                 <PremiumLineChart data={datosGrafico.slice(-10)} />
               ) : (
