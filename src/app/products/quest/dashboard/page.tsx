@@ -15,8 +15,9 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
+import { ArgentinaMapSimple } from '@/components/quest/argentina-map-simple';
 import ReactMarkdown from 'react-markdown';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 interface EncuestaData {
   date: string;
@@ -41,6 +42,7 @@ interface ProvinceData {
   winner: string;
   color: string;
   percentages: { [key: string]: number };
+  pollsters?: string[];
 }
 
 interface PieChartData {
@@ -146,7 +148,7 @@ export default function DashboardPage() {
   const MOCK_PROVINCES: ProvinceData[] = useMemo(() => {
     const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
     const provincesMap: { [key: string]: { [pollster: string]: EncuestaData } } = {};
-  
+
     datosProvinciales.forEach(d => {
       if (!d.province) return;
       if (!provincesMap[d.province]) {
@@ -156,18 +158,20 @@ export default function DashboardPage() {
         provincesMap[d.province][d.pollster] = d;
       }
     });
-  
+
     return Object.keys(provincesMap).map(prov => {
       const ultimasEncuestas = Object.values(provincesMap[prov]);
+      const pollsters = Object.keys(provincesMap[prov]).sort();
+
       const promedios = {
         LLA: ultimasEncuestas.map(e => e.LLA).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.LLA!=null).length || 0,
         FP: ultimasEncuestas.map(e => e.FP).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.FP!=null).length || 0,
         PU: ultimasEncuestas.map(e => e.PU).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.PU!=null).length || 0,
         Provincial: ultimasEncuestas.map(e => e.Provincial).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.Provincial!=null).length || 0,
       };
-      
+
       const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
-      
+
       const colores: { [key: string]: string } = {
         LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#f59e0b'
       };
@@ -178,7 +182,7 @@ export default function DashboardPage() {
       if (promedios.PU > 0) percentages['PU'] = Math.round(promedios.PU * 10) / 10;
       if (promedios.Provincial > 0) percentages['Provincial'] = Math.round(promedios.Provincial * 10) / 10;
 
-      return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages };
+      return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages, pollsters };
     });
   }, [encuestasData]);
 
@@ -343,6 +347,16 @@ export default function DashboardPage() {
           </Button>
         </motion.div>
 
+        <Card className="glassmorphism-light shadow-xl border-2 mb-6">
+          <CardContent className="pt-6">
+            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4">
+              <p className="text-sm text-blue-900 dark:text-blue-100">
+                <strong>📊 Interpretación de datos:</strong> Los porcentajes mostrados son <strong>promedios de la última encuesta de cada consultora</strong> para evitar sesgo de frecuencia. El gráfico muestra evolución temporal. Para senadores, los datos son <strong>por provincia</strong> (no hay elecciones nacionales de senadores).
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         <StatsCards
           totalLLA={totalLLA}
           totalFP={totalFP}
@@ -356,7 +370,13 @@ export default function DashboardPage() {
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto por Partido</CardTitle>
+              <div className="flex justify-between items-start mb-4">
+                <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto por Partido</CardTitle>
+                <Button onClick={handleGeneralReport} variant="outline" size="sm" className="gap-2">
+                  <FileText className="h-4 w-4" />
+                  Generar Informe
+                </Button>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap items-end">
                 <div className='flex-1 min-w-[150px]'>
                   <Label htmlFor="chamber-select">Cámara</Label>
@@ -448,7 +468,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaMapSimple provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>
@@ -480,101 +500,103 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {showGeneralReport && (
-          <Dialog open={showGeneralReport} onOpenChange={setShowGeneralReport}>
-            <DialogContent className="glassmorphism-solid max-w-3xl max-h-[80vh] overflow-y-auto" aria-describedby="general-report-description">
-              <DialogHeader>
-                <DialogTitle className="text-2xl">Informe General de Situación Electoral</DialogTitle>
-                <DialogDescription id="general-report-description">
-                  Análisis completo de las encuestas nacionales
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                {generatingReport ? (
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-                    <p className="mt-4 text-muted-foreground">Generando informe con IA...</p>
-                  </div>
-                ) : generatedReport ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none">
-                    <ReactMarkdown>{generatedReport}</ReactMarkdown>
-                  </div>
-                ) : (
-                  <>
-                    <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Basado en el análisis de {datosNacionales.length} encuestas nacionales, LLA mantiene {totalLLA.toFixed(1)}% de intención de voto promedio, mientras que FP alcanza {totalFP.toFixed(1)}%. Los datos muestran tendencias variables según las diferentes encuestadoras.
-                    </p>
-                    <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
-                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                      {MOCK_PROVINCES.slice(0, 5).map(p => (
-                        <li key={p.name}>{p.name}: {p.winner} lidera con ventaja</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
+      <Sheet open={showGeneralReport} onOpenChange={setShowGeneralReport}>
+        <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="text-2xl">Informe General de Situación Electoral</SheetTitle>
+            <SheetDescription>
+              Análisis completo de las encuestas nacionales con IA
+            </SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            {generatingReport ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
+                <p className="mt-4 text-muted-foreground">Generando informe con IA...</p>
               </div>
-            </DialogContent>
-          </Dialog>
-        )}
-      </AnimatePresence>
+            ) : generatedReport ? (
+              <div className="prose prose-sm dark:prose-invert max-w-none">
+                <ReactMarkdown>{generatedReport}</ReactMarkdown>
+              </div>
+            ) : (
+              <>
+                <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Basado en el análisis de {datosNacionales.length} encuestas nacionales, LLA mantiene {totalLLA.toFixed(1)}% de intención de voto promedio, mientras que FP alcanza {totalFP.toFixed(1)}%. Los datos muestran tendencias variables según las diferentes encuestadoras.
+                </p>
+                <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
+                <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                  {MOCK_PROVINCES.slice(0, 5).map(p => (
+                    <li key={p.name}>{p.name}: {p.winner} lidera con ventaja</li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
 
-      <AnimatePresence>
-        {showProvinceReport && (
-          <Dialog open={showProvinceReport} onOpenChange={setShowProvinceReport}>
-            <DialogContent className="glassmorphism-solid max-w-2xl max-h-[80vh] overflow-y-auto" aria-describedby="province-report-description">
-              <DialogHeader>
-                <DialogTitle className="text-2xl">Informe de {selectedProvinceData?.name}</DialogTitle>
-                <DialogDescription id="province-report-description">
-                  Análisis detallado con datos provinciales
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                {generatingReport ? (
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-                    <p className="mt-4 text-muted-foreground">Analizando datos con IA...</p>
-                  </div>
-                ) : generatedProvinceReport ? (
-                  <>
-                    <div className="bg-primary/10 p-4 rounded-lg mb-4">
-                      <h3 className="font-semibold">Situación Actual</h3>
-                      <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
-                      <div className="mt-3 space-y-1">
-                        {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
-                          <div key={party} className="flex justify-between text-sm">
-                            <span>{party}</span>
-                            <span className="font-bold">{percentage}%</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <ReactMarkdown>{generatedProvinceReport}</ReactMarkdown>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="bg-primary/10 p-4 rounded-lg">
-                      <h3 className="font-semibold">Situación Actual</h3>
-                      <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
-                      <div className="mt-3 space-y-1">
-                        {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
-                          <div key={party} className="flex justify-between text-sm">
-                            <span>{party}</span>
-                            <span className="font-bold">{percentage}%</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </>
-                )}
+      <Sheet open={showProvinceReport} onOpenChange={setShowProvinceReport}>
+        <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="text-2xl">Informe de {selectedProvinceData?.name}</SheetTitle>
+            <SheetDescription>
+              Análisis detallado con datos provinciales e IA
+            </SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            {generatingReport ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
+                <p className="mt-4 text-muted-foreground">Analizando datos con IA...</p>
               </div>
-            </DialogContent>
-          </Dialog>
-        )}
-      </AnimatePresence>
+            ) : generatedProvinceReport ? (
+              <>
+                <div className="bg-primary/10 p-4 rounded-lg mb-4">
+                  <h3 className="font-semibold">Situación Actual</h3>
+                  <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
+                  {selectedProvinceData?.pollsters && selectedProvinceData.pollsters.length > 0 && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      <strong>Encuestadoras consideradas:</strong> {selectedProvinceData.pollsters.join(', ')}
+                    </p>
+                  )}
+                  <div className="mt-3 space-y-1">
+                    {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
+                      <div key={party} className="flex justify-between text-sm">
+                        <span>{party}</span>
+                        <span className="font-bold">{percentage}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown>{generatedProvinceReport}</ReactMarkdown>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="bg-primary/10 p-4 rounded-lg">
+                  <h3 className="font-semibold">Situación Actual</h3>
+                  <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
+                  {selectedProvinceData?.pollsters && selectedProvinceData.pollsters.length > 0 && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      <strong>Encuestadoras consideradas:</strong> {selectedProvinceData.pollsters.join(', ')}
+                    </p>
+                  )}
+                  <div className="mt-3 space-y-1">
+                    {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
+                      <div key={party} className="flex justify-between text-sm">
+                        <span>{party}</span>
+                        <span className="font-bold">{percentage}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

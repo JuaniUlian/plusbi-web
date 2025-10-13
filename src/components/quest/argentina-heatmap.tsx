@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
 
-// TopoJSON de Argentina - URL pública
+// TopoJSON de Argentina con coordenadas completas
 const ARGENTINA_TOPO_JSON = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/argentina/argentina-provinces.json';
 
 interface ProvinceData {
