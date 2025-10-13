@@ -15,11 +15,19 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
 import ReactMarkdown from 'react-markdown';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
+import dynamic from 'next/dynamic';
+
+const ArgentinaHeatmap = dynamic(
+  () => import('@/components/quest/argentina-heatmap').then(mod => mod.ArgentinaHeatmap),
+  {
+    ssr: false,
+    loading: () => <div className="flex items-center justify-center w-full h-full min-h-[600px]"><p>Cargando mapa...</p></div>
+  }
+);
 
 
 interface EncuestaData {
@@ -665,3 +673,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

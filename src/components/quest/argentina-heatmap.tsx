@@ -158,3 +158,5 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
     </div>
   );
 }
+
+    
