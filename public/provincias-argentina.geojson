@@ -1,0 +1,341 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Buenos Aires",
+        "name": "Buenos Aires",
+        "id": "06"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-58.4, -34.5], [-58.4, -35.0], [-57.9, -35.0], [-57.9, -34.5], [-58.4, -34.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Córdoba",
+        "name": "Córdoba",
+        "id": "14"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-64.2, -31.4], [-64.2, -32.0], [-63.7, -32.0], [-63.7, -31.4], [-64.2, -31.4]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Santa Fe",
+        "name": "Santa Fe",
+        "id": "82"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-60.7, -31.6], [-60.7, -32.2], [-60.2, -32.2], [-60.2, -31.6], [-60.7, -31.6]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Mendoza",
+        "name": "Mendoza",
+        "id": "50"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-68.8, -32.9], [-68.8, -33.5], [-68.3, -33.5], [-68.3, -32.9], [-68.8, -32.9]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Tucumán",
+        "name": "Tucumán",
+        "id": "90"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-65.2, -26.8], [-65.2, -27.4], [-64.7, -27.4], [-64.7, -26.8], [-65.2, -26.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Salta",
+        "name": "Salta",
+        "id": "66"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-65.4, -24.8], [-65.4, -25.4], [-64.9, -25.4], [-64.9, -24.8], [-65.4, -24.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Entre Ríos",
+        "name": "Entre Ríos",
+        "id": "30"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-58.7, -31.7], [-58.7, -32.3], [-58.2, -32.3], [-58.2, -31.7], [-58.7, -31.7]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Chaco",
+        "name": "Chaco",
+        "id": "22"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-59.0, -27.4], [-59.0, -28.0], [-58.5, -28.0], [-58.5, -27.4], [-59.0, -27.4]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Corrientes",
+        "name": "Corrientes",
+        "id": "18"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-58.8, -27.5], [-58.8, -28.1], [-58.3, -28.1], [-58.3, -27.5], [-58.8, -27.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Misiones",
+        "name": "Misiones",
+        "id": "54"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-55.0, -27.4], [-55.0, -28.0], [-54.5, -28.0], [-54.5, -27.4], [-55.0, -27.4]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Santiago del Estero",
+        "name": "Santiago del Estero",
+        "id": "86"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-64.3, -27.8], [-64.3, -28.4], [-63.8, -28.4], [-63.8, -27.8], [-64.3, -27.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Jujuy",
+        "name": "Jujuy",
+        "id": "38"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-65.7, -23.2], [-65.7, -23.8], [-65.2, -23.8], [-65.2, -23.2], [-65.7, -23.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Formosa",
+        "name": "Formosa",
+        "id": "34"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-58.2, -26.2], [-58.2, -26.8], [-57.7, -26.8], [-57.7, -26.2], [-58.2, -26.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Catamarca",
+        "name": "Catamarca",
+        "id": "10"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-66.0, -28.5], [-66.0, -29.1], [-65.5, -29.1], [-65.5, -28.5], [-66.0, -28.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "La Rioja",
+        "name": "La Rioja",
+        "id": "46"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-66.9, -29.4], [-66.9, -30.0], [-66.4, -30.0], [-66.4, -29.4], [-66.9, -29.4]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "San Juan",
+        "name": "San Juan",
+        "id": "70"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-68.5, -31.5], [-68.5, -32.1], [-68.0, -32.1], [-68.0, -31.5], [-68.5, -31.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "San Luis",
+        "name": "San Luis",
+        "id": "74"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-66.3, -33.3], [-66.3, -33.9], [-65.8, -33.9], [-65.8, -33.3], [-66.3, -33.3]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "La Pampa",
+        "name": "La Pampa",
+        "id": "42"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-64.3, -36.6], [-64.3, -37.2], [-63.8, -37.2], [-63.8, -36.6], [-64.3, -36.6]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Neuquén",
+        "name": "Neuquén",
+        "id": "58"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-70.0, -38.9], [-70.0, -39.5], [-69.5, -39.5], [-69.5, -38.9], [-70.0, -38.9]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Río Negro",
+        "name": "Río Negro",
+        "id": "62"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-65.0, -41.0], [-65.0, -41.6], [-64.5, -41.6], [-64.5, -41.0], [-65.0, -41.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Chubut",
+        "name": "Chubut",
+        "id": "26"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-65.0, -43.3], [-65.0, -43.9], [-64.5, -43.9], [-64.5, -43.3], [-65.0, -43.3]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Santa Cruz",
+        "name": "Santa Cruz",
+        "id": "78"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-69.0, -50.0], [-69.0, -50.6], [-68.5, -50.6], [-68.5, -50.0], [-69.0, -50.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Tierra del Fuego",
+        "name": "Tierra del Fuego",
+        "id": "94"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-68.6, -54.8], [-68.6, -55.4], [-68.1, -55.4], [-68.1, -54.8], [-68.6, -54.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Ciudad de Buenos Aires",
+        "name": "CABA",
+        "id": "02"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-58.4, -34.6], [-58.4, -34.7], [-58.3, -34.7], [-58.3, -34.6], [-58.4, -34.6]
+        ]]
+      }
+    }
+  ]
+}

@@ -74,6 +74,10 @@
     @apply bg-card/95 backdrop-blur-xl border-white/30 shadow-2xl;
   }
 
+  .glassmorphism-light {
+    @apply bg-card/30 backdrop-blur-lg border-white/20 shadow-lg;
+  }
+
   .neomorphism {
     @apply bg-card/90 backdrop-blur-md;
     box-shadow:
