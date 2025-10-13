@@ -38,6 +38,13 @@ interface ProvinceData {
   percentages: { [key: string]: number };
 }
 
+interface PieChartData {
+  LLA?: number | null;
+  FP?: number | null;
+  PU?: number | null;
+}
+
+
 export default function DashboardPage() {
   const router = useRouter();
   const { user, logout, isAuthenticated, isPaidUser } = useAuth();
@@ -90,20 +97,22 @@ export default function DashboardPage() {
 
   // Filtrar datos según selección
   const datosFiltrados = encuestasData.filter(e => {
-    // Filtro de scope (nacional o provincial)
-    if (selectedProvince === 'Todas') {
-      if (e.scope !== 'national') return false;
-    } else {
-      if (e.scope !== 'provincial' || e.province !== selectedProvince) return false;
-    }
-
-    // Filtro de encuestadora
-    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) return false;
+    let esValido = true;
 
     // Filtro de cámara
-    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) return false;
+    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) esValido = false;
 
-    return true;
+    // Filtro de encuestadora
+    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) esValido = false;
+
+    // Filtro de provincia
+    if (selectedProvince === 'Todas') {
+      if(e.scope !== 'national') esValido = false;
+    } else {
+      if(e.scope !== 'provincial' || e.province !== selectedProvince) esValido = false;
+    }
+
+    return esValido;
   });
 
   // Preparar datos para gráfico (múltiples líneas)
@@ -164,7 +173,7 @@ export default function DashboardPage() {
   const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
 
   // Filtrar opciones de encuestadoras según los filtros activos
-  const encuestadorasDisponibles = encuestasData.filter(e => {
+  const datosParaFiltros = encuestasData.filter(e => {
     let valido = true;
     if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) valido = false;
     if (selectedProvince !== 'Todas') {
@@ -173,7 +182,7 @@ export default function DashboardPage() {
     return valido;
   });
 
-  const POLLSTERS = ['Todas', ...Array.from(new Set(encuestadorasDisponibles.map(d => d.pollster)))];
+  const POLLSTERS = ['Todas', ...Array.from(new Set(datosParaFiltros.map(d => d.pollster)))];
   const PROVINCES_LIST = ['Todas', ...Array.from(new Set(encuestasData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]];
 
   const handleFilterAction = () => {
@@ -383,7 +392,7 @@ export default function DashboardPage() {
                 <p className="text-sm text-muted-foreground">Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.</p>
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">Cerrar</Button>
-                  <Button onClick={() => window.open('https://forms.google.com', '_blank')} className="flex-1">Registrarme Ahora</Button>
+                  <Button onClick={() => window.open('https://script.google.com/macros/s/AKfycbzKO1kHsEJokymKc38SwiMvexQtuhVpshitKnV3iU5lB0gPNvTBYdPldKM4Gh7NdEXP/exec', '_blank')} className="flex-1">Registrarme Ahora</Button>
                 </div>
               </div>
             </DialogContent>
