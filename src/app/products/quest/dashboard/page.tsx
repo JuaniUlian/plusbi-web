@@ -15,7 +15,7 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap-simple';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
 
 interface EncuestaData {
   date: string;
@@ -82,18 +82,19 @@ export default function DashboardPage() {
       router.push('/products/quest/login');
     }
   }, [mounted, isAuthenticated, router]);
-
+  
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
-      const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-      const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-      const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
+        const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+        const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
 
-      if (selectedChamber === 'senadores') {
-        return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
-      }
+        if (selectedChamber === 'senadores') {
+            return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
+        }
+        
+        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
-      return chamberMatch && pollsterMatch && provinceMatch;
+        return chamberMatch && pollsterMatch && provinceMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
@@ -193,12 +194,18 @@ export default function DashboardPage() {
     if (selectedPollster !== 'Todas') {
         pollsterFilteredData = chamberFilteredData.filter(e => e.pollster === selectedPollster);
     }
-
-    const pollsterSet = new Set(chamberFilteredData.map(d => d.pollster).filter(Boolean));
+    
+    const uniquePollsters = new Set<string>();
+    encuestasData.forEach(d => {
+      if(d.pollster) {
+        const normalized = d.pollster.replace(/Córdoba/i, 'Cordoba').trim();
+        uniquePollsters.add(normalized);
+      }
+    });
 
     return {
       CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
-      POLLSTERS: ['Todas', ...Array.from(pollsterSet)].sort((a,b) => a.localeCompare(b)),
+      POLLSTERS: ['Todas', ...Array.from(uniquePollsters)].sort((a,b) => a.localeCompare(b)),
       PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b)),
     };
   }, [encuestasData, selectedChamber, selectedPollster]);
@@ -247,11 +254,12 @@ export default function DashboardPage() {
     router.push('/products/quest');
   };
   
+  const datosNacionales = encuestasData.filter(e => e.scope === 'national');
+  
   if (!mounted || !isAuthenticated) {
     return null;
   }
 
-  const datosNacionales = encuestasData.filter(e => e.scope === 'national');
   return (
     <div
       className="min-h-screen pb-8"
@@ -511,5 +519,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
