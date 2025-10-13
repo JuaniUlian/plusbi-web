@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
@@ -13,9 +12,9 @@ import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
-import { LeafletMap } from '@/components/quest/leaflet-map';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap-simple';
 
 interface EncuestaData {
   date: string;
@@ -67,7 +66,13 @@ export default function DashboardPage() {
     setMounted(true);
     fetch('/data/encuestas_argentina_2025.json')
       .then(res => res.json())
-      .then(data => setEncuestasData(data))
+      .then(data => {
+        const unifiedData = data.map((d: EncuestaData) => ({
+          ...d,
+          pollster: d.pollster.replace(/Córdoba/i, 'Cordoba').trim()
+        }));
+        setEncuestasData(unifiedData);
+      })
       .catch(err => console.error('Error cargando encuestas:', err));
   }, []);
 
@@ -83,16 +88,21 @@ export default function DashboardPage() {
       const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
       const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
-      // Caso especial para senadores, que son nacionales y no tienen provincia.
       if (selectedChamber === 'senadores') {
         return e.chamber === 'senadores' && pollsterMatch && e.scope === 'national';
       }
 
-      // Para otras cámaras, aplicar todos los filtros.
       return chamberMatch && pollsterMatch && provinceMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
+  const pieChartSingleData = useMemo(() => {
+    if (datosGrafico.length === 1) {
+      const { date, ...rest } = datosGrafico[0];
+      return rest;
+    }
+    return null;
+  }, [datosGrafico]);
 
   const datosGrafico = useMemo(() => {
     return datosFiltrados
@@ -105,14 +115,6 @@ export default function DashboardPage() {
       }));
   }, [datosFiltrados]);
 
-  const pieChartSingleData = useMemo(() => {
-    if (datosGrafico.length === 1) {
-      const { date, ...rest } = datosGrafico[0];
-      return rest;
-    }
-    return null;
-  }, [datosGrafico]);
-  
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
     if (datos.length === 0) return 0;
     const ultimasEncuestas: { [key: string]: EncuestaData } = {};
@@ -150,7 +152,6 @@ export default function DashboardPage() {
       if (!provincesMap[d.province]) {
         provincesMap[d.province] = {};
       }
-      // Guardar solo la encuesta más reciente por encuestadora y provincia
       if (!provincesMap[d.province][d.pollster] || new Date(d.date) > new Date(provincesMap[d.province][d.pollster].date)) {
         provincesMap[d.province][d.pollster] = d;
       }
@@ -191,10 +192,12 @@ export default function DashboardPage() {
     if (selectedPollster !== 'Todas') {
         pollsterFilteredData = chamberFilteredData.filter(e => e.pollster === selectedPollster);
     }
-    
+
+    const pollsterSet = new Set(chamberFilteredData.map(d => d.pollster).filter(Boolean));
+
     return {
       CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
-      POLLSTERS: ['Todas', ...Array.from(new Set(chamberFilteredData.map(d => d.pollster).filter(Boolean)))],
+      POLLSTERS: ['Todas', ...Array.from(pollsterSet)].sort((a,b) => a.localeCompare(b)),
       PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b)),
     };
   }, [encuestasData, selectedChamber, selectedPollster]);
@@ -399,7 +402,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <LeafletMap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>
