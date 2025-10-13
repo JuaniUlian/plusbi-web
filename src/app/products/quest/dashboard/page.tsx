@@ -25,7 +25,7 @@ const ArgentinaHeatmap = dynamic(
   () => import('@/components/quest/argentina-heatmap').then(mod => mod.ArgentinaHeatmap),
   {
     ssr: false,
-    loading: () => <div className="flex items-center justify-center w-full h-full min-h-[600px]"><p>Cargando mapa...</p></div>
+    loading: () => <div className="flex items-center justify-center w-full h-full min-h-[400px] md:min-h-[600px]"><p>Cargando mapa...</p></div>
   }
 );
 
@@ -124,7 +124,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (selectedChamber === 'Todas' && selectedProvince === 'Todas' && selectedPollster !== 'Todas') {
-      const pollsterData = encuestasData.filter(e => e.pollster === selectedPollster);
+      const pollsterData = encuestasData.filter(e => {
+          let pollster = e.pollster;
+          if (pollster.toLowerCase().includes('federico gonzalez')) pollster = 'Federico Gonzalez y Asociados';
+          if (pollster.toLowerCase().includes('zuban cordoba')) pollster = 'Zuban Cordoba';
+          return pollster === selectedPollster;
+      });
       const pollsterHasNationalData = pollsterData.some(d => d.scope === 'national');
 
       if (pollsterHasNationalData) {
@@ -218,7 +223,7 @@ export default function DashboardPage() {
       return fechas[0].toLocaleDateString('es-AR');
   }, [encuestasData]);
 
-  const MOCK_PROVINCES: ProvinceData[] = useMemo(() => {
+  const provincesMapData: ProvinceData[] = useMemo(() => {
     const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
     const provincesMap: { [key: string]: { [pollster: string]: EncuestaData } } = {};
 
@@ -458,7 +463,7 @@ export default function DashboardPage() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap items-end">
+              <div className="flex flex-wrap gap-4 mt-4 items-end">
                 <div className='flex-1 min-w-[150px]'>
                   <Label htmlFor="chamber-select">Cámara</Label>
                   <Select
@@ -577,7 +582,7 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <ArgentinaHeatmap provincesData={MOCK_PROVINCES} onProvinceClick={handleProvinceClick} />
+              <ArgentinaHeatmap provincesData={provincesMapData} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
         </motion.div>
@@ -635,7 +640,7 @@ export default function DashboardPage() {
                 </p>
                 <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
                 <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                  {MOCK_PROVINCES.slice(0, 5).map(p => (
+                  {provincesMapData.slice(0, 5).map(p => (
                     <li key={p.name}>{p.name}: {p.winner} lidera con ventaja</li>
                   ))}
                 </ul>
@@ -709,3 +714,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

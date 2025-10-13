@@ -29,8 +29,8 @@ interface PollsterComparisonTableProps {
 const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
   if (!poll) {
     return (
-      <Card className="flex-1 h-full flex items-center justify-center">
-        <p className="text-muted-foreground">Selecciona una encuestadora</p>
+      <Card className="flex-1 h-full flex items-center justify-center min-h-[260px]">
+        <p className="text-muted-foreground p-4 text-center">Selecciona una encuestadora</p>
       </Card>
     );
   }
@@ -40,7 +40,7 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
   return (
     <Card className="flex-1 bg-background/50">
       <CardHeader>
-        <CardTitle className="text-lg">{poll.pollster}</CardTitle>
+        <CardTitle className="text-lg truncate">{poll.pollster}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
         <div className="flex justify-between">
@@ -104,28 +104,26 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        {/* Pollster 1 Selector */}
         <div className="w-full sm:w-1/2">
           <Select value={pollster1} onValueChange={setPollster1}>
             <SelectTrigger>
               <SelectValue placeholder="Selecciona Encuestadora 1" />
             </SelectTrigger>
             <SelectContent>
-              {availablePollsters1.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+              {availablePollsters1.map(p => <SelectItem key={`p1-${p}`} value={p}>{p}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
 
         <div className="text-muted-foreground font-bold">VS</div>
 
-        {/* Pollster 2 Selector */}
         <div className="w-full sm:w-1/2">
           <Select value={pollster2} onValueChange={setPollster2}>
             <SelectTrigger>
               <SelectValue placeholder="Selecciona Encuestadora 2" />
             </SelectTrigger>
             <SelectContent>
-              {availablePollsters2.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+              {availablePollsters2.map(p => <SelectItem key={`p2-${p}`} value={p}>{p}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
@@ -137,3 +135,5 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
     </div>
   );
 }
+
+    
