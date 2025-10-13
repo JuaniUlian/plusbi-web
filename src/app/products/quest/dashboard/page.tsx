@@ -175,6 +175,14 @@ export default function DashboardPage() {
     };
   }, [encuestasData, selectedChamber, selectedPollster]);
 
+  const pieChartSingleData = useMemo(() => {
+    if (datosGrafico.length === 1) {
+      const { date, ...rest } = datosGrafico[0];
+      return rest;
+    }
+    return null;
+  }, [datosGrafico]);
+
   const handleFilterAction = () => {
     if (!isPaidUser) {
       setShowUpgradeModal(true);
@@ -221,14 +229,6 @@ export default function DashboardPage() {
   if (!mounted || !isAuthenticated) {
     return null;
   }
-
-  const pieChartSingleData = useMemo(() => {
-    if (datosGrafico.length === 1) {
-      const { date, ...rest } = datosGrafico[0];
-      return rest;
-    }
-    return null;
-  }, [datosGrafico]);
 
   return (
     <div
