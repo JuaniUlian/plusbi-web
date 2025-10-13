@@ -25,8 +25,16 @@ ChartJS.register(
   Filler
 );
 
+interface MultiLineData {
+  date: string;
+  LLA?: number | null;
+  FP?: number | null;
+  PU?: number | null;
+  [key: string]: string | number | null | undefined;
+}
+
 interface PremiumLineChartProps {
-  data: Array<{ date: string; value: number }>;
+  data: MultiLineData[];
 }
 
 export function PremiumLineChart({ data }: PremiumLineChartProps) {
@@ -34,25 +42,70 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
     labels: data.map((d) => d.date),
     datasets: [
       {
-        label: 'Intención de Voto',
-        data: data.map((d) => d.value),
-        borderColor: 'rgb(59, 130, 246)',
+        label: 'LLA',
+        data: data.map((d) => d.LLA || null),
+        borderColor: '#7c3aed',
         backgroundColor: (context: any) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
-          gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.25)');
+          gradient.addColorStop(0, 'rgba(124, 58, 237, 0.3)');
+          gradient.addColorStop(1, 'rgba(124, 58, 237, 0)');
+          return gradient;
+        },
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#7c3aed',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverBackgroundColor: '#7c3aed',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 3,
+        borderWidth: 3,
+      },
+      {
+        label: 'FP',
+        data: data.map((d) => d.FP || null),
+        borderColor: '#3b82f6',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
           gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
           return gradient;
         },
         fill: true,
         tension: 0.4,
-        pointRadius: 6,
-        pointHoverRadius: 8,
-        pointBackgroundColor: 'rgb(59, 130, 246)',
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#3b82f6',
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
-        pointHoverBackgroundColor: 'rgb(59, 130, 246)',
+        pointHoverBackgroundColor: '#3b82f6',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 3,
+        borderWidth: 3,
+      },
+      {
+        label: 'PU',
+        data: data.map((d) => d.PU || null),
+        borderColor: '#10b981',
+        backgroundColor: (context: any) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+          gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+          return gradient;
+        },
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#10b981',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverBackgroundColor: '#10b981',
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 3,
         borderWidth: 3,
@@ -91,10 +144,10 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         },
         padding: 12,
         cornerRadius: 8,
-        displayColors: false,
+        displayColors: true,
         callbacks: {
           label: (context) => {
-            return `${context.parsed.y}%`;
+            return `${context.dataset.label}: ${context.parsed.y}%`;
           },
         },
       },
@@ -103,7 +156,7 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
       y: {
         beginAtZero: false,
         min: 0,
-        max: 100,
+        max: 60,
         ticks: {
           color: 'rgb(100, 116, 139)',
           font: {

@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FileText, LogOut, Crown, User } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
@@ -44,6 +44,7 @@ export default function DashboardPage() {
   const [encuestasData, setEncuestasData] = useState<EncuestaData[]>([]);
   const [selectedPollster, setSelectedPollster] = useState('Todas');
   const [selectedProvince, setSelectedProvince] = useState('Todas');
+  const [selectedChamber, setSelectedChamber] = useState('Todas');
   const [showGeneralReport, setShowGeneralReport] = useState(false);
   const [showProvinceReport, setShowProvinceReport] = useState(false);
   const [selectedProvinceData, setSelectedProvinceData] = useState<ProvinceData | null>(null);
@@ -86,12 +87,32 @@ export default function DashboardPage() {
   const fechas = datosNacionales.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
   const ultimaActualizacion = fechas.length > 0 ? fechas[0].toLocaleDateString('es-AR') : '-';
 
-  // Preparar datos para gráfico
-  const datosGrafico = datosNacionales
+  // Filtrar datos según selección
+  const datosFiltrados = encuestasData.filter(e => {
+    // Filtro de scope (nacional o provincial)
+    if (selectedProvince === 'Todas') {
+      if (e.scope !== 'national') return false;
+    } else {
+      if (e.scope !== 'provincial' || e.province !== selectedProvince) return false;
+    }
+
+    // Filtro de encuestadora
+    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) return false;
+
+    // Filtro de cámara
+    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) return false;
+
+    return true;
+  });
+
+  // Preparar datos para gráfico (múltiples líneas)
+  const datosGrafico = datosFiltrados
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .map(d => ({
       date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
-      value: d.LLA || 0
+      LLA: d.LLA,
+      FP: d.FP,
+      PU: d.PU
     }));
 
   // Preparar datos provinciales para mapa
@@ -138,8 +159,10 @@ export default function DashboardPage() {
     };
   });
 
-  const POLLSTERS = ['Todas', ...Array.from(new Set(datosNacionales.map(d => d.pollster)))];
+  // Listas dinámicas para filtros (incluir todas las encuestadoras, no solo nacionales)
+  const POLLSTERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.pollster)))];
   const PROVINCES_LIST = ['Todas', ...Array.from(new Set(datosProvinciales.map(d => d.province).filter(Boolean))) as string[]];
+  const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
 
   const handleFilterAction = () => {
     if (!isPaidUser) {
@@ -238,15 +261,33 @@ export default function DashboardPage() {
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Evolución de Intención de Voto - LLA</CardTitle>
-              <div className="flex flex-col sm:flex-row gap-4 mt-4">
+              <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto por Partido</CardTitle>
+              <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap">
+                <Select
+                  value={selectedChamber}
+                  onValueChange={(value) => {
+                    if (handleFilterAction()) setSelectedChamber(value);
+                  }}
+                >
+                  <SelectTrigger className="w-full sm:w-[180px]">
+                    <SelectValue placeholder="Cámara" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CHAMBERS.map((chamber) => (
+                      <SelectItem key={chamber} value={chamber}>
+                        {chamber === 'diputados' ? 'Diputados' : chamber === 'senadores' ? 'Senadores' : chamber}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 <Select
                   value={selectedPollster}
                   onValueChange={(value) => {
                     if (handleFilterAction()) setSelectedPollster(value);
                   }}
                 >
-                  <SelectTrigger className="w-full sm:w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder="Encuestadora" />
                   </SelectTrigger>
                   <SelectContent>
@@ -264,7 +305,7 @@ export default function DashboardPage() {
                     if (handleFilterAction()) setSelectedProvince(value);
                   }}
                 >
-                  <SelectTrigger className="w-full sm:w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder="Provincia" />
                   </SelectTrigger>
                   <SelectContent>
@@ -307,12 +348,15 @@ export default function DashboardPage() {
       <AnimatePresence>
         {showUpgradeModal && (
           <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
-            <DialogContent className="glassmorphism-solid">
+            <DialogContent className="glassmorphism-solid" aria-describedby="upgrade-description">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2 text-2xl">
                   <Crown className="h-6 w-6 text-yellow-500" />
                   Funcionalidad Premium
                 </DialogTitle>
+                <DialogDescription id="upgrade-description">
+                  Accede a análisis avanzados y filtros personalizados
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <p className="text-base">Esta funcionalidad está disponible solo para usuarios registrados.</p>
@@ -330,9 +374,12 @@ export default function DashboardPage() {
       <AnimatePresence>
         {showGeneralReport && (
           <Dialog open={showGeneralReport} onOpenChange={setShowGeneralReport}>
-            <DialogContent className="glassmorphism-solid max-w-3xl max-h-[80vh] overflow-y-auto">
+            <DialogContent className="glassmorphism-solid max-w-3xl max-h-[80vh] overflow-y-auto" aria-describedby="general-report-description">
               <DialogHeader>
                 <DialogTitle className="text-2xl">Informe General de Situación Electoral</DialogTitle>
+                <DialogDescription id="general-report-description">
+                  Análisis completo de las encuestas nacionales
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 {generatingReport ? (
@@ -363,9 +410,12 @@ export default function DashboardPage() {
       <AnimatePresence>
         {showProvinceReport && (
           <Dialog open={showProvinceReport} onOpenChange={setShowProvinceReport}>
-            <DialogContent className="glassmorphism-solid max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogContent className="glassmorphism-solid max-w-2xl max-h-[80vh] overflow-y-auto" aria-describedby="province-report-description">
               <DialogHeader>
                 <DialogTitle className="text-2xl">Informe de {selectedProvinceData?.name}</DialogTitle>
+                <DialogDescription id="province-report-description">
+                  Análisis detallado con datos provinciales
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 {generatingReport ? (

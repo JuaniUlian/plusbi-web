@@ -75,7 +75,7 @@
   }
 
   .glassmorphism-light {
-    @apply bg-card/30 backdrop-blur-lg border-white/20 shadow-lg;
+    @apply bg-card/75 backdrop-blur-lg border-white/30 shadow-lg;
   }
 
   .neomorphism {
