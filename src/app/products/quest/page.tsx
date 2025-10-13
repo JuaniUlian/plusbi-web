@@ -12,6 +12,7 @@ import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb } f
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Link from 'next/link';
 
 const content = {
   es: {
@@ -42,6 +43,7 @@ const content = {
     ctaTitle: "¿Listo para tomar decisiones basadas en datos?",
     ctaSubtitle: "Descubre cómo Quest puede darte la visión estratégica que necesitas para anticiparte al futuro.",
     ctaButton: "Solicita una presentación de Quest",
+    loginButton: "Iniciar Sesión",
   },
   en: {
     badge: "Data Analysis",
@@ -71,6 +73,7 @@ const content = {
     ctaTitle: "Ready to make data-driven decisions?",
     ctaSubtitle: "Discover how Quest can give you the strategic insight you need to anticipate the future.",
     ctaButton: "Request a Quest presentation",
+    loginButton: "Login",
   }
 }
 
@@ -86,7 +89,12 @@ export default function QuestPage() {
 
   return (
     <>
-      <header className="py-20 bg-primary/10" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+      <header className="py-20 bg-primary/10 relative" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+        <div className="absolute top-4 right-4">
+          <Button asChild variant="secondary" size="lg">
+            <Link href="/products/quest/login">{c.loginButton}</Link>
+          </Button>
+        </div>
         <div className="container mx-auto px-4 text-center">
           <div className="flex flex-col items-center">
             <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} className="mb-4" />

@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/contexts/language-context';
+import { AuthProvider } from '@/contexts/auth-context';
 import { OrganizationSchema } from '@/components/structured-data';
 
 const nunito = Nunito({
@@ -82,29 +83,31 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <html lang="es" className="scroll-smooth">
-        <head>
-          <link rel="icon" href="/logo/favicon-16x16.png" sizes="any" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet" />
-          <OrganizationSchema />
-        </head>
-        <body
-          className={cn(
-            'min-h-screen bg-background font-body antialiased',
-            nunito.variable
-          )}
-          style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundAttachment: 'fixed', backgroundSize: 'cover'}}
-        >
-          <div className="relative flex min-h-dvh flex-col bg-transparent">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-        </body>
-      </html>
+      <AuthProvider>
+        <html lang="es" className="scroll-smooth">
+          <head>
+            <link rel="icon" href="/logo/favicon-16x16.png" sizes="any" />
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet" />
+            <OrganizationSchema />
+          </head>
+          <body
+            className={cn(
+              'min-h-screen bg-background font-body antialiased',
+              nunito.variable
+            )}
+            style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundAttachment: 'fixed', backgroundSize: 'cover'}}
+          >
+            <div className="relative flex min-h-dvh flex-col bg-transparent">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+          </body>
+        </html>
+      </AuthProvider>
     </LanguageProvider>
   );
 }
