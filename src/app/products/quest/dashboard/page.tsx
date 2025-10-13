@@ -78,24 +78,20 @@ export default function DashboardPage() {
     return encuestasData.filter(e => {
       const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
       const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-      
-      let scopeMatch = true;
-      if (selectedProvince === 'Todas') {
-        // Si la cámara es senadores, solo mostrar nacional. Si no, mostrar nacional.
-        scopeMatch = e.scope === 'national';
-        if (selectedChamber === 'diputados' && selectedPollster !== 'Todas') {
-             scopeMatch = true; // Allow provincial and national
-        } else if (selectedChamber !== 'senadores') {
-             scopeMatch = e.scope === 'national';
-        }
+      const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
-      } else {
-        scopeMatch = e.scope === 'provincial' && e.province === selectedProvince;
+      if (selectedChamber === 'senadores') {
+        return chamberMatch && pollsterMatch && e.scope === 'national';
       }
       
-      return chamberMatch && pollsterMatch && scopeMatch;
+      if (selectedProvince !== 'Todas') {
+        return chamberMatch && pollsterMatch && e.province === selectedProvince;
+      }
+      
+      return chamberMatch && pollsterMatch && provinceMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
+
 
   const datosGrafico = useMemo(() => {
     return datosFiltrados
@@ -120,9 +116,10 @@ export default function DashboardPage() {
   const totalFP = useMemo(() => calcularPromedio('FP', datosNacionales), [datosNacionales]);
 
   const ultimaActualizacion = useMemo(() => {
-      const fechas = datosNacionales.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
-      return fechas.length > 0 ? fechas[0].toLocaleDateString('es-AR') : '-';
-  }, [datosNacionales]);
+      if (encuestasData.length === 0) return '-';
+      const fechas = encuestasData.map(d => new Date(d.date)).sort((a, b) => b.getTime() - a.getTime());
+      return fechas[0].toLocaleDateString('es-AR');
+  }, [encuestasData]);
 
   const MOCK_PROVINCES: ProvinceData[] = useMemo(() => {
     const provincesMap: { [key: string]: { LLA: number[], FP: number[], PU: number[], Provincial: number[] } } = {};
@@ -161,18 +158,22 @@ export default function DashboardPage() {
   }, [datosProvinciales]);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
-    const chamberFilteredData = encuestasData.filter(e => selectedChamber === 'Todas' || e.chamber === selectedChamber);
-    const provinceFilteredData = chamberFilteredData.filter(e => selectedProvince === 'Todas' || e.province === selectedProvince);
-    
-    const pollsterFilteredData = encuestasData.filter(e => selectedPollster === 'Todas' || e.pollster === selectedPollster);
-    const chamberAfterPollsterData = pollsterFilteredData.filter(e => selectedChamber === 'Todas' || e.chamber === selectedChamber);
+    let chamberFilteredData = encuestasData;
+    if (selectedChamber !== 'Todas') {
+      chamberFilteredData = encuestasData.filter(e => e.chamber === selectedChamber);
+    }
 
+    let pollsterFilteredData = encuestasData;
+    if (selectedPollster !== 'Todas') {
+        pollsterFilteredData = encuestasData.filter(e => e.pollster === selectedPollster);
+    }
+    
     return {
       CHAMBERS: ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))],
-      POLLSTERS: ['Todas', ...Array.from(new Set(provinceFilteredData.map(d => d.pollster)))],
-      PROVINCES_LIST: ['Todas', ...Array.from(new Set(chamberAfterPollsterData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]]
+      POLLSTERS: ['Todas', ...Array.from(new Set(chamberFilteredData.map(d => d.pollster).filter(Boolean)))],
+      PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]]
     };
-  }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
+  }, [encuestasData, selectedChamber, selectedPollster]);
 
   const handleFilterAction = () => {
     if (!isPaidUser) {
@@ -220,6 +221,14 @@ export default function DashboardPage() {
   if (!mounted || !isAuthenticated) {
     return null;
   }
+
+  const pieChartSingleData = useMemo(() => {
+    if (datosGrafico.length === 1) {
+      const { date, ...rest } = datosGrafico[0];
+      return rest;
+    }
+    return null;
+  }, [datosGrafico]);
 
   return (
     <div
@@ -292,7 +301,7 @@ export default function DashboardPage() {
                   <SelectContent>
                     {CHAMBERS.map((chamber) => (
                       <SelectItem key={chamber} value={chamber}>
-                        {chamber === 'diputados' ? 'Diputados' : chamber === 'senadores' ? 'Senadores' : chamber}
+                        {chamber.charAt(0).toUpperCase() + chamber.slice(1)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -327,20 +336,20 @@ export default function DashboardPage() {
                     <SelectValue placeholder="Provincia" />
                   </SelectTrigger>
                   <SelectContent>
-                    {PROVINCES_LIST.map((province) => (
+                    {PROVINCES_LIST.length > 1 ? PROVINCES_LIST.map((province) => (
                       <SelectItem key={province} value={province}>
                         {province}
                       </SelectItem>
-                    ))}
+                    )) : <SelectItem value="Todas" disabled>Nacional</SelectItem>}
                   </SelectContent>
                 </Select>
               </div>
             </CardHeader>
             <CardContent>
-              {datosGrafico.length === 1 ? (
-                <PremiumPieChart data={{ LLA: datosGrafico[0].LLA, FP: datosGrafico[0].FP, PU: datosGrafico[0].PU }} />
-              ) : datosGrafico.length > 0 ? (
+              {datosGrafico.length > 1 ? (
                 <PremiumLineChart data={datosGrafico.slice(-10)} />
+              ) : pieChartSingleData ? (
+                 <PremiumPieChart data={pieChartSingleData} />
               ) : (
                 <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
                   No hay datos disponibles para los filtros seleccionados
