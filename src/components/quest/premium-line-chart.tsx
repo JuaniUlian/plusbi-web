@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Line } from 'react-chartjs-2';
@@ -63,6 +64,7 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 3,
         borderWidth: 3,
+        spanGaps: true, // This will connect points with null data
       },
       {
         label: 'FP',
@@ -86,29 +88,31 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 3,
         borderWidth: 3,
+        spanGaps: true, // This will connect points with null data
       },
       {
         label: 'PU',
         data: data.map((d) => d.PU || null),
-        borderColor: '#10b981',
+        borderColor: '#f97316', // Orange color
         backgroundColor: (context: any) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
-          gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+          gradient.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
+          gradient.addColorStop(1, 'rgba(249, 115, 22, 0)');
           return gradient;
         },
         fill: true,
         tension: 0.4,
         pointRadius: 5,
         pointHoverRadius: 7,
-        pointBackgroundColor: '#10b981',
+        pointBackgroundColor: '#f97316',
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
-        pointHoverBackgroundColor: '#10b981',
+        pointHoverBackgroundColor: '#f97316',
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 3,
         borderWidth: 3,
+        spanGaps: true, // This will connect points with null data
       },
     ],
   };
@@ -147,6 +151,9 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
         displayColors: true,
         callbacks: {
           label: (context) => {
+            if (context.parsed.y === null) {
+              return `${context.dataset.label}: N/A`;
+            }
             return `${context.dataset.label}: ${context.parsed.y}%`;
           },
         },

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Pie } from 'react-chartjs-2';
@@ -43,7 +44,7 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
   if (data.PU && data.PU > 0) {
     labels.push('PU');
     values.push(data.PU);
-    colors.push('#10b981');
+    colors.push('#f97316'); // Orange color
   }
 
   const chartData = {

@@ -32,6 +32,8 @@ interface EncuestaData {
   Others: number | null;
 }
 
+type PartyKey = 'LLA' | 'FP' | 'PU' | 'UCR' | 'PRO' | 'FIT' | 'Provincial' | 'Others';
+
 interface ProvinceData {
   name: string;
   winner: string;
@@ -60,20 +62,7 @@ export default function DashboardPage() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    fetch('/data/encuestas_argentina_2025.json')
-      .then(res => res.json())
-      .then(data => setEncuestasData(data))
-      .catch(err => console.error('Error cargando encuestas:', err));
-  }, []);
-
-  useEffect(() => {
-    if (mounted && !isAuthenticated) {
-      router.push('/products/quest/login');
-    }
-  }, [mounted, isAuthenticated, router]);
-
+  // Mover hooks al principio
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
       const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
@@ -92,7 +81,6 @@ export default function DashboardPage() {
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
 
-
   const datosGrafico = useMemo(() => {
     return datosFiltrados
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -107,13 +95,28 @@ export default function DashboardPage() {
   const datosNacionales = useMemo(() => encuestasData.filter(e => e.scope === 'national'), [encuestasData]);
   const datosProvinciales = useMemo(() => encuestasData.filter(e => e.scope === 'provincial'), [encuestasData]);
   
-  const calcularPromedio = (campo: keyof EncuestaData, datos: EncuestaData[]) => {
-    const valores = datos.map(d => d[campo]).filter(v => v !== null) as number[];
+  const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
+    const ultimasEncuestas: { [key: string]: EncuestaData } = {};
+  
+    datos.forEach(encuesta => {
+      // Si la encuesta tiene un valor para el campo de interés
+      if (encuesta[campo] !== null && typeof encuesta[campo] === 'number') {
+        // Si no tenemos una encuesta para esta encuestadora, o la actual es más reciente
+        if (!ultimasEncuestas[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestas[encuesta.pollster].date)) {
+          ultimasEncuestas[encuesta.pollster] = encuesta;
+        }
+      }
+    });
+  
+    const valores = Object.values(ultimasEncuestas)
+      .map(d => d[campo])
+      .filter(v => v !== null) as number[];
+  
     return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
   };
 
-  const totalLLA = useMemo(() => calcularPromedio('LLA', datosNacionales), [datosNacionales]);
-  const totalFP = useMemo(() => calcularPromedio('FP', datosNacionales), [datosNacionales]);
+  const totalLLA = useMemo(() => calcularPromedioUltimasEncuestas('LLA', datosNacionales), [datosNacionales]);
+  const totalFP = useMemo(() => calcularPromedioUltimasEncuestas('FP', datosNacionales), [datosNacionales]);
 
   const ultimaActualizacion = useMemo(() => {
       if (encuestasData.length === 0) return '-';
@@ -144,7 +147,7 @@ export default function DashboardPage() {
 
       const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
       const colores: { [key: string]: string } = {
-        LLA: '#7c3aed', FP: '#3b82f6', PU: '#10b981', Provincial: '#f59e0b'
+        LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#f59e0b'
       };
 
       const percentages: { [key: string]: number } = {};
@@ -182,7 +185,21 @@ export default function DashboardPage() {
     }
     return null;
   }, [datosGrafico]);
+  
+  useEffect(() => {
+    setMounted(true);
+    fetch('/data/encuestas_argentina_2025.json')
+      .then(res => res.json())
+      .then(data => setEncuestasData(data))
+      .catch(err => console.error('Error cargando encuestas:', err));
+  }, []);
 
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      router.push('/products/quest/login');
+    }
+  }, [mounted, isAuthenticated, router]);
+  
   const handleFilterAction = () => {
     if (!isPaidUser) {
       setShowUpgradeModal(true);
@@ -480,5 +497,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
