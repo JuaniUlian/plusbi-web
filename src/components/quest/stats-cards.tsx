@@ -3,6 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface StatsCardsProps {
   totalLLA: number;
@@ -21,16 +22,24 @@ export function StatsCards({ totalLLA, totalFP, lastUpdate, trendLLA = 'stable',
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <Card className="glassmorphism-light border-2 hover:shadow-2xl transition-all duration-300"
+        <Card
+          className="border-2 hover:shadow-2xl transition-all duration-300 overflow-hidden relative"
           style={{
             borderColor: '#7c3aed',
-            background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 100%)'
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            backdropFilter: 'blur(10px)',
           }}
         >
-          <CardContent className="p-6">
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.3) 0%, rgba(124, 58, 237, 0.1) 100%)'
+            }}
+          />
+          <CardContent className="p-6 relative z-10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Total LLA</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">Total LLA</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-4xl font-bold" style={{ color: '#7c3aed' }}>
                     {totalLLA.toFixed(1)}%
@@ -46,10 +55,14 @@ export function StatsCards({ totalLLA, totalFP, lastUpdate, trendLLA = 'stable',
                   )}
                 </div>
               </div>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(124, 58, 237, 0.2)' }}
-              >
-                <span className="text-3xl font-bold" style={{ color: '#7c3aed' }}>L</span>
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-purple-200 shadow-lg">
+                <Image
+                  src="/data/logos partidos/LLA.jpg"
+                  alt="LLA Logo"
+                  width={64}
+                  height={64}
+                  className="object-cover"
+                />
               </div>
             </div>
           </CardContent>
@@ -62,16 +75,24 @@ export function StatsCards({ totalLLA, totalFP, lastUpdate, trendLLA = 'stable',
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <Card className="glassmorphism-light border-2 hover:shadow-2xl transition-all duration-300"
+        <Card
+          className="border-2 hover:shadow-2xl transition-all duration-300 overflow-hidden relative"
           style={{
             borderColor: '#3b82f6',
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%)'
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            backdropFilter: 'blur(10px)',
           }}
         >
-          <CardContent className="p-6">
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 100%)'
+            }}
+          />
+          <CardContent className="p-6 relative z-10">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Total FP</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">Total FP</p>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-4xl font-bold" style={{ color: '#3b82f6' }}>
                     {totalFP.toFixed(1)}%
@@ -87,10 +108,14 @@ export function StatsCards({ totalLLA, totalFP, lastUpdate, trendLLA = 'stable',
                   )}
                 </div>
               </div>
-              <div className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(59, 130, 246, 0.2)' }}
-              >
-                <span className="text-3xl font-bold" style={{ color: '#3b82f6' }}>F</span>
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-200 shadow-lg">
+                <Image
+                  src="/data/logos partidos/Fuerza_Patria.jpg"
+                  alt="FP Logo"
+                  width={64}
+                  height={64}
+                  className="object-cover"
+                />
               </div>
             </div>
           </CardContent>
@@ -103,11 +128,17 @@ export function StatsCards({ totalLLA, totalFP, lastUpdate, trendLLA = 'stable',
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <Card className="glassmorphism-light border-2 hover:shadow-2xl transition-all duration-300">
+        <Card
+          className="border-2 hover:shadow-2xl transition-all duration-300"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+            backdropFilter: 'blur(10px)',
+          }}
+        >
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-1">Última actualización</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">Última actualización</p>
                 <h3 className="text-2xl font-bold">
                   {lastUpdate}
                 </h3>

@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { FileText, LogOut, Crown, User } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
+import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { LeafletMap } from '@/components/quest/leaflet-map';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -159,10 +160,23 @@ export default function DashboardPage() {
     };
   });
 
-  // Listas dinámicas para filtros (incluir todas las encuestadoras, no solo nacionales)
-  const POLLSTERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.pollster)))];
-  const PROVINCES_LIST = ['Todas', ...Array.from(new Set(datosProvinciales.map(d => d.province).filter(Boolean))) as string[]];
+  // Listas dinámicas para filtros basadas en los datos filtrados actuales
+  // Esto asegura que solo se muestren opciones con datos disponibles
+  const datosParaFiltros = encuestasData.filter(e => {
+    let valido = true;
+    if (selectedChamber !== 'Todas' && e.chamber !== selectedChamber) valido = false;
+    if (selectedProvince !== 'Todas') {
+      if (e.scope !== 'provincial' || e.province !== selectedProvince) valido = false;
+    } else {
+      if (e.scope !== 'national') valido = false;
+    }
+    if (selectedPollster !== 'Todas' && e.pollster !== selectedPollster) valido = false;
+    return valido;
+  });
+
   const CHAMBERS = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
+  const POLLSTERS = ['Todas', ...Array.from(new Set(datosParaFiltros.map(d => d.pollster)))];
+  const PROVINCES_LIST = ['Todas', ...Array.from(new Set(encuestasData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]];
 
   const handleFilterAction = () => {
     if (!isPaidUser) {
@@ -319,7 +333,15 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <PremiumLineChart data={datosGrafico.slice(-10)} />
+              {datosGrafico.length === 1 ? (
+                <PremiumPieChart data={datosGrafico[0]} />
+              ) : datosGrafico.length > 0 ? (
+                <PremiumLineChart data={datosGrafico.slice(-10)} />
+              ) : (
+                <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
+                  No hay datos disponibles para los filtros seleccionados
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
