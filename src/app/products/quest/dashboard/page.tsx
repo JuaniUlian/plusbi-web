@@ -15,6 +15,7 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { LeafletMap } from '@/components/quest/leaflet-map';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Label } from '@/components/ui/label';
 
 interface EncuestaData {
   date: string;
@@ -96,12 +97,11 @@ export default function DashboardPage() {
   const datosProvinciales = useMemo(() => encuestasData.filter(e => e.scope === 'provincial'), [encuestasData]);
   
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
+    if (datos.length === 0) return 0;
     const ultimasEncuestas: { [key: string]: EncuestaData } = {};
   
     datos.forEach(encuesta => {
-      // Si la encuesta tiene un valor para el campo de interés
       if (encuesta[campo] !== null && typeof encuesta[campo] === 'number') {
-        // Si no tenemos una encuesta para esta encuestadora, o la actual es más reciente
         if (!ultimasEncuestas[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestas[encuesta.pollster].date)) {
           ultimasEncuestas[encuesta.pollster] = encuesta;
         }
@@ -115,8 +115,8 @@ export default function DashboardPage() {
     return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
   };
 
-  const totalLLA = useMemo(() => calcularPromedioUltimasEncuestas('LLA', datosNacionales), [datosNacionales]);
-  const totalFP = useMemo(() => calcularPromedioUltimasEncuestas('FP', datosNacionales), [datosNacionales]);
+  const totalLLA = useMemo(() => calcularPromedioUltimasEncuestas('LLA', datosFiltrados), [datosFiltrados]);
+  const totalFP = useMemo(() => calcularPromedioUltimasEncuestas('FP', datosFiltrados), [datosFiltrados]);
 
   const ultimaActualizacion = useMemo(() => {
       if (encuestasData.length === 0) return '-';
@@ -181,7 +181,7 @@ export default function DashboardPage() {
   const pieChartSingleData = useMemo(() => {
     if (datosGrafico.length === 1) {
       const { date, ...rest } = datosGrafico[0];
-      return rest;
+      return rest as PieChartData;
     }
     return null;
   }, [datosGrafico]);
@@ -307,59 +307,68 @@ export default function DashboardPage() {
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
               <CardTitle className="text-2xl">Evolución Temporal de Intención de Voto por Partido</CardTitle>
-              <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap">
-                <Select
-                  value={selectedChamber}
-                  onValueChange={handleChamberChange}
-                >
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Cámara" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CHAMBERS.map((chamber) => (
-                      <SelectItem key={chamber} value={chamber}>
-                        {chamber.charAt(0).toUpperCase() + chamber.slice(1)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex flex-col sm:flex-row gap-4 mt-4 flex-wrap items-end">
+                <div className='flex-1 min-w-[150px]'>
+                  <Label htmlFor="chamber-select">Cámara</Label>
+                  <Select
+                    value={selectedChamber}
+                    onValueChange={handleChamberChange}
+                  >
+                    <SelectTrigger id="chamber-select" className="w-full">
+                      <SelectValue placeholder="Cámara" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CHAMBERS.map((chamber) => (
+                        <SelectItem key={chamber} value={chamber}>
+                          {chamber.charAt(0).toUpperCase() + chamber.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                <Select
-                  value={selectedPollster}
-                  onValueChange={(value) => {
-                    if (handleFilterAction()) setSelectedPollster(value);
-                  }}
-                >
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Encuestadora" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {POLLSTERS.map((pollster) => (
-                      <SelectItem key={pollster} value={pollster}>
-                        {pollster}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className='flex-1 min-w-[150px]'>
+                  <Label htmlFor="pollster-select">Encuestadora</Label>
+                  <Select
+                    value={selectedPollster}
+                    onValueChange={(value) => {
+                      if (handleFilterAction()) setSelectedPollster(value);
+                    }}
+                  >
+                    <SelectTrigger id="pollster-select" className="w-full">
+                      <SelectValue placeholder="Encuestadora" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {POLLSTERS.map((pollster) => (
+                        <SelectItem key={pollster} value={pollster}>
+                          {pollster}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-                <Select
-                  value={selectedProvince}
-                  onValueChange={(value) => {
-                    if (handleFilterAction()) setSelectedProvince(value);
-                  }}
-                  disabled={selectedChamber === 'senadores'}
-                >
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Provincia" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PROVINCES_LIST.length > 1 ? PROVINCES_LIST.map((province) => (
-                      <SelectItem key={province} value={province}>
-                        {province}
-                      </SelectItem>
-                    )) : <SelectItem value="Todas" disabled>Nacional</SelectItem>}
-                  </SelectContent>
-                </Select>
+                <div className='flex-1 min-w-[150px]'>
+                  <Label htmlFor="province-select">Provincia</Label>
+                  <Select
+                    value={selectedProvince}
+                    onValueChange={(value) => {
+                      if (handleFilterAction()) setSelectedProvince(value);
+                    }}
+                    disabled={selectedChamber === 'senadores'}
+                  >
+                    <SelectTrigger id="province-select" className="w-full">
+                      <SelectValue placeholder="Provincia" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PROVINCES_LIST.length > 1 ? PROVINCES_LIST.map((province) => (
+                        <SelectItem key={province} value={province}>
+                          {province}
+                        </SelectItem>
+                      )) : <SelectItem value="Todas" disabled>Nacional</SelectItem>}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
