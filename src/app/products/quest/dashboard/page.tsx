@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { FileText, LogOut, Crown, User } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
-import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap';
+import { ArgentinaHeatmap } from '@/components/quest/argentina-heatmap-simple';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Tipos de datos temporales - se reemplazarán con datos reales
@@ -242,26 +242,26 @@ export default function DashboardPage() {
                   <Crown className="h-6 w-6 text-yellow-500" />
                   Funcionalidad Premium
                 </DialogTitle>
-                <DialogDescription className="space-y-4 pt-4">
-                  <p className="text-base">
-                    Esta funcionalidad está disponible solo para usuarios registrados.
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                    <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">
-                      Cerrar
-                    </Button>
-                    <Button
-                      onClick={() => window.open('https://forms.google.com', '_blank')}
-                      className="flex-1"
-                    >
-                      Registrarme Ahora
-                    </Button>
-                  </div>
-                </DialogDescription>
               </DialogHeader>
+              <div className="space-y-4 pt-4">
+                <p className="text-base">
+                  Esta funcionalidad está disponible solo para usuarios registrados.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                  <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">
+                    Cerrar
+                  </Button>
+                  <Button
+                    onClick={() => window.open('https://forms.google.com', '_blank')}
+                    className="flex-1"
+                  >
+                    Registrarme Ahora
+                  </Button>
+                </div>
+              </div>
             </DialogContent>
           </Dialog>
         )}
