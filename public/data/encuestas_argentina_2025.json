@@ -10,9 +10,12 @@
     "PU": 3.3,
     "UCR": null,
     "PRO": 4.1,
-    "FIT": 4.1,
+    "FIT": null,
     "Provincial": null,
-    "Others": 16.9
+    "Others": 21.2,
+    "sample": 2759,
+    "methodology": "Domiciliaria + Online",
+    "margin_error": 2.9
   },
   {
     "date": "2025-10-07",
@@ -27,7 +30,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 11.1,
-    "Others": 7.4
+    "Others": 7.4,
+    "sample": 1204,
+    "methodology": "Domiciliaria",
+    "margin_error": 2.8
   },
   {
     "date": "2025-10-06",
@@ -42,7 +48,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 29.2
+    "Others": 29.2,
+    "sample": 1250,
+    "methodology": "Presencial",
+    "margin_error": 2.8
   },
   {
     "date": "2025-10-05",
@@ -57,7 +66,10 @@
     "PRO": 11,
     "FIT": null,
     "Provincial": null,
-    "Others": 36
+    "Others": 36,
+    "sample": 1204,
+    "methodology": "Telefónica + Online",
+    "margin_error": 2.8
   },
   {
     "date": "2025-10-04",
@@ -72,7 +84,10 @@
     "PRO": 3.0,
     "FIT": null,
     "Provincial": null,
-    "Others": 13.8
+    "Others": 13.8,
+    "sample": 1051,
+    "methodology": "Presencial",
+    "margin_error": 3.0
   },
   {
     "date": "2025-10-03",
@@ -87,7 +102,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 43.8,
-    "Others": 19.0
+    "Others": 19.0,
+    "sample": 1069,
+    "methodology": "Presencial",
+    "margin_error": 3.0
   },
   {
     "date": "2025-10-02",
@@ -101,8 +119,11 @@
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 27.8,
-    "Others": 12.2
+    "Provincial": 27.7,
+    "Others": 12.3,
+    "sample": 808,
+    "methodology": "Presencial",
+    "margin_error": 3.4
   },
   {
     "date": "2025-10-02",
@@ -117,7 +138,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 25.1
+    "Others": 25.1,
+    "sample": 1061,
+    "methodology": "Presencial",
+    "margin_error": 3.0
   },
   {
     "date": "2025-10-01",
@@ -132,37 +156,10 @@
     "PRO": 2.6,
     "FIT": null,
     "Provincial": null,
-    "Others": 8.9
-  },
-  {
-    "date": "2025-09-30",
-    "pollster": "DC Consultores",
-    "scope": "provincial",
-    "province": "Neuquén",
-    "chamber": "diputados",
-    "LLA": 38.7,
-    "FP": 14.2,
-    "PU": null,
-    "UCR": null,
-    "PRO": null,
-    "FIT": null,
-    "Provincial": 30.7,
-    "Others": 16.4
-  },
-  {
-    "date": "2025-09-30",
-    "pollster": "DC Consultores",
-    "scope": "provincial",
-    "province": "Neuquén",
-    "chamber": "senadores",
-    "LLA": 27.4,
-    "FP": 14.2,
-    "PU": null,
-    "UCR": null,
-    "PRO": null,
-    "FIT": null,
-    "Provincial": 38.7,
-    "Others": 19.7
+    "Others": 8.9,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-09-29",
@@ -176,12 +173,15 @@
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 31.4,
-    "Others": 15.6
+    "Provincial": 25.8,
+    "Others": 21.2,
+    "sample": 1600,
+    "methodology": "Presencial",
+    "margin_error": 2.4
   },
   {
     "date": "2025-09-28",
-    "pollster": "Federico González y asoc.",
+    "pollster": "Federico González & Asociados",
     "scope": "provincial",
     "province": "Buenos Aires",
     "chamber": "diputados",
@@ -192,7 +192,28 @@
     "PRO": 2.0,
     "FIT": null,
     "Provincial": null,
-    "Others": 24.4
+    "Others": 24.4,
+    "sample": 1800,
+    "methodology": "Presencial",
+    "margin_error": 2.3
+  },
+  {
+    "date": "2025-09-28",
+    "pollster": "DC Consultores",
+    "scope": "provincial",
+    "province": "Neuquén",
+    "chamber": "diputados",
+    "LLA": 38.7,
+    "FP": 14.2,
+    "PU": null,
+    "UCR": null,
+    "PRO": null,
+    "FIT": null,
+    "Provincial": 30.7,
+    "Others": 16.4,
+    "sample": 1240,
+    "methodology": "Presencial",
+    "margin_error": 2.8
   },
   {
     "date": "2025-09-27",
@@ -206,8 +227,11 @@
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 32.3,
-    "Others": 13.0
+    "Provincial": 26.2,
+    "Others": 19.1,
+    "sample": 1084,
+    "methodology": "Presencial",
+    "margin_error": 3.0
   },
   {
     "date": "2025-09-27",
@@ -222,7 +246,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 29.6,
-    "Others": 22.2
+    "Others": 22.2,
+    "sample": 1200,
+    "methodology": "Presencial",
+    "margin_error": 2.8
   },
   {
     "date": "2025-09-26",
@@ -236,8 +263,11 @@
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 28.7,
-    "Others": 3.1
+    "Provincial": 16.1,
+    "Others": 15.7,
+    "sample": 1878,
+    "methodology": "Presencial",
+    "margin_error": 2.3
   },
   {
     "date": "2025-09-25",
@@ -252,7 +282,10 @@
     "PRO": 3.1,
     "FIT": 2.9,
     "Provincial": null,
-    "Others": 12.8
+    "Others": 12.8,
+    "sample": 2600,
+    "methodology": "Presencial + Telefónica + Online",
+    "margin_error": 2.1
   },
   {
     "date": "2025-09-25",
@@ -267,11 +300,14 @@
     "PRO": 10,
     "FIT": null,
     "Provincial": null,
-    "Others": 28
+    "Others": 28,
+    "sample": 903,
+    "methodology": "Presencial",
+    "margin_error": 3.3
   },
   {
     "date": "2025-09-25",
-    "pollster": "Federico González y asoc.",
+    "pollster": "Federico González & Asociados",
     "scope": "provincial",
     "province": "Ciudad Autónoma de Buenos Aires",
     "chamber": "diputados",
@@ -282,7 +318,10 @@
     "PRO": 6.3,
     "FIT": null,
     "Provincial": null,
-    "Others": 33.9
+    "Others": 33.9,
+    "sample": 1400,
+    "methodology": "Presencial",
+    "margin_error": 2.6
   },
   {
     "date": "2025-09-25",
@@ -297,7 +336,10 @@
     "PRO": 6,
     "FIT": null,
     "Provincial": null,
-    "Others": 28
+    "Others": 28,
+    "sample": 1204,
+    "methodology": "Telefónica + Online",
+    "margin_error": 2.8
   },
   {
     "date": "2025-09-25",
@@ -312,11 +354,14 @@
     "PRO": 4,
     "FIT": null,
     "Provincial": null,
-    "Others": 24
+    "Others": 24,
+    "sample": 903,
+    "methodology": "Presencial",
+    "margin_error": 3.3
   },
   {
     "date": "2025-09-25",
-    "pollster": "Federico González y asoc.",
+    "pollster": "Federico González & Asociados",
     "scope": "provincial",
     "province": "Ciudad Autónoma de Buenos Aires",
     "chamber": "senadores",
@@ -327,7 +372,10 @@
     "PRO": 5.1,
     "FIT": null,
     "Provincial": null,
-    "Others": 25.0
+    "Others": 25.0,
+    "sample": 1400,
+    "methodology": "Presencial",
+    "margin_error": 2.6
   },
   {
     "date": "2025-09-24",
@@ -340,9 +388,12 @@
     "PU": 3,
     "UCR": null,
     "PRO": 3,
-    "FIT": 3,
+    "FIT": null,
     "Provincial": null,
-    "Others": 34
+    "Others": 37,
+    "sample": 1003,
+    "methodology": "Telefónica",
+    "margin_error": 3.15
   },
   {
     "date": "2025-09-24",
@@ -357,26 +408,14 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 26.5
-  },
-  {
-    "date": "2025-09-24",
-    "pollster": "Mercados & Estrategia",
-    "scope": "provincial",
-    "province": "San Luis",
-    "chamber": "diputados",
-    "LLA": 31.3,
-    "FP": 10.0,
-    "PU": null,
-    "UCR": null,
-    "PRO": null,
-    "FIT": null,
-    "Provincial": 18.8,
-    "Others": 39.9
+    "Others": 26.5,
+    "sample": 1370,
+    "methodology": "Presencial",
+    "margin_error": 2.6
   },
   {
     "date": "2025-09-22",
-    "pollster": "La Sastería/Trespuntozero",
+    "pollster": "La Sastrería/Trespuntozero",
     "scope": "national",
     "province": null,
     "chamber": "diputados",
@@ -385,9 +424,12 @@
     "PU": 6,
     "UCR": 2,
     "PRO": 1.8,
-    "FIT": 2.0,
+    "FIT": null,
     "Provincial": null,
-    "Others": 2.0
+    "Others": 4.0,
+    "sample": 1150,
+    "methodology": "Online geolocalizada",
+    "margin_error": 2.9
   },
   {
     "date": "2025-09-20",
@@ -401,8 +443,11 @@
     "UCR": 3.8,
     "PRO": null,
     "FIT": null,
-    "Provincial": 10.1,
-    "Others": 3.6
+    "Provincial": null,
+    "Others": 13.7,
+    "sample": 1122,
+    "methodology": "Online",
+    "margin_error": 3.06
   },
   {
     "date": "2025-09-17",
@@ -417,7 +462,10 @@
     "PRO": 4,
     "FIT": null,
     "Provincial": null,
-    "Others": 10
+    "Others": 10,
+    "sample": 2500,
+    "methodology": "Presencial",
+    "margin_error": 2.0
   },
   {
     "date": "2025-09-16",
@@ -432,7 +480,10 @@
     "PRO": null,
     "FIT": 6.5,
     "Provincial": null,
-    "Others": 16.0
+    "Others": 16.0,
+    "sample": 4391,
+    "methodology": "Presencial",
+    "margin_error": 1.5
   },
   {
     "date": "2025-09-15",
@@ -447,7 +498,10 @@
     "PRO": 11.3,
     "FIT": null,
     "Provincial": null,
-    "Others": 14.7
+    "Others": 14.7,
+    "sample": 1090,
+    "methodology": "Redes sociales",
+    "margin_error": 2.5
   },
   {
     "date": "2025-09-14",
@@ -462,7 +516,10 @@
     "PRO": 2.0,
     "FIT": 2.1,
     "Provincial": null,
-    "Others": 14.0
+    "Others": 14.0,
+    "sample": 5315,
+    "methodology": "Reclutamiento digital aleatorio",
+    "margin_error": 1.3
   },
   {
     "date": "2025-09-06",
@@ -477,22 +534,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 35,
-    "Others": 27
-  },
-  {
-    "date": "2025-09-04",
-    "pollster": "Aresco",
-    "scope": "provincial",
-    "province": "Catamarca",
-    "chamber": "diputados",
-    "LLA": 38.7,
-    "FP": 33.3,
-    "PU": 6.6,
-    "UCR": 5.8,
-    "PRO": 3.3,
-    "FIT": null,
-    "Provincial": null,
-    "Others": 12.3
+    "Others": 27,
+    "sample": 830,
+    "methodology": "Presencial",
+    "margin_error": 3.4
   },
   {
     "date": "2025-09-03",
@@ -507,7 +552,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 17.8,
-    "Others": 34.8
+    "Others": 34.8,
+    "sample": 866,
+    "methodology": "Presencial",
+    "margin_error": 3.3
   },
   {
     "date": "2025-09-01",
@@ -521,8 +569,11 @@
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 18.0,
-    "Others": 12.7
+    "Provincial": 11.7,
+    "Others": 19.0,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-08-26",
@@ -537,7 +588,10 @@
     "PRO": 1.7,
     "FIT": 2.2,
     "Provincial": null,
-    "Others": 13.4
+    "Others": 13.4,
+    "sample": 1200,
+    "methodology": "Online geolocalizada",
+    "margin_error": 2.8
   },
   {
     "date": "2025-08-25",
@@ -552,11 +606,14 @@
     "PRO": 1.9,
     "FIT": 2.1,
     "Provincial": null,
-    "Others": 13.0
+    "Others": 13.0,
+    "sample": 4987,
+    "methodology": "Reclutamiento digital aleatorio",
+    "margin_error": 1.4
   },
   {
     "date": "2025-08-24",
-    "pollster": "Trends Consultora",
+    "pollster": "Trends",
     "scope": "national",
     "province": null,
     "chamber": "diputados",
@@ -567,7 +624,10 @@
     "PRO": null,
     "FIT": 2.3,
     "Provincial": null,
-    "Others": 13.2
+    "Others": 13.2,
+    "sample": 2181,
+    "methodology": "Presencial",
+    "margin_error": 2.1
   },
   {
     "date": "2025-08-22",
@@ -582,7 +642,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 30,
-    "Others": 21
+    "Others": 21,
+    "sample": 612,
+    "methodology": "Presencial",
+    "margin_error": 4.0
   },
   {
     "date": "2025-08-01",
@@ -597,7 +660,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 31
+    "Others": 31,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-07-28",
@@ -612,7 +678,10 @@
     "PRO": 6.7,
     "FIT": 1.2,
     "Provincial": 5.2,
-    "Others": 14.0
+    "Others": 14.0,
+    "sample": 2500,
+    "methodology": "Presencial + Telefónica + Online",
+    "margin_error": 2.0
   },
   {
     "date": "2025-07-12",
@@ -627,7 +696,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 32.0
+    "Others": 32.0,
+    "sample": 1126,
+    "methodology": "Telefónica + Online",
+    "margin_error": 2.9
   },
   {
     "date": "2025-07-01",
@@ -642,7 +714,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 10.7,
-    "Others": 20.5
+    "Others": 20.5,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-06-22",
@@ -657,7 +732,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 21.1,
-    "Others": 30.5
+    "Others": 30.5,
+    "sample": 784,
+    "methodology": "Telefónica + Online",
+    "margin_error": 3.5
   },
   {
     "date": "2025-06-09",
@@ -672,7 +750,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 13.5,
-    "Others": 26.5
+    "Others": 26.5,
+    "sample": 540,
+    "methodology": "Presencial",
+    "margin_error": 4.2
   },
   {
     "date": "2025-06-08",
@@ -687,7 +768,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 19,
-    "Others": 30
+    "Others": 30,
+    "sample": 400,
+    "methodology": "Presencial",
+    "margin_error": 4.9
   },
   {
     "date": "2025-06-01",
@@ -702,7 +786,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 25.9
+    "Others": 25.9,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-06-01",
@@ -717,7 +804,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 21.8,
-    "Others": 22.1
+    "Others": 22.1,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-06-01",
@@ -732,7 +822,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 34.0
+    "Others": 34.0,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   },
   {
     "date": "2025-05-31",
@@ -747,7 +840,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 6,
-    "Others": 22
+    "Others": 22,
+    "sample": 2774,
+    "methodology": "Presencial",
+    "margin_error": 1.9
   },
   {
     "date": "2025-04-23",
@@ -762,7 +858,10 @@
     "PRO": null,
     "FIT": null,
     "Provincial": 39.2,
-    "Others": 39.0
+    "Others": 39.0,
+    "sample": 707,
+    "methodology": "Presencial",
+    "margin_error": 3.7
   },
   {
     "date": "2025-03-01",
@@ -777,6 +876,9 @@
     "PRO": 1.7,
     "FIT": null,
     "Provincial": null,
-    "Others": 31.6
+    "Others": 31.6,
+    "sample": null,
+    "methodology": "Presencial",
+    "margin_error": null
   }
 ]
