@@ -57,7 +57,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 1000,
+          scale: 1200,
           center: [-64, -40],
         }}
         className="w-full h-full"
