@@ -63,7 +63,6 @@ export default function DashboardPage() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
 
-  // Mover hooks al principio
   useEffect(() => {
     setMounted(true);
     fetch('/data/encuestas_argentina_2025.json')
@@ -80,18 +79,22 @@ export default function DashboardPage() {
   
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
-      const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-      const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-      const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
+        const chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
+        const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
+        const provinceMatch = selectedProvince === 'Todas' || e.province === selectedProvince;
 
-      if (selectedChamber === 'senadores') {
-        // For senators, we only care about national scope and pollster. Province filter is ignored.
-        return chamberMatch && pollsterMatch && e.scope === 'national';
-      }
-      
-      return chamberMatch && pollsterMatch && provinceMatch;
+        if (selectedChamber === 'senadores') {
+            return e.chamber === 'senadores' && pollsterMatch;
+        }
+
+        if (selectedProvince !== 'Todas') {
+            return e.province === selectedProvince && chamberMatch && pollsterMatch;
+        }
+        
+        return chamberMatch && pollsterMatch && provinceMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
+
 
   const datosGrafico = useMemo(() => {
     return datosFiltrados
@@ -104,7 +107,14 @@ export default function DashboardPage() {
       }));
   }, [datosFiltrados]);
 
-  const datosNacionales = useMemo(() => encuestasData.filter(e => e.scope === 'national'), [encuestasData]);
+  const pieChartSingleData = useMemo(() => {
+    if (datosGrafico.length === 1) {
+      const { date, ...rest } = datosGrafico[0];
+      return rest;
+    }
+    return null;
+  }, [datosGrafico]);
+
   const datosProvinciales = useMemo(() => encuestasData.filter(e => e.scope === 'provincial'), [encuestasData]);
   
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
@@ -188,14 +198,6 @@ export default function DashboardPage() {
       PROVINCES_LIST: ['Todas', ...Array.from(new Set(pollsterFilteredData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]]
     };
   }, [encuestasData, selectedChamber, selectedPollster]);
-
-  const pieChartSingleData = useMemo(() => {
-    if (datosGrafico.length === 1) {
-      const { date, ...rest } = datosGrafico[0];
-      return rest as PieChartData;
-    }
-    return null;
-  }, [datosGrafico]);
   
   
   const handleFilterAction = () => {
@@ -245,6 +247,7 @@ export default function DashboardPage() {
     return null;
   }
 
+  const datosNacionales = encuestasData.filter(e => e.scope === 'national');
   return (
     <div
       className="min-h-screen pb-8"
@@ -504,5 +507,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
