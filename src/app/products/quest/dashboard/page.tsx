@@ -90,22 +90,53 @@ export default function DashboardPage() {
     }
   }, [mounted, isAuthenticated, router]);
   
+  const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
+    const uniquePollsters = new Set<string>();
+    encuestasData.forEach(d => {
+      if(d.pollster) {
+        const normalized = d.pollster.replace(/Córdoba/i, 'Cordoba').trim();
+        uniquePollsters.add(normalized);
+      }
+    });
+  
+    const chambersList = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
+    
+    let relevantData = encuestasData;
+    if (selectedChamber !== 'Todas') {
+      relevantData = encuestasData.filter(d => d.chamber === selectedChamber);
+    }
+  
+    const pollstersList = ['Todas', ...Array.from(new Set(relevantData.map(d => d.pollster).filter(Boolean)))].sort((a,b) => a.localeCompare(b));
+    
+    const provincesList = ['Todas', ...Array.from(new Set(relevantData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b));
+  
+    return {
+      CHAMBERS: chambersList,
+      POLLSTERS: pollstersList,
+      PROVINCES_LIST: provincesList,
+    };
+  }, [encuestasData, selectedChamber]);
+
+  useEffect(() => {
+    if (selectedChamber === 'Todas' && selectedProvince === 'Todas' && selectedPollster !== 'Todas') {
+      const pollsterData = encuestasData.filter(e => e.pollster === selectedPollster);
+      const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null)));
+      if (provinces.length > 0) {
+        provinces.sort();
+        setSelectedProvince(provinces[0] as string);
+      }
+    }
+  }, [selectedPollster, selectedChamber, selectedProvince, encuestasData]);
+
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
         let chamberMatch = selectedChamber === 'Todas' || e.chamber === selectedChamber;
-        
-        // Si es senadores, solo datos nacionales
-        if (selectedChamber === 'senadores') {
-            chamberMatch = e.chamber === 'senadores' && e.scope === 'national';
-        }
-
         const pollsterMatch = selectedPollster === 'Todas' || e.pollster === selectedPollster;
-        
-        let provinceMatch = true;
-        if (selectedProvince !== 'Todas') {
-            provinceMatch = e.province === selectedProvince;
-        } else if (selectedChamber !== 'senadores') { // Para evitar que el filtro de provincia interfiera
-             provinceMatch = e.scope === 'national' || e.province !== null;
+        let provinceMatch = selectedProvince === 'Todas' ? (e.scope === 'national' || e.province !== null) : e.province === selectedProvince;
+
+        if (selectedChamber === 'senadores') {
+            chamberMatch = e.chamber === 'senadores';
+            provinceMatch = e.scope === 'national'; // senadores are national level
         }
 
         return chamberMatch && pollsterMatch && provinceMatch;
@@ -199,33 +230,6 @@ export default function DashboardPage() {
       return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages, pollsters };
     });
   }, [encuestasData]);
-
-  const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
-    const uniquePollsters = new Set<string>();
-    encuestasData.forEach(d => {
-      if(d.pollster) {
-        const normalized = d.pollster.replace(/Córdoba/i, 'Cordoba').trim();
-        uniquePollsters.add(normalized);
-      }
-    });
-  
-    const chambersList = ['Todas', ...Array.from(new Set(encuestasData.map(d => d.chamber).filter(Boolean)))];
-    
-    let relevantData = encuestasData;
-    if (selectedChamber !== 'Todas') {
-      relevantData = encuestasData.filter(d => d.chamber === selectedChamber);
-    }
-  
-    const pollstersList = ['Todas', ...Array.from(new Set(relevantData.map(d => d.pollster).filter(Boolean)))].sort((a,b) => a.localeCompare(b));
-    
-    const provincesList = ['Todas', ...Array.from(new Set(relevantData.filter(e => e.scope === 'provincial').map(d => d.province).filter(Boolean))) as string[]].sort((a, b) => a.localeCompare(b));
-  
-    return {
-      CHAMBERS: chambersList,
-      POLLSTERS: pollstersList,
-      PROVINCES_LIST: provincesList,
-    };
-  }, [encuestasData, selectedChamber]);
   
   
   const handleFilterAction = () => {
@@ -460,10 +464,16 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
-              {datosGrafico.length > 1 ? (
-                <PremiumLineChart data={datosGrafico.slice(-10)} />
-              ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
-                 <PremiumPieChart data={pieChartSingleData} />
+              {datosGrafico.length > 0 ? (
+                 datosGrafico.length > 1 ? (
+                    <PremiumLineChart data={datosGrafico.slice(-10)} />
+                 ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
+                    <PremiumLineChart data={datosGrafico} /> // Show line chart even for one point
+                 ) : (
+                    <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
+                      No hay datos disponibles para los filtros seleccionados
+                    </div>
+                 )
               ) : (
                 <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground">
                   No hay datos disponibles para los filtros seleccionados
@@ -618,5 +628,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
