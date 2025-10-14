@@ -13,6 +13,7 @@ import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const content = {
   es: {
@@ -111,63 +112,118 @@ export default function QuestPage() {
         </div>
       </header>
       <main>
-        <section className="py-16 md:py-24 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-headline">
-              Accede a las proyecciones para las Elecciones Legislativas Argentina 2025
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
-            </p>
-            <div className="mt-8">
-              <Button asChild size="lg">
-                <Link href="/products/quest/login">{c.cta2025Button}</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        {/* Sección Hero Unificada - CTA Principal */}
+        <section className="relative py-20 md:py-32 overflow-hidden" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          {/* Overlay gradient para mejorar contraste */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95" />
 
-        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-            <div className="container mx-auto px-4">
-               <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">Quest. Inteligencia que decide.</h2>
-                <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-                  La herramienta que transforma datos complejos en decisiones claras.
-                </p>
-              </div>
-
-              <div className="max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                  {strategicAdvantages.map((advantage, index) => (
-                    <div key={index} className="flex items-start gap-4 group">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                          <Check className="w-4 h-4 text-primary" strokeWidth={3} />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-lg mb-1">{advantage.title}</h3>
-                        <p className="text-muted-foreground text-sm leading-relaxed">{advantage.text}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-20 text-center">
-                <div className="max-w-3xl mx-auto space-y-6">
-                  <h3 className="text-3xl font-bold font-headline tracking-tight">Simple. Potente. Preciso.</h3>
-                  <p className="text-lg text-muted-foreground">
-                    Quest elimina la complejidad del análisis político. Lo que antes tomaba días, ahora toma minutos.
+          <div className="container mx-auto px-4 relative z-10">
+            {/* Card principal con borde sutil */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-6xl mx-auto"
+            >
+              <div className="rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-background/80 via-background/60 to-primary/5 backdrop-blur-xl shadow-2xl p-8 md:p-16">
+                {/* Título principal con efecto de aparecer */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-center mb-12"
+                >
+                  <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-6">
+                    <span className="text-sm font-semibold text-primary">Elecciones Legislativas Argentina 2025</span>
+                  </div>
+                  <h2 className="text-4xl md:text-6xl font-bold font-headline tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                    Quest. Inteligencia que decide.
+                  </h2>
+                  <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                    La herramienta que transforma datos complejos en decisiones claras.
                   </p>
-                  <div className="pt-4">
-                    <Button asChild size="lg" className="text-base px-8 py-6">
-                      <Link href="/products/quest/login">Empezar ahora</Link>
+                </motion.div>
+
+                {/* Features Grid con animación escalonada */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="max-w-4xl mx-auto mb-12"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {strategicAdvantages.map((advantage, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                        className="group flex items-start gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-[1.02]"
+                      >
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                            <Check className="w-5 h-5 text-primary" strokeWidth={3} />
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-base md:text-lg mb-1 group-hover:text-primary transition-colors">
+                            {advantage.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {advantage.text}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Divider decorativo */}
+                <div className="relative h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent my-12" />
+
+                {/* CTA Final con efecto de brillo */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="text-center space-y-8"
+                >
+                  <div className="space-y-4">
+                    <h3 className="text-3xl md:text-4xl font-bold font-headline tracking-tight">
+                      Simple. Potente. Preciso.
+                    </h3>
+                    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+                      Quest elimina la complejidad del análisis político. Lo que antes tomaba días, ahora toma minutos.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+                    <Button asChild size="lg" className="text-lg px-10 py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-primary to-primary/80">
+                      <Link href="/products/quest/login" className="flex items-center gap-2">
+                        Acceder al Dashboard
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </Link>
                     </Button>
                   </div>
-                </div>
+
+                  <p className="text-sm text-muted-foreground/70 mt-6">
+                    Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
+                  </p>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
+          </div>
+
+          {/* Efectos decorativos de fondo */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl opacity-20 animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
         </section>
 
         <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>

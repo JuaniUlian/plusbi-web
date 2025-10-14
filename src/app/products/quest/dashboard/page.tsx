@@ -732,6 +732,9 @@ export default function DashboardPage() {
         {generatingReport && (
           <Dialog open={generatingReport} onOpenChange={() => {}}>
             <DialogContent className="glassmorphism-solid">
+              <DialogHeader>
+                <DialogTitle className="sr-only">Generando Informe</DialogTitle>
+              </DialogHeader>
               <div className="flex flex-col items-center justify-center py-8">
                 <motion.div
                   animate={{ rotate: 360 }}
