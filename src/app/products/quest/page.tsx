@@ -8,7 +8,7 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, ArrowRight } from 'lucide-react';
+import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, ArrowRight, BarChart, Map, Compass } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -19,8 +19,6 @@ const content = {
     badge: "Análisis de Datos",
     title: "Quest",
     subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
-    cta2025Title: "Accede a las proyecciones para las Elecciones Legislativas Argentina 2025",
-    cta2025Description: "Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.",
     cta2025Button: "Acceder al Dashboard",
     videoTitle: "Quest en Acción",
     useCasesTitle: "Descubre lo que Quest puede hacer por ti",
@@ -52,8 +50,6 @@ const content = {
     badge: "Data Analysis",
     title: "Quest",
     subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
-    cta2025Title: "Access projections for the 2025 Argentine Legislative Elections",
-    cta2025Description: "Explore data, analyze trends, and get a strategic overview for the upcoming elections.",
     cta2025Button: "Access Dashboard",
     videoTitle: "Quest in Action",
     useCasesTitle: "Discover what Quest can do for you",
@@ -93,6 +89,14 @@ export default function QuestPage() {
     return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
+  const strategicAdvantages = [
+      { icon: '📊', text: 'Accedé a la base de encuestas más grande del país.' },
+      { icon: '🔍', text: 'Compará estudios y metodologías de todas las consultoras.' },
+      { icon: '📈', text: 'Seguí día a día las tendencias de voto y su evolución.' },
+      { icon: '🗺️', text: 'Explorá informes y estados de situación por provincia.' },
+      { icon: '🧭', text: 'Visualizá datos complejos con claridad y precisión.' },
+  ]
+
   return (
     <>
       <header className="py-20 bg-primary/10 relative" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
@@ -106,13 +110,42 @@ export default function QuestPage() {
         </div>
       </header>
       <main>
-        <section className="py-16 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4">
-               <h2 className="text-3xl font-bold font-headline">{c.cta2025Title}</h2>
-               <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.cta2025Description}</p>
-               <Button asChild size="lg" className="mt-8">
-                <Link href="/products/quest/login">{c.cta2025Button} <ArrowRight className="ml-2" /></Link>
-              </Button>
+        <section className="py-16 md:py-24 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4 max-w-4xl">
+              <h2 className="text-4xl font-extrabold font-headline">🗳️ Descubrí Quest</h2>
+              <p className="mt-4 text-lg text-muted-foreground">La plataforma que redefine cómo se analizan las elecciones en Argentina.</p>
+              <p className="mt-6 text-2xl font-semibold">El futuro político no se adivina. Se proyecta. Se analiza. Se entiende.</p>
+              
+              <Card className="mt-12 text-left glassmorphism card-hud-effect">
+                  <CardHeader>
+                      <CardTitle className="text-2xl">Tu ventaja estratégica</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <ul className="space-y-4">
+                          {strategicAdvantages.map(item => (
+                              <li key={item.text} className="flex items-start gap-4">
+                                  <span className="text-2xl mt-1">{item.icon}</span>
+                                  <div>
+                                      <p className="text-lg font-medium">{item.text}</p>
+                                  </div>
+                              </li>
+                          ))}
+                      </ul>
+                  </CardContent>
+              </Card>
+
+              <div className="mt-12 text-left bg-primary/5 p-8 rounded-lg">
+                  <h3 className="text-2xl font-bold font-headline">Para quienes deciden</h3>
+                  <p className="mt-4 text-muted-foreground">Quest fue diseñada para quienes necesitan anticiparse: políticos, asesores, medios, analistas y estrategas.</p>
+                  <p className="mt-2 font-semibold">Convertí información en visión. Tomá decisiones con la precisión de los datos.</p>
+              </div>
+
+              <div className="mt-12">
+                <Button asChild size="lg" className="text-lg">
+                  <Link href="/products/quest/login">Entrá a Quest <ArrowRight className="ml-2" /></Link>
+                </Button>
+                <p className="mt-2 text-sm text-muted-foreground">El futuro electoral ya empezó.</p>
+              </div>
           </div>
         </section>
 

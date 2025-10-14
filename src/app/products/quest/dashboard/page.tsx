@@ -81,6 +81,7 @@ export default function DashboardPage() {
   const [generatingReport, setGeneratingReport] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<string>('');
   const [generatedProvinceReport, setGeneratedProvinceReport] = useState<string>('');
+  const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('10RECENT');
 
   useEffect(() => {
     setMounted(true);
@@ -182,20 +183,43 @@ export default function DashboardPage() {
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
   
   const datosGrafico = useMemo(() => {
-    return datosFiltrados
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map(d => ({
-        date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
-        LLA: d.LLA,
-        FP: d.FP,
-        PU: d.PU,
-        UCR: d.UCR,
-        PRO: d.PRO,
-        FIT: d.FIT,
-        Provincial: d.Provincial,
-        Others: d.Others
-      }));
-  }, [datosFiltrados]);
+    const sorted = datosFiltrados.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    let filtered = sorted;
+    const now = new Date();
+
+    if (timeframe === '10RECENT') {
+      // Mostrar últimos 10 puntos
+      filtered = sorted.slice(-10);
+    } else if (timeframe === '1D') {
+      const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      filtered = sorted.filter(d => new Date(d.date) >= oneDayAgo);
+    } else if (timeframe === '1W') {
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      filtered = sorted.filter(d => new Date(d.date) >= oneWeekAgo);
+    } else if (timeframe === '1M') {
+      const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+      filtered = sorted.filter(d => new Date(d.date) >= oneMonthAgo);
+    } else if (timeframe === '6M') {
+      const sixMonthsAgo = new Date(now.setMonth(now.getMonth() - 6));
+      filtered = sorted.filter(d => new Date(d.date) >= sixMonthsAgo);
+    } else if (timeframe === '1Y') {
+      const oneYearAgo = new Date(now.setFullYear(now.getFullYear() - 1));
+      filtered = sorted.filter(d => new Date(d.date) >= oneYearAgo);
+    }
+
+    return filtered.map(d => ({
+      date: new Date(d.date).toLocaleDateString('es-AR', { month: 'short', day: 'numeric' }),
+      LLA: d.LLA,
+      FP: d.FP,
+      PU: d.PU,
+      UCR: d.UCR,
+      PRO: d.PRO,
+      FIT: d.FIT,
+      Provincial: d.Provincial,
+      Others: d.Others
+    }));
+  }, [datosFiltrados, timeframe]);
 
   const pieChartSingleData = useMemo(() => {
     if (datosGrafico.length === 1) {
@@ -207,21 +231,47 @@ export default function DashboardPage() {
 
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
     if (datos.length === 0) return 0;
-    const ultimasEncuestas: { [key: string]: EncuestaData } = {};
-  
-    datos.forEach(encuesta => {
+
+    // Filtrar solo datos de las últimas 2 semanas
+    const dosSemanasAtras = new Date();
+    dosSemanasAtras.setDate(dosSemanasAtras.getDate() - 14);
+
+    const datosRecientes = datos.filter(d => new Date(d.date) >= dosSemanasAtras);
+
+    if (datosRecientes.length === 0) {
+      // Si no hay datos recientes, usar la última encuesta de cada consultora
+      const ultimasEncuestas: { [key: string]: EncuestaData } = {};
+      datos.forEach(encuesta => {
+        const valor = encuesta[campo];
+        if (valor !== null && typeof valor === 'number') {
+          if (!ultimasEncuestas[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestas[encuesta.pollster].date)) {
+            ultimasEncuestas[encuesta.pollster] = encuesta;
+          }
+        }
+      });
+
+      const valores = Object.values(ultimasEncuestas)
+        .map(d => d[campo])
+        .filter(v => v !== null && typeof v === 'number') as number[];
+
+      return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
+    }
+
+    // Para datos recientes, tomar la última encuesta de cada consultora dentro de las 2 semanas
+    const ultimasEncuestasRecientes: { [key: string]: EncuestaData } = {};
+    datosRecientes.forEach(encuesta => {
       const valor = encuesta[campo];
       if (valor !== null && typeof valor === 'number') {
-        if (!ultimasEncuestas[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestas[encuesta.pollster].date)) {
-          ultimasEncuestas[encuesta.pollster] = encuesta;
+        if (!ultimasEncuestasRecientes[encuesta.pollster] || new Date(encuesta.date) > new Date(ultimasEncuestasRecientes[encuesta.pollster].date)) {
+          ultimasEncuestasRecientes[encuesta.pollster] = encuesta;
         }
       }
     });
-  
-    const valores = Object.values(ultimasEncuestas)
+
+    const valores = Object.values(ultimasEncuestasRecientes)
       .map(d => d[campo])
       .filter(v => v !== null && typeof v === 'number') as number[];
-  
+
     return valores.length > 0 ? valores.reduce((a, b) => a + b, 0) / valores.length : 0;
   };
 
