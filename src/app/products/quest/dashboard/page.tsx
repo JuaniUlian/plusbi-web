@@ -350,13 +350,21 @@ export default function DashboardPage() {
   };
 
   const handleGeneralReport = async () => {
+    console.log('🔵 handleGeneralReport llamado');
+    console.log('🔵 isPaidUser:', isPaidUser);
+    console.log('🔵 encuestasData length:', encuestasData.length);
+
     if (!isPaidUser) {
+      console.log('❌ Usuario no es premium, mostrando modal de upgrade');
       setShowUpgradeModal(true);
       return;
     }
+
+    console.log('✅ Iniciando generación de informe...');
     setGeneratingReport(true);
 
     try {
+      console.log('📤 Enviando request a API...');
       const response = await fetch('/api/generate-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -366,27 +374,42 @@ export default function DashboardPage() {
         })
       });
 
+      console.log('📥 Response status:', response.status);
       const data = await response.json();
+      console.log('📥 Response data:', data);
+
       if (data.success) {
+        console.log('✅ Informe generado exitosamente');
         // Abrir informe en nueva ventana
         const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=national`;
+        console.log('🔗 Abriendo ventana con URL:', reportUrl.substring(0, 100) + '...');
         window.open(reportUrl, '_blank', 'width=1200,height=800');
+      } else {
+        console.error('❌ Error en la respuesta:', data.error);
       }
     } catch (error) {
-      console.error('Error generando reporte:', error);
+      console.error('❌ Error generando reporte:', error);
     } finally {
+      console.log('🏁 Finalizando generación');
       setGeneratingReport(false);
     }
   };
 
   const handleProvinceClick = async (province: ProvinceData) => {
+    console.log('🟢 handleProvinceClick llamado para:', province.name);
+    console.log('🟢 isPaidUser:', isPaidUser);
+
     if (!isPaidUser) {
+      console.log('❌ Usuario no es premium, mostrando modal de upgrade');
       setShowUpgradeModal(true);
       return;
     }
+
+    console.log('✅ Iniciando generación de informe provincial...');
     setGeneratingReport(true);
 
     try {
+      console.log('📤 Enviando request a API para provincia:', province.name);
       const response = await fetch('/api/generate-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -397,15 +420,23 @@ export default function DashboardPage() {
         })
       });
 
+      console.log('📥 Response status:', response.status);
       const data = await response.json();
+      console.log('📥 Response data:', data);
+
       if (data.success) {
+        console.log('✅ Informe provincial generado exitosamente');
         // Abrir informe en nueva ventana
         const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=provincial&province=${encodeURIComponent(province.name)}`;
+        console.log('🔗 Abriendo ventana con URL:', reportUrl.substring(0, 100) + '...');
         window.open(reportUrl, '_blank', 'width=1200,height=800');
+      } else {
+        console.error('❌ Error en la respuesta:', data.error);
       }
     } catch (error) {
-      console.error('Error generando reporte provincial:', error);
+      console.error('❌ Error generando reporte provincial:', error);
     } finally {
+      console.log('🏁 Finalizando generación');
       setGeneratingReport(false);
     }
   };
