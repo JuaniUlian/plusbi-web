@@ -152,7 +152,7 @@ export default function QuestPage() {
                 ))}
               </div>
 
-               <div className="mt-16 text-center">
+              <div className="mt-16 text-center">
                  <Card className="max-w-2xl mx-auto glassmorphism-light p-8 card-hud-effect">
                     <h3 className="text-2xl font-bold font-headline mb-4">Para quienes buscan la ventaja estratégica.</h3>
                     <p className="text-muted-foreground text-lg">
@@ -160,31 +160,70 @@ export default function QuestPage() {
                     </p>
                  </Card>
               </div>
-
             </div>
         </section>
+
         <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-           <div className="container mx-auto px-4">
-               <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold font-headline text-white">{c.videoTitle}</h2>
-              </div>
-              <div className="flex justify-center">
-                  <Card className="shadow-xl glassmorphism p-4 w-full max-w-4xl card-hud-effect">
-                      <div className="aspect-w-16 aspect-h-9">
-                          <iframe 
-                              className="w-full h-full rounded-lg"
-                              src="https://www.youtube.com/embed/2HKqp_RgOC0" 
-                              title="YouTube video player" 
-                              frameBorder="0" 
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                              allowFullScreen
-                              style={{ minHeight: '480px' }}
-                          ></iframe>
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold font-headline text-white">{c.useCasesTitle}</h2>
+              <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">{c.useCasesSubtitle}</p>
+            </div>
+            <Tabs defaultValue="governments" className="max-w-4xl mx-auto">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="governments">{c.tabs.governments}</TabsTrigger>
+                <TabsTrigger value="campaigns">{c.tabs.campaigns}</TabsTrigger>
+              </TabsList>
+              <TabsContent value="governments">
+                <Card className="glassmorphism mt-6">
+                  <CardContent className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    {c.govPoints.map(point => (
+                      <div key={point.title} className="flex gap-4">
+                        <div className="bg-primary/10 rounded-lg p-3 h-fit">{point.icon}</div>
+                        <div>
+                          <h4 className="font-semibold text-lg">{point.title}</h4>
+                          <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                        </div>
                       </div>
-                  </Card>
-              </div>
-           </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="campaigns">
+                <Card className="glassmorphism mt-6">
+                  <CardContent className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    {c.campaignPoints.map(point => (
+                       <div key={point.title} className="flex gap-4">
+                        <div className="bg-primary/10 rounded-lg p-3 h-fit">{point.icon}</div>
+                        <div>
+                          <h4 className="font-semibold text-lg">{point.title}</h4>
+                          <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
         </section>
+
+        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
+          <div className="container mx-auto px-4">
+            <Card className="glassmorphism-light max-w-4xl mx-auto overflow-hidden card-hud-effect">
+              <div className="grid md:grid-cols-2 items-center">
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold font-headline">{c.caseTitle}</h3>
+                  <div className="prose prose-sm text-muted-foreground mt-4" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
+                </div>
+                <div className="relative h-64 md:h-full">
+                  <Image src="/data/argentina-flag.jpg" alt="Bandera de Argentina" fill style={{objectFit: 'cover'}} data-ai-hint="Argentinian flag"/>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+
         <section className="py-16 md:py-24 bg-primary/10 text-center">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
