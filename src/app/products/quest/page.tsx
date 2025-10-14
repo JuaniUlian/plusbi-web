@@ -134,11 +134,15 @@ export default function QuestPage() {
                   </CardContent>
               </Card>
 
-              <div className="mt-12 text-left bg-primary/5 p-8 rounded-lg">
-                  <h3 className="text-2xl font-bold font-headline">Para quienes deciden</h3>
-                  <p className="mt-4 text-muted-foreground">Quest fue diseñada para quienes necesitan anticiparse: políticos, asesores, medios, analistas y estrategas.</p>
-                  <p className="mt-2 font-semibold">Convertí información en visión. Tomá decisiones con la precisión de los datos.</p>
-              </div>
+              <Card className="mt-8 text-left glassmorphism card-hud-effect">
+                <CardHeader>
+                  <CardTitle className="text-2xl">Para quienes deciden</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">Quest está diseñada para políticos, asesores, medios, analistas y estrategas que necesitan anticiparse.</p>
+                    <p className="mt-2 font-semibold">Convertí información en visión. Tomá decisiones con la precisión de los datos.</p>
+                </CardContent>
+              </Card>
 
               <div className="mt-12">
                 <Button asChild size="lg" className="text-lg">
