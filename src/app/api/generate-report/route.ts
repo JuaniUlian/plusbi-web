@@ -173,21 +173,16 @@ Resumen profesional con recomendaciones estratégicas.
 - El informe debe ser completo pero conciso (600-800 palabras)`;
 
     // Generar respuesta con OpenAI
-    console.log('🤖 API: Llamando a OpenAI...');
+    console.log('🤖 API: Llamando a OpenAI con o1-mini...');
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-latest',
+      model: 'o1-mini',
       messages: [
         {
-          role: 'system',
-          content: 'Eres un analista político electoral experto en Argentina, especializado en análisis de encuestas y tendencias electorales. Tu estilo es profesional, objetivo y basado en datos.'
-        },
-        {
           role: 'user',
-          content: prompt
+          content: `Eres un analista político electoral experto en Argentina, especializado en análisis de encuestas y tendencias electorales. Tu estilo es profesional, objetivo y basado en datos.\n\n${prompt}`
         }
       ],
-      temperature: 0.7,
-      max_tokens: 2500,
+      max_completion_tokens: 10000,
     });
     console.log('✅ API: OpenAI respondió exitosamente');
 

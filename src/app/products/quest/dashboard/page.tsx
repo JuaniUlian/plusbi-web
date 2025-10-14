@@ -762,9 +762,12 @@ export default function DashboardPage() {
       <AnimatePresence>
         {generatingReport && (
           <Dialog open={generatingReport} onOpenChange={() => {}}>
-            <DialogContent className="glassmorphism-solid">
+            <DialogContent className="glassmorphism-solid" aria-describedby="generating-report-description">
               <DialogHeader>
                 <DialogTitle className="sr-only">Generando Informe</DialogTitle>
+                <DialogDescription id="generating-report-description" className="sr-only">
+                  Se está generando el informe electoral con inteligencia artificial
+                </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col items-center justify-center py-8">
                 <motion.div
