@@ -19,6 +19,9 @@ interface EncuestaData {
   FIT: number | null;
   Provincial: number | null;
   Others: number | null;
+  sample?: number | null;
+  methodology?: string | null;
+  margin_error?: number | null;
 }
 
 interface PollsterComparisonTableProps {
@@ -49,24 +52,70 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Muestra:</span>
-          <span className="font-medium">N/A</span>
+          <span className="font-medium">{poll.sample ? poll.sample.toLocaleString('es-AR') : 'N/A'}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Método:</span>
-          <span className="font-medium">N/A</span>
+          <span className="font-medium text-right max-w-[150px] truncate" title={poll.methodology || 'N/A'}>
+            {poll.methodology || 'N/A'}
+          </span>
         </div>
+        {poll.margin_error && (
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Error:</span>
+            <span className="font-medium">±{poll.margin_error}%</span>
+          </div>
+        )}
         <hr className="my-2 border-border" />
-        <div className="flex justify-between font-bold" style={{ color: '#7c3aed' }}>
-          <span>LLA:</span>
-          <span>{formatPercentage(poll.LLA)}</span>
-        </div>
-        <div className="flex justify-between font-bold" style={{ color: '#3b82f6' }}>
-          <span>FP:</span>
-          <span>{formatPercentage(poll.FP)}</span>
-        </div>
-        <div className="flex justify-between font-bold" style={{ color: '#f97316' }}>
-          <span>PU:</span>
-          <span>{formatPercentage(poll.PU)}</span>
+        <div className="space-y-2">
+          {poll.LLA !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#7c3aed' }}>
+              <span>LLA:</span>
+              <span>{formatPercentage(poll.LLA)}</span>
+            </div>
+          )}
+          {poll.FP !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#3b82f6' }}>
+              <span>FP:</span>
+              <span>{formatPercentage(poll.FP)}</span>
+            </div>
+          )}
+          {poll.PU !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#f97316' }}>
+              <span>PU:</span>
+              <span>{formatPercentage(poll.PU)}</span>
+            </div>
+          )}
+          {poll.UCR !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#ef4444' }}>
+              <span>UCR:</span>
+              <span>{formatPercentage(poll.UCR)}</span>
+            </div>
+          )}
+          {poll.PRO !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#eab308' }}>
+              <span>PRO:</span>
+              <span>{formatPercentage(poll.PRO)}</span>
+            </div>
+          )}
+          {poll.FIT !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#dc2626' }}>
+              <span>FIT:</span>
+              <span>{formatPercentage(poll.FIT)}</span>
+            </div>
+          )}
+          {poll.Provincial !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#f59e0b' }}>
+              <span>Provincial:</span>
+              <span>{formatPercentage(poll.Provincial)}</span>
+            </div>
+          )}
+          {poll.Others !== null && (
+            <div className="flex justify-between font-bold" style={{ color: '#64748b' }}>
+              <span>Otros:</span>
+              <span>{formatPercentage(poll.Others)}</span>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
@@ -79,7 +128,10 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
 
   const latestPollsMap = useMemo(() => {
     const map = new Map<string, EncuestaData>();
-    data.forEach((poll) => {
+    // Filtrar solo encuestas nacionales
+    const nationalPolls = data.filter(poll => poll.scope === 'national');
+
+    nationalPolls.forEach((poll) => {
       const existingPoll = map.get(poll.pollster);
       if (!existingPoll || new Date(poll.date) > new Date(existingPoll.date)) {
         map.set(poll.pollster, poll);
@@ -91,13 +143,18 @@ export function PollsterComparisonTable({ data, pollsters }: PollsterComparisonT
   const selectedPoll1Data = pollster1 ? latestPollsMap.get(pollster1) : undefined;
   const selectedPoll2Data = pollster2 ? latestPollsMap.get(pollster2) : undefined;
 
-  const availablePollsters1 = pollsters.filter(p => p !== pollster2);
-  const availablePollsters2 = pollsters.filter(p => p !== pollster1);
+  // Filtrar solo encuestadoras que tienen datos nacionales
+  const nationalPollsters = useMemo(() => {
+    return Array.from(latestPollsMap.keys()).sort((a, b) => a.localeCompare(b));
+  }, [latestPollsMap]);
 
-  if (pollsters.length < 2) {
+  const availablePollsters1 = nationalPollsters.filter(p => p !== pollster2);
+  const availablePollsters2 = nationalPollsters.filter(p => p !== pollster1);
+
+  if (nationalPollsters.length < 2) {
     return (
       <div className="flex items-center justify-center h-40 text-muted-foreground">
-        No hay suficientes encuestadoras para comparar.
+        No hay suficientes encuestadoras nacionales para comparar.
       </div>
     );
   }

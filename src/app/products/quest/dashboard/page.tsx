@@ -44,6 +44,9 @@ interface EncuestaData {
   FIT: number | null;
   Provincial: number | null;
   Others: number | null;
+  sample?: number | null;
+  methodology?: string | null;
+  margin_error?: number | null;
 }
 
 type PartyKey = 'LLA' | 'FP' | 'PU' | 'UCR' | 'PRO' | 'FIT' | 'Provincial' | 'Others';
@@ -226,11 +229,11 @@ export default function DashboardPage() {
   const totalFP = useMemo(() => calcularPromedioUltimasEncuestas('FP', datosFiltrados), [datosFiltrados]);
 
   const ultimaActualizacion = useMemo(() => {
-      if (encuestasData.length === 0) return '-';
-      const fechas = encuestasData.map(d => new Date(d.date));
+      if (datosFiltrados.length === 0) return '-';
+      const fechas = datosFiltrados.map(d => new Date(d.date));
       fechas.sort((a, b) => b.getTime() - a.getTime());
       return fechas[0].toLocaleDateString('es-AR');
-  }, [encuestasData]);
+  }, [datosFiltrados]);
 
   const provincesMapData: ProvinceData[] = useMemo(() => {
     const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
@@ -543,7 +546,7 @@ export default function DashboardPage() {
             <CardContent>
               {datosGrafico.length > 0 ? (
                  (datosGrafico.length > 1) ? (
-                    <PremiumLineChart data={datosGrafico.slice(-10)} />
+                    <PremiumLineChart data={datosGrafico} />
                  ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
                     <PremiumPieChart data={pieChartSingleData} />
                  ) : (
