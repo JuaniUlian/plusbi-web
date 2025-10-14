@@ -111,44 +111,17 @@ export default function QuestPage() {
       </header>
       <main>
         <section className="py-16 md:py-24 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4 max-w-4xl">
-              <h2 className="text-4xl font-extrabold font-headline">🗳️ Descubrí Quest</h2>
-              <p className="mt-4 text-lg text-muted-foreground">La plataforma que redefine cómo se analizan las elecciones en Argentina.</p>
-              <p className="mt-6 text-2xl font-semibold">El futuro político no se adivina. Se proyecta. Se analiza. Se entiende.</p>
-              
-              <Card className="mt-12 text-left glassmorphism card-hud-effect">
-                  <CardHeader>
-                      <CardTitle className="text-2xl">Tu ventaja estratégica</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                      <ul className="space-y-4">
-                          {strategicAdvantages.map(item => (
-                              <li key={item.text} className="flex items-start gap-4">
-                                  <span className="text-2xl mt-1">{item.icon}</span>
-                                  <div>
-                                      <p className="text-lg font-medium">{item.text}</p>
-                                  </div>
-                              </li>
-                          ))}
-                      </ul>
-                  </CardContent>
-              </Card>
-
-              <Card className="mt-8 text-left glassmorphism card-hud-effect">
-                <CardHeader>
-                  <CardTitle className="text-2xl">Para quienes deciden</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Quest está diseñada para políticos, asesores, medios, analistas y estrategas que necesitan anticiparse.</p>
-                    <p className="mt-2 font-semibold">Convertí información en visión. Tomá decisiones con la precisión de los datos.</p>
-                </CardContent>
-              </Card>
-
-              <div className="mt-12">
-                <Button asChild size="lg" className="text-lg">
-                  <Link href="/products/quest/login">Entrá a Quest <ArrowRight className="ml-2" /></Link>
+          <div className="container mx-auto px-4">
+              <h2 className="text-3xl md:text-4xl font-extrabold font-headline">
+                Accede a las proyecciones para las Elecciones Legislativas Argentina 2025
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
+              </p>
+              <div className="mt-8">
+                <Button asChild size="lg">
+                  <Link href="/products/quest/login">{c.cta2025Button}</Link>
                 </Button>
-                <p className="mt-2 text-sm text-muted-foreground">El futuro electoral ya empezó.</p>
               </div>
           </div>
         </section>
