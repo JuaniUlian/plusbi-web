@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import {
@@ -90,11 +91,11 @@ export default function QuestPage() {
   };
 
   const strategicAdvantages = [
-      { icon: '📊', text: 'Accedé a la base de encuestas más grande del país.' },
-      { icon: '🔍', text: 'Compará estudios y metodologías de todas las consultoras.' },
-      { icon: '📈', text: 'Seguí día a día las tendencias de voto y su evolución.' },
-      { icon: '🗺️', text: 'Explorá informes y estados de situación por provincia.' },
-      { icon: '🧭', text: 'Visualizá datos complejos con claridad y precisión.' },
+    { icon: <BarChart className="size-8 text-primary"/>, title: 'Base de Encuestas Centralizada', text: 'Accedé a la base de encuestas más grande del país.' },
+    { icon: <Search className="size-8 text-primary"/>, title: 'Comparación de Metodologías', text: 'Compará estudios y metodologías de todas las consultoras.' },
+    { icon: <TrendingUp className="size-8 text-primary"/>, title: 'Análisis de Tendencias', text: 'Seguí día a día las tendencias de voto y su evolución.' },
+    { icon: <Map className="size-8 text-primary"/>, title: 'Informes por Provincia', text: 'Explorá informes y estados de situación por provincia.' },
+    { icon: <Compass className="size-8 text-primary"/>, title: 'Visualización Clara', text: 'Visualizá datos complejos con claridad y precisión.' },
   ]
 
   return (
@@ -112,82 +113,54 @@ export default function QuestPage() {
       <main>
         <section className="py-16 md:py-24 bg-background text-center border-b" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
           <div className="container mx-auto px-4">
-              <h2 className="text-3xl md:text-4xl font-extrabold font-headline">
-                Accede a las proyecciones para las Elecciones Legislativas Argentina 2025
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
-              </p>
-              <div className="mt-8">
-                <Button asChild size="lg">
-                  <Link href="/products/quest/login">{c.cta2025Button}</Link>
-                </Button>
-              </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold font-headline">
+              Accede a las proyecciones para las Elecciones Legislativas Argentina 2025
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+              Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
+            </p>
+            <div className="mt-8">
+              <Button asChild size="lg">
+                <Link href="/products/quest/login">{c.cta2025Button}</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
-              <div className="grid md:grid-cols-2 gap-12 items-start">
-                  
-                  <Tabs defaultValue="governments" className="w-full">
-                    <Card className="shadow-xl glassmorphism h-full flex flex-col card-hud-effect">
-                        <CardHeader className="text-center">
-                            <CardTitle>{c.useCasesTitle}</CardTitle>
-                            <CardDescription>{c.useCasesSubtitle}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-grow flex flex-col">
-                            <TabsList className="grid w-full grid-cols-2">
-                                <TabsTrigger value="governments">{c.tabs.governments}</TabsTrigger>
-                                <TabsTrigger value="campaigns">{c.tabs.campaigns}</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="governments" className="flex-grow mt-6">
-                                <ul className="space-y-6">
-                                    {c.govPoints.map((point) => (
-                                        <li key={point.title} className="flex items-start gap-4">
-                                            <div className="bg-primary/10 p-3 rounded-lg h-fit">{point.icon}</div>
-                                            <div>
-                                                <h4 className="font-semibold text-lg">{point.title}</h4>
-                                                <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </TabsContent>
-                            <TabsContent value="campaigns" className="flex-grow mt-6">
-                                <ul className="space-y-6">
-                                     {c.campaignPoints.map((point) => (
-                                        <li key={point.title} className="flex items-start gap-4">
-                                            <div className="bg-primary/10 p-3 rounded-lg h-fit">{point.icon}</div>
-                                            <div>
-                                                <h4 className="font-semibold text-lg">{point.title}</h4>
-                                                <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </TabsContent>
-                        </CardContent>
-                    </Card>
-                  </Tabs>
-
-                  <Card className="shadow-xl glassmorphism card-hud-effect">
-                  <CardHeader>
-                      <CardTitle className="text-xl">{c.caseTitle}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                      <Image
-                      src="/stats/resultadosquest.png"
-                      alt="Resultados de Quest en elecciones de Argentina"
-                      width={600}
-                      height={400}
-                      className="rounded-lg mb-4"
-                      data-ai-hint="election results chart"
-                      />
-                      <div className="text-muted-foreground text-sm" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
-                  </CardContent>
-                  </Card>
+               <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold font-headline">Tu Ventaja Estratégica</h2>
+                <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                  El futuro político no se adivina. Se proyecta. Se analiza. Se entiende. Quest te da las herramientas para lograrlo.
+                </p>
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+                {strategicAdvantages.map((advantage, index) => (
+                  <Card key={index} className="glassmorphism card-hud-effect text-center flex flex-col">
+                    <CardHeader className="items-center">
+                      <div className="bg-primary/10 rounded-full p-4 mb-4">
+                        {advantage.icon}
+                      </div>
+                      <CardTitle>{advantage.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <p className="text-muted-foreground">{advantage.text}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+               <div className="mt-16 text-center">
+                 <Card className="max-w-2xl mx-auto glassmorphism-light p-8 card-hud-effect">
+                    <h3 className="text-2xl font-bold font-headline mb-4">Para quienes buscan la ventaja estratégica.</h3>
+                    <p className="text-muted-foreground text-lg">
+                      Convertí información en visión. Tomá decisiones con la precisión de los datos.
+                    </p>
+                 </Card>
+              </div>
+
             </div>
         </section>
         <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
@@ -225,3 +198,5 @@ export default function QuestPage() {
     </>
   );
 }
+
+    
