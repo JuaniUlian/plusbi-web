@@ -21,15 +21,24 @@ interface EncuestaData {
   FIT: number | null;
   Provincial: number | null;
   Others: number | null;
+  sample?: number | null;
+  methodology?: string | null;
+  margin_error?: number | null;
 }
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('🔵 API: Request recibido');
     const { type, province, encuestasData } = await request.json();
+    console.log('🔵 API: type:', type);
+    console.log('🔵 API: province:', province);
+    console.log('🔵 API: encuestasData length:', encuestasData?.length);
 
     // Leer el informe de situación
     const situacionPath = path.join(process.cwd(), 'public', 'data', 'Informe Situación.txt');
+    console.log('📂 API: Leyendo archivo:', situacionPath);
     const situacionContent = fs.readFileSync(situacionPath, 'utf-8');
+    console.log('📂 API: Archivo leído, length:', situacionContent.length);
 
     // Filtrar datos relevantes
     let datosRelevantes: EncuestaData[] = [];
@@ -164,6 +173,7 @@ Resumen profesional con recomendaciones estratégicas.
 - El informe debe ser completo pero conciso (600-800 palabras)`;
 
     // Generar respuesta con OpenAI
+    console.log('🤖 API: Llamando a OpenAI...');
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-latest',
       messages: [
@@ -179,18 +189,27 @@ Resumen profesional con recomendaciones estratégicas.
       temperature: 0.7,
       max_tokens: 2500,
     });
+    console.log('✅ API: OpenAI respondió exitosamente');
 
     const text = completion.choices[0].message.content || '';
+    console.log('✅ API: Informe generado, length:', text.length);
 
     return NextResponse.json({
       report: text,
       success: true
     });
 
-  } catch (error) {
-    console.error('Error generando reporte:', error);
+  } catch (error: any) {
+    console.error('❌ Error generando reporte:', error);
+    console.error('❌ Error message:', error?.message);
+    console.error('❌ Error stack:', error?.stack);
+
     return NextResponse.json(
-      { error: 'Error al generar el reporte', success: false },
+      {
+        error: 'Error al generar el reporte',
+        details: error?.message || 'Unknown error',
+        success: false
+      },
       { status: 500 }
     );
   }
