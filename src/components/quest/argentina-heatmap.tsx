@@ -5,7 +5,7 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { Tooltip } from 'react-tooltip';
 import type { ProvinceData } from '@/app/products/quest/dashboard/page';
 
-const ARGENTINA_TOPO_JSON = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/argentina/argentina-provinces.json';
+const ARGENTINA_GEOJSON = '/data/argentina-provinces.json';
 
 interface ArgentinaHeatmapProps {
   provincesData: ProvinceData[];
@@ -66,10 +66,10 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
         className="w-full h-full"
         data-tooltip-id="province-tooltip"
       >
-        <Geographies geography={ARGENTINA_TOPO_JSON}>
+        <Geographies geography={ARGENTINA_GEOJSON}>
           {({ geographies }) =>
             geographies.map((geo) => {
-              const provinceData = getProvinceData(geo.properties.name);
+              const provinceData = getProvinceData(geo.properties.NAME_1);
               const fillColor = provinceData?.color || '#e5e7eb';
               
               return (
@@ -79,12 +79,14 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
                   style={{
                     default: {
                       fill: fillColor,
+                      fillOpacity: 0.9,
                       stroke: '#fff',
                       strokeWidth: 0.75,
                       outline: 'none',
                     },
                     hover: {
                       fill: fillColor,
+                      fillOpacity: 1,
                       stroke: '#333',
                       strokeWidth: 1.5,
                       outline: 'none',
@@ -93,6 +95,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
                     },
                     pressed: {
                       fill: fillColor,
+                      fillOpacity: 1,
                       stroke: '#000',
                       strokeWidth: 2,
                       outline: 'none',
