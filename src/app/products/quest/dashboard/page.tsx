@@ -15,8 +15,6 @@ import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
 import { StatsCards } from '@/components/quest/stats-cards';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
-import ReactMarkdown from 'react-markdown';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
 import dynamic from 'next/dynamic';
@@ -57,13 +55,10 @@ export interface ProvinceData {
   color: string;
   percentages: { [key: string]: number };
   pollsters?: string[];
+  totalSample?: number;
+  pollsterCount?: number;
 }
 
-interface PieChartData {
-  LLA?: number | null;
-  FP?: number | null;
-  PU?: number | null;
-}
 
 
 export default function DashboardPage() {
@@ -74,14 +69,10 @@ export default function DashboardPage() {
   const [selectedPollster, setSelectedPollster] = useState('Todas');
   const [selectedProvince, setSelectedProvince] = useState('Todas');
   const [selectedChamber, setSelectedChamber] = useState('Todas');
-  const [showGeneralReport, setShowGeneralReport] = useState(false);
-  const [showProvinceReport, setShowProvinceReport] = useState(false);
-  const [selectedProvinceData, setSelectedProvinceData] = useState<ProvinceData | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
-  const [generatedReport, setGeneratedReport] = useState<string>('');
-  const [generatedProvinceReport, setGeneratedProvinceReport] = useState<string>('');
   const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('1M');
+  const [hasUsedComparison, setHasUsedComparison] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -301,6 +292,7 @@ export default function DashboardPage() {
     return Object.keys(provincesMap).map(prov => {
       const ultimasEncuestas = Object.values(provincesMap[prov]);
       const pollsters = Object.keys(provincesMap[prov]).sort();
+      const totalSample = ultimasEncuestas.reduce((sum, e) => sum + (e.sample || 0), 0);
 
       const promedios = {
         LLA: ultimasEncuestas.map(e => e.LLA).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.LLA!=null).length || 0,
@@ -321,7 +313,15 @@ export default function DashboardPage() {
       if (promedios.PU > 0) percentages['PU'] = Math.round(promedios.PU * 10) / 10;
       if (promedios.Provincial > 0) percentages['Provincial'] = Math.round(promedios.Provincial * 10) / 10;
 
-      return { name: prov, winner: maxPartido[0], color: colores[maxPartido[0]] || '#64748b', percentages, pollsters };
+      return {
+        name: prov,
+        winner: maxPartido[0],
+        color: colores[maxPartido[0]] || '#64748b',
+        percentages,
+        pollsters,
+        totalSample,
+        pollsterCount: pollsters.length
+      };
     });
   }, [encuestasData]);
   
@@ -355,7 +355,6 @@ export default function DashboardPage() {
       return;
     }
     setGeneratingReport(true);
-    setShowGeneralReport(true);
 
     try {
       const response = await fetch('/api/generate-report', {
@@ -369,7 +368,9 @@ export default function DashboardPage() {
 
       const data = await response.json();
       if (data.success) {
-        setGeneratedReport(data.report);
+        // Abrir informe en nueva ventana
+        const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=national`;
+        window.open(reportUrl, '_blank', 'width=1200,height=800');
       }
     } catch (error) {
       console.error('Error generando reporte:', error);
@@ -383,9 +384,7 @@ export default function DashboardPage() {
       setShowUpgradeModal(true);
       return;
     }
-    setSelectedProvinceData(province);
     setGeneratingReport(true);
-    setShowProvinceReport(true);
 
     try {
       const response = await fetch('/api/generate-report', {
@@ -400,7 +399,9 @@ export default function DashboardPage() {
 
       const data = await response.json();
       if (data.success) {
-        setGeneratedProvinceReport(data.report);
+        // Abrir informe en nueva ventana
+        const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=provincial&province=${encodeURIComponent(province.name)}`;
+        window.open(reportUrl, '_blank', 'width=1200,height=800');
       }
     } catch (error) {
       console.error('Error generando reporte provincial:', error);
@@ -413,8 +414,6 @@ export default function DashboardPage() {
     logout();
     router.push('/products/quest');
   };
-  
-  const datosNacionales = useMemo(() => encuestasData.filter(e => e.scope === 'national'), [encuestasData]);
   
   useEffect(() => {
     if (mounted && !isAuthenticated) {
@@ -671,7 +670,14 @@ export default function DashboardPage() {
               </p>
             </CardHeader>
             <CardContent>
-              <PollsterComparisonTable data={encuestasData} pollsters={POLLSTERS.filter(p => p !== 'Todas')} />
+              <PollsterComparisonTable
+                data={encuestasData}
+                pollsters={POLLSTERS.filter(p => p !== 'Todas')}
+                isPremium={isPaidUser}
+                hasUsedComparison={hasUsedComparison}
+                onComparisonUsed={() => setHasUsedComparison(true)}
+                onUpgradeClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')}
+              />
             </CardContent>
           </Card>
         </motion.div>
@@ -685,7 +691,7 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="text-2xl">Mapa Electoral - Argentina</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Haz clic en una provincia para ver el informe detallado con análisis de IA
+                Pasa el cursor sobre una provincia para ver los datos. Haz clic para generar un informe completo con IA.
               </p>
             </CardHeader>
             <CardContent>
@@ -713,7 +719,7 @@ export default function DashboardPage() {
                 <p className="text-sm text-muted-foreground">Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.</p>
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">Cerrar</Button>
-                  <Button onClick={() => window.open('https://script.google.com/macros/s/AKfycbzKO1kHsEJokymKc38SwiMvexQtuhVpshitKnV3iU5lB0gPNvTBYdPldKM4Gh7NdEXP/exec', '_blank')} className="flex-1">Registrarme Ahora</Button>
+                  <Button onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')} className="flex-1">Obtener Premium</Button>
                 </div>
               </div>
             </DialogContent>
@@ -721,103 +727,24 @@ export default function DashboardPage() {
         )}
       </AnimatePresence>
 
-      <Sheet open={showGeneralReport} onOpenChange={setShowGeneralReport}>
-        <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle className="text-2xl">Informe General de Situación Electoral</SheetTitle>
-            <SheetDescription>
-              Análisis completo de las encuestas nacionales con IA
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4 mt-6">
-            {generatingReport ? (
-              <div className="flex flex-col items-center justify-center py-12">
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-                <p className="mt-4 text-muted-foreground">Generando informe con IA...</p>
+      {/* Modal de carga mientras se genera el informe */}
+      <AnimatePresence>
+        {generatingReport && (
+          <Dialog open={generatingReport} onOpenChange={() => {}}>
+            <DialogContent className="glassmorphism-solid">
+              <div className="flex flex-col items-center justify-center py-8">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                  className="h-16 w-16 border-4 border-primary border-t-transparent rounded-full"
+                />
+                <p className="mt-6 text-lg font-semibold">Generando informe con IA...</p>
+                <p className="mt-2 text-sm text-muted-foreground">Esto puede tomar unos segundos</p>
               </div>
-            ) : generatedReport ? (
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>{generatedReport}</ReactMarkdown>
-              </div>
-            ) : (
-              <>
-                <h3 className="font-semibold text-lg">Resumen Ejecutivo</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Basado en el análisis de {datosNacionales.length} encuestas nacionales, LLA mantiene {totalLLA.toFixed(1)}% de intención de voto promedio, mientras que FP alcanza {totalFP.toFixed(1)}%. Los datos muestran tendencias variables según las diferentes encuestadoras.
-                </p>
-                <h3 className="font-semibold text-lg mt-6">Análisis por Región</h3>
-                <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                  {provincesMapData.slice(0, 5).map(p => (
-                    <li key={p.name}>{p.name}: {p.winner} lidera con ventaja</li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={showProvinceReport} onOpenChange={setShowProvinceReport}>
-        <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle className="text-2xl">Informe de {selectedProvinceData?.name}</SheetTitle>
-            <SheetDescription>
-              Análisis detallado con datos provinciales e IA
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4 mt-6">
-            {generatingReport ? (
-              <div className="flex flex-col items-center justify-center py-12">
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-12 w-12 border-4 border-primary border-t-transparent rounded-full" />
-                <p className="mt-4 text-muted-foreground">Analizando datos con IA...</p>
-              </div>
-            ) : generatedProvinceReport ? (
-              <>
-                <div className="bg-primary/10 p-4 rounded-lg mb-4">
-                  <h3 className="font-semibold">Situación Actual</h3>
-                  <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
-                  {selectedProvinceData?.pollsters && selectedProvinceData.pollsters.length > 0 && (
-                    <p className="text-xs text-muted-foreground mt-2">
-                      <strong>Encuestadoras consideradas:</strong> {selectedProvinceData.pollsters.join(', ')}
-                    </p>
-                  )}
-                  <div className="mt-3 space-y-1">
-                    {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
-                      <div key={party} className="flex justify-between text-sm">
-                        <span>{party}</span>
-                        <span className="font-bold">{percentage}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="prose prose-sm dark:prose-invert max-w-none">
-                  <ReactMarkdown>{generatedProvinceReport}</ReactMarkdown>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="bg-primary/10 p-4 rounded-lg">
-                  <h3 className="font-semibold">Situación Actual</h3>
-                  <p className="text-sm text-muted-foreground mt-2">Ganador actual: <strong>{selectedProvinceData?.winner}</strong></p>
-                  {selectedProvinceData?.pollsters && selectedProvinceData.pollsters.length > 0 && (
-                    <p className="text-xs text-muted-foreground mt-2">
-                      <strong>Encuestadoras consideradas:</strong> {selectedProvinceData.pollsters.join(', ')}
-                    </p>
-                  )}
-                  <div className="mt-3 space-y-1">
-                    {selectedProvinceData && Object.entries(selectedProvinceData.percentages).map(([party, percentage]) => (
-                      <div key={party} className="flex justify-between text-sm">
-                        <span>{party}</span>
-                        <span className="font-bold">{percentage}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

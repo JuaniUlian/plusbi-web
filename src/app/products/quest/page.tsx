@@ -6,10 +6,9 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, ArrowRight, BarChart, Map, Compass } from 'lucide-react';
+import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, Check } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -91,11 +90,12 @@ export default function QuestPage() {
   };
 
   const strategicAdvantages = [
-    { icon: <BarChart className="size-8 text-primary"/>, title: 'Base de Encuestas Centralizada', text: 'Accedé a la base de encuestas más grande del país.' },
-    { icon: <Search className="size-8 text-primary"/>, title: 'Comparación de Metodologías', text: 'Compará estudios y metodologías de todas las consultoras.' },
-    { icon: <TrendingUp className="size-8 text-primary"/>, title: 'Análisis de Tendencias', text: 'Seguí día a día las tendencias de voto y su evolución.' },
-    { icon: <Map className="size-8 text-primary"/>, title: 'Informes por Provincia', text: 'Explorá informes y estados de situación por provincia.' },
-    { icon: <Compass className="size-8 text-primary"/>, title: 'Visualización Clara', text: 'Visualizá datos complejos con claridad y precisión.' },
+    { title: 'Base de Encuestas Centralizada', text: 'Accedé a la base de encuestas más grande del país.' },
+    { title: 'Comparación de Metodologías', text: 'Compará estudios y metodologías de todas las consultoras.' },
+    { title: 'Análisis de Tendencias', text: 'Seguí día a día las tendencias de voto y su evolución.' },
+    { title: 'Informes por Provincia', text: 'Explorá informes y estados de situación por provincia.' },
+    { title: 'Visualización Clara', text: 'Visualizá datos complejos con claridad y precisión.' },
+    { title: 'IA Generativa', text: 'Informes profesionales generados por inteligencia artificial.' },
   ]
 
   return (
@@ -129,36 +129,43 @@ export default function QuestPage() {
 
         <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="container mx-auto px-4">
-               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold font-headline">Tu Ventaja Estratégica</h2>
-                <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-                  El futuro político no se adivina. Se proyecta. Se analiza. Se entiende. Quest te da las herramientas para lograrlo.
+               <div className="text-center mb-16">
+                <h2 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">Quest. Inteligencia que decide.</h2>
+                <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
+                  La herramienta que transforma datos complejos en decisiones claras.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-                {strategicAdvantages.map((advantage, index) => (
-                  <Card key={index} className="glassmorphism card-hud-effect text-center flex flex-col">
-                    <CardHeader className="items-center">
-                      <div className="bg-primary/10 rounded-full p-4 mb-4">
-                        {advantage.icon}
+              <div className="max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                  {strategicAdvantages.map((advantage, index) => (
+                    <div key={index} className="flex items-start gap-4 group">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Check className="w-4 h-4 text-primary" strokeWidth={3} />
+                        </div>
                       </div>
-                      <CardTitle>{advantage.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex-grow">
-                      <p className="text-muted-foreground">{advantage.text}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+                      <div>
+                        <h3 className="font-semibold text-lg mb-1">{advantage.title}</h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">{advantage.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-16 text-center">
-                 <Card className="max-w-2xl mx-auto glassmorphism-light p-8 card-hud-effect">
-                    <h3 className="text-2xl font-bold font-headline mb-4">Para quienes buscan la ventaja estratégica.</h3>
-                    <p className="text-muted-foreground text-lg">
-                      Convertí información en visión. Tomá decisiones con la precisión de los datos.
-                    </p>
-                 </Card>
+              <div className="mt-20 text-center">
+                <div className="max-w-3xl mx-auto space-y-6">
+                  <h3 className="text-3xl font-bold font-headline tracking-tight">Simple. Potente. Preciso.</h3>
+                  <p className="text-lg text-muted-foreground">
+                    Quest elimina la complejidad del análisis político. Lo que antes tomaba días, ahora toma minutos.
+                  </p>
+                  <div className="pt-4">
+                    <Button asChild size="lg" className="text-base px-8 py-6">
+                      <Link href="/products/quest/login">Empezar ahora</Link>
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
         </section>
@@ -166,43 +173,51 @@ export default function QuestPage() {
         <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold font-headline text-white">{c.useCasesTitle}</h2>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline text-white tracking-tight">{c.useCasesTitle}</h2>
               <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">{c.useCasesSubtitle}</p>
             </div>
-            <Tabs defaultValue="governments" className="max-w-4xl mx-auto">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="governments">{c.tabs.governments}</TabsTrigger>
-                <TabsTrigger value="campaigns">{c.tabs.campaigns}</TabsTrigger>
+            <Tabs defaultValue="governments" className="max-w-5xl mx-auto">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="governments" className="text-base">{c.tabs.governments}</TabsTrigger>
+                <TabsTrigger value="campaigns" className="text-base">{c.tabs.campaigns}</TabsTrigger>
               </TabsList>
               <TabsContent value="governments">
-                <Card className="glassmorphism mt-6">
-                  <CardContent className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="bg-background/95 backdrop-blur rounded-2xl p-8 md:p-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                     {c.govPoints.map(point => (
-                      <div key={point.title} className="flex gap-4">
-                        <div className="bg-primary/10 rounded-lg p-3 h-fit">{point.icon}</div>
+                      <div key={point.title} className="flex items-start gap-4">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                            <Check className="w-4 h-4 text-primary" strokeWidth={3} />
+                          </div>
+                        </div>
                         <div>
-                          <h4 className="font-semibold text-lg">{point.title}</h4>
-                          <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                          <h4 className="font-semibold text-base mb-1">{point.title}</h4>
+                          <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
                         </div>
                       </div>
                     ))}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </TabsContent>
               <TabsContent value="campaigns">
-                <Card className="glassmorphism mt-6">
-                  <CardContent className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="bg-background/95 backdrop-blur rounded-2xl p-8 md:p-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                     {c.campaignPoints.map(point => (
-                       <div key={point.title} className="flex gap-4">
-                        <div className="bg-primary/10 rounded-lg p-3 h-fit">{point.icon}</div>
+                      <div key={point.title} className="flex items-start gap-4">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                            <Check className="w-4 h-4 text-primary" strokeWidth={3} />
+                          </div>
+                        </div>
                         <div>
-                          <h4 className="font-semibold text-lg">{point.title}</h4>
-                          <p className="text-muted-foreground text-sm mt-1">{point.description}</p>
+                          <h4 className="font-semibold text-base mb-1">{point.title}</h4>
+                          <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
                         </div>
                       </div>
                     ))}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </div>

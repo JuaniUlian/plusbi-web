@@ -63,13 +63,24 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
 
   const getTooltipContent = (province: ProvinceData) => {
     const percentages = Object.entries(province.percentages)
-      .map(([party, value]) => `<div>${party}: <strong>${value}%</strong></div>`)
+      .sort((a, b) => b[1] - a[1])
+      .map(([party, value]) => `<div class="flex justify-between"><span>${party}:</span> <strong>${value}%</strong></div>`)
       .join('');
+
     return `
-      <div class="text-left">
-        <h3 class="font-bold text-lg mb-2">${province.name}</h3>
-        <p class="text-sm mb-2"><strong>Ganador:</strong> ${province.winner}</p>
-        <div class="space-y-1">${percentages}</div>
+      <div class="text-left min-w-[280px]">
+        <h3 class="font-bold text-lg mb-3 pb-2 border-b">${province.name}</h3>
+        <div class="space-y-3">
+          <div class="space-y-1 text-sm">${percentages}</div>
+          <div class="pt-2 border-t text-xs text-muted-foreground space-y-1">
+            <div><strong>Encuestadoras:</strong> ${province.pollsterCount || 0}</div>
+            <div><strong>Muestra total:</strong> ${(province.totalSample || 0).toLocaleString('es-AR')} personas</div>
+            ${province.pollsters && province.pollsters.length > 0 ? `<div class="text-[10px] mt-1 opacity-75">${province.pollsters.join(', ')}</div>` : ''}
+          </div>
+          <div class="pt-2 text-center text-xs font-medium text-primary">
+            Haz clic en la provincia para generar el informe completo
+          </div>
+        </div>
       </div>
     `;
   };
