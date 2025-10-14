@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FileText, LogOut, Crown, User, Info, RefreshCw } from 'lucide-react';
+import { FileText, LogOut, Crown, User, Info, RefreshCw, X, Printer } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
@@ -18,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
 import dynamic from 'next/dynamic';
+import ReactMarkdown from 'react-markdown';
 
 const ArgentinaHeatmap = dynamic(
   () => import('@/components/quest/argentina-heatmap').then(mod => mod.ArgentinaHeatmap),
@@ -73,6 +74,9 @@ export default function DashboardPage() {
   const [generatingReport, setGeneratingReport] = useState(false);
   const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('1M');
   const [hasUsedComparison, setHasUsedComparison] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [generatedReport, setGeneratedReport] = useState<string>('');
+  const [reportMetadata, setReportMetadata] = useState<{ type: string; province?: string }>({ type: 'national' });
 
   useEffect(() => {
     setMounted(true);
@@ -380,10 +384,10 @@ export default function DashboardPage() {
 
       if (data.success) {
         console.log('✅ Informe generado exitosamente');
-        // Abrir informe en nueva ventana
-        const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=national`;
-        console.log('🔗 Abriendo ventana con URL:', reportUrl.substring(0, 100) + '...');
-        window.open(reportUrl, '_blank', 'width=1200,height=800');
+        // Guardar informe en estado y mostrar modal
+        setGeneratedReport(data.report);
+        setReportMetadata({ type: 'national' });
+        setShowReportModal(true);
       } else {
         console.error('❌ Error en la respuesta:', data.error);
       }
@@ -426,10 +430,10 @@ export default function DashboardPage() {
 
       if (data.success) {
         console.log('✅ Informe provincial generado exitosamente');
-        // Abrir informe en nueva ventana
-        const reportUrl = `/products/quest/informe?report=${encodeURIComponent(data.report)}&type=provincial&province=${encodeURIComponent(province.name)}`;
-        console.log('🔗 Abriendo ventana con URL:', reportUrl.substring(0, 100) + '...');
-        window.open(reportUrl, '_blank', 'width=1200,height=800');
+        // Guardar informe en estado y mostrar modal
+        setGeneratedReport(data.report);
+        setReportMetadata({ type: 'provincial', province: province.name });
+        setShowReportModal(true);
       } else {
         console.error('❌ Error en la respuesta:', data.error);
       }
@@ -782,6 +786,55 @@ export default function DashboardPage() {
           </Dialog>
         )}
       </AnimatePresence>
+
+      {/* Modal del informe generado */}
+      <Dialog open={showReportModal} onOpenChange={setShowReportModal}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0">
+          <DialogHeader className="px-6 py-4 border-b sticky top-0 bg-background z-10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Image src="/logo/quest.png" alt="Quest" width={40} height={40} />
+                <div>
+                  <DialogTitle className="text-2xl">
+                    {reportMetadata.type === 'national'
+                      ? 'Informe Electoral - Argentina'
+                      : `Informe Electoral - ${reportMetadata.province}`}
+                  </DialogTitle>
+                  <DialogDescription>
+                    Generado con inteligencia artificial - {new Date().toLocaleDateString('es-AR')}
+                  </DialogDescription>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => window.print()}>
+                  <Printer className="h-4 w-4 mr-2" />
+                  Imprimir
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setShowReportModal(false)}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-y-auto px-6 py-6">
+            <article className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-headline prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:border-b prose-h2:pb-2 prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-base prose-p:leading-relaxed prose-p:mb-4 prose-ul:my-4 prose-li:my-2 prose-strong:text-foreground prose-strong:font-semibold">
+              <ReactMarkdown>{generatedReport}</ReactMarkdown>
+            </article>
+
+            <footer className="mt-12 pt-6 border-t text-center text-sm text-muted-foreground">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Image src="/logo/quest.png" alt="Quest" width={24} height={24} />
+                <span className="font-semibold">Quest</span>
+              </div>
+              <p>Informe generado con inteligencia artificial</p>
+              <p className="mt-1">
+                Este documento es confidencial y está destinado únicamente para el uso del destinatario.
+              </p>
+            </footer>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
