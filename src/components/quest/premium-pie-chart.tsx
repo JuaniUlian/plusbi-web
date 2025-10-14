@@ -75,7 +75,7 @@ export function PremiumPieChart({ data }: PremiumPieChartProps) {
           color: 'rgb(55, 65, 81)',
           font: {
             size: 14,
-            weight: '600',
+            weight: 600,
             family: 'Nunito, sans-serif'
           },
           usePointStyle: true,

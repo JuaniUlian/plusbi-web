@@ -81,7 +81,7 @@ export default function DashboardPage() {
   const [generatingReport, setGeneratingReport] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<string>('');
   const [generatedProvinceReport, setGeneratedProvinceReport] = useState<string>('');
-  const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('10RECENT');
+  const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('1M');
 
   useEffect(() => {
     setMounted(true);
@@ -177,8 +177,9 @@ export default function DashboardPage() {
              return pollsterMatch && chamberMatch && e.scope === 'national';
            }
         }
-        
-        return chamberMatch && pollsterMatch && (e.scope === 'national' || selectedProvince !== 'Todas');
+
+        // Si no hay provincia seleccionada, mostrar datos nacionales O provinciales (ambos)
+        return chamberMatch && pollsterMatch;
     });
   }, [encuestasData, selectedChamber, selectedPollster, selectedProvince]);
   
@@ -188,10 +189,7 @@ export default function DashboardPage() {
     let filtered = sorted;
     const now = new Date();
 
-    if (timeframe === '10RECENT') {
-      // Mostrar últimos 10 puntos
-      filtered = sorted.slice(-10);
-    } else if (timeframe === '1D') {
+    if (timeframe === '1D') {
       const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       filtered = sorted.filter(d => new Date(d.date) >= oneDayAgo);
     } else if (timeframe === '1W') {
@@ -287,6 +285,7 @@ export default function DashboardPage() {
 
   const provincesMapData: ProvinceData[] = useMemo(() => {
     const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
+    console.log('Datos provinciales para el mapa:', datosProvinciales.length);
     const provincesMap: { [key: string]: { [pollster: string]: EncuestaData } } = {};
 
     datosProvinciales.forEach(d => {
@@ -590,6 +589,52 @@ export default function DashboardPage() {
                  <Button onClick={handleResetFilters} variant="outline" size="sm" className="gap-2">
                   <RefreshCw className="h-4 w-4" />
                   Restablecer
+                </Button>
+              </div>
+
+              {/* Botones de Timeframe */}
+              <div className="flex flex-wrap gap-2 mt-4 px-6">
+                <Button
+                  variant={timeframe === '1D' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('1D')}
+                >
+                  1D
+                </Button>
+                <Button
+                  variant={timeframe === '1W' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('1W')}
+                >
+                  1S
+                </Button>
+                <Button
+                  variant={timeframe === '1M' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('1M')}
+                >
+                  1M
+                </Button>
+                <Button
+                  variant={timeframe === '6M' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('6M')}
+                >
+                  6M
+                </Button>
+                <Button
+                  variant={timeframe === '1Y' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('1Y')}
+                >
+                  1A
+                </Button>
+                <Button
+                  variant={timeframe === 'ALL' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimeframe('ALL')}
+                >
+                  Todo
                 </Button>
               </div>
             </CardHeader>
