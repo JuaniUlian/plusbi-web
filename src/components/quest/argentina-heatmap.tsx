@@ -1,8 +1,11 @@
 
 'use client';
 
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import { useState } from 'react';
+import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 import { Tooltip } from 'react-tooltip';
+import { Button } from '@/components/ui/button';
+import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 import type { ProvinceData } from '@/app/products/quest/dashboard/page';
 
 const ARGENTINA_GEOJSON = '/data/argentina-provinces.json';
@@ -13,6 +16,22 @@ interface ArgentinaHeatmapProps {
 }
 
 export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHeatmapProps) {
+  const [zoom, setZoom] = useState(1);
+  const [center, setCenter] = useState<[number, number]>([-64, -38]);
+
+  const handleZoomIn = () => {
+    if (zoom < 4) setZoom(zoom + 0.5);
+  };
+
+  const handleZoomOut = () => {
+    if (zoom > 1) setZoom(zoom - 0.5);
+  };
+
+  const handleReset = () => {
+    setZoom(1);
+    setCenter([-64, -38]);
+  };
+
   const normalizeName = (name: string) => {
     const cleanedName = name
       .normalize('NFD')
@@ -60,13 +79,18 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 1200,
-          center: [-64, -40],
+          scale: 800,
+          center: [-64, -38],
         }}
         className="w-full h-full"
         data-tooltip-id="province-tooltip"
       >
-        <Geographies geography={ARGENTINA_GEOJSON}>
+        <ZoomableGroup
+          zoom={zoom}
+          center={center}
+          onMoveEnd={(position) => setCenter(position.coordinates)}
+        >
+          <Geographies geography={ARGENTINA_GEOJSON}>
           {({ geographies }) =>
             geographies.map((geo) => {
               const provinceData = getProvinceData(geo.properties.NAME_1);
@@ -114,7 +138,40 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
             })
           }
         </Geographies>
+        </ZoomableGroup>
       </ComposableMap>
+
+      {/* Controles de Zoom */}
+      <div className="absolute top-4 right-4 flex flex-col gap-2">
+        <Button
+          onClick={handleZoomIn}
+          size="icon"
+          variant="secondary"
+          className="bg-background/90 hover:bg-background shadow-lg"
+          title="Acercar"
+        >
+          <ZoomIn className="h-4 w-4" />
+        </Button>
+        <Button
+          onClick={handleZoomOut}
+          size="icon"
+          variant="secondary"
+          className="bg-background/90 hover:bg-background shadow-lg"
+          title="Alejar"
+        >
+          <ZoomOut className="h-4 w-4" />
+        </Button>
+        <Button
+          onClick={handleReset}
+          size="icon"
+          variant="secondary"
+          className="bg-background/90 hover:bg-background shadow-lg"
+          title="Restablecer vista"
+        >
+          <Maximize2 className="h-4 w-4" />
+        </Button>
+      </div>
+
       <Tooltip 
         id="province-tooltip" 
         className="z-50 glassmorphism-solid !p-4 !rounded-lg !shadow-2xl"
