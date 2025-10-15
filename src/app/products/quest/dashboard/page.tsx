@@ -388,7 +388,6 @@ export default function DashboardPage() {
 
       if (data.success) {
         console.log('✅ Informe generado exitosamente');
-        // Guardar informe en estado y mostrar modal
         setGeneratedReport(data.report);
         setReportMetadata({ type: 'national' });
         setShowReportModal(true);
@@ -434,7 +433,6 @@ export default function DashboardPage() {
 
       if (data.success) {
         console.log('✅ Informe provincial generado exitosamente');
-        // Guardar informe en estado y mostrar modal
         setGeneratedReport(data.report);
         setReportMetadata({ type: 'provincial', province: province.name });
         setShowReportModal(true);

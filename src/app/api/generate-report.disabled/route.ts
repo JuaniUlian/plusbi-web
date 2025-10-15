@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ai } from '@/ai/genkit';
+import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || '',
+  });
+}
 
 interface EncuestaData {
   date: string;
@@ -24,36 +31,41 @@ interface EncuestaData {
 
 export async function POST(request: NextRequest) {
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        {
-          error: 'OPENAI_API_KEY no está configurada en el entorno',
-          success: false
-        },
-        { status: 500 }
-      );
-    }
-    // ... el resto de tu lógica igual ...
+    console.log('🔵 API: Request recibido');
     const { type, province, encuestasData } = await request.json();
+    console.log('🔵 API: type:', type);
+    console.log('🔵 API: province:', province);
+    console.log('🔵 API: encuestasData length:', encuestasData?.length);
 
     // Leer el informe de situación
     const situacionPath = path.join(process.cwd(), 'public', 'data', 'Informe Situación.txt');
+    console.log('📂 API: Leyendo archivo:', situacionPath);
     const situacionContent = fs.readFileSync(situacionPath, 'utf-8');
+    console.log('📂 API: Archivo leído, length:', situacionContent.length);
 
     // Filtrar datos relevantes
     let datosRelevantes: EncuestaData[] = [];
     let contexto = '';
 
     if (type === 'national') {
+      // Datos nacionales
       datosRelevantes = encuestasData.filter((e: EncuestaData) => e.scope === 'national');
       contexto = 'nivel nacional';
     } else if (type === 'provincial' && province) {
+      // Datos provinciales
       datosRelevantes = encuestasData.filter((e: EncuestaData) => e.province === province);
+
+      // Extraer información específica de la provincia del informe
       const provinceSections = situacionContent.split('\n\n');
       const provinceSection = provinceSections.find(section =>
         section.toLowerCase().includes(province.toLowerCase())
       );
-      contexto = `provincia de ${province}`;
+
+      if (provinceSection) {
+        contexto = `provincia de ${province}`;
+      } else {
+        contexto = `provincia de ${province}`;
+      }
     }
 
     // Calcular promedios de últimas encuestas por encuestadora
@@ -103,7 +115,7 @@ export async function POST(request: NextRequest) {
       contextoEspecifico = situacionContent;
     }
 
-    // Crear prompt para Gemini
+    // Crear prompt para OpenAI
     const prompt = `Eres un analista político electoral experto en Argentina. Genera un informe profesional, completo y bien redactado sobre la situación electoral en ${contexto}.
 
 **DATOS DE ENCUESTAS DISPONIBLES:**
@@ -163,16 +175,22 @@ Resumen profesional con recomendaciones estratégicas.
 - Mantén un tono periodístico de calidad, como el de un analista político reconocido
 - El informe debe ser completo pero conciso (600-800 palabras)`;
 
-    // Generar respuesta con Gemini a través de Genkit
-    console.log('🤖 API: Llamando a Gemini a través de Genkit...');
-    const result = await ai.generate({
-        prompt: prompt,
-        config: {
-            temperature: 0.5,
-        },
+    // Generar respuesta con OpenAI
+    console.log('🤖 API: Llamando a OpenAI con o1-mini...');
+    const openai = getOpenAIClient();
+    const completion = await openai.chat.completions.create({
+      model: 'o1-mini',
+      messages: [
+        {
+          role: 'user',
+          content: `Eres un analista político electoral experto en Argentina, especializado en análisis de encuestas y tendencias electorales. Tu estilo es profesional, objetivo y basado en datos.\n\n${prompt}`
+        }
+      ],
+      max_completion_tokens: 10000,
     });
+    console.log('✅ API: OpenAI respondió exitosamente');
 
-    const text = result.text;
+    const text = completion.choices[0].message.content || '';
     console.log('✅ API: Informe generado, length:', text.length);
 
     return NextResponse.json({
@@ -181,6 +199,10 @@ Resumen profesional con recomendaciones estratégicas.
     });
 
   } catch (error: any) {
+    console.error('❌ Error generando reporte:', error);
+    console.error('❌ Error message:', error?.message);
+    console.error('❌ Error stack:', error?.stack);
+
     return NextResponse.json(
       {
         error: 'Error al generar el reporte',
