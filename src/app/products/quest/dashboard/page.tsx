@@ -73,7 +73,7 @@ export default function DashboardPage() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
   const [timeframe, setTimeframe] = useState<'1D' | '1W' | '1M' | '6M' | '1Y' | 'ALL'>('1M');
-  const [hasUsedComparison, setHasUsedComparison] = useState(false);
+  const [comparisonCount, setComparisonCount] = useState(0);
   const [showReportModal, setShowReportModal] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<string>('');
   const [reportMetadata, setReportMetadata] = useState<{ type: string; province?: string }>({ type: 'national' });
@@ -709,8 +709,8 @@ export default function DashboardPage() {
                 data={encuestasData}
                 pollsters={POLLSTERS.filter(p => p !== 'Todas')}
                 isPremium={isPaidUser}
-                hasUsedComparison={hasUsedComparison}
-                onComparisonUsed={() => setHasUsedComparison(true)}
+                comparisonCount={comparisonCount}
+                onComparisonUsed={() => setComparisonCount(prev => prev + 1)}
                 onUpgradeClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')}
               />
             </CardContent>

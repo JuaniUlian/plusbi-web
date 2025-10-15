@@ -28,7 +28,7 @@ interface PollsterComparisonTableProps {
   data: EncuestaData[];
   pollsters: string[];
   isPremium: boolean;
-  hasUsedComparison: boolean;
+  comparisonCount: number;
   onComparisonUsed: () => void;
   onUpgradeClick: () => void;
 }
@@ -126,7 +126,7 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
   );
 };
 
-export function PollsterComparisonTable({ data, isPremium, hasUsedComparison, onComparisonUsed, onUpgradeClick }: PollsterComparisonTableProps) {
+export function PollsterComparisonTable({ data, isPremium, comparisonCount, onComparisonUsed, onUpgradeClick }: PollsterComparisonTableProps) {
   const [pollster1, setPollster1] = useState<string | undefined>(undefined);
   const [pollster2, setPollster2] = useState<string | undefined>(undefined);
   const [comparisonMade, setComparisonMade] = useState(false);
@@ -181,8 +181,8 @@ export function PollsterComparisonTable({ data, isPremium, hasUsedComparison, on
     );
   }
 
-  // Mostrar bloqueo si el usuario invitado ya usó su comparación
-  if (!isPremium && hasUsedComparison && pollster1 && pollster2) {
+  // Mostrar bloqueo si el usuario invitado ya usó sus 2 comparaciones
+  if (!isPremium && comparisonCount >= 2 && pollster1 && pollster2) {
     return (
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row items-center gap-4 opacity-50 pointer-events-none">
@@ -209,7 +209,7 @@ export function PollsterComparisonTable({ data, isPremium, hasUsedComparison, on
           <CardContent className="pt-6 text-center space-y-4">
             <div className="text-xl font-bold">🔒 Límite de comparaciones alcanzado</div>
             <p className="text-muted-foreground">
-              Has agotado tu comparación gratuita como usuario invitado.
+              Has agotado tus 2 comparaciones gratuitas como usuario invitado.
             </p>
             <p className="text-sm text-muted-foreground">
               Actualiza a Premium para comparaciones ilimitadas y acceso completo a todas las funciones.
@@ -254,9 +254,9 @@ export function PollsterComparisonTable({ data, isPremium, hasUsedComparison, on
         </div>
       </div>
 
-      {!isPremium && hasUsedComparison && (
+      {!isPremium && comparisonCount > 0 && comparisonCount < 2 && (
         <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-sm text-center">
-          ⚠️ Esta es tu única comparación como invitado. Obtén Premium para comparaciones ilimitadas.
+          ⚠️ Has usado {comparisonCount} de 2 comparaciones gratuitas. Obtén Premium para comparaciones ilimitadas.
         </div>
       )}
 

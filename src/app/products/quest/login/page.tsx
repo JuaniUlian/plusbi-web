@@ -44,16 +44,25 @@ export default function LoginPage() {
         backgroundPosition: 'center'
       }}
     >
-      <Card className="w-full max-w-md glassmorphism shadow-2xl card-hud-effect">
-        <CardHeader className="text-center space-y-4">
-          <div className="flex justify-center">
-            <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} />
-          </div>
-          <CardTitle className="text-3xl font-headline">Quest</CardTitle>
-          <CardDescription>Accede a la plataforma de inteligencia electoral</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <form onSubmit={handleLogin} className="space-y-4">
+      <Card
+        className="w-full max-w-md shadow-2xl card-hud-effect relative overflow-hidden"
+        style={{
+          backgroundImage: "url('/backgrounds/cuerpo.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-background/85 backdrop-blur-sm" />
+        <div className="relative z-10">
+          <CardHeader className="text-center space-y-4">
+            <div className="flex justify-center">
+              <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} />
+            </div>
+            <CardTitle className="text-3xl font-headline">Quest</CardTitle>
+            <CardDescription>Accede a la plataforma de inteligencia electoral</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -105,7 +114,8 @@ export default function LoginPage() {
             <UserCircle className="mr-2 h-4 w-4" />
             Ingresar como Invitado
           </Button>
-        </CardContent>
+          </CardContent>
+        </div>
       </Card>
     </div>
   );
