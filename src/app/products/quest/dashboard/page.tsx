@@ -696,7 +696,7 @@ export default function DashboardPage() {
         >
           <Card className="glassmorphism-light shadow-2xl border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Comparativo de Encuestadoras (VS)</CardTitle>
+              <CardTitle className="text-2xl">Comparativo de Encuestadoras</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 Selecciona dos encuestadoras para comparar sus últimos sondeos.
               </p>
@@ -834,5 +834,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
