@@ -128,11 +128,10 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
 export function PollsterComparisonTable({ data, isPremium, comparisonCount, onComparisonUsed, onUpgradeClick }: PollsterComparisonTableProps) {
   const [pollster1, setPollster1] = useState<string | undefined>(undefined);
   const [pollster2, setPollster2] = useState<string | undefined>(undefined);
-  const [comparisonMade, setComparisonMade] = useState(false);
 
   const latestPollsMap = useMemo(() => {
     const map = new Map<string, EncuestaData>();
-    
+
     data.forEach((poll) => {
       const existingPoll = map.get(poll.pollster);
       if (!existingPoll || new Date(poll.date) > new Date(existingPoll.date)) {
@@ -144,28 +143,42 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
 
   const selectedPoll1Data = pollster1 ? latestPollsMap.get(pollster1) : undefined;
   const selectedPoll2Data = pollster2 ? latestPollsMap.get(pollster2) : undefined;
-  
+
   const allPollsters = useMemo(() => {
     return Array.from(new Set(data.map(p => p.pollster))).sort((a, b) => a.localeCompare(b));
   }, [data]);
 
-
   const availablePollsters1 = allPollsters.filter(p => p !== pollster2);
   const availablePollsters2 = allPollsters.filter(p => p !== pollster1);
 
-  // Detectar cuando se seleccionan ambas encuestadoras por primera vez
+  // Verificar si ya alcanzó el límite antes de permitir cambios
+  const canCompare = isPremium || comparisonCount < 2;
+
+  // Contar cada cambio de selección como una comparación
   const handlePollster1Change = (value: string) => {
+    // Si ya alcanzó el límite y no es premium, no permitir cambios
+    if (!canCompare) {
+      return;
+    }
+
     setPollster1(value);
-    if (value && pollster2 && !comparisonMade && !isPremium) {
-      setComparisonMade(true);
+
+    // Si ya hay una segunda encuestadora seleccionada, contar como comparación
+    if (value && pollster2 && !isPremium) {
       onComparisonUsed();
     }
   };
 
   const handlePollster2Change = (value: string) => {
+    // Si ya alcanzó el límite y no es premium, no permitir cambios
+    if (!canCompare) {
+      return;
+    }
+
     setPollster2(value);
-    if (pollster1 && value && !comparisonMade && !isPremium) {
-      setComparisonMade(true);
+
+    // Si ya hay una primera encuestadora seleccionada, contar como comparación
+    if (pollster1 && value && !isPremium) {
       onComparisonUsed();
     }
   };
@@ -178,31 +191,42 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
     );
   }
 
-  // Mostrar bloqueo si el usuario invitado ya usó sus 2 comparaciones
-  if (!isPremium && comparisonCount >= 2 && pollster1 && pollster2) {
-    return (
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row items-center gap-4 opacity-50 pointer-events-none">
-          <div className="w-full sm:w-1/2">
-            <Select value={pollster1} disabled>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona Encuestadora 1" />
-              </SelectTrigger>
-            </Select>
-          </div>
-
-          <div className="text-muted-foreground font-bold">VS</div>
-
-          <div className="w-full sm:w-1/2">
-            <Select value={pollster2} disabled>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona Encuestadora 2" />
-              </SelectTrigger>
-            </Select>
-          </div>
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="w-full sm:w-1/2">
+          <Select value={pollster1} onValueChange={handlePollster1Change} disabled={!canCompare}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona Encuestadora 1" />
+            </SelectTrigger>
+            <SelectContent>
+              {availablePollsters1.map(p => <SelectItem key={`p1-${p}`} value={p}>{p}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
 
-        <Card className="bg-primary/5 border-primary/20">
+        <div className="text-muted-foreground font-bold">VS</div>
+
+        <div className="w-full sm:w-1/2">
+          <Select value={pollster2} onValueChange={handlePollster2Change} disabled={!canCompare}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona Encuestadora 2" />
+            </SelectTrigger>
+            <SelectContent>
+              {availablePollsters2.map(p => <SelectItem key={`p2-${p}`} value={p}>{p}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {!isPremium && comparisonCount > 0 && comparisonCount < 2 && (
+        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-sm text-center">
+          ⚠️ Has usado {comparisonCount} de 2 comparaciones gratuitas. Obtén Premium para comparaciones ilimitadas.
+        </div>
+      )}
+
+      {!canCompare && (
+        <Card className="bg-red-500/10 border-red-500/20">
           <CardContent className="pt-6 text-center space-y-4">
             <div className="text-xl font-bold">🔒 Límite de comparaciones alcanzado</div>
             <p className="text-muted-foreground">
@@ -219,42 +243,6 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
             </button>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row items-center gap-4">
-        <div className="w-full sm:w-1/2">
-          <Select value={pollster1} onValueChange={handlePollster1Change}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecciona Encuestadora 1" />
-            </SelectTrigger>
-            <SelectContent>
-              {availablePollsters1.map(p => <SelectItem key={`p1-${p}`} value={p}>{p}</SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="text-muted-foreground font-bold">VS</div>
-
-        <div className="w-full sm:w-1/2">
-          <Select value={pollster2} onValueChange={handlePollster2Change}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecciona Encuestadora 2" />
-            </SelectTrigger>
-            <SelectContent>
-              {availablePollsters2.map(p => <SelectItem key={`p2-${p}`} value={p}>{p}</SelectItem>)}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {!isPremium && comparisonCount > 0 && comparisonCount < 2 && (
-        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 text-sm text-center">
-          ⚠️ Has usado {comparisonCount} de 2 comparaciones gratuitas. Obtén Premium para comparaciones ilimitadas.
-        </div>
       )}
 
       <div className="flex flex-col sm:flex-row gap-4 mt-4">
