@@ -4,13 +4,15 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
-export function LegalDisclaimer() {
-  return (
-    <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20">
-      <CardContent className="pt-6">
-        <div className="flex gap-3">
-          <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-          <div className="space-y-3 text-sm">
+interface LegalDisclaimerProps {
+  wrapped?: boolean; // Si es true, incluye el Card wrapper
+}
+
+export function LegalDisclaimer({ wrapped = true }: LegalDisclaimerProps) {
+  const content = (
+    <div className="flex gap-3">
+      <Info className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+      <div className="space-y-3 text-sm">
             <div>
               <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
                 Disclaimer Legal
@@ -39,16 +41,30 @@ export function LegalDisclaimer() {
               </p>
             </div>
 
-            <div className="pt-2 border-t border-blue-200 dark:border-blue-800">
-              <p className="text-xs text-blue-700 dark:text-blue-300">
-                <strong>Cumplimiento Legal:</strong> Durante períodos de veda electoral (8 días previos a elecciones),
-                conforme a la Ley 26.571 art. 44 quáter, no se mostrarán datos actualizados públicamente.
-                Los datos históricos permanecerán disponibles solo para usuarios registrados con fines de investigación.
-              </p>
-            </div>
-          </div>
+        <div className="pt-2 border-t border-blue-200 dark:border-blue-800">
+          <p className="text-xs text-blue-700 dark:text-blue-300">
+            <strong>Cumplimiento Legal:</strong> Durante períodos de veda electoral (8 días previos a elecciones),
+            conforme a la Ley 26.571 art. 44 quáter, no se mostrarán datos actualizados públicamente.
+            Los datos históricos permanecerán disponibles solo para usuarios registrados con fines de investigación.
+          </p>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
+  );
+
+  if (wrapped) {
+    return (
+      <Card className="border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20">
+        <CardContent className="pt-6">
+          {content}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/20 rounded-lg p-6">
+      {content}
+    </div>
   );
 }

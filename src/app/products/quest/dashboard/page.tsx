@@ -19,6 +19,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
 import { GuestAccessBanner } from '@/components/quest/guest-access-banner';
 import { LegalDisclaimer } from '@/components/quest/legal-disclaimer';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 
@@ -79,20 +81,23 @@ export default function DashboardPage() {
   const [showReportModal, setShowReportModal] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<string>('');
   const [reportMetadata, setReportMetadata] = useState<{ type: string; province?: string }>({ type: 'national' });
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     fetch('/data/encuestas_argentina_2025.json')
       .then(res => res.json())
       .then(data => {
-        const unifiedData = data.map((d: EncuestaData) => ({
-          ...d,
-          pollster: d.pollster
-            .replace(/Córdoba/i, 'Cordoba')
-            .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
-            .replace(/Federico Gonzalez y Asoc\./, 'Federico Gonzalez y Asociados')
-            .trim()
-        }));
+        const unifiedData = data
+          .filter((d: EncuestaData) => d.pollster) // Filtrar registros sin pollster
+          .map((d: EncuestaData) => ({
+            ...d,
+            pollster: d.pollster
+              .replace(/Córdoba/i, 'Cordoba')
+              .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
+              .replace(/Federico Gonzalez y Asoc\./, 'Federico Gonzalez y Asociados')
+              .trim()
+          }));
         setEncuestasData(unifiedData);
       })
       .catch(err => console.error('Error cargando encuestas:', err));
@@ -506,15 +511,6 @@ export default function DashboardPage() {
           </motion.div>
         )}
 
-        {/* Disclaimer legal */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <LegalDisclaimer />
-        </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -753,6 +749,41 @@ export default function DashboardPage() {
               <ArgentinaHeatmap provincesData={provincesMapData} onProvinceClick={handleProvinceClick} />
             </CardContent>
           </Card>
+        </motion.div>
+
+        {/* Disclaimer Legal Colapsable */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Collapsible open={isDisclaimerOpen} onOpenChange={setIsDisclaimerOpen}>
+            <Card className="glassmorphism-light border-2">
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-accent/5 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Info className="h-5 w-5 text-blue-600" />
+                      <CardTitle className="text-lg">Información Legal y Transparencia</CardTitle>
+                    </div>
+                    <ChevronDown
+                      className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
+                        isDisclaimerOpen ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Sobre el origen de los datos, metodología y cumplimiento legal
+                  </p>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <LegalDisclaimer wrapped={false} />
+                </CardContent>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
         </motion.div>
       </main>
 
