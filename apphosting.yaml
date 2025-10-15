@@ -1,4 +1,4 @@
-# Settings for Cloud Run
+# Settings for Cloud Run - Updated
 runConfig:
   minInstances: 0
   maxInstances: 10
