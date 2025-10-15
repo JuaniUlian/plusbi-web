@@ -272,11 +272,8 @@ export default function DashboardPage() {
   const totalFP = useMemo(() => calcularPromedioUltimasEncuestas('FP', datosFiltrados), [datosFiltrados]);
 
   const ultimaActualizacion = useMemo(() => {
-      if (datosFiltrados.length === 0) return '-';
-      const fechas = datosFiltrados.map(d => new Date(d.date));
-      fechas.sort((a, b) => b.getTime() - a.getTime());
-      return fechas[0].toLocaleDateString('es-AR');
-  }, [datosFiltrados]);
+      return new Date().toLocaleDateString('es-AR');
+  }, []);
 
   const provincesMapData: ProvinceData[] = useMemo(() => {
     const datosProvinciales = encuestasData.filter(e => e.scope === 'provincial');
