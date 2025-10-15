@@ -1,2 +1,7 @@
-# App Hosting configuration for Next.js
-# Firebase will auto-detect Next.js and configure the build process
+# Settings for Cloud Run
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
