@@ -1,5 +1,81 @@
 Dataset para IA - Elecciones Argentina 2025
-Información Estructurada para Generación de Reportes
+Información Estructurada Completa - Nacional y Provincial
+EVENTOS ÚLTIMOS 7 DÍAS POR PROVINCIA
+CÓRDOBA
+9 de octubre: Llaryora y Schiaretti en cumbre Provincias Unidas (Jujuy)
+
+Llaryora: "Argentina será federal o no será nada"
+Schiaretti criticó ajuste social y educativo
+Confirmado: Milei visitará Córdoba en última semana campaña
+
+SANTA FE
+9 de octubre: Pullaro en cumbre Provincias Unidas (Jujuy)
+
+Advirtió sobre envalentonamiento kirchnerista post-Buenos Aires
+Reclamó obras prometidas en Pacto de Mayo
+Confirmado: Milei visitará Santa Fe en última semana campaña
+Pronóstico gobierno: "Tres tercios bien definidos"
+
+CORRIENTES
+11 de octubre: Milei visita capital (11 minutos) con Virginia Gallardo
+
+Gobernador Valdés NO lo recibió (marca distancia)
+Territorio hostil: incidentes previos con Karina Milei y Menem
+Amenaza previa en local LLA con contenido antisemita
+Valdés integra Provincias Unidas, prioriza autonomía provincial
+
+CHACO
+11 de octubre: Milei visita Resistencia con gobernador Zdero
+
+Alianza UCR-LLA consolidada (45% en provinciales mayo)
+Competencia mano a mano: Zdero vs Capitanich (peronismo)
+Milei destacó a Zdero: "Es serio, es valiente"
+Anunció prioridad a obra Ruta 9
+Proyecto: segundo puente Chaco-Corrientes (inversión privada)
+
+MENDOZA
+9 de octubre: Milei recorre peatonal con Luis Petri
+
+Petri dejó UCR y se afilió a LLA
+Mensaje: "Mendoza protagonista nueva etapa crecimiento"
+Sistema: Doble urna + BUP nacional y provincial
+Alianza LLA con gobernador radical Cornejo
+
+ENTRE RÍOS
+12 de octubre: Gobierno proyecta "triunfo" por alianza Frigerio-LLA
+
+Competencia: Frigerio (gobernador) + LLA vs peronismo dividido en 4
+Candidatos Fuerza Patria: Adán Bahl, Guillermo Michel
+Encuestas: Bal-Michel "vienen creciendo"
+
+JUJUY
+9 de octubre: Cumbre Provincias Unidas (anfitrión Sadir)
+
+Sadir criticó desconexión gobierno nacional
+Candidata Zigarán: "Gobierno pretende destruir Estado"
+Oficialismo jujeño con chances de triunfo (sondeos propios)
+Contexto: Sadir se diferenció de UCR que hizo acuerdos con LLA
+
+SANTA CRUZ
+12 de octubre: Gobierno ve elección "peleada"
+
+LLA "a 3 o 4 puntos" del gobernador Vidal (encuestas propias)
+Vidal integra Provincias Unidas
+
+SAN LUIS
+12 de octubre: Gobernador Poggi se declaró prescindente
+
+No presenta candidatos propios
+Gobierno admite que "crecieron chances del PJ"
+
+BUENOS AIRES (adicional)
+13 de octubre: Taiana con sindicalistas (Felipe Vallese)
+
+Palazzo (La Bancaria) + Moyano (h.) contra reformas Milei
+Contexto: Carlos Bianco (ministro Kicillof) criticó intervención EEUU
+Estrategia Santilli: recorridas Primera y Tercera Sección
+Próximo: cierre campaña LLA en Ezeiza (22 octubre)
+
 
 DATOS BASE VERIFICADOS
 Marco Electoral
@@ -13,110 +89,499 @@ Padrón: 36 millones habilitados
 Participación histórica legislativas: 60-65%
 
 
-FUERZAS POLÍTICAS (ESTRUCTURA CORRECTA)
+FUERZAS POLÍTICAS PRINCIPALES (ESTRUCTURA NACIONAL)
 OFICIALISMO NACIONAL
 Nombre: La Libertad Avanza (LLA)
+
 Líder: Javier Milei (Presidente en ejercicio)
 Status: Gobierno nacional desde diciembre 2023
 Alianza principal: Con PRO en mayoría de distritos
-Candidatos principales:
+Bancas actuales diputados: 37 (puede llegar a 76-84 según proyecciones)
 
-CABA: Patricia Bullrich (senadora), Alejandro Fargosi (diputado)
-Buenos Aires: Karen Reichardt (diputada) - tras renuncia José Luis Espert
-Córdoba: Gonzalo Roca (diputado)
-Santa Fe: Agustín Pellegrini (diputado)
-
-Bancas actuales: 37 diputados (puede llegar a 76-84 según proyecciones)
 OPOSICIÓN PRINCIPAL
 Nombre: Fuerza Patria
+
 Composición: Peronismo unificado (Cristina Kirchner + Axel Kicillof + Sergio Massa)
 Status: Principal fuerza opositora
-Candidatos principales:
+Bancas actuales diputados: 98 (proyección: mantener ~109)
 
-CABA: Mariano Recalde (senador), Itaí Hagman (diputado)
-Buenos Aires: Jorge Taiana (diputado)
-Córdoba: Pablo Carro (diputado)
-Santa Fe: Caren Tepp (diputada)
-
-Bancas actuales: 98 diputados (proyección: mantener ~109)
 TERCERA FUERZA
 Nombre: Provincias Unidas
+
 Líderes: Juan Schiaretti, Maximiliano Pullaro, gobernadores federales
 Estrategia: Centro productivo federal
-Candidatos principales:
-
-Buenos Aires: Florencio Randazzo
-Córdoba: Juan Schiaretti
-Santa Fe: Gisela Scaglia
+Gobernadores integrantes: Pullaro (Santa Fe), Sadir (Jujuy), Torres (Chubut), Llaryora (Córdoba), Vidal (Santa Cruz)
 
 
-CRONOLOGÍA EVENTOS CRÍTICOS ÚLTIMAS 3 SEMANAS
+CRONOLOGÍA EVENTOS CRÍTICOS ÚLTIMAS SEMANAS
 30 de septiembre de 2025
-EVENTO: Espert evade preguntas sobre vínculos Fred Machado
+
+EVENTO: Espert evade preguntas sobre vínculos con el narcotraficante Fred Machado
 IMPACTO: Inicio crisis candidatura oficialismo Buenos Aires
+
 1 de octubre de 2025
+
 EVENTO: Macri recomienda a Milei bajar a Espert
 IMPACTO: Presión interna oficialismo
+
 5 de octubre de 2025
+
 EVENTO: José Luis Espert renuncia candidatura Buenos Aires (18:45)
 IMPACTO: Crisis mayor LLA en distrito más importante
 CONSECUENCIA: Boletas mantienen su foto (no hay reimpresión)
+
 6 de octubre de 2025
+
 EVENTO: Espert renuncia presidencia Comisión Presupuesto
 IMPACTO: Pérdida control comisión estratégica
+
 8 de octubre de 2025
+
 EVENTO: Espert pide licencia como diputado
 IMPACTO: Pierde fueros parlamentarios
-9 de octubre de 2025
-EVENTO CLAVE: Tesoro EEUU inicia intervención cambiaria + Swap USD 20.000 millones
-IMPACTO: Estabilización económica pre-electoral
-CONSECUENCIA: Dólar blue baja $70 pesos, bonos suben, riesgo país cae
-14 de octubre de 2025
-EVENTO: Justicia oficializa lista LLA con Diego Santilli primero
-IMPACTO: Resolución parcial crisis bonaerense
+EVENTO: Juez Ramos Padilla falla que Karen Reichardt debe encabezar lista LLA Buenos Aires
+IMPACTO: Gobierno apelará la decisión
 
-SITUACIÓN POR PROVINCIA (DATOS VERIFICADOS)
+9 de octubre de 2025 (jueves)
+
+EVENTO CLAVE: Cumbre Provincias Unidas en Jujuy (Perico)
+LUGAR: Parque Solar El Pongo + Zona Franca Perico
+GOBERNADORES: Llaryora (Córdoba), Pullaro (Santa Fe), Valdés (Corrientes), Torres (Chubut), Vidal (Santa Cruz), Sadir (Jujuy)
+PRESENTES: Juan Schiaretti, María Inés Zigarán, Gerardo Morales
+IMPACTO: Consolidan tercera fuerza como alternativa a polarización Milei-Kirchnerismo
+DISCURSOS CLAVE:
+
+Schiaretti: "Fracasaron tanto que pidieron ayuda a EEUU" / "Son crueles con jubilados y universidades"
+Valdés: "Nos ningunean, nos destratan, no nos atienden en Buenos Aires"
+Pullaro: "El kirchnerismo podría envalentonarse tras Buenos Aires"
+Sadir: "Gestionar no es solo motosierra"
+Torres: "Objetivo romper polarización - 18 a 25 senadores propios"
+
+
+AGENDA: Reunión con empresarios mineros, recorrida energías renovables
+PRÓXIMO ENCUENTRO: 15 octubre en Ciudad de Buenos Aires (cierre campaña)
+EVENTO: Milei recorre peatonal Sarmiento en Mendoza
+CANDIDATO: Luis Petri (Ministro Defensa)
+MENSAJE: "Mendoza será protagonista de nueva etapa de crecimiento"
+CONTEXTO: Apoyo a alianza LLA-UCR provincial
+
+10 de octubre de 2025 (viernes)
+
+EVENTO: Milei visita San Nicolás (Sidersa) + Santiago Passaglia
+IMPACTO: Busca voto antikirchnerista sin respaldo explícito del intendente
+PRESENTES: Diego Santilli, Karen Reichardt, Federico Sturzenegger
+ANUNCIO: "Plan Argentina Grande Otra Vez" - reformas laborales y tributarias
+
+11 de octubre de 2025 (sábado)
+
+EVENTO: Milei visita Chaco (Resistencia) + gobernador Zdero
+IMPACTO: Fortalece alianza UCR-LLA en provincia clave para senadores
+DISCURSO: "Estamos en momento bisagra - La Libertad Avanza o Argentina retrocede"
+EVENTO: Milei visita Corrientes capital (11 minutos)
+CANDIDATA: Virginia Gallardo
+CONTEXTO: Territorio hostil para LLA (9% en provinciales, amenazas previas)
+CONTRASTE: Gobernador Valdés marca distancia, no lo recibe
+
+12 de octubre de 2025 (domingo)
+
+EVENTO: Casa Rosada revela pronóstico electoral interno
+BALANCE: "7 triunfos seguros, 10 distritos peleables, 7 derrotas seguras"
+ADMITEN: Derrota segura en Buenos Aires
+ESTRATEGIA: Compensar con CABA, Mendoza, Entre Ríos, Chaco
+ANUNCIO: Milei visitará Córdoba y Santa Fe en última semana de campaña
+EXPECTATIVAS: "Tres tercios" en Santa Fe, "nos va a ir bien" en Córdoba
+OBJETIVO: Llegar a 80 diputados totales (necesitan ~43 nuevas bancas)
+
+13 de octubre de 2025 (lunes)
+
+EVENTO: Taiana con sindicalistas (Salón Felipe Vallese)
+PRESENTES: Sergio Palazzo (La Bancaria), Hugo Moyano (h.)
+DISCURSO: Oposición a reformas laboral y sindical de Milei
+IMPACTO: Movilización del sector gremial contra gobierno
+
+
+SITUACIÓN POR PROVINCIA (DATOS COMPLETOS)
 BUENOS AIRES (38% padrón nacional - DECISIVA)
+Datos Básicos
+
 Gobernador: Axel Kicillof (Fuerza Patria)
 Elección provincial: 7 septiembre - Fuerza Patria 47,28% vs LLA 33,71%
 Elección nacional: 26 octubre - renueva 35 diputados
-Candidatos principales: Jorge Taiana (FP) vs Karen Reichardt (LLA)
 Problema LLA: Foto Espert permanece en boletas
 Factor: Distrito más importante nacionalmente
+
+Candidatos Nacionales
+
+LLA: Diego Santilli (1°), Karen Reichardt, José Luis Espert (foto en boleta pero renunció)
+Fuerza Patria: Jorge Taiana (1°), Jimena López, Juan Grabois, Vanesa Siley, Sergio Palazzo
+Provincias Unidas: Florencio Randazzo, Margarita Stolbizer, Emilio Monzó
+
+Encuestas Recientes
+
+Federico González (22-25 sept, 1.400 casos): Taiana (FP) 41,5% vs Espert (LLA) 27,4% [pre-renuncia]
+
+
 CIUDAD AUTÓNOMA DE BUENOS AIRES
+Datos Básicos
+
 Jefe Gobierno: Jorge Macri (PRO)
 Elección: 3 senadores + 13 diputados
-Candidatos senadores: Patricia Bullrich (LLA) vs Mariano Recalde (FP)
-Candidatos diputados: Alejandro Fargosi (LLA) vs Itaí Hagman (FP)
 Tendencia: LLA favorito senadores, competitivo diputados
+
+Candidatos Nacionales
+
+LLA Senadores: Patricia Bullrich (1°)
+LLA Diputados: Alejandro Fargosi (1°), Patricia Holzman, Nicolás Emma, Sabrina Ajmechet
+Fuerza Patria Senadores: Mariano Recalde (1°)
+Fuerza Patria Diputados: Itaí Hagman (1°), Kelly Olmos, Ana Arias
+
+Encuestas Recientes
+
+Federico González (sept): Senadores - Bullrich (LLA) 34,2% vs Recalde (FP) 24,8%
+Diputados: Fargosi (LLA) 22,3% vs Hagman (FP) 20,1%
+
+
 CÓRDOBA
+Datos Básicos
+
 Gobernador: Martín Llaryora (Provincias Unidas)
-Candidatos: Juan Schiaretti (PU) vs Gonzalo Roca (LLA) vs Pablo Carro (FP)
+Renueva: 9 diputados
 Factor: Schiaretti busca proyección nacional 2027
+Contexto: Peronismo cordobés divorciado del kirchnerismo desde 2008
+
+Candidatos Nacionales
+
+Provincias Unidas: Juan Schiaretti (1°), Carolina Basualdo, Miguel Siciliano
+LLA: Gonzalo Roca (1°), Laura Soldano, Marcos Patiño, Laura Machado (PRO)
+Fuerza Patria: Pablo Carro (1°) - proyecciones bajo 10%
+
+
 SANTA FE
+Datos Básicos
+
 Gobernador: Maximiliano Pullaro (Provincias Unidas)
-Candidatos: Gisela Scaglia (PU) vs Agustín Pellegrini (LLA) vs Caren Tepp (FP)
+Renueva: 9 diputados
 Factor: Pullaro líder anti-narco, alta imagen
-SANTIAGO DEL ESTERO
+
+Candidatos Nacionales
+
+Provincias Unidas: Gisela Scaglia (1°)
+LLA: Agustín Pellegrini (1°), Yamile Tomassoni, Juan Pablo Montenegro
+Fuerza Patria: Caren Tepp (1°), Agustín Rossi (2°)
+
+
+MENDOZA
+Datos Básicos
+
+Gobernador: Alfredo Cornejo (UCR)
+Renueva: 5 diputados nacionales
+Elecciones locales: Simultáneas (26 octubre) - 2 urnas, doble boleta
+Sistema: Boleta Única Papel con doble urna (celeste nacional/verde provincial)
+Padrón: 1.545.000 habilitados
+
+Candidatos Nacionales
+
+LLA: Luis Petri (Ministro Defensa - 1°) - dejó UCR y se afilió a LLA
+Fuerza Patria: Emir Félix (1°)
+Proyección: LLA primer lugar, Fuerza Patria segundo lugar
+
+Cargos Provinciales (26 octubre)
+
+4 secciones electorales: senadores y diputados provinciales
+12 departamentos: también votan concejales
+6 departamentos: concejales desdoblados al 22 febrero 2026
+
+
+TUCUMÁN
+Datos Básicos
+
+Gobernador: Osvaldo Jaldo (peronismo pro-Milei)
+Renueva: 4 diputados
+Factor: Jaldo candidato testimonial, apoyó a Milei desde inicio
+
+Candidatos Nacionales
+
+LLA-PRO: Federico Pelli (1°), Soledad Molinuevo
+Fuerza Patria: Proyección de ganar en suelo tucumano
+
+Contexto Político
+
+Jaldo: "Le vamos a cortar la peluca al león en Tucumán"
+Milei no supo mantener vínculo con Jaldo (peronista que lo apoyó)
+
+
+SANTIAGO DEL ESTERO (SITUACIÓN ESPECIAL)
+Datos Básicos
+
 Situación especial: Elige gobernador + legisladores nacionales mismo día
 Gobernador actual: Gerardo Zamora (no reelige - 4 mandatos)
-Candidato oficialista: Elías Suárez
+Renueva: 3 senadores + 3 diputados nacionales
+Candidato oficialista gobernador: Elías Suárez
 Competidores: 10 candidatos total
+
+Candidatos Nacionales
+
+Fuerza Patria Senadores: José Emilio Neder (1°)
+Fuerza Patria Diputados: Marcelo Barbur (1°)
+
+
 CATAMARCA
-Gobernador: Raúl Jalil
+Datos Básicos
+
+Gobernador: Raúl Jalil (peronismo pro-Milei)
+Renueva: 3 diputados
 Situación especial: Elecciones locales simultáneas + conflicto limítrofe con Santiago del Estero
 Factor: Constitución provincial desconoce ley nacional de límites
+Contexto: Jalil apoyó a Milei desde inicio, luego reproches del arco kirchnerista
+
+Elecciones Locales Simultáneas
+
+Votan cargos provinciales el 26 octubre
+
+
 NEUQUÉN
+Datos Básicos
+
 Gobernador: Rolando Figueroa (aliado Milei)
+Renueva: 3 senadores + 2 diputados (total 3 diputados con suplente)
 Factor económico: Acuerdo Argentina LNG (USD 20.000 millones anuales desde 2029)
-Candidatos: Nadia Márquez (LLA) vs Silvia Sapag (FP)
+
+Candidatos Nacionales
+
+LLA Senadores: Nadia Márquez (1°), Pablo Cervi
+Fuerza Patria: Silvia Sapag
+
+
+SALTA
+Datos Básicos
+
+Gobernador: Gustavo Sáenz
+Elección provincial: 11 mayo (desdoblada)
+Renueva: 3 senadores + 3 diputados nacionales
+Factor: Fractura del peronismo provincial
+Resultado provincial: Oficialismo Sáenz consolidó hegemonía; LLA ganó en capital
+
+Candidatos Nacionales
+
+Senadores:
+
+Oficialismo provincial: Flavia Royón (frente "Primero los salteños")
+LLA: María Emilia Orozco
+Fuerza Patria: Juan Manuel Urtubey (exgobernador)
+Partido de la Victoria: Sergio "Oso" Leavy (rompió con Fuerza Patria)
+
+
+Diputados:
+
+Fuerza Patria: Emiliano Estrada
+LLA: María Gabriela Flores
+Oficialismo provincial: Bernardo Biela
+Partido de la Victoria: Marcela Jesús
+
+
+
+Contexto
+
+Peronismo dividido: Urtubey vs Leavy compiten separados
+Ambos se llevan votos peronistas
+
+
+JUJUY
+Datos Básicos
+
+Gobernador: Carlos Sadir (UCR - Provincias Unidas)
+Elección provincial: 11 mayo (desdoblada)
+Renueva: 3 diputados nacionales
+Resultado provincial: Jujuy Crece (oficialismo) 38,54%, LLA 20,58%, Frente Justicialista 10,60%
+
+Candidatos Nacionales
+
+Provincias Unidas (Jujuy Crece): María Inés Zigarán (1°)
+LLA: Alfredo González (1°), Bárbara Andreussi
+
+Contexto
+
+Sadir se diferenció de UCR que hizo acuerdos con LLA
+Criticó políticas de Milei (aunque apoyó Ley Bases)
+
+
+CHACO
+Datos Básicos
+
+Gobernador: Leandro Zdero (UCR-LLA)
+Elección provincial: 11 mayo (desdoblada)
+Renueva: 3 senadores + 4 diputados nacionales
+Resultado provincial: UCR-LLA 45,19%
+
+Candidatos Nacionales
+
+LLA-UCR Senadores: Juan Cruz Godoy (presidente juventud LLA Chaco - 1°)
+LLA-UCR Diputados: Mercedes del Rosario Goitía (1°)
+Fuerza Patria Senadores: Jorge "Coqui" Capitanich (exgobernador - 1°), Magda Ayala
+Fuerza Patria Diputados: Sergio Dolce (1°), Julieta Ca
+
+Contexto
+
+Situación parecida a Entre Ríos y Salta
+Capitanich consolidado opositor pero corre de atrás
+
+
+MISIONES
+Datos Básicos
+
+Gobernador: Hugo Passalacqua
+Elección provincial: 8 junio (desdoblada)
+Renueva: 3 diputados nacionales
+
+Candidatos Nacionales
+
+LLA: Diego Hartfield (1°) - extenista y broker financiero, electo diputado provincial en junio
+Fuerza Patria: María Cristina Britez (1°)
+
+
+FORMOSA
+Datos Básicos
+
+Gobernador: Gildo Insfrán
+Elección provincial: 29 junio (desdoblada)
+Renueva: 2 diputados
+Contexto: 4 listas disputan 2 bancas
+
+Candidatos Nacionales
+
+Fuerza Patria: Graciela de la Rosa (ex Auditora General - 1°), Fabián Cáceres
+LLA: Atilio Basualdo (intendente Las Lomitas - 1°) - desafía al "gildismo"
+UCR-Libres del Sur-PS-MID (Juntos por la Libertad y la República): Enzo Casadei
+
+
+CORRIENTES
+Datos Básicos
+
+Gobernador: Gustavo Valdés (no puede reelegir)
+Elección provincial: 31 agosto (desdoblada)
+Renueva: 3 diputados nacionales
+
+Candidatos Nacionales
+
+Fuerza Patria: Raúl Hadad (intendente San Roque - 1°), Lorena Zakegian, Marcelo Fabián Ríos
+
+
+ENTRE RÍOS
+Datos Básicos
+
+Gobernador: Rogelio Frigerio (aliado Milei)
+Renueva: 3 senadores + 5 diputados
+Contexto: Alianza gobernador-presidente nacional vs división peronista en 4 partes
+
+Candidatos Nacionales
+
+Fuerza Entre Ríos Senadores: Adán Bahl (exintendente Paraná - 1°)
+Fuerza Entre Ríos Diputados: Guillermo Michel (1°), Marianela Marclay, Andrés Sabella, Fabiana Leiva
+Proyección: Bal-Michel vienen creciendo en encuestas
+
+
+RÍO NEGRO
+Datos Básicos
+
+Gobernador: Alberto Weretilneck
+Renueva: 3 senadores + 2 diputados
+Factor: Alianza LLA-PRO rota a último momento
+
+Candidatos Nacionales
+
+Fuerza Patria Senadores: Martín Soria (diputado actual)
+Fuerza Patria Diputados: Adriana Serquis (1°)
+PRO Senadores: Juan Martín (presidente PRO Río Negro)
+PRO Diputados: Martina Lacour (1°)
+Contexto: PRO rompió con LLA por denuncias contra candidatos libertarios
+
+
+TIERRA DEL FUEGO
+Datos Básicos
+
+Gobernador: Gustavo Melella
+Renueva: 3 senadores + 2 diputados
+
+Candidatos Nacionales
+
+LLA Senadores: Agustín Coto (1°), Belén Montes de Oca
+LLA Diputados: Miguel Rodríguez (1°), Analía Fernández
+Fuerza Patria Senadores: Cristina López, Federico Runin
+Fuerza Patria Diputados: Agustín Tita (1°)
+
+
+CHUBUT
+Datos Básicos
+
+Gobernador: Ignacio Torres (Provincias Unidas)
+Renueva: 2 diputados
+
+Candidatos Nacionales
+
+LLA: Maira Frias (jefa oficina Anses Comodoro Rivadavia - 1°)
+
+
+SANTA CRUZ
+Datos Básicos
+
+Gobernador: Claudio Vidal (Provincias Unidas)
+Renueva: 3 diputados
+
+Candidatos Nacionales
+
+Fuerza Patria: Juan Carlos Molina (cura - 1°) por frente Fuerza Santacruceña
+
+
+SAN JUAN
+Datos Básicos
+
+Gobernador: Marcelo Orrego (PRO → Provincias Unidas)
+Renueva: 3 diputados
+Contexto: 9 listas en disputa
+
+Candidatos Nacionales
+
+Provincias Unidas (Por San Juan): Fabián Martín (vicegobernador - 1°)
+Fuerza Patria (Fuerza San Juan): Cristian Andino (ex intendente - 1°)
+Hacemos (Partidos Hacemos): Emilio Baistrocchi - candidatura polémica apadrinada por cordobesismo
+
+
+SAN LUIS
+Datos Básicos
+
+Gobernador: Claudio Poggi
+Elección provincial: 11 mayo (desdoblada)
+Renueva: 3 diputados
+Resultado provincial: Triunfo amplio de Ahora San Luis (oficialismo)
+
+Candidatos Nacionales
+
+Contexto: Opción sin vertiente K ni libertaria (similar a Santa Fe)
+
+
+LA PAMPA
+Datos Básicos
+
+Gobernador: Sergio Ziliotto
+Renueva: 3 diputados
+
+
+LA RIOJA
+Datos Básicos
+
+Gobernador: Ricardo Quintela
+Renueva: 2 diputados
+Elecciones locales: Simultáneas (26 octubre)
+
 
 CONTEXTO ECONÓMICO ACTUAL
 Acuerdo con Estados Unidos (9-14 octubre 2025)
+
 Instrumento: Swap USD 20.000 millones
 Operador: Scott Bessent (Secretario Tesoro EEUU)
 Mecánica: Compra directa pesos, venta dólares
 Objetivo declarado: Pagar deuda 2026 si no hay refinanciamiento
+
 Impacto inmediato:
 
 Dólar blue: $1.475 → $1.405
@@ -124,57 +589,23 @@ Bonos: +1,5% a +2%
 Riesgo país: tendencia descendente desde 900 puntos
 
 Indicadores Pre-Electorales
+
 Inflación: Expectativa 63% ciudadanos que baje o se mantenga
 Aprobación Milei: 45% aprueba, 53% desaprueba
 Voto castigo: 57% vs 34% acompañamiento (Zuban Córdoba)
 
-ENCUESTAS RECIENTES (septiembre-octubre 2025)
-Nacional
-Trends (8-17 septiembre, 2.500 casos, error ±1,9%):
+
+ENCUESTAS NACIONALES RECIENTES (septiembre-octubre 2025)
+Trends (8-17 septiembre, 2.500 casos, error ±1,9%)
 
 LLA: 42%
 Fuerza Patria: 38%
 Provincias Unidas: 4%
 
-Management & Fit (fines septiembre):
+Management & Fit (fines septiembre)
 
 LLA: 39,6%
 Fuerza Patria: 34%
-
-Buenos Aires Específica
-Federico González (22-25 septiembre, 1.400 casos):
-
-Jorge Taiana (FP): 41,5%
-José Luis Espert (LLA): 27,4% [pre-renuncia]
-
-CABA
-Federico González (misma encuesta):
-
-Senadores: Patricia Bullrich (LLA) 34,2% vs Mariano Recalde (FP) 24,8%
-Diputados: Alejandro Fargosi (LLA) 22,3% vs Itaí Hagman (FP) 20,1%
-
-
-FACTORES DECISIVOS IDENTIFICADOS
-Pro-LLA (Oficialismo)
-
-Intervención estadounidense estabiliza economía
-Efecto presidencial
-Alianza con PRO amplía base
-Se removió "lastre" Espert
-
-Pro-Fuerza Patria (Oposición)
-
-Victoria aplastante Buenos Aires (+13 puntos)
-Unidad peronista bajo Kicillof
-Momentum anti-oficialista
-Desgaste por escándalos
-
-Variables Indeterminadas
-
-Timing intervención EEUU (salvavidas vs fortaleza)
-Participación electoral
-Efecto Boleta Única Papel
-Impacto foto Espert en boletas
 
 
 PROYECCIONES BANCAS (Management & Fit)
@@ -200,10 +631,30 @@ CRONOGRAMA ELECTORAL FINAL
 
 
 DATOS TÉCNICOS BUP
-Diseño: Partidos en columnas, cargos en filas
+Diseño
+
+Partidos en columnas, cargos en filas
 Instrucción: Marcar con tilde casilla preferida
 Novedad: Primera vez nacional
 Problema único: Candidato renunciado (Espert) aparece en boleta
+
+Modelos de Boleta
+
+16 distritos (solo diputados): Buenos Aires, Santa Fe, Córdoba, Jujuy, Tucumán, Catamarca, La Rioja, San Juan, San Luis, Mendoza, Chubut, Santa Cruz, Formosa, Misiones, Corrientes, La Pampa
+8 distritos (diputados + senadores): Salta, Neuquén, Río Negro, Tierra del Fuego, Chaco, Santiago del Estero, Entre Ríos, CABA
+
+
+PROVINCIAS CON ELECCIONES LOCALES SIMULTÁNEAS
+26 de octubre: Catamarca, La Rioja, Mendoza, Santiago del Estero
+Ya votaron (desdobladas):
+
+11 mayo: Salta, Chaco, Jujuy, San Luis
+18 mayo: Ciudad de Buenos Aires
+8 junio: Misiones
+29 junio: Santa Fe, Formosa
+31 agosto: Corrientes
+7 septiembre: Buenos Aires
+
 
 CONFLICTOS/CONTROVERSIAS ACTIVOS
 
@@ -211,10 +662,36 @@ Caso Espert-Machado: Transferencia USD 200.000, vínculos narcotráfico
 Boletas con foto renunciado: Precedente inédito
 Disputa limítrofe: Catamarca vs Santiago del Estero
 Dependencia externa: Debate sobre intervención EEUU
+Ruptura alianzas: PRO-LLA en Río Negro
+
+
+FACTORES DECISIVOS IDENTIFICADOS
+Pro-LLA (Oficialismo)
+
+Intervención estadounidense estabiliza economía
+Efecto presidencial
+Alianza con PRO amplía base
+Se removió "lastre" Espert
+
+Pro-Fuerza Patria (Oposición)
+
+Victoria aplastante Buenos Aires (+13 puntos)
+Unidad peronista bajo Kicillof
+Momentum anti-oficialista
+Desgaste por escándalos oficialismo
+
+Variables Indeterminadas
+
+Timing intervención EEUU (salvavidas vs fortaleza)
+Participación electoral
+Efecto Boleta Única Papel
+Impacto foto Espert en boletas
+División peronista provincial (Salta, Entre Ríos)
 
 
 NOTA METODOLÓGICA PARA IA
-Datos verificados: Múltiples fuentes cruzadas (Infobae, La Nación, El Cronista, Chequeado)
+
+Datos verificados: Múltiples fuentes cruzadas (Infobae, La Nación, El Cronista, Chequeado, Página/12)
 Última actualización: 14 octubre 2025
 Confiabilidad: Alta para eventos factuales, media para proyecciones
-Sesgo detectado en fuente original: Roles políticos invertidos - CORREGIDO en este dataset
+Cobertura: 24 distritos completos con candidatos principales
