@@ -1,8 +1,10 @@
-version: 2
+# The command to run to start your server
 run:
-  command: 'npm start'
+  command: npm start
+# Specifies the build tool and build commands to run before deploying.
 build:
   buildTool: npm
   buildCommands:
-    - npm install
     - npm run build
+# The version of the App Hosting config.
+version: 2
