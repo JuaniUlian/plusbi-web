@@ -5,7 +5,7 @@ version: 1
 # Specifies the build configuration
 buildConfig:
   # Specifies the command to build the app
-  command: "npm install"
+  command: "npm run build"
 
 # Specifies the serving configuration
 serveConfig:
