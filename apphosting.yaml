@@ -5,3 +5,11 @@ runConfig:
   concurrency: 80
   cpu: 1
   memoryMiB: 512
+
+# Environment variables
+env:
+  - variable: OPENAI_API_KEY
+    secret: openai-api-key
+    availability:
+      - BUILD
+      - RUNTIME
