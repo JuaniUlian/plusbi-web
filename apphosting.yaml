@@ -1,0 +1,15 @@
+
+# Specifies the version of the App Hosting config file
+version: 1
+
+# Specifies the build configuration
+buildConfig:
+  # Specifies the command to build the app
+  command: "npm install"
+
+# Specifies the serving configuration
+serveConfig:
+  # Specifies the command to start the app
+  command: "npm start"
+  # Specifies the directory where the built app is located
+  staticDir: ".next"
