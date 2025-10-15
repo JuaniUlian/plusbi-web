@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { ai } from '@/ai/genkit';
 import fs from 'fs';
 import path from 'path';
 

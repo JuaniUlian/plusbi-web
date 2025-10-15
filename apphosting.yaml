@@ -1,0 +1,21 @@
+# Settings for deployment to App Hosting
+# See https://firebase.google.com/docs/app-hosting/configure
+#
+# runConfig:
+#   minInstances: 1
+#
+# env:
+#   - variable: API_KEY
+#     value: key_value
+#   - secret: DB_PASSWORD
+#
+
+# The command to run to start the server
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+buildConfig:
+  buildCommands:
+    - npm install
+    - npm run build
+runCommand: npm start
