@@ -8,12 +8,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, Check } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, Check, Clock } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 const content = {
   es: {
@@ -83,6 +85,26 @@ const content = {
 export default function QuestPage() {
   const { language } = useLanguage();
   const c = content[language];
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+  }>({ days: 0, hours: 0 });
+  const [guestAccessExpired, setGuestAccessExpired] = useState(false);
+
+  useEffect(() => {
+    const targetDate = new Date('2025-10-19T23:59:59-03:00');
+    const now = new Date();
+
+    if (now >= targetDate) {
+      setGuestAccessExpired(true);
+    } else {
+      const difference = targetDate.getTime() - now.getTime();
+      setTimeLeft({
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      });
+    }
+  }, []);
 
   const generateMailto = () => {
     const subject = `Solicitud de presentación de ${c.title}`;
@@ -118,6 +140,28 @@ export default function QuestPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95" />
 
           <div className="container mx-auto px-4 relative z-10">
+            {/* Alerta de acceso como invitado */}
+            {!guestAccessExpired && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="max-w-4xl mx-auto mb-8"
+              >
+                <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
+                  <Clock className="h-5 w-5 text-yellow-600" />
+                  <AlertTitle className="text-base font-semibold text-yellow-900 dark:text-yellow-100">
+                    ¡Acceso gratuito por tiempo limitado!
+                  </AlertTitle>
+                  <AlertDescription className="text-sm text-yellow-800 dark:text-yellow-200 mt-2">
+                    Ingresa como invitado hasta el <strong>19 de octubre de 2025</strong> y explora Quest.
+                    <br />
+                    Quedan solo <strong>{timeLeft.days} días y {timeLeft.hours} horas</strong>
+                    <br />
+                    <span className="font-semibold text-base">🎉 60% OFF</span> en suscripción Premium si te registras antes del 19/10
+                  </AlertDescription>
+                </Alert>
+              </motion.div>
+            )}
             {/* Card principal con borde sutil */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}

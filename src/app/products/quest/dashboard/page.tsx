@@ -17,6 +17,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PollsterComparisonTable } from '@/components/quest/pollster-comparison-table';
+import { GuestAccessBanner } from '@/components/quest/guest-access-banner';
+import { LegalDisclaimer } from '@/components/quest/legal-disclaimer';
 import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 
@@ -492,9 +494,31 @@ export default function DashboardPage() {
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* Banner para usuarios invitados */}
+        {!isPaidUser && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <GuestAccessBanner
+              onUpgradeClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')}
+            />
+          </motion.div>
+        )}
+
+        {/* Disclaimer legal */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <LegalDisclaimer />
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
           className="flex justify-end"
         >
           <Button onClick={handleGeneralReport} size="lg" className="gap-2">

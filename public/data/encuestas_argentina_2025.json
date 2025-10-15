@@ -880,5 +880,61 @@
     "sample": null,
     "methodology": "Presencial",
     "margin_error": null
-  }
+  },
+  [
+    {
+      "date": "2025-10-07",
+      "pollster": "Nueva Comunicación",
+      "scope": "provincial",
+      "province": "Santa Fe",
+      "chamber": "diputados",
+      "LLA": 22.3,
+      "FP": 29.6,
+      "PU": 31.6,
+      "UCR": null,
+      "PRO": null,
+      "FIT": null,
+      "Provincial": 19.5,
+      "Others": null,
+      "sample": 1204,
+      "methodology": "Solo Rosario",
+      "margin_error": null
+    },
+    {
+      "date": "2025-09-30",
+      "pollster": "GyC Comunicaciones",
+      "scope": "provincial",
+      "province": "Santa Fe",
+      "chamber": "diputados",
+      "LLA": 21,
+      "FP": 26,
+      "PU": 25,
+      "UCR": null,
+      "PRO": null,
+      "FIT": null,
+      "Provincial": null,
+      "Others": null,
+      "sample": 192,
+      "methodology": null,
+      "margin_error": null
+    },
+    {
+      "date": "2025-10-15",
+      "pollster": "Canal Doce",
+      "scope": "provincial",
+      "province": "Misiones",
+      "chamber": "diputados",
+      "LLA": 17,
+      "FP": 7.5,
+      "PU": null,
+      "UCR": 4,
+      "PRO": null,
+      "FIT": 2.5,
+      "Provincial": 41,
+      "Others": 28.5,
+      "sample": null,
+      "methodology": null,
+      "margin_error": null
+    }
+  ]
 ]

@@ -3,16 +3,8 @@
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
-  maxInstances: 1
-buildConfig:
-  buildCommands:
-    - npm install
-serveConfig:
-  staticAssets:
-    - path: /.next/static
-      # 24 hours
-      expiration: 86400s
-  rewrites:
-    - source: /**
-      destination: /_next/server/server.js
-      type: REGULAR_EXPRESSION
+  maxInstances: 10
+  minInstances: 0
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
