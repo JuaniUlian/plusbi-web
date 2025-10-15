@@ -935,6 +935,38 @@
       "sample": null,
       "methodology": null,
       "margin_error": null
+    },
+    {
+      "date": "2025-10-11",
+      "pollster": "DC Consultores",
+      "scope": "provincial",
+      "province": "Entre Ríos",
+      "chamber": "diputados",
+      "LLA": 38.2,
+      "FP": 31.7,
+      "PU": 5.9,
+      "UCR": null,
+      "PRO": null,
+      "FIT": 3.2,
+      "Provincial": 2.7,
+      "Others": 6.4,
+      "Undecided": 11.9
+    },
+    {
+      "date": "2025-10-11",
+      "pollster": "DC Consultores",
+      "scope": "provincial",
+      "province": "Entre Ríos",
+      "chamber": "senadores",
+      "LLA": 39.6,
+      "FP": 30.2,
+      "PU": 7.2,
+      "UCR": null,
+      "PRO": null,
+      "FIT": 3.3,
+      "Provincial": 4.1,
+      "Others": 3.2,
+      "Undecided": 12.4
     }
   ]
 ]
