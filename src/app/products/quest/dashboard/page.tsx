@@ -305,7 +305,7 @@ export default function DashboardPage() {
       const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
 
       const colores: { [key: string]: string } = {
-        LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#f59e0b'
+        LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#849221'
       };
 
       const percentages: { [key: string]: number } = {};
@@ -704,7 +704,6 @@ export default function DashboardPage() {
             <CardContent>
               <PollsterComparisonTable
                 data={encuestasData}
-                pollsters={POLLSTERS.filter(p => p !== 'Todas')}
                 isPremium={isPaidUser}
                 comparisonCount={comparisonCount}
                 onComparisonUsed={() => setComparisonCount(prev => prev + 1)}

@@ -51,7 +51,7 @@ const PARTY_COLORS: { [key: string]: { border: string; rgb: string } } = {
   UCR: { border: '#ef4444', rgb: '239, 68, 68' },
   PRO: { border: '#eab308', rgb: '234, 179, 8' },
   FIT: { border: '#dc2626', rgb: '220, 38, 38' },
-  Provincial: { border: '#f59e0b', rgb: '245, 158, 11' },
+  Provincial: { border: '#849221', rgb: '132, 146, 33' },
   Others: { border: '#64748b', rgb: '100, 116, 139' },
 };
 

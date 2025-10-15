@@ -26,7 +26,6 @@ interface EncuestaData {
 
 interface PollsterComparisonTableProps {
   data: EncuestaData[];
-  pollsters: string[];
   isPremium: boolean;
   comparisonCount: number;
   onComparisonUsed: () => void;
@@ -109,7 +108,7 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
             </div>
           )}
           {poll.Provincial !== null && (
-            <div className="flex justify-between font-bold" style={{ color: '#f59e0b' }}>
+            <div className="flex justify-between font-bold" style={{ color: '#849221' }}>
               <span>Provincial:</span>
               <span>{formatPercentage(poll.Provincial)}</span>
             </div>
@@ -133,10 +132,8 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
 
   const latestPollsMap = useMemo(() => {
     const map = new Map<string, EncuestaData>();
-    // Filtrar solo encuestas nacionales
-    const nationalPolls = data.filter(poll => poll.scope === 'national');
-
-    nationalPolls.forEach((poll) => {
+    
+    data.forEach((poll) => {
       const existingPoll = map.get(poll.pollster);
       if (!existingPoll || new Date(poll.date) > new Date(existingPoll.date)) {
         map.set(poll.pollster, poll);
@@ -147,14 +144,14 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
 
   const selectedPoll1Data = pollster1 ? latestPollsMap.get(pollster1) : undefined;
   const selectedPoll2Data = pollster2 ? latestPollsMap.get(pollster2) : undefined;
+  
+  const allPollsters = useMemo(() => {
+    return Array.from(new Set(data.map(p => p.pollster))).sort((a, b) => a.localeCompare(b));
+  }, [data]);
 
-  // Filtrar solo encuestadoras que tienen datos nacionales
-  const nationalPollsters = useMemo(() => {
-    return Array.from(latestPollsMap.keys()).sort((a, b) => a.localeCompare(b));
-  }, [latestPollsMap]);
 
-  const availablePollsters1 = nationalPollsters.filter(p => p !== pollster2);
-  const availablePollsters2 = nationalPollsters.filter(p => p !== pollster1);
+  const availablePollsters1 = allPollsters.filter(p => p !== pollster2);
+  const availablePollsters2 = allPollsters.filter(p => p !== pollster1);
 
   // Detectar cuando se seleccionan ambas encuestadoras por primera vez
   const handlePollster1Change = (value: string) => {
@@ -173,10 +170,10 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
     }
   };
 
-  if (nationalPollsters.length < 2) {
+  if (allPollsters.length < 2) {
     return (
       <div className="flex items-center justify-center h-40 text-muted-foreground">
-        No hay suficientes encuestadoras nacionales para comparar.
+        No hay suficientes encuestadoras para comparar.
       </div>
     );
   }

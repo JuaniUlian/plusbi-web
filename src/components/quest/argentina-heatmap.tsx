@@ -194,7 +194,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#7c3aed'}}></div><span className="text-xs">LLA</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#3b82f6'}}></div><span className="text-xs">FP</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#f97316'}}></div><span className="text-xs">PU</span></div>
-          <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#f59e0b'}}></div><span className="text-xs">Provincial</span></div>
+          <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#849221'}}></div><span className="text-xs">Provincial</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#e5e7eb'}}></div><span className="text-xs">Sin datos</span></div>
         </div>
       </div>

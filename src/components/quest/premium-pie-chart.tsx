@@ -20,32 +20,45 @@ interface PieChartData {
   LLA?: number | null;
   FP?: number | null;
   PU?: number | null;
+  UCR?: number | null;
+  PRO?: number | null;
+  FIT?: number | null;
+  Provincial?: number | null;
+  Others?: number | null;
 }
 
 interface PremiumPieChartProps {
   data: PieChartData;
 }
 
+const PARTY_COLORS: { [key: string]: string } = {
+  LLA: '#7c3aed',
+  FP: '#3b82f6',
+  PU: '#f97316',
+  UCR: '#ef4444',
+  PRO: '#eab308',
+  FIT: '#dc2626',
+  Provincial: '#849221',
+  Others: '#64748b',
+};
+
+
 export function PremiumPieChart({ data }: PremiumPieChartProps) {
   const labels: string[] = [];
   const values: number[] = [];
   const colors: string[] = [];
 
-  if (data.LLA && data.LLA > 0) {
-    labels.push('LLA');
-    values.push(data.LLA);
-    colors.push('#7c3aed');
+  for (const party in data) {
+    if (Object.prototype.hasOwnProperty.call(data, party)) {
+      const value = data[party as keyof PieChartData];
+      if (value && value > 0 && PARTY_COLORS[party]) {
+        labels.push(party);
+        values.push(value);
+        colors.push(PARTY_COLORS[party]);
+      }
+    }
   }
-  if (data.FP && data.FP > 0) {
-    labels.push('FP');
-    values.push(data.FP);
-    colors.push('#3b82f6');
-  }
-  if (data.PU && data.PU > 0) {
-    labels.push('PU');
-    values.push(data.PU);
-    colors.push('#f97316'); // Orange color
-  }
+
 
   const chartData = {
     labels,
