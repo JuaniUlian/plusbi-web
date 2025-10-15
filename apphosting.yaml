@@ -1,7 +1,18 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
-
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
+buildConfig:
+  buildCommands:
+    - npm install
+serveConfig:
+  staticAssets:
+    - path: /.next/static
+      # 24 hours
+      expiration: 86400s
+  rewrites:
+    - source: /**
+      destination: /_next/server/server.js
+      type: REGULAR_EXPRESSION
