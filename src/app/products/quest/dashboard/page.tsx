@@ -838,7 +838,7 @@ export default function DashboardPage() {
 
       {/* Modal del informe generado */}
       <Dialog open={showReportModal} onOpenChange={setShowReportModal}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0" aria-describedby="report-modal-description">
           <DialogHeader className="px-6 py-4 border-b sticky top-0 bg-background z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -849,7 +849,7 @@ export default function DashboardPage() {
                       ? 'Informe Electoral - Argentina'
                       : `Informe Electoral - ${reportMetadata.province}`}
                   </DialogTitle>
-                  <DialogDescription>
+                  <DialogDescription id="report-modal-description">
                     Redactado especialmente por Quest con datos de PLUS BI - {new Date().toLocaleDateString('es-AR')}
                   </DialogDescription>
                 </div>

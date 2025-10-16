@@ -331,8 +331,9 @@ export default function QuestPage() {
                   <h3 className="text-2xl font-bold font-headline">{c.caseTitle}</h3>
                   <div className="prose prose-sm text-muted-foreground mt-4" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
                 </div>
-                <div className="relative h-64 md:h-full">
-                  <Image src="/data/argentina-flag.jpg" alt="Bandera de Argentina" fill style={{objectFit: 'cover'}} data-ai-hint="Argentinian flag"/>
+                <div className="relative h-64 md:h-full bg-gradient-to-br from-blue-400 via-white to-blue-400 flex items-center justify-center">
+                  {/* Placeholder for Argentina flag image - add /data/argentina-flag.jpg to display */}
+                  <div className="text-6xl">🇦🇷</div>
                 </div>
               </div>
             </Card>
