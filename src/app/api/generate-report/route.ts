@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ai } from '@/ai/genkit';
+import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+
+// Lazy initialization to avoid build-time errors
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || '',
+  });
+}
 
 interface EncuestaData {
   date: string;
@@ -103,8 +110,8 @@ export async function POST(request: NextRequest) {
       contextoEspecifico = situacionContent;
     }
 
-    // Crear prompt para Gemini
-    const prompt = `Eres un analista político electoral experto en Argentina. Genera un informe profesional, completo y bien redactado sobre la situación electoral en ${contexto}.
+    // Crear prompt para OpenAI
+    const prompt = `Eres Quest, el analista electoral de PLUS BI. Genera un informe profesional redactado especialmente para el usuario, utilizando datos e información curada por el equipo de PLUS BI sobre la situación electoral en ${contexto}.
 
 **DATOS DE ENCUESTAS DISPONIBLES:**
 
@@ -163,16 +170,27 @@ Resumen profesional con recomendaciones estratégicas.
 - Mantén un tono periodístico de calidad, como el de un analista político reconocido
 - El informe debe ser completo pero conciso (600-800 palabras)`;
 
-    // Generar respuesta con Gemini a través de Genkit
-    console.log('🤖 API: Llamando a Gemini a través de Genkit...');
-    const result = await ai.generate({
-        prompt: prompt,
-        config: {
-            temperature: 0.5,
+    // Generar respuesta con OpenAI
+    console.log('🤖 API: Generando informe con Quest...');
+    const openai = getOpenAIClient();
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Eres Quest, el analista electoral de PLUS BI. Redactas informes profesionales personalizados basados en datos curados por el equipo de PLUS BI. Tu estilo es profesional, objetivo y basado en datos.'
         },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 4000,
     });
+    console.log('✅ API: Informe generado por Quest');
 
-    const text = result.text;
+    const text = completion.choices[0].message.content || '';
     console.log('✅ API: Informe generado, length:', text.length);
 
     return NextResponse.json({

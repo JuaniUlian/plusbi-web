@@ -740,7 +740,7 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="text-2xl">Mapa Electoral - Argentina</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
-                Pasa el cursor sobre una provincia para ver los datos. Haz clic para generar un informe completo con IA.
+                Pasa el cursor sobre una provincia para ver los datos. Haz clic para generar un informe completo con Quest.
               </p>
             </CardHeader>
             <CardContent>
@@ -800,7 +800,7 @@ export default function DashboardPage() {
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <p className="text-base">Esta funcionalidad está disponible solo para usuarios registrados.</p>
-                <p className="text-sm text-muted-foreground">Accede a análisis avanzados, filtros personalizados, informes con IA y mucho más.</p>
+                <p className="text-sm text-muted-foreground">Accede a análisis avanzados, filtros personalizados, informes generados por Quest y mucho más.</p>
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <Button onClick={() => setShowUpgradeModal(false)} variant="outline" className="flex-1">Cerrar</Button>
                   <Button onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')} className="flex-1">Obtener Premium</Button>
@@ -819,7 +819,7 @@ export default function DashboardPage() {
               <DialogHeader>
                 <DialogTitle className="sr-only">Generando Informe</DialogTitle>
                 <DialogDescription id="generating-report-description" className="sr-only">
-                  Se está generando el informe electoral con inteligencia artificial
+                  Quest está generando el informe electoral con datos curados por PLUS BI
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col items-center justify-center py-8">
@@ -828,7 +828,7 @@ export default function DashboardPage() {
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                   className="h-16 w-16 border-4 border-primary border-t-transparent rounded-full"
                 />
-                <p className="mt-6 text-lg font-semibold">Generando informe con IA...</p>
+                <p className="mt-6 text-lg font-semibold">Quest está redactando tu informe...</p>
                 <p className="mt-2 text-sm text-muted-foreground">Esto puede tomar unos segundos</p>
               </div>
             </DialogContent>
@@ -850,7 +850,7 @@ export default function DashboardPage() {
                       : `Informe Electoral - ${reportMetadata.province}`}
                   </DialogTitle>
                   <DialogDescription>
-                    Generado con inteligencia artificial - {new Date().toLocaleDateString('es-AR')}
+                    Redactado especialmente por Quest con datos de PLUS BI - {new Date().toLocaleDateString('es-AR')}
                   </DialogDescription>
                 </div>
               </div>
@@ -876,7 +876,7 @@ export default function DashboardPage() {
                 <Image src="/logo/quest.png" alt="Quest" width={24} height={24} />
                 <span className="font-semibold">Quest</span>
               </div>
-              <p>Informe generado con inteligencia artificial</p>
+              <p>Informe redactado especialmente por Quest con datos curados por el equipo de PLUS BI</p>
               <p className="mt-1">
                 Este documento es confidencial y está destinado únicamente para el uso del destinatario.
               </p>

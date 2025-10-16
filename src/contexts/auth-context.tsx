@@ -20,10 +20,25 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ADMIN_CREDENTIALS = {
-  email: 'juanulian@quest.ar',
-  password: 'Juani.2025'
-};
+// Credenciales de usuarios premium
+const PREMIUM_USERS = [
+  {
+    email: 'juanulian@quest.ar',
+    password: 'Juani.2025'
+  },
+  {
+    email: 'ctoller@quest.ar',
+    password: 'Ct0ll3r#2025$Qst'
+  },
+  {
+    email: 'emelchiori@quest.ar',
+    password: 'Em3lch10r!2025&Qst'
+  },
+  {
+    email: 'jinsaurralde@quest.ar',
+    password: 'J1ns@urr@ld3*2025'
+  }
+];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -36,10 +51,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (email: string, password: string): boolean => {
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-      const adminUser: User = { email, type: 'admin' };
-      setUser(adminUser);
-      localStorage.setItem('quest_user', JSON.stringify(adminUser));
+    // Buscar si el usuario existe en la lista de usuarios premium
+    const foundUser = PREMIUM_USERS.find(
+      u => u.email === email && u.password === password
+    );
+
+    if (foundUser) {
+      const premiumUser: User = { email: foundUser.email, type: 'admin' };
+      setUser(premiumUser);
+      localStorage.setItem('quest_user', JSON.stringify(premiumUser));
       return true;
     }
     return false;
