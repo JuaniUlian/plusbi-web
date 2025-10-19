@@ -70,7 +70,12 @@ export interface ProvinceData {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/products/quest/login');
+    },
+  });
   const user = session?.user;
   const isAuthenticated = status === 'authenticated';
   const isPaidUser = user?.role !== 'GUEST';
@@ -480,6 +485,23 @@ export default function DashboardPage() {
   }, [mounted, isAuthenticated, router]);
   
   if (!mounted || !isAuthenticated) {
+    return null;
+  }
+
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render dashboard if not authenticated (redirect will happen)
+  if (!isAuthenticated) {
     return null;
   }
 
