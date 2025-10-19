@@ -124,8 +124,89 @@ export async function POST(request: NextRequest) {
       contextoEspecifico = situacionContent;
     }
 
+    // Detectar si es agostog para usar prompt personalizado
+    const isAgostog = session.user.email === 'agostog@quest.ar';
+
     // Crear prompt para OpenAI
-    const prompt = `Eres Quest, el analista electoral de PLUS BI. Genera un informe profesional redactado especialmente para el usuario, utilizando datos e información curada por el equipo de PLUS BI sobre la situación electoral en ${contexto}.
+    let prompt = '';
+
+    if (isAgostog) {
+      // Prompt especializado para análisis político estratégico
+      prompt = `Eres Quest, el analista político estratégico de PLUS BI. Genera un informe de análisis político de alto nivel para Agostina sobre la situación electoral en ${contexto}.
+
+**DATOS DE ENCUESTAS DISPONIBLES:**
+
+Total de encuestas analizadas: ${totalEncuestas}
+Encuestadoras: ${encuestadorasUnicas.join(', ')}
+Muestra total: ${totalMuestra.toLocaleString('es-AR')} personas
+
+Promedios de intención de voto:
+- LLA: ${promedioLLA.toFixed(1)}% | FP: ${promedioFP.toFixed(1)}% | PU: ${promedioPU.toFixed(1)}% | UCR: ${promedioUCR.toFixed(1)}% | PRO: ${promedioPRO.toFixed(1)}%
+
+**CONTEXTO POLÍTICO:**
+
+${contextoEspecifico || 'Información contextual limitada para este territorio.'}
+
+---
+
+**ESTRUCTURA OBLIGATORIA DEL INFORME:**
+
+## 1. Introducción y Contexto Político
+Panorama general de la situación política actual y factores clave que determinan el escenario electoral.
+
+## 2. Balance de Gobernabilidad
+- Fortalezas y debilidades del oficialismo
+- Capacidad de gestión y aprobación de la agenda legislativa
+- Relación con el Congreso: conflictos, negociaciones, vetos
+
+## 3. Economía y Efecto Social
+- Inflación y recesión: impacto en la intención de voto
+- Ingreso real y poder adquisitivo
+- Percepción ciudadana sobre la economía
+
+## 4. Relación con Actores Clave
+- Gobernadores provinciales: alineamientos y tensiones territoriales
+- Sindicalismo y organizaciones sociales
+- Empresariado y sectores productivos
+- Medios de comunicación y agenda pública
+
+## 5. Discurso y Narrativa
+- Mensajes dominantes de cada fuerza política
+- Efectividad del relato oficialista vs. oposición
+- Temas que traccionan en la opinión pública
+
+## 6. Riesgos y Oportunidades
+- Riesgo político: factores de inestabilidad institucional
+- Ventanas de oportunidad para cada espacio
+- Eventos imprevistos que podrían alterar el escenario
+
+## 7. Escenarios Probables + Implicancias Estratégicas
+- **Escenario Base:** Proyección más probable según datos actuales
+- **Escenario Optimista (para oficialismo):** Condiciones favorables
+- **Escenario Pesimista (para oficialismo):** Deterioro acelerado
+- **Implicancias:** Consecuencias políticas, económicas y sociales de cada escenario
+
+## 8. Indicadores Clave a Monitorear
+- Imagen presidencial y aprobación del gobierno
+- Evolución del conflicto con el Congreso
+- Nivel de riesgo político (escala 1-10)
+- Indicadores económicos: inflación mensual, actividad económica, desempleo
+- Tensión territorial: conflictos con gobernadores
+- Agenda pública: temas dominantes en medios
+- Factores de inestabilidad: protestas, crisis institucionales
+
+---
+
+**INSTRUCCIONES:**
+- Enfoque estratégico y de alto nivel, no solo electoral
+- Análisis profundo de correlaciones políticas y económicas
+- Proyecciones fundamentadas en datos + contexto político
+- Identificar puntos de inflexión y variables críticas
+- Tono ejecutivo, directo, orientado a la toma de decisiones
+- Extensión: 1000-1200 palabras`;
+    } else {
+      // Prompt estándar para análisis electoral
+      prompt = `Eres Quest, el analista electoral de PLUS BI. Genera un informe profesional redactado especialmente para el usuario, utilizando datos e información curada por el equipo de PLUS BI sobre la situación electoral en ${contexto}.
 
 **DATOS DE ENCUESTAS DISPONIBLES:**
 
@@ -183,6 +264,7 @@ Resumen profesional con recomendaciones estratégicas.
 - Haz inferencias inteligentes sobre intenciones de voto basadas en eventos políticos
 - Mantén un tono periodístico de calidad, como el de un analista político reconocido
 - El informe debe ser completo pero conciso (600-800 palabras)`;
+    }
 
     // Generar respuesta con OpenAI
     console.log('🤖 API: Generando informe con Quest...');
@@ -192,7 +274,9 @@ Resumen profesional con recomendaciones estratégicas.
       messages: [
         {
           role: 'system',
-          content: 'Eres Quest, el analista electoral de PLUS BI. Redactas informes profesionales personalizados basados en datos curados por el equipo de PLUS BI. Tu estilo es profesional, objetivo y basado en datos.'
+          content: isAgostog
+            ? 'Eres Quest, el analista político estratégico de PLUS BI. Generas informes de alto nivel enfocados en riesgos, oportunidades e implicancias estratégicas. Tu estilo es ejecutivo, analítico y orientado a la toma de decisiones políticas.'
+            : 'Eres Quest, el analista electoral de PLUS BI. Redactas informes profesionales personalizados basados en datos curados por el equipo de PLUS BI. Tu estilo es profesional, objetivo y basado en datos.'
         },
         {
           role: 'user',
@@ -200,7 +284,7 @@ Resumen profesional con recomendaciones estratégicas.
         }
       ],
       temperature: 0.7,
-      max_tokens: 4000,
+      max_tokens: isAgostog ? 5000 : 4000,
     });
     console.log('✅ API: Informe generado por Quest');
 
