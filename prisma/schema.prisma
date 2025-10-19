@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// ============================================
+// AUTENTICACIÓN Y USUARIOS
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  role          UserRole  @default(GUEST)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Para usuarios guest
+  guestExpiresAt DateTime?
+
+  // Para usuarios premium
+  premiumSince   DateTime?
+  premiumUntil   DateTime?
+
+  // Relaciones
+  sessions       Session[]
+  analyticsEvents AnalyticsEvent[]
+  generatedReports GeneratedReport[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN     // Usuario premium/pagante
+  GUEST     // Usuario de prueba gratuita
+  SUPERADMIN // Administrador del sistema
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  sessionToken String   @unique
+  expires      DateTime
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@map("sessions")
+}
+
+// ============================================
+// ANALYTICS Y TRACKING
+// ============================================
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  eventType   EventType
+  eventName   String
+  userId      String?
+  userEmail   String?
+  userRole    UserRole?
+
+  // Metadata del evento
+  metadata    Json?
+
+  // Información de la sesión
+  sessionId   String?
+  ipAddress   String?
+  userAgent   String?
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([eventType])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([eventName])
+  @@map("analytics_events")
+}
+
+enum EventType {
+  PAGE_VIEW           // Visita a página
+  LOGIN_SUCCESS       // Login exitoso
+  LOGIN_FAILED        // Login fallido
+  LOGOUT              // Cierre de sesión
+  GUEST_ACCESS        // Acceso como invitado
+  FILTER_CHANGE       // Cambio de filtro
+  REPORT_GENERATED    // Reporte generado
+  MAP_INTERACTION     // Interacción con mapa
+  POLLSTER_COMPARISON // Comparación de encuestadoras
+  UPGRADE_ATTEMPT     // Intento de upgrade a premium
+  ERROR               // Error en la aplicación
+}
+
+// ============================================
+// DATOS DE ENCUESTAS
+// ============================================
+
+model Survey {
+  id            String    @id @default(cuid())
+  date          DateTime
+  pollster      String
+  scope         SurveyScope
+  province      String?
+  chamber       Chamber
+
+  // Porcentajes de partidos
+  LLA           Float?
+  FP            Float?
+  PU            Float?
+  UCR           Float?
+  PRO           Float?
+  FIT           Float?
+  Provincial    Float?
+  Others        Float?
+
+  // Metadata de la encuesta
+  sample        Int?
+  methodology   String?
+  marginError   Float?
+
+  // Audit
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdBy     String?
+
+  @@index([date])
+  @@index([pollster])
+  @@index([scope])
+  @@index([province])
+  @@index([chamber])
+  @@map("surveys")
+}
+
+enum SurveyScope {
+  NATIONAL
+  PROVINCIAL
+}
+
+enum Chamber {
+  DIPUTADOS
+  SENADORES
+}
+
+// ============================================
+// REPORTES GENERADOS
+// ============================================
+
+model GeneratedReport {
+  id          String      @id @default(cuid())
+  userId      String
+  userEmail   String
+  reportType  ReportType
+  province    String?
+
+  // Contenido del reporte
+  content     String      @db.Text
+
+  // Metadata
+  tokensUsed  Int?
+  generationTime Int?     // en milisegundos
+
+  createdAt   DateTime    @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([reportType])
+  @@map("generated_reports")
+}
+
+enum ReportType {
+  NATIONAL
+  PROVINCIAL
+}
+
+// ============================================
+// CONFIGURACIÓN DEL SISTEMA
+// ============================================
+
+model SystemConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("system_config")
+}

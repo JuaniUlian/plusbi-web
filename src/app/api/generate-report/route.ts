@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import fs from 'fs';
 import path from 'path';
+import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
+import { ReportType } from '@prisma/client';
 
 // Lazy initialization to avoid build-time errors
 function getOpenAIClient() {
@@ -30,7 +33,18 @@ interface EncuestaData {
 }
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+
   try {
+    // Verificar autenticación
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'No autenticado', success: false },
+        { status: 401 }
+      );
+    }
+
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         {
@@ -40,7 +54,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    // ... el resto de tu lógica igual ...
+
     const { type, province, encuestasData } = await request.json();
 
     // Leer el informe de situación
@@ -192,6 +206,51 @@ Resumen profesional con recomendaciones estratégicas.
 
     const text = completion.choices[0].message.content || '';
     console.log('✅ API: Informe generado, length:', text.length);
+
+    // Calcular tokens usados y tiempo de generación
+    const tokensUsed = completion.usage?.total_tokens || 0;
+    const generationTime = Date.now() - startTime;
+
+    // Guardar reporte en la base de datos
+    try {
+      await prisma.generatedReport.create({
+        data: {
+          userId: session.user.id,
+          userEmail: session.user.email || '',
+          reportType: type === 'national' ? ReportType.NATIONAL : ReportType.PROVINCIAL,
+          province: type === 'provincial' ? province : null,
+          content: text,
+          tokensUsed,
+          generationTime,
+        }
+      });
+      console.log('✅ API: Reporte guardado en base de datos');
+    } catch (dbError) {
+      console.error('❌ Error al guardar reporte en DB:', dbError);
+      // No fallar el request si falla el guardado
+    }
+
+    // Registrar evento de analytics
+    try {
+      await prisma.analyticsEvent.create({
+        data: {
+          eventType: 'REPORT_GENERATED',
+          eventName: `report_${type}`,
+          userId: session.user.id,
+          userEmail: session.user.email,
+          userRole: session.user.role,
+          metadata: {
+            reportType: type,
+            province: province || null,
+            tokensUsed,
+            generationTime,
+          },
+        }
+      });
+    } catch (analyticsError) {
+      console.error('❌ Error al registrar analytics:', analyticsError);
+      // No fallar el request si falla el analytics
+    }
 
     return NextResponse.json({
       report: text,
