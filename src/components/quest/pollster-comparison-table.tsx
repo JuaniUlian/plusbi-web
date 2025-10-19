@@ -4,6 +4,7 @@
 import { useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getProvincialPartyShortName } from '@/lib/provincial-parties';
 
 interface EncuestaData {
   date: string;
@@ -109,7 +110,7 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
           )}
           {poll.Provincial !== null && (
             <div className="flex justify-between font-bold" style={{ color: '#849221' }}>
-              <span>Provincial:</span>
+              <span>{getProvincialPartyShortName(poll.province)}:</span>
               <span>{formatPercentage(poll.Provincial)}</span>
             </div>
           )}

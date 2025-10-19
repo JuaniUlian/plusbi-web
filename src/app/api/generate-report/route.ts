@@ -70,10 +70,6 @@ export async function POST(request: NextRequest) {
       contexto = 'nivel nacional';
     } else if (type === 'provincial' && province) {
       datosRelevantes = encuestasData.filter((e: EncuestaData) => e.province === province);
-      const provinceSections = situacionContent.split('\n\n');
-      const provinceSection = provinceSections.find(section =>
-        section.toLowerCase().includes(province.toLowerCase())
-      );
       contexto = `provincia de ${province}`;
     }
 
@@ -152,58 +148,76 @@ ${contextoEspecifico || 'Información contextual limitada para este territorio.'
 **ESTRUCTURA OBLIGATORIA DEL INFORME:**
 
 ## 1. Introducción y Contexto Político
-Panorama general de la situación política actual y factores clave que determinan el escenario electoral.
+**OBLIGATORIO:** Incluir los datos de las encuestas (LLA: ${promedioLLA.toFixed(1)}%, FP: ${promedioFP.toFixed(1)}%, PU: ${promedioPU.toFixed(1)}%) en el primer párrafo. Identificar el escenario político dominante con evidencia concreta del contexto proporcionado.
 
 ## 2. Balance de Gobernabilidad
-- Fortalezas y debilidades del oficialismo
-- Capacidad de gestión y aprobación de la agenda legislativa
-- Relación con el Congreso: conflictos, negociaciones, vetos
+**OBLIGATORIO:** Usar datos específicos del contexto para evaluar:
+- Fortalezas del oficialismo: [Citar ejemplos CONCRETOS de logros legislativos o aprobación]
+- Debilidades: [Identificar FRACASOS específicos mencionados en contexto]
+- Relación con Congreso: [Cuantificar: X leyes aprobadas, Y vetos, nivel de conflicto: Bajo/Medio/Alto]
 
 ## 3. Economía y Efecto Social
-- Inflación y recesión: impacto en la intención de voto
-- Ingreso real y poder adquisitivo
-- Percepción ciudadana sobre la economía
+**OBLIGATORIO:** Relacionar datos económicos del contexto con la intención de voto:
+- Correlación específica: "Inflación del X% explica caída/subida de Y puntos en intención de voto"
+- Proyectar impacto numérico: "Si continúa recesión, LLA podría perder/ganar Z puntos"
 
 ## 4. Relación con Actores Clave
-- Gobernadores provinciales: alineamientos y tensiones territoriales
-- Sindicalismo y organizaciones sociales
-- Empresariado y sectores productivos
-- Medios de comunicación y agenda pública
+**OBLIGATORIO:** Identificar actores ESPECÍFICOS (nombres reales de gobernadores, sindicatos, empresas mencionados en contexto):
+- NO escribir "gobernadores provinciales" → SÍ escribir "Gobernador X de provincia Y"
+- Evaluar tensión con cada actor: Escala 1-10 + justificación
 
 ## 5. Discurso y Narrativa
-- Mensajes dominantes de cada fuerza política
-- Efectividad del relato oficialista vs. oposición
-- Temas que traccionan en la opinión pública
+**OBLIGATORIO:** Citar temas ESPECÍFICOS que mueve cada fuerza:
+- NO: "mensajes dominantes" → SÍ: "LLA enfoca en motosierra fiscal, FP ataca ajuste sobre jubilados"
+- Efectividad medida en impacto electoral: "Narrativa X explica Y% de diferencia en segmento Z"
 
 ## 6. Riesgos y Oportunidades
-- Riesgo político: factores de inestabilidad institucional
-- Ventanas de oportunidad para cada espacio
-- Eventos imprevistos que podrían alterar el escenario
+**OBLIGATORIO:** Cuantificar probabilidades:
+- Riesgo X: Probabilidad estimada Y%, impacto en voto: Z puntos
+- Oportunidad X: Si se concreta, cambio proyectado: +/- Z% para espacio Y
 
 ## 7. Escenarios Probables + Implicancias Estratégicas
-- **Escenario Base:** Proyección más probable según datos actuales
-- **Escenario Optimista (para oficialismo):** Condiciones favorables
-- **Escenario Pesimista (para oficialismo):** Deterioro acelerado
-- **Implicancias:** Consecuencias políticas, económicas y sociales de cada escenario
+**OBLIGATORIO:** Proyecciones NUMÉRICAS para cada escenario:
+- **Escenario Base (60% probabilidad):** LLA: X%, FP: Y%, PU: Z% [fundamentar en datos + contexto]
+- **Escenario Optimista (25% prob.):** LLA: X%, FP: Y% [explicar qué eventos dispararían esto]
+- **Escenario Pesimista (15% prob.):** LLA: X%, FP: Y% [explicar bajo qué condiciones]
+- **Implicancias CONCRETAS:** No generalidades. Ej: "Si LLA <30%, pierde gobernabilidad"
 
 ## 8. Indicadores Clave a Monitorear
-- Imagen presidencial y aprobación del gobierno
-- Evolución del conflicto con el Congreso
-- Nivel de riesgo político (escala 1-10)
-- Indicadores económicos: inflación mensual, actividad económica, desempleo
-- Tensión territorial: conflictos con gobernadores
-- Agenda pública: temas dominantes en medios
-- Factores de inestabilidad: protestas, crisis institucionales
+
+**OBLIGATORIO: Cada indicador DEBE incluir un valor numérico concreto basado en la evidencia disponible.**
+
+- **Imagen presidencial y aprobación:** [Estimar % de aprobación basado en tendencia de LLA]
+- **Conflicto con el Congreso:** [Evaluar nivel: Bajo/Medio/Alto + justificación específica]
+- **Nivel de riesgo político:** [OBLIGATORIO: Escala 1-10 con fundamentación concreta en datos]
+- **Inflación mensual estimada:** [Proyectar % basado en contexto económico mencionado]
+- **Actividad económica:** [Tendencia: Expansión/Estancamiento/Recesión + % estimado]
+- **Tensión territorial:** [Escala 1-10 de conflicto con gobernadores + razones]
+- **Agenda pública dominante:** [Top 3 temas específicos que impactan voto]
+- **Factor de inestabilidad principal:** [Identificar EL riesgo más crítico con probabilidad estimada]
 
 ---
 
-**INSTRUCCIONES:**
-- Enfoque estratégico y de alto nivel, no solo electoral
-- Análisis profundo de correlaciones políticas y económicas
-- Proyecciones fundamentadas en datos + contexto político
-- Identificar puntos de inflexión y variables críticas
-- Tono ejecutivo, directo, orientado a la toma de decisiones
-- Extensión: 1000-1200 palabras`;
+**INSTRUCCIONES ESTRICTAS - NO GENERAR DESCRIPCIONES GENÉRICAS:**
+
+❌ **PROHIBIDO:** Listas de definiciones genéricas sin datos
+❌ **PROHIBIDO:** Frases como "es importante monitorear", "determinará el futuro"
+❌ **PROHIBIDO:** Descripciones teóricas sin números ni evidencia concreta
+
+✅ **OBLIGATORIO:** Cada métrica DEBE tener un valor numérico o categoría específica
+✅ **OBLIGATORIO:** Fundamentar TODAS las estimaciones en los datos de encuestas + contexto
+✅ **OBLIGATORIO:** Si no hay datos suficientes, decir explícitamente "Datos insuficientes" y estimar basándose en el contexto nacional
+✅ **OBLIGATORIO:** Análisis de correlaciones políticas-económicas con evidencia
+✅ **OBLIGATORIO:** Tono ejecutivo, directo, orientado a decisiones estratégicas
+
+**Ejemplo de lo que SÍ queremos:**
+"Nivel de riesgo político: 7/10. Fundamentación: LLA mantiene ${promedioLLA.toFixed(1)}% en provincia clave, pero tensión con gobernador genera incertidumbre. Riesgo de movilizaciones sindicales estimado en 60% próximos 30 días."
+
+**Ejemplo de lo que NO queremos:**
+"Nivel de riesgo político: Escala de 1 a 10 para evaluar la estabilidad institucional." ← ESTO ES INACEPTABLE
+
+Extensión: 1200-1500 palabras con alta densidad de información`;
+
     } else {
       // Prompt estándar para análisis electoral
       prompt = `Eres Quest, el analista electoral de PLUS BI. Genera un informe profesional redactado especialmente para el usuario, utilizando datos e información curada por el equipo de PLUS BI sobre la situación electoral en ${contexto}.

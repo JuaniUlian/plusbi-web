@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FileText, LogOut, Crown, User, Info, RefreshCw, X, Printer } from 'lucide-react';
+import { FileText, LogOut, Crown, User, Info, RefreshCw, X, Printer, Database, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
@@ -95,6 +95,7 @@ export default function DashboardPage() {
   const [generatedReport, setGeneratedReport] = useState<string>('');
   const [reportMetadata, setReportMetadata] = useState<{ type: string; province?: string }>({ type: 'national' });
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
+  const [showUploadPanel, setShowUploadPanel] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -152,13 +153,15 @@ export default function DashboardPage() {
   }, [encuestasData, selectedChamber]);
 
   useEffect(() => {
-    if (selectedChamber === 'Todas' && selectedProvince === 'Todas' && selectedPollster !== 'Todas') {
+    // Cuando cambia la consultora, actualizar provincia automáticamente
+    if (selectedPollster !== 'Todas') {
       const pollsterData = encuestasData.filter(e => {
           let pollster = e.pollster;
           if (pollster.toLowerCase().includes('federico gonzalez')) pollster = 'Federico Gonzalez y Asociados';
           if (pollster.toLowerCase().includes('zuban cordoba')) pollster = 'Zuban Cordoba';
           return pollster === selectedPollster;
       });
+
       const pollsterHasNationalData = pollsterData.some(d => d.scope === 'national');
 
       if (pollsterHasNationalData) {
@@ -166,13 +169,21 @@ export default function DashboardPage() {
         return;
       }
 
-      const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null && p !== undefined)));
-      if (provinces.length > 0) {
-        provinces.sort();
-        setSelectedProvince(provinces[0] as string);
+      // Verificar si la provincia actual tiene datos para esta consultora
+      const currentProvinceHasData = pollsterData.some(e => e.province === selectedProvince);
+
+      if (!currentProvinceHasData || selectedProvince === 'Todas') {
+        // Seleccionar la primera provincia con datos
+        const provinces = Array.from(new Set(pollsterData.map(e => e.province).filter(p => p !== null && p !== undefined)));
+        if (provinces.length > 0) {
+          provinces.sort();
+          setSelectedProvince(provinces[0] as string);
+        } else {
+          setSelectedProvince('Todas');
+        }
       }
     }
-  }, [selectedPollster, selectedChamber, selectedProvince, encuestasData]);
+  }, [selectedPollster, encuestasData]);
 
   const datosFiltrados = useMemo(() => {
     return encuestasData.filter(e => {
@@ -518,7 +529,7 @@ export default function DashboardPage() {
               <Image src="/logo/quest.png" alt="Quest" width={40} height={40} />
               <h1 className="text-2xl font-headline font-bold">Quest Dashboard</h1>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-sm">
                 {isPaidUser ? (
                   <Crown className="h-4 w-4 text-yellow-500" />
@@ -527,6 +538,30 @@ export default function DashboardPage() {
                 )}
                 <span className="hidden sm:inline">{user?.email}</span>
               </div>
+
+              {isSuperAdmin && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => window.open('https://supabase.com/dashboard/project/bfbdrcwofrrwezlmywfr', '_blank')}
+                    className="gap-2"
+                  >
+                    <Database className="h-4 w-4" />
+                    <span className="hidden md:inline">Backend</span>
+                  </Button>
+                  <Button
+                    variant={showUploadPanel ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setShowUploadPanel(!showUploadPanel)}
+                    className="gap-2"
+                  >
+                    <Upload className="h-4 w-4" />
+                    <span className="hidden md:inline">{showUploadPanel ? 'Ocultar' : 'Cargar'}</span>
+                  </Button>
+                </>
+              )}
+
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -585,11 +620,12 @@ export default function DashboardPage() {
           lastUpdate={ultimaActualizacion}
         />
 
-        {isSuperAdmin && (
+        {isSuperAdmin && showUploadPanel && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
           >
             <SurveyUploader />
           </motion.div>

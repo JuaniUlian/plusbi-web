@@ -7,6 +7,7 @@ import { Tooltip } from 'react-tooltip';
 import { Button } from '@/components/ui/button';
 import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 import type { ProvinceData } from '@/app/products/quest/dashboard/page';
+import { getProvincialPartyShortName } from '@/lib/provincial-parties';
 
 const ARGENTINA_GEOJSON = '/data/argentina-provinces.json';
 
@@ -62,9 +63,14 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
   };
 
   const getTooltipContent = (province: ProvinceData) => {
+    const provincialPartyName = getProvincialPartyShortName(province.name);
+
     const percentages = Object.entries(province.percentages)
       .sort((a, b) => b[1] - a[1])
-      .map(([party, value]) => `<div class="flex justify-between"><span>${party}:</span> <strong>${value}%</strong></div>`)
+      .map(([party, value]) => {
+        const displayName = party === 'Provincial' ? provincialPartyName : party;
+        return `<div class="flex justify-between"><span>${displayName}:</span> <strong>${value}%</strong></div>`;
+      })
       .join('');
 
     return `
