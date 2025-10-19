@@ -102,9 +102,15 @@ export default function DashboardPage() {
       .then(res => res.json())
       .then(({ surveys }) => {
         const unifiedData = surveys
-          .filter((d: EncuestaData) => d.pollster)
-          .map((d: EncuestaData) => ({
+          .filter((d: any) => d.pollster)
+          .map((d: any) => ({
             ...d,
+            // Convertir date de ISO a formato simple YYYY-MM-DD
+            date: d.date ? d.date.split('T')[0] : d.date,
+            // Convertir scope y chamber a lowercase para compatibilidad
+            scope: d.scope?.toLowerCase(),
+            chamber: d.chamber?.toLowerCase(),
+            // Normalizar nombres de encuestadoras
             pollster: d.pollster
               .replace(/Córdoba/i, 'Cordoba')
               .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
