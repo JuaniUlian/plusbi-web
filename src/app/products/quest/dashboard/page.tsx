@@ -477,19 +477,9 @@ export default function DashboardPage() {
     logout();
     router.push('/products/quest');
   };
-  
-  useEffect(() => {
-    if (mounted && !isAuthenticated) {
-      router.push('/products/quest/login');
-    }
-  }, [mounted, isAuthenticated, router]);
-  
-  if (!mounted || !isAuthenticated) {
-    return null;
-  }
 
   // Show loading state while checking authentication
-  if (status === 'loading') {
+  if (status === 'loading' || !mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -500,7 +490,7 @@ export default function DashboardPage() {
     );
   }
 
-  // Don't render dashboard if not authenticated (redirect will happen)
+  // Don't render dashboard if not authenticated (useSession will redirect)
   if (!isAuthenticated) {
     return null;
   }
