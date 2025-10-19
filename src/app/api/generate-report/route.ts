@@ -130,6 +130,9 @@ export async function POST(request: NextRequest) {
       // Prompt especializado para análisis político estratégico
       prompt = `Eres Quest, el analista político estratégico de PLUS BI. Genera un informe de análisis político de alto nivel para Agostina sobre la situación electoral en ${contexto}.
 
+⚠️ **ADVERTENCIA CRÍTICA - LECTURA OBLIGATORIA:**
+Este cliente ODIA y RECHAZA reportes genéricos sin datos específicos. TODOS los indicadores, métricas y análisis DEBEN incluir valores numéricos concretos o categorías específicas. NO uses frases descriptivas genéricas tipo "es importante monitorear" o "determinará el futuro". Cada afirmación debe estar fundamentada en datos REALES de las encuestas o del contexto proporcionado.
+
 **DATOS DE ENCUESTAS DISPONIBLES:**
 
 Total de encuestas analizadas: ${totalEncuestas}
@@ -221,6 +224,9 @@ Extensión: 1200-1500 palabras con alta densidad de información`;
     } else {
       // Prompt estándar para análisis electoral
       prompt = `Eres Quest, el analista electoral de PLUS BI. Genera un informe profesional redactado especialmente para el usuario, utilizando datos e información curada por el equipo de PLUS BI sobre la situación electoral en ${contexto}.
+
+⚠️ **INSTRUCCIÓN CRÍTICA:**
+Los usuarios de Quest esperan análisis con DATOS CONCRETOS, no descripciones genéricas. Incluye valores numéricos, porcentajes y estimaciones específicas basadas en las encuestas y el contexto proporcionado.
 
 **DATOS DE ENCUESTAS DISPONIBLES:**
 
