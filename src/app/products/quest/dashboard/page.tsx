@@ -3,7 +3,8 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/auth-context';
+import { useSession, signOut } from 'next-auth/react';
+import { questAnalytics } from '@/lib/analytics';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -23,6 +24,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
+import { SurveyUploader } from '@/components/quest/SurveyUploader';
 
 const ArgentinaHeatmap = dynamic(
   () => import('@/components/quest/argentina-heatmap').then(mod => mod.ArgentinaHeatmap),
@@ -68,7 +70,13 @@ export interface ProvinceData {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, logout, isAuthenticated, isPaidUser } = useAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isAuthenticated = status === 'authenticated';
+  const isPaidUser = user?.role !== 'GUEST';
+  const isSuperAdmin = user?.role === 'SUPERADMIN';
+  const logout = () => signOut({ callbackUrl: '/products/quest/login' });
+
   const [mounted, setMounted] = useState(false);
   const [encuestasData, setEncuestasData] = useState<EncuestaData[]>([]);
   const [selectedPollster, setSelectedPollster] = useState('Todas');
@@ -85,11 +93,11 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setMounted(true);
-    fetch('/data/encuestas_argentina_2025.json')
+    fetch('/api/surveys')
       .then(res => res.json())
-      .then(data => {
-        const unifiedData = data
-          .filter((d: EncuestaData) => d.pollster) // Filtrar registros sin pollster
+      .then(({ surveys }) => {
+        const unifiedData = surveys
+          .filter((d: EncuestaData) => d.pollster)
           .map((d: EncuestaData) => ({
             ...d,
             pollster: d.pollster
@@ -99,8 +107,12 @@ export default function DashboardPage() {
               .trim()
           }));
         setEncuestasData(unifiedData);
+        questAnalytics.dashboardView();
       })
-      .catch(err => console.error('Error cargando encuestas:', err));
+      .catch(err => {
+        console.error('Error cargando encuestas:', err);
+        questAnalytics.error('Failed to load surveys', 'dashboard');
+      });
   }, []);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
@@ -345,6 +357,7 @@ export default function DashboardPage() {
   const handleChamberChange = (value: string) => {
     if (handleFilterAction()) {
       setSelectedChamber(value);
+      questAnalytics.filterChange('chamber', value);
       if (value === 'senadores') {
         setSelectedProvince('Todas');
       }
@@ -355,6 +368,7 @@ export default function DashboardPage() {
     setSelectedChamber('Todas');
     setSelectedPollster('Todas');
     setSelectedProvince('Todas');
+    questAnalytics.filterChange('reset', 'all');
   };
 
   const handleGeneralReport = async () => {
@@ -391,11 +405,14 @@ export default function DashboardPage() {
         setGeneratedReport(data.report);
         setReportMetadata({ type: 'national' });
         setShowReportModal(true);
+        questAnalytics.reportGenerated('national');
       } else {
         console.error('❌ Error en la respuesta:', data.error);
+        questAnalytics.error('Report generation failed', 'dashboard');
       }
     } catch (error) {
       console.error('❌ Error generando reporte:', error);
+      questAnalytics.error('Report generation error', 'dashboard');
     } finally {
       console.log('🏁 Finalizando generación');
       setGeneratingReport(false);
@@ -436,11 +453,14 @@ export default function DashboardPage() {
         setGeneratedReport(data.report);
         setReportMetadata({ type: 'provincial', province: province.name });
         setShowReportModal(true);
+        questAnalytics.reportGenerated('provincial', province.name);
       } else {
         console.error('❌ Error en la respuesta:', data.error);
+        questAnalytics.error('Provincial report failed', 'dashboard');
       }
     } catch (error) {
       console.error('❌ Error generando reporte provincial:', error);
+      questAnalytics.error('Provincial report error', 'dashboard');
     } finally {
       console.log('🏁 Finalizando generación');
       setGeneratingReport(false);
@@ -448,6 +468,7 @@ export default function DashboardPage() {
   };
 
   const handleLogout = () => {
+    questAnalytics.logout();
     logout();
     router.push('/products/quest');
   };
@@ -546,6 +567,16 @@ export default function DashboardPage() {
           lastUpdate={ultimaActualizacion}
         />
 
+        {isSuperAdmin && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+          >
+            <SurveyUploader />
+          </motion.div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -598,7 +629,10 @@ export default function DashboardPage() {
                   <Select
                     value={selectedPollster}
                     onValueChange={(value) => {
-                      if (handleFilterAction()) setSelectedPollster(value);
+                      if (handleFilterAction()) {
+                        setSelectedPollster(value);
+                        questAnalytics.filterChange('pollster', value);
+                      }
                     }}
                   >
                     <SelectTrigger id="pollster-select" className="w-full">
@@ -619,7 +653,10 @@ export default function DashboardPage() {
                   <Select
                     value={selectedProvince}
                     onValueChange={(value) => {
-                      if (handleFilterAction()) setSelectedProvince(value);
+                      if (handleFilterAction()) {
+                        setSelectedProvince(value);
+                        questAnalytics.filterChange('province', value);
+                      }
                     }}
                     disabled={selectedChamber === 'senadores'}
                   >
@@ -646,42 +683,60 @@ export default function DashboardPage() {
                 <Button
                   variant={timeframe === '1D' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('1D')}
+                  onClick={() => {
+                    setTimeframe('1D');
+                    questAnalytics.filterChange('timeframe', '1D');
+                  }}
                 >
                   1D
                 </Button>
                 <Button
                   variant={timeframe === '1W' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('1W')}
+                  onClick={() => {
+                    setTimeframe('1W');
+                    questAnalytics.filterChange('timeframe', '1W');
+                  }}
                 >
                   1S
                 </Button>
                 <Button
                   variant={timeframe === '1M' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('1M')}
+                  onClick={() => {
+                    setTimeframe('1M');
+                    questAnalytics.filterChange('timeframe', '1M');
+                  }}
                 >
                   1M
                 </Button>
                 <Button
                   variant={timeframe === '6M' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('6M')}
+                  onClick={() => {
+                    setTimeframe('6M');
+                    questAnalytics.filterChange('timeframe', '6M');
+                  }}
                 >
                   6M
                 </Button>
                 <Button
                   variant={timeframe === '1Y' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('1Y')}
+                  onClick={() => {
+                    setTimeframe('1Y');
+                    questAnalytics.filterChange('timeframe', '1Y');
+                  }}
                 >
                   1A
                 </Button>
                 <Button
                   variant={timeframe === 'ALL' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setTimeframe('ALL')}
+                  onClick={() => {
+                    setTimeframe('ALL');
+                    questAnalytics.filterChange('timeframe', 'ALL');
+                  }}
                 >
                   Todo
                 </Button>

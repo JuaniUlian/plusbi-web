@@ -94,8 +94,15 @@ export const questAnalytics = {
       eventName: 'user_logout',
     }),
 
+  // Dashboard
+  dashboardView: () =>
+    trackEvent({
+      eventType: 'PAGE_VIEW',
+      eventName: 'dashboard_view',
+    }),
+
   // Filtros
-  filterChange: (filterType: 'chamber' | 'pollster' | 'province' | 'timeframe', value: string) =>
+  filterChange: (filterType: 'chamber' | 'pollster' | 'province' | 'timeframe' | 'reset', value: string) =>
     trackEvent({
       eventType: 'FILTER_CHANGE',
       eventName: `filter_${filterType}`,
@@ -157,6 +164,14 @@ export const questAnalytics = {
     trackEvent({
       eventType: 'UPGRADE_ATTEMPT',
       eventName: 'upgrade_form_clicked',
+    }),
+
+  // Survey Upload (SUPERADMIN only)
+  surveyUpload: (uploadType: 'text' | 'excel' | 'json', count: number) =>
+    trackEvent({
+      eventType: 'PAGE_VIEW',
+      eventName: 'survey_upload',
+      metadata: { uploadType, count },
     }),
 
   // Errores

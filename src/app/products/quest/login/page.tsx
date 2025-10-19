@@ -1,60 +1,56 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/auth-context';
+import { signIn } from 'next-auth/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Lock, UserCircle, Clock, Crown, AlertTriangle } from 'lucide-react';
+import { Lock, UserCircle, Crown, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
+import { questAnalytics } from '@/lib/analytics';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loginAsGuest } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [guestAccessExpired, setGuestAccessExpired] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number;
-    hours: number;
-    minutes: number;
-  }>({ days: 0, hours: 0, minutes: 0 });
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const targetDate = new Date('2025-10-19T23:59:59-03:00');
-    const now = new Date();
-
-    if (now >= targetDate) {
-      setGuestAccessExpired(true);
-    } else {
-      const difference = targetDate.getTime() - now.getTime();
-      setTimeLeft({
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-      });
-    }
-  }, []);
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
-    const success = login(email, password);
-    if (success) {
-      router.push('/products/quest/dashboard');
-    } else {
-      setError('Credenciales incorrectas. Verifica tu email y contraseña.');
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        if (result.error === 'GUEST_EXPIRED') {
+          setError('Tu acceso de invitado ha expirado. Contáctanos para obtener acceso premium.');
+          questAnalytics.loginFailed(email, 'guest_expired');
+        } else {
+          setError('Credenciales incorrectas. Verifica tu email y contraseña.');
+          questAnalytics.loginFailed(email, 'invalid_credentials');
+        }
+      } else {
+        // Login exitoso
+        questAnalytics.loginSuccess(email, false);
+        router.push('/products/quest/dashboard');
+        router.refresh();
+      }
+    } catch (error) {
+      setError('Error al iniciar sesión. Intenta nuevamente.');
+      questAnalytics.error('Login error', 'login_page');
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const handleGuestLogin = () => {
-    loginAsGuest();
-    router.push('/products/quest/dashboard');
   };
 
   return (
@@ -85,95 +81,78 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="tu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-            <Button type="submit" className="w-full" size="lg">
-              <Lock className="mr-2 h-4 w-4" />
-              Iniciar Sesión
-            </Button>
-          </form>
-
-          {!guestAccessExpired && (
-            <>
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">O</span>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="tu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Contraseña</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
               </div>
 
-              <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
-                <Clock className="h-4 w-4 text-yellow-600" />
-                <AlertTitle className="text-sm font-semibold text-yellow-900 dark:text-yellow-100">
-                  ¡Oferta por tiempo limitado!
-                </AlertTitle>
-                <AlertDescription className="text-xs text-yellow-800 dark:text-yellow-200 mt-1">
-                  Acceso como invitado disponible hasta el <strong>19/10/2025</strong>
-                  <br />
-                  Quedan: <strong>{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m</strong>
-                  <br />
-                  <span className="font-semibold">60% OFF</span> si te registras antes del 19/10
-                </AlertDescription>
-              </Alert>
+              {error && (
+                <Alert variant="destructive">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
 
               <Button
-                variant="outline"
+                type="submit"
                 className="w-full"
                 size="lg"
-                onClick={handleGuestLogin}
+                disabled={isLoading}
               >
-                <UserCircle className="mr-2 h-4 w-4" />
-                Ingresar como Invitado
+                <Lock className="mr-2 h-4 w-4" />
+                {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
               </Button>
-            </>
-          )}
+            </form>
 
-          {guestAccessExpired && (
-            <Alert className="border-red-500 bg-red-50 dark:bg-red-950/20">
-              <AlertTriangle className="h-4 w-4 text-red-600" />
-              <AlertTitle className="text-sm font-semibold text-red-900 dark:text-red-100">
-                Acceso como invitado no disponible
-              </AlertTitle>
-              <AlertDescription className="text-xs text-red-800 dark:text-red-200 mt-1 space-y-2">
-                <p>El acceso gratuito expiró el 19 de octubre de 2025.</p>
-                <Button
-                  onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')}
-                  className="w-full mt-2 bg-red-600 hover:bg-red-700"
-                  size="sm"
-                >
-                  <Crown className="mr-2 h-4 w-4" />
-                  Registrarme Ahora
-                </Button>
-              </AlertDescription>
-            </Alert>
-          )}
+            <div className="text-center space-y-4">
+              <p className="text-sm text-muted-foreground">
+                ¿No tienes acceso premium?
+              </p>
+              <Button
+                onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfIcQTtpjRfEVyI90e_7XrXRS1IJJAdNSjpWgBnSXYKE0ovWg/viewform', '_blank')}
+                variant="outline"
+                className="w-full"
+              >
+                <Crown className="mr-2 h-4 w-4 text-yellow-500" />
+                Solicitar Acceso Premium
+              </Button>
+            </div>
+
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="flex items-start space-x-3">
+                <UserCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+                <div className="flex-1 text-sm">
+                  <p className="font-medium text-blue-900 dark:text-blue-100">Usuarios de prueba</p>
+                  <p className="text-blue-700 dark:text-blue-300 mt-1">
+                    Email: <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">guest@quest.ar</code>
+                  </p>
+                  <p className="text-blue-700 dark:text-blue-300">
+                    Contraseña: <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">guest123</code>
+                  </p>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </div>
       </Card>

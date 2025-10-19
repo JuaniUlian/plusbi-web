@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { SessionProvider } from '@/components/providers/session-provider';
 
 export const metadata: Metadata = {
   title: 'Quest - Análisis de Datos para Gobiernos y Campañas',
@@ -16,5 +17,5 @@ export default function QuestLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <SessionProvider>{children}</SessionProvider>;
 }
