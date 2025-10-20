@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Lock, UserCircle, Crown, AlertTriangle } from 'lucide-react';
+import { Lock, Crown, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { questAnalytics } from '@/lib/analytics';
 
@@ -137,21 +137,6 @@ export default function LoginPage() {
                 <Crown className="mr-2 h-4 w-4 text-yellow-500" />
                 Solicitar Acceso Premium
               </Button>
-            </div>
-
-            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <div className="flex items-start space-x-3">
-                <UserCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
-                <div className="flex-1 text-sm">
-                  <p className="font-medium text-blue-900 dark:text-blue-100">Usuarios de prueba</p>
-                  <p className="text-blue-700 dark:text-blue-300 mt-1">
-                    Email: <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">guest@quest.ar</code>
-                  </p>
-                  <p className="text-blue-700 dark:text-blue-300">
-                    Contraseña: <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">guest123</code>
-                  </p>
-                </div>
-              </div>
             </div>
           </CardContent>
         </div>
