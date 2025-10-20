@@ -22,13 +22,13 @@ interface AnalyticsStats {
 }
 
 export default function AnalyticsPage() {
+  const router = useRouter();
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
       router.push('/products/quest/login');
     },
   });
-  const router = useRouter();
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
   const [period, setPeriod] = useState('7d');
   const [loading, setLoading] = useState(true);
@@ -45,16 +45,30 @@ export default function AnalyticsPage() {
     if (!isSuperAdmin) return;
 
     setLoading(true);
-    fetch(`/api/analytics/stats?period=${period}`)
-      .then(res => res.json())
+    fetch(`/api/analytics/stats?period=${period}`, {
+      credentials: 'include',
+    })
+      .then(async res => {
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || 'Error al cargar analytics');
+        }
+        return res.json();
+      })
       .then(data => {
         if (data.success) {
           setStats(data.stats);
         }
       })
-      .catch(err => console.error('Error loading analytics:', err))
+      .catch(err => {
+        console.error('Error loading analytics:', err);
+        // Si hay error de autenticación, redirigir
+        if (err.message?.includes('autorizado')) {
+          router.push('/products/quest/dashboard');
+        }
+      })
       .finally(() => setLoading(false));
-  }, [period, isSuperAdmin]);
+  }, [period, isSuperAdmin, router]);
 
   if (status === 'loading' || !isSuperAdmin) {
     return (

@@ -6,10 +6,10 @@ export async function GET(request: NextRequest) {
   try {
     const session = await auth()
 
-    // Solo administradores pueden ver estadísticas
-    if (!session?.user || session.user.role !== 'ADMIN') {
+    // Solo SUPERADMIN pueden ver estadísticas
+    if (!session?.user || session.user.role !== 'SUPERADMIN') {
       return NextResponse.json(
-        { error: 'No autorizado' },
+        { error: 'No autorizado. Solo usuarios SUPERADMIN pueden acceder.' },
         { status: 403 }
       )
     }

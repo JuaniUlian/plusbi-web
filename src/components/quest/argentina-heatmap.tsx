@@ -190,10 +190,11 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
         </Button>
       </div>
 
-      <Tooltip 
-        id="province-tooltip" 
+      <Tooltip
+        id="province-tooltip"
         className="z-50 glassmorphism-solid !p-4 !rounded-lg !shadow-2xl"
-        style={{ backgroundColor: 'hsl(var(--card)/0.95)', color: 'hsl(var(--card-foreground))', border: '1px solid hsl(var(--border))' }}
+        style={{ backgroundColor: 'hsl(var(--card)/0.95)', color: 'hsl(var(--card-foreground))' }}
+        border="1px solid hsl(var(--border))"
       />
       <div className="absolute bottom-4 right-4 bg-background/80 p-3 rounded-lg shadow-md border">
         <h4 className="font-bold text-sm mb-2">Leyenda</h4>
