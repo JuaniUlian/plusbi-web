@@ -7,8 +7,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn, ChevronLeft, ChevronRight, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Key, Shield, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
 interface AnalyticsStats {
   totalUsers: number;
@@ -33,6 +37,18 @@ interface AnalyticsEvent {
   createdAt: string;
 }
 
+interface User {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  guestExpiresAt: string | null;
+  lastActivity: string | null;
+  reportsGenerated: number;
+}
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { data: session, status } = useSession({
@@ -41,18 +57,28 @@ export default function AnalyticsPage() {
       router.push('/products/quest/login');
     },
   });
+  const { toast } = useToast();
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [period, setPeriod] = useState('7d');
   const [loading, setLoading] = useState(true);
   const [eventsLoading, setEventsLoading] = useState(true);
+  const [usersLoading, setUsersLoading] = useState(true);
 
   // Filtros para eventos
   const [selectedUser, setSelectedUser] = useState<string>('all');
   const [selectedEventType, setSelectedEventType] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [view, setView] = useState<'summary' | 'events'>('summary');
+  const [view, setView] = useState<'summary' | 'events' | 'users'>('summary');
+
+  // Estado para reseteo de contraseña
+  const [resetPasswordDialog, setResetPasswordDialog] = useState(false);
+  const [selectedUserForReset, setSelectedUserForReset] = useState<User | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordCopied, setPasswordCopied] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const isSuperAdmin = session?.user?.role === 'SUPERADMIN';
 
@@ -126,6 +152,118 @@ export default function AnalyticsPage() {
       .catch(err => console.error('Error loading events:', err))
       .finally(() => setEventsLoading(false));
   }, [period, selectedUser, selectedEventType, currentPage, isSuperAdmin, view]);
+
+  // Cargar usuarios para gestión
+  useEffect(() => {
+    if (!isSuperAdmin || view !== 'users') return;
+
+    setUsersLoading(true);
+    fetch('/api/users/manage', {
+      credentials: 'include',
+    })
+      .then(async res => {
+        if (!res.ok) throw new Error('Error al cargar usuarios');
+        return res.json();
+      })
+      .then(data => {
+        if (data.success) {
+          setUsers(data.users);
+        }
+      })
+      .catch(err => console.error('Error loading users:', err))
+      .finally(() => setUsersLoading(false));
+  }, [isSuperAdmin, view]);
+
+  // Funciones de gestión de usuarios
+  const generateSecurePassword = () => {
+    const length = 12;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return password;
+  };
+
+  const handleResetPassword = async () => {
+    if (!selectedUserForReset || !newPassword) return;
+
+    setResetting(true);
+    try {
+      const res = await fetch('/api/users/manage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          userId: selectedUserForReset.id,
+          newPassword
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast({
+          title: "Contraseña actualizada",
+          description: `Se actualizó la contraseña para ${selectedUserForReset.email}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "No se pudo actualizar la contraseña",
+        variant: "destructive"
+      });
+    } finally {
+      setResetting(false);
+    }
+  };
+
+  const handleChangeRole = async (userId: string, currentRole: string) => {
+    const newRole = currentRole === 'ADMIN' ? 'GUEST' : 'ADMIN';
+
+    try {
+      const res = await fetch('/api/users/manage', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ userId, newRole })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // Actualizar usuario en el estado
+        setUsers(users.map(u =>
+          u.id === userId ? { ...u, role: newRole } : u
+        ));
+        toast({
+          title: "Rol actualizado",
+          description: `Rol cambiado a ${newRole}`,
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "No se pudo actualizar el rol",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setPasswordCopied(true);
+    setTimeout(() => setPasswordCopied(false), 2000);
+    toast({
+      title: "Copiado",
+      description: "Contraseña copiada al portapapeles",
+    });
+  };
 
   if (status === 'loading' || !isSuperAdmin) {
     return (
@@ -224,6 +362,12 @@ export default function AnalyticsPage() {
             onClick={() => setView('events')}
           >
             Eventos Detallados
+          </Button>
+          <Button
+            variant={view === 'users' ? 'default' : 'outline'}
+            onClick={() => setView('users')}
+          >
+            Gestión de Usuarios
           </Button>
         </div>
 
@@ -519,6 +663,169 @@ export default function AnalyticsPage() {
               )}
             </CardContent>
           </Card>
+        ) : view === 'users' ? (
+          <>
+            <Card>
+              <CardHeader>
+                <CardTitle>Gestión de Usuarios</CardTitle>
+                <CardDescription>
+                  Administrar usuarios, roles y contraseñas
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {usersLoading ? (
+                  <div className="text-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                    <p className="text-muted-foreground">Cargando usuarios...</p>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Usuario</TableHead>
+                        <TableHead>Nombre</TableHead>
+                        <TableHead>Rol</TableHead>
+                        <TableHead>Reportes</TableHead>
+                        <TableHead>Última Actividad</TableHead>
+                        <TableHead>Creado</TableHead>
+                        <TableHead>Acciones</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {users.map(user => (
+                        <TableRow key={user.id}>
+                          <TableCell className="font-medium">{user.email}</TableCell>
+                          <TableCell>{user.name || '-'}</TableCell>
+                          <TableCell>
+                            <span className={`text-xs px-2 py-1 rounded-full ${
+                              user.role === 'SUPERADMIN' ? 'bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300' :
+                              user.role === 'ADMIN' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' :
+                              'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}>
+                              {user.role}
+                            </span>
+                          </TableCell>
+                          <TableCell>{user.reportsGenerated}</TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {user.lastActivity ? formatDate(user.lastActivity) : 'Nunca'}
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {new Date(user.createdAt).toLocaleDateString('es-AR')}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedUserForReset(user);
+                                  setNewPassword('');
+                                  setPasswordCopied(false);
+                                  setResetPasswordDialog(true);
+                                }}
+                              >
+                                <Key className="h-4 w-4 mr-1" />
+                                Resetear
+                              </Button>
+                              {user.role !== 'SUPERADMIN' && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleChangeRole(user.id, user.role)}
+                                >
+                                  <Shield className="h-4 w-4 mr-1" />
+                                  {user.role === 'ADMIN' ? 'A Guest' : 'A Admin'}
+                                </Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Dialog de Reset de Contraseña */}
+            <Dialog open={resetPasswordDialog} onOpenChange={setResetPasswordDialog}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Resetear Contraseña</DialogTitle>
+                  <DialogDescription>
+                    Establece una nueva contraseña para {selectedUserForReset?.email}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="newPassword">Nueva Contraseña</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="newPassword"
+                        type="text"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Ingresa una contraseña (mín. 6 caracteres)"
+                      />
+                      <Button
+                        variant="outline"
+                        onClick={() => setNewPassword(generateSecurePassword())}
+                      >
+                        Generar
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Mínimo 6 caracteres. Usa el botón "Generar" para crear una contraseña segura.
+                    </p>
+                  </div>
+
+                  {newPassword && (
+                    <div className="p-4 bg-muted rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium">Contraseña generada:</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyToClipboard(newPassword)}
+                        >
+                          {passwordCopied ? (
+                            <>
+                              <Check className="h-4 w-4 mr-1 text-green-500" />
+                              Copiado
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-4 w-4 mr-1" />
+                              Copiar
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      <code className="text-sm font-mono bg-background px-2 py-1 rounded">
+                        {newPassword}
+                      </code>
+                    </div>
+                  )}
+                </div>
+
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => setResetPasswordDialog(false)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    onClick={handleResetPassword}
+                    disabled={!newPassword || newPassword.length < 6 || resetting}
+                  >
+                    {resetting ? 'Actualizando...' : 'Actualizar Contraseña'}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </>
         ) : null}
       </div>
     </div>
