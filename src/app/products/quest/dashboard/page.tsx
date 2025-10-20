@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { FileText, LogOut, Crown, User, Info, RefreshCw, X, Printer, Database, Upload } from 'lucide-react';
+import { FileText, LogOut, Crown, User, Info, RefreshCw, X, Printer, BarChart3, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { PremiumLineChart } from '@/components/quest/premium-line-chart';
 import { PremiumPieChart } from '@/components/quest/premium-pie-chart';
@@ -262,6 +262,29 @@ export default function DashboardPage() {
     }
     return null;
   }, [datosGrafico]);
+
+  // Información de consultoras y rango de fechas
+  const pollsterInfo = useMemo(() => {
+    if (datosFiltrados.length === 0) return null;
+
+    // Obtener consultoras únicas que aportaron a estos datos
+    const pollsters = Array.from(new Set(datosFiltrados.map(d => d.pollster))).sort();
+
+    // Obtener rango de fechas
+    const dates = datosFiltrados.map(d => new Date(d.date)).sort((a, b) => a.getTime() - b.getTime());
+    const minDate = dates[0];
+    const maxDate = dates[dates.length - 1];
+
+    const formatDate = (date: Date) => {
+      return date.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    return {
+      pollsters,
+      dateRange: `${formatDate(minDate)} - ${formatDate(maxDate)}`,
+      count: datosFiltrados.length
+    };
+  }, [datosFiltrados]);
 
   const calcularPromedioUltimasEncuestas = (campo: PartyKey, datos: EncuestaData[]) => {
     if (datos.length === 0) return 0;
@@ -544,11 +567,11 @@ export default function DashboardPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.open('https://supabase.com/dashboard/project/bfbdrcwofrrwezlmywfr', '_blank')}
+                    onClick={() => router.push('/products/quest/analytics')}
                     className="gap-2"
                   >
-                    <Database className="h-4 w-4" />
-                    <span className="hidden md:inline">Backend</span>
+                    <BarChart3 className="h-4 w-4" />
+                    <span className="hidden md:inline">Analytics</span>
                   </Button>
                   <Button
                     variant={showUploadPanel ? "default" : "outline"}
@@ -797,9 +820,26 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent>
+              {pollsterInfo && (
+                <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-border">
+                  <div className="flex flex-col gap-2 text-sm">
+                    <div className="flex items-start gap-2">
+                      <span className="font-semibold text-muted-foreground min-w-fit">Consultoras:</span>
+                      <span className="text-foreground">
+                        {pollsterInfo.pollsters.join(', ')}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-muted-foreground">Período:</span>
+                      <span className="text-foreground">{pollsterInfo.dateRange}</span>
+                      <span className="text-muted-foreground">({pollsterInfo.count} {pollsterInfo.count === 1 ? 'encuesta' : 'encuestas'})</span>
+                    </div>
+                  </div>
+                </div>
+              )}
               {datosGrafico.length > 0 ? (
                  (datosGrafico.length > 1) ? (
-                    <PremiumLineChart data={datosGrafico} />
+                    <PremiumLineChart data={datosGrafico} selectedProvince={selectedProvince} />
                  ) : pieChartSingleData && Object.values(pieChartSingleData).some(v => v != null && v > 0) ? (
                     <PremiumPieChart data={pieChartSingleData} />
                  ) : (

@@ -14,6 +14,7 @@ import {
   Filler,
   ChartOptions,
 } from 'chart.js';
+import { getProvincialPartyShortName } from '@/lib/provincial-parties';
 
 ChartJS.register(
   CategoryScale,
@@ -41,6 +42,7 @@ interface MultiLineData {
 
 interface PremiumLineChartProps {
   data: MultiLineData[];
+  selectedProvince?: string;
 }
 
 // Configuración de colores para cada partido
@@ -55,7 +57,7 @@ const PARTY_COLORS: { [key: string]: { border: string; rgb: string } } = {
   Others: { border: '#64748b', rgb: '100, 116, 139' },
 };
 
-export function PremiumLineChart({ data }: PremiumLineChartProps) {
+export function PremiumLineChart({ data, selectedProvince }: PremiumLineChartProps) {
   // Identificar qué partidos tienen al menos un dato no nulo
   const activeParties = Object.keys(PARTY_COLORS).filter(party =>
     data.some(d => d[party] != null)
@@ -64,8 +66,13 @@ export function PremiumLineChart({ data }: PremiumLineChartProps) {
   // Crear datasets dinámicamente solo para partidos con datos
   const datasets = activeParties.map(party => {
     const colors = PARTY_COLORS[party];
+    // Si es "Provincial" y tenemos provincia seleccionada, usar nombre real
+    const label = party === 'Provincial' && selectedProvince && selectedProvince !== 'Todas'
+      ? getProvincialPartyShortName(selectedProvince)
+      : party;
+
     return {
-      label: party,
+      label,
       data: data.map((d) => d[party] || null),
       borderColor: colors.border,
       backgroundColor: (context: any) => {

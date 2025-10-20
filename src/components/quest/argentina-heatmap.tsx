@@ -50,6 +50,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
     const normalizedGeoName = normalizeName(geoName);
 
     const nameMappings: { [key: string]: string } = {
+      'ciudad de buenos aires': 'caba',
       'ciudad autonoma de buenos aires': 'caba',
       'buenos aires': 'buenos aires',
     };
