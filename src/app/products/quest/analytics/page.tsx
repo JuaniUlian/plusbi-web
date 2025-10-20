@@ -5,7 +5,9 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn, ChevronLeft, ChevronRight, CheckCircle2, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
 interface AnalyticsStats {
@@ -21,6 +23,16 @@ interface AnalyticsStats {
   topEvents: Array<{ eventName: string; _count: number }>;
 }
 
+interface AnalyticsEvent {
+  id: string;
+  eventType: string;
+  eventName: string;
+  userEmail: string | null;
+  userRole: string | null;
+  metadata: any;
+  createdAt: string;
+}
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { data: session, status } = useSession({
@@ -30,8 +42,17 @@ export default function AnalyticsPage() {
     },
   });
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
+  const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [period, setPeriod] = useState('7d');
   const [loading, setLoading] = useState(true);
+  const [eventsLoading, setEventsLoading] = useState(true);
+
+  // Filtros para eventos
+  const [selectedUser, setSelectedUser] = useState<string>('all');
+  const [selectedEventType, setSelectedEventType] = useState<string>('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [view, setView] = useState<'summary' | 'events'>('summary');
 
   const isSuperAdmin = session?.user?.role === 'SUPERADMIN';
 
@@ -41,6 +62,7 @@ export default function AnalyticsPage() {
     }
   }, [status, isSuperAdmin, router]);
 
+  // Cargar estadísticas
   useEffect(() => {
     if (!isSuperAdmin) return;
 
@@ -62,13 +84,48 @@ export default function AnalyticsPage() {
       })
       .catch(err => {
         console.error('Error loading analytics:', err);
-        // Si hay error de autenticación, redirigir
         if (err.message?.includes('autorizado')) {
           router.push('/products/quest/dashboard');
         }
       })
       .finally(() => setLoading(false));
   }, [period, isSuperAdmin, router]);
+
+  // Cargar eventos detallados
+  useEffect(() => {
+    if (!isSuperAdmin || view !== 'events') return;
+
+    setEventsLoading(true);
+    const params = new URLSearchParams({
+      period,
+      page: currentPage.toString(),
+      limit: '50'
+    });
+
+    if (selectedUser !== 'all') {
+      params.append('user', selectedUser);
+    }
+
+    if (selectedEventType !== 'all') {
+      params.append('eventType', selectedEventType);
+    }
+
+    fetch(`/api/analytics/events?${params.toString()}`, {
+      credentials: 'include',
+    })
+      .then(async res => {
+        if (!res.ok) throw new Error('Error al cargar eventos');
+        return res.json();
+      })
+      .then(data => {
+        if (data.success) {
+          setEvents(data.events);
+          setTotalPages(data.pagination.totalPages);
+        }
+      })
+      .catch(err => console.error('Error loading events:', err))
+      .finally(() => setEventsLoading(false));
+  }, [period, selectedUser, selectedEventType, currentPage, isSuperAdmin, view]);
 
   if (status === 'loading' || !isSuperAdmin) {
     return (
@@ -80,6 +137,43 @@ export default function AnalyticsPage() {
       </div>
     );
   }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('es-AR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
+
+  const getEventTypeLabel = (type: string) => {
+    const labels: Record<string, string> = {
+      'LOGIN_SUCCESS': 'Login Exitoso',
+      'LOGIN_FAILED': 'Login Fallido',
+      'LOGOUT': 'Logout',
+      'PAGE_VIEW': 'Vista de Página',
+      'FILTER_CHANGE': 'Cambio de Filtro',
+      'REPORT_GENERATED': 'Reporte Generado',
+    };
+    return labels[type] || type;
+  };
+
+  const getSuccessIcon = (eventType: string, metadata: any) => {
+    if (eventType === 'LOGIN_SUCCESS') {
+      return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+    }
+    if (eventType === 'LOGIN_FAILED') {
+      return <XCircle className="h-4 w-4 text-red-500" />;
+    }
+    return null;
+  };
+
+  // Lista única de usuarios para el filtro
+  const usersList = stats?.topUsers.map(u => u.userEmail) || [];
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -117,15 +211,31 @@ export default function AnalyticsPage() {
           ))}
         </div>
 
-        {loading ? (
+        {/* View Selector */}
+        <div className="flex gap-2 mb-6">
+          <Button
+            variant={view === 'summary' ? 'default' : 'outline'}
+            onClick={() => setView('summary')}
+          >
+            Resumen
+          </Button>
+          <Button
+            variant={view === 'events' ? 'default' : 'outline'}
+            onClick={() => setView('events')}
+          >
+            Eventos Detallados
+          </Button>
+        </div>
+
+        {loading && view === 'summary' ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">Cargando estadísticas...</p>
           </div>
-        ) : stats ? (
-          <div className="space-y-6">
-            {/* Overview Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        ) : view === 'summary' && stats ? (
+          <>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Usuarios</CardTitle>
@@ -133,7 +243,9 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.totalUsers}</div>
-                  <p className="text-xs text-muted-foreground">+{stats.newUsers} nuevos en el período</p>
+                  <p className="text-xs text-muted-foreground">
+                    +{stats.newUsers} nuevos en el período
+                  </p>
                 </CardContent>
               </Card>
 
@@ -144,7 +256,9 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.activeUsersCount}</div>
-                  <p className="text-xs text-muted-foreground">En el período seleccionado</p>
+                  <p className="text-xs text-muted-foreground">
+                    En el período seleccionado
+                  </p>
                 </CardContent>
               </Card>
 
@@ -156,8 +270,7 @@ export default function AnalyticsPage() {
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.reportsGenerated}</div>
                   <p className="text-xs text-muted-foreground">
-                    {stats.reportsByType.find(r => r.reportType === 'NATIONAL')?._count || 0} nacionales,{' '}
-                    {stats.reportsByType.find(r => r.reportType === 'PROVINCIAL')?._count || 0} provinciales
+                    {stats.reportsByType.map(r => `${r._count} ${r.reportType}`).join(', ')}
                   </p>
                 </CardContent>
               </Card>
@@ -171,87 +284,101 @@ export default function AnalyticsPage() {
                   <div className="text-2xl font-bold">
                     {stats.eventsByType.reduce((sum, e) => sum + e._count, 0)}
                   </div>
-                  <p className="text-xs text-muted-foreground">Todas las interacciones</p>
+                  <p className="text-xs text-muted-foreground">
+                    Todas las interacciones
+                  </p>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Users by Role */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Usuarios por Rol</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {stats.usersByRole.map(role => (
-                    <div key={role.role} className="flex justify-between items-center">
-                      <span className="font-medium">{role.role}</span>
-                      <span className="text-2xl font-bold">{role._count}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Login Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <LogIn className="h-5 w-5" />
-                  Estadísticas de Login
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {stats.loginStats.map(stat => (
-                    <div key={stat.eventType} className="flex justify-between items-center">
-                      <span className={stat.eventType === 'LOGIN_SUCCESS' ? 'text-green-600' : 'text-red-600'}>
-                        {stat.eventType === 'LOGIN_SUCCESS' ? '✓ Login Exitoso' : '✗ Login Fallido'}
-                      </span>
-                      <span className="text-2xl font-bold">{stat._count}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Top Users */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Top 10 Usuarios Más Activos</CardTitle>
-                <CardDescription>En el período seleccionado</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {stats.topUsers.map((user, idx) => (
-                    <div key={user.userEmail} className="flex justify-between items-center">
-                      <div>
-                        <span className="font-medium">#{idx + 1}. {user.userEmail}</span>
-                        <span className="text-xs text-muted-foreground ml-2">({user.userRole})</span>
+            {/* Users by Role & Login Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Usuarios por Rol</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {stats.usersByRole.map(role => (
+                      <div key={role.role} className="flex items-center justify-between">
+                        <span className="text-sm font-medium">{role.role}</span>
+                        <span className="text-2xl font-bold">{role._count}</span>
                       </div>
-                      <span className="text-lg font-bold">{user._count} eventos</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
-            {/* Top Events */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Top 10 Eventos Más Frecuentes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {stats.topEvents.map((event, idx) => (
-                    <div key={event.eventName} className="flex justify-between items-center">
-                      <span className="font-medium">#{idx + 1}. {event.eventName}</span>
-                      <span className="text-lg font-bold">{event._count}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Estadísticas de Login</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {stats.loginStats.map(stat => (
+                      <div key={stat.eventType} className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          {stat.eventType === 'LOGIN_SUCCESS' ? (
+                            <CheckCircle2 className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <XCircle className="h-4 w-4 text-red-500" />
+                          )}
+                          <span className="text-sm font-medium">
+                            {stat.eventType === 'LOGIN_SUCCESS' ? 'Login Exitoso' : 'Login Fallido'}
+                          </span>
+                        </div>
+                        <span className="text-2xl font-bold">{stat._count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Top Users & Top Events */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top 10 Usuarios Más Activos</CardTitle>
+                  <CardDescription>En el período seleccionado</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {stats.topUsers.map((user, idx) => (
+                      <div key={user.userEmail} className="flex items-center justify-between p-2 rounded hover:bg-muted/50">
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-muted-foreground">#{idx + 1}.</span>
+                          <div>
+                            <p className="text-sm font-medium">{user.userEmail}</p>
+                            <p className="text-xs text-muted-foreground">({user.userRole})</p>
+                          </div>
+                        </div>
+                        <span className="text-sm font-semibold">{user._count} eventos</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top 10 Eventos Más Frecuentes</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {stats.topEvents.map((event, idx) => (
+                      <div key={event.eventName} className="flex items-center justify-between p-2 rounded hover:bg-muted/50">
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-muted-foreground">#{idx + 1}.</span>
+                          <span className="text-sm font-medium">{event.eventName}</span>
+                        </div>
+                        <span className="text-sm font-semibold">{event._count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Events by Type */}
             <Card>
@@ -259,22 +386,140 @@ export default function AnalyticsPage() {
                 <CardTitle>Eventos por Tipo</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                   {stats.eventsByType.map(event => (
-                    <div key={event.eventType} className="border rounded-lg p-3">
-                      <div className="text-sm text-muted-foreground">{event.eventType}</div>
-                      <div className="text-2xl font-bold">{event._count}</div>
+                    <div key={event.eventType} className="text-center p-4 rounded-lg border">
+                      <p className="text-xs text-muted-foreground mb-1">{event.eventType}</p>
+                      <p className="text-2xl font-bold">{event._count}</p>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No se pudieron cargar las estadísticas</p>
-          </div>
-        )}
+          </>
+        ) : view === 'events' ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Registro Detallado de Eventos</CardTitle>
+              <CardDescription>
+                Historial completo de actividad por usuario
+              </CardDescription>
+
+              {/* Filters */}
+              <div className="flex gap-4 mt-4">
+                <div className="flex-1">
+                  <Select value={selectedUser} onValueChange={setSelectedUser}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos los usuarios" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos los usuarios</SelectItem>
+                      {usersList.map(email => (
+                        <SelectItem key={email} value={email}>{email}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex-1">
+                  <Select value={selectedEventType} onValueChange={setSelectedEventType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Todos los tipos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos los tipos</SelectItem>
+                      <SelectItem value="LOGIN_SUCCESS">Login Exitoso</SelectItem>
+                      <SelectItem value="LOGIN_FAILED">Login Fallido</SelectItem>
+                      <SelectItem value="LOGOUT">Logout</SelectItem>
+                      <SelectItem value="PAGE_VIEW">Vista de Página</SelectItem>
+                      <SelectItem value="FILTER_CHANGE">Cambio de Filtro</SelectItem>
+                      <SelectItem value="REPORT_GENERATED">Reporte Generado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {eventsLoading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                  <p className="text-muted-foreground">Cargando eventos...</p>
+                </div>
+              ) : (
+                <>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Fecha y Hora</TableHead>
+                        <TableHead>Usuario</TableHead>
+                        <TableHead>Rol</TableHead>
+                        <TableHead>Tipo</TableHead>
+                        <TableHead>Acción</TableHead>
+                        <TableHead>Estado</TableHead>
+                        <TableHead>Detalles</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {events.map(event => (
+                        <TableRow key={event.id}>
+                          <TableCell className="font-mono text-xs">
+                            {formatDate(event.createdAt)}
+                          </TableCell>
+                          <TableCell className="text-sm">
+                            {event.userEmail || 'Anónimo'}
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-xs px-2 py-1 rounded-full bg-muted">
+                              {event.userRole || 'N/A'}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-sm">
+                            {getEventTypeLabel(event.eventType)}
+                          </TableCell>
+                          <TableCell className="text-sm font-medium">
+                            {event.eventName}
+                          </TableCell>
+                          <TableCell>
+                            {getSuccessIcon(event.eventType, event.metadata)}
+                          </TableCell>
+                          <TableCell className="text-xs text-muted-foreground max-w-xs truncate">
+                            {event.metadata ? JSON.stringify(event.metadata) : '-'}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+
+                  {/* Pagination */}
+                  <div className="flex items-center justify-between mt-4">
+                    <p className="text-sm text-muted-foreground">
+                      Página {currentPage} de {totalPages}
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                        Anterior
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                      >
+                        Siguiente
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </Card>
+        ) : null}
       </div>
     </div>
   );
