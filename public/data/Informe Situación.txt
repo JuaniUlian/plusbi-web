@@ -1,6 +1,43 @@
 Dataset para IA - Elecciones Argentina 2025
 Información Estructurada Completa - Nacional y Provincial
 EVENTOS ÚLTIMOS 7 DÍAS POR PROVINCIA
+
+EVENTOS NACIONALES RECIENTES
+
+21 de octubre de 2025: Gobierno promulga leyes pero suspende su aplicación
+
+Gobierno promulga Ley de Financiamiento Universitario (27.795) pero condiciona ejecución hasta que Congreso defina partidas presupuestarias
+Gobierno promulga Ley de Emergencia Pediátrica (27.796) y también posterga su aplicación por falta de fondos
+Decreto 760/2025 suspende ambas leyes hasta inclusión en Presupuesto
+Genera paro docente universitario nacional convocado por FEDUN, CONADU y FATUN
+
+20-21 de octubre de 2025: Protestas universitarias y rechazo al veto en Discapacidad
+
+Docentes universitarios realizan paro nacional de 24 horas exigiendo aplicación de Ley de Financiamiento
+Universidad Nacional de La Plata (UNLP) adhiere con cortes y asambleas en facultades
+Diputados rechazaron veto presidencial a Ley de Emergencia en Discapacidad
+Organizaciones de personas con discapacidad celebran avance legislativo
+
+21 de octubre de 2025: Acuerdo económico con Estados Unidos
+
+Acuerdo de estabilización económica: swap de US$20.000 millones operado por Scott Bessent (Secretario Tesoro USA)
+Objetivo: pagar deuda 2026 si no hay refinanciamiento
+Impacto inmediato: dólar blue baja de $1.475 a $1.405; bonos suben +1,5% a +2%
+
+17-20 de octubre de 2025: Tensión política y económica
+
+Gobernadores no peronistas exigen más diálogo al Gobierno de cara a reformas estructurales
+Gobierno minimiza declaraciones de Donald Trump sobre situación económica argentina
+Economía proyecta crecimiento de 2,5% en agosto con señales de desaceleración
+Complejo del maní registra producción récord: exportaciones US$774M en 8 meses
+Presión política ante elecciones: posible reacomodamiento de gabinete nacional
+
+21 de octubre de 2025: Debate presupuestario
+
+Senadores opositores insisten en que Congreso debe garantizar financiamiento antes de suspender leyes
+Gobierno advierte sobre costo fiscal de leyes promulgadas sin partidas definidas
+Ejecutivo pide al Congreso definir fuentes de financiamiento
+
 CÓRDOBA
 9 de octubre: Llaryora y Schiaretti en cumbre Provincias Unidas (Jujuy)
 

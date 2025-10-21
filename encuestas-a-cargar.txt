@@ -1,0 +1,11 @@
+# Buenos Aires - Diputados
+2025-10-17|Datos Electorales|provincial|Buenos Aires|diputados|34.24|41.09||||||||
+2025-10-20|Datos Electorales|provincial|Buenos Aires|diputados|29.30|45.66||||||||
+
+# Córdoba - Diputados
+2025-10-17|Datos Electorales|provincial|Córdoba|diputados|0.99|7.04|||||||33.14|
+2025-10-20|Datos Electorales|provincial|Córdoba|diputados|1.53|6.36|||||||36.87|
+
+# Entre Ríos - Senadores
+2025-10-17|Datos Electorales|provincial|Entre Ríos|senadores|34.91||||||||21.98|
+2025-10-20|Datos Electorales|provincial|Entre Ríos|senadores|31.02||||||||36.50|
