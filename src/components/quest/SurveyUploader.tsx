@@ -9,7 +9,11 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Upload, FileSpreadsheet, Type, CheckCircle, XCircle } from 'lucide-react';
 import { questAnalytics } from '@/lib/analytics';
 
-export function SurveyUploader() {
+interface SurveyUploaderProps {
+  onUploadSuccess?: () => void;
+}
+
+export function SurveyUploader({ onUploadSuccess }: SurveyUploaderProps = {}) {
   const [uploadType, setUploadType] = useState<'text' | 'excel' | null>(null);
   const [textData, setTextData] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -43,6 +47,16 @@ export function SurveyUploader() {
         });
         setTextData('');
         questAnalytics.surveyUpload('text', result.count);
+        // Notificar al componente padre para recargar datos
+        if (onUploadSuccess) {
+          setTimeout(() => {
+            onUploadSuccess();
+            setUploadResult({
+              success: true,
+              message: `✅ ${result.count} encuesta(s) cargada(s) y gráficos actualizados`
+            });
+          }, 1000);
+        }
       } else {
         setUploadResult({
           success: false,
@@ -90,6 +104,16 @@ export function SurveyUploader() {
             message: `✅ ${result.count} encuesta(s) cargada(s) desde Excel`
           });
           questAnalytics.surveyUpload('excel', result.count);
+          // Notificar al componente padre para recargar datos
+          if (onUploadSuccess) {
+            setTimeout(() => {
+              onUploadSuccess();
+              setUploadResult({
+                success: true,
+                message: `✅ ${result.count} encuesta(s) cargada(s) y gráficos actualizados`
+              });
+            }, 1000);
+          }
         } else {
           setUploadResult({
             success: false,

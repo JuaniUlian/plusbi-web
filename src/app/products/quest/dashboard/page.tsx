@@ -96,35 +96,42 @@ export default function DashboardPage() {
   const [reportMetadata, setReportMetadata] = useState<{ type: string; province?: string }>({ type: 'national' });
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [showUploadPanel, setShowUploadPanel] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const loadSurveys = async () => {
+    setIsRefreshing(true);
+    try {
+      const res = await fetch('/api/surveys');
+      const { surveys } = await res.json();
+      const unifiedData = surveys
+        .filter((d: any) => d.pollster)
+        .map((d: any) => ({
+          ...d,
+          // Convertir date de ISO a formato simple YYYY-MM-DD
+          date: d.date ? d.date.split('T')[0] : d.date,
+          // Convertir scope y chamber a lowercase para compatibilidad
+          scope: d.scope?.toLowerCase(),
+          chamber: d.chamber?.toLowerCase(),
+          // Normalizar nombres de encuestadoras
+          pollster: d.pollster
+            .replace(/Córdoba/i, 'Cordoba')
+            .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
+            .replace(/Federico Gonzalez y Asoc\./, 'Federico Gonzalez y Asociados')
+            .trim()
+        }));
+      setEncuestasData(unifiedData);
+      questAnalytics.dashboardView();
+    } catch (err) {
+      console.error('Error cargando encuestas:', err);
+      questAnalytics.error('Failed to load surveys', 'dashboard');
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
-    fetch('/api/surveys')
-      .then(res => res.json())
-      .then(({ surveys }) => {
-        const unifiedData = surveys
-          .filter((d: any) => d.pollster)
-          .map((d: any) => ({
-            ...d,
-            // Convertir date de ISO a formato simple YYYY-MM-DD
-            date: d.date ? d.date.split('T')[0] : d.date,
-            // Convertir scope y chamber a lowercase para compatibilidad
-            scope: d.scope?.toLowerCase(),
-            chamber: d.chamber?.toLowerCase(),
-            // Normalizar nombres de encuestadoras
-            pollster: d.pollster
-              .replace(/Córdoba/i, 'Cordoba')
-              .replace(/Federico Gonzalez y Asco(\.)?/, 'Federico Gonzalez y Asociados')
-              .replace(/Federico Gonzalez y Asoc\./, 'Federico Gonzalez y Asociados')
-              .trim()
-          }));
-        setEncuestasData(unifiedData);
-        questAnalytics.dashboardView();
-      })
-      .catch(err => {
-        console.error('Error cargando encuestas:', err);
-        questAnalytics.error('Failed to load surveys', 'dashboard');
-      });
+    loadSurveys();
   }, []);
 
   const { CHAMBERS, POLLSTERS, PROVINCES_LIST } = useMemo(() => {
@@ -650,7 +657,7 @@ export default function DashboardPage() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
           >
-            <SurveyUploader />
+            <SurveyUploader onUploadSuccess={loadSurveys} />
           </motion.div>
         )}
 

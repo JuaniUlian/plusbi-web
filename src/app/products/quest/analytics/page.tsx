@@ -7,12 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Key, Shield, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Users, Activity, FileText, TrendingUp, LogIn, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Key, Shield, Copy, Check, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { EventUploader } from '@/components/quest/EventUploader';
 
 interface AnalyticsStats {
   totalUsers: number;
@@ -71,7 +72,7 @@ export default function AnalyticsPage() {
   const [selectedEventType, setSelectedEventType] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [view, setView] = useState<'summary' | 'events' | 'users'>('summary');
+  const [view, setView] = useState<'summary' | 'events' | 'users' | 'data-management'>('summary');
 
   // Estado para reseteo de contraseña
   const [resetPasswordDialog, setResetPasswordDialog] = useState(false);
@@ -368,6 +369,13 @@ export default function AnalyticsPage() {
             onClick={() => setView('users')}
           >
             Gestión de Usuarios
+          </Button>
+          <Button
+            variant={view === 'data-management' ? 'default' : 'outline'}
+            onClick={() => setView('data-management')}
+          >
+            <Calendar className="h-4 w-4 mr-2" />
+            Gestión de Datos
           </Button>
         </div>
 
@@ -826,6 +834,10 @@ export default function AnalyticsPage() {
               </DialogContent>
             </Dialog>
           </>
+        ) : view === 'data-management' ? (
+          <div className="space-y-6">
+            <EventUploader />
+          </div>
         ) : null}
       </div>
     </div>
