@@ -119,7 +119,7 @@ model Survey {
   province      String?
   chamber       Chamber
 
-  // Porcentajes de partidos
+  // Porcentajes de partidos nacionales
   LLA           Float?
   FP            Float?
   PU            Float?
@@ -128,6 +128,15 @@ model Survey {
   FIT           Float?
   Provincial    Float?
   Others        Float?
+
+  // Partidos provinciales y menores (expandidos)
+  provincialPartyName String?
+  CC            Float?    // Coalición Cívica
+  ProFederal    Float?    // PRO Federal
+  Potencia      Float?
+  ProyectoSur   Float?
+  UnionFederal  Float?
+  FrenteIzquierda Float?
 
   // Metadata de la encuesta
   sample        Int?
