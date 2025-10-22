@@ -19,7 +19,6 @@ interface EncuestaData {
   PRO: number | null;
   FIT: number | null;
   Provincial: number | null;
-  Others: number | null;
   sample?: number | null;
   methodology?: string | null;
   margin_error?: number | null;
@@ -116,37 +115,37 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
               <span>{formatPercentage(poll.FIT)}</span>
             </div>
           )}
-          {poll.CC !== null && poll.CC > 0 && (
+          {poll.CC !== null && poll.CC !== undefined && poll.CC > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#f59e0b' }}>
               <span>CC:</span>
               <span>{formatPercentage(poll.CC)}</span>
             </div>
           )}
-          {poll.ProFederal !== null && poll.ProFederal > 0 && (
+          {poll.ProFederal !== null && poll.ProFederal !== undefined && poll.ProFederal > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#fbbf24' }}>
               <span>ProFederal:</span>
               <span>{formatPercentage(poll.ProFederal)}</span>
             </div>
           )}
-          {poll.Potencia !== null && poll.Potencia > 0 && (
+          {poll.Potencia !== null && poll.Potencia !== undefined && poll.Potencia > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#a855f7' }}>
               <span>Potencia:</span>
               <span>{formatPercentage(poll.Potencia)}</span>
             </div>
           )}
-          {poll.ProyectoSur !== null && poll.ProyectoSur > 0 && (
+          {poll.ProyectoSur !== null && poll.ProyectoSur !== undefined && poll.ProyectoSur > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#ec4899' }}>
               <span>ProyectoSur:</span>
               <span>{formatPercentage(poll.ProyectoSur)}</span>
             </div>
           )}
-          {poll.UnionFederal !== null && poll.UnionFederal > 0 && (
+          {poll.UnionFederal !== null && poll.UnionFederal !== undefined && poll.UnionFederal > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#06b6d4' }}>
               <span>UniónFederal:</span>
               <span>{formatPercentage(poll.UnionFederal)}</span>
             </div>
           )}
-          {poll.FrenteIzquierda !== null && poll.FrenteIzquierda > 0 && (
+          {poll.FrenteIzquierda !== null && poll.FrenteIzquierda !== undefined && poll.FrenteIzquierda > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#b91c1c' }}>
               <span>FrenteIzq:</span>
               <span>{formatPercentage(poll.FrenteIzquierda)}</span>
@@ -156,12 +155,6 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
             <div className="flex justify-between font-bold" style={{ color: '#849221' }}>
               <span>{poll.provincialPartyName || getProvincialPartyShortName(poll.province)}:</span>
               <span>{formatPercentage(poll.Provincial)}</span>
-            </div>
-          )}
-          {poll.Others !== null && poll.Others > 0 && (
-            <div className="flex justify-between font-bold" style={{ color: '#64748b' }}>
-              <span>Otros:</span>
-              <span>{formatPercentage(poll.Others)}</span>
             </div>
           )}
         </div>
