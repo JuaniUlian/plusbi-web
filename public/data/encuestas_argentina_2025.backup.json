@@ -15,8 +15,7 @@
     "Others": 28.5,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Frente Renovador"
+    "margin_error": null
   },
   {
     "date": "2025-10-15",
@@ -34,8 +33,7 @@
     "Others": null,
     "sample": 117,
     "methodology": "Online",
-    "margin_error": 3,
-    "provincialPartyName": "Fuerza Republicana"
+    "margin_error": 3
   },
   {
     "date": "2025-10-14",
@@ -64,21 +62,15 @@
     "chamber": "diputados",
     "LLA": 12.5,
     "FP": 26,
-    "PU": 36.83,
+    "PU": 30.3,
     "UCR": null,
     "PRO": null,
     "FIT": 3.1,
     "Provincial": null,
-    "Others": 0,
+    "Others": 28.1,
     "sample": 1810,
     "methodology": "Online",
-    "margin_error": 3,
-    "CC": 0.77,
-    "ProFederal": 1.83,
-    "Potencia": 3.12,
-    "ProyectoSur": 1.56,
-    "UnionFederal": 0.24,
-    "FrenteIzquierda": 14.04
+    "margin_error": 3
   },
   {
     "date": "2025-10-14",
@@ -104,18 +96,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 11.83,
-    "FP": 12.82,
+    "LLA": 12.49,
+    "FP": 12.73,
     "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 75.35,
+    "Provincial": 74.78,
     "Others": null,
     "sample": 1230,
     "methodology": "Online",
-    "margin_error": 3,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 3
   },
   {
     "date": "2025-10-14",
@@ -133,8 +124,7 @@
     "Others": null,
     "sample": 1267,
     "methodology": "Online",
-    "margin_error": 3,
-    "provincialPartyName": "Unidos"
+    "margin_error": 3
   },
   {
     "date": "2025-10-14",
@@ -199,21 +189,15 @@
     "chamber": "diputados",
     "LLA": 12.4,
     "FP": 25.3,
-    "PU": 38.93,
+    "PU": 33.1,
     "UCR": null,
     "PRO": null,
     "FIT": 4.1,
     "Provincial": null,
-    "Others": 0,
+    "Others": 25.1,
     "sample": 1931,
     "methodology": "Online",
-    "margin_error": 3,
-    "CC": 0.69,
-    "ProFederal": 1.64,
-    "Potencia": 2.79,
-    "ProyectoSur": 1.39,
-    "UnionFederal": 0.21,
-    "FrenteIzquierda": 12.54
+    "margin_error": 3
   },
   {
     "date": "2025-10-13",
@@ -239,18 +223,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 9.83,
-    "FP": 11.37,
+    "LLA": 10.71,
+    "FP": 11.26,
     "PU": null,
-    "UCR": 12.9,
+    "UCR": 12.78,
     "PRO": null,
     "FIT": null,
-    "Provincial": 64.98,
-    "Others": 0.92,
+    "Provincial": 64.35,
+    "Others": 0.91,
     "sample": 995,
     "methodology": "Online",
-    "margin_error": 3,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 3
   },
   {
     "date": "2025-10-13",
@@ -268,8 +251,7 @@
     "Others": 0.9,
     "sample": 1818,
     "methodology": "Online",
-    "margin_error": 3,
-    "provincialPartyName": "Unidos"
+    "margin_error": 3
   },
   {
     "date": "2025-10-13",
@@ -305,8 +287,7 @@
     "Others": 7.26,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Entre Ríos"
+    "margin_error": null
   },
   {
     "date": "2025-10-11",
@@ -324,8 +305,7 @@
     "Others": 3.65,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Entre Ríos"
+    "margin_error": null
   },
   {
     "date": "2025-10-08",
@@ -361,8 +341,7 @@
     "Others": 7.4,
     "sample": 1204,
     "methodology": "Domiciliaria",
-    "margin_error": 2.8,
-    "provincialPartyName": "Unidos"
+    "margin_error": 2.8
   },
   {
     "date": "2025-10-07",
@@ -380,8 +359,7 @@
     "Others": null,
     "sample": 1204,
     "methodology": "Solo Rosario",
-    "margin_error": null,
-    "provincialPartyName": "Unidos"
+    "margin_error": null
   },
   {
     "date": "2025-10-06",
@@ -453,8 +431,7 @@
     "Others": 19,
     "sample": 1069,
     "methodology": "Presencial",
-    "margin_error": 3,
-    "provincialPartyName": "JSRN"
+    "margin_error": 3
   },
   {
     "date": "2025-10-02",
@@ -462,18 +439,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 28.5,
-    "FP": 31.5,
+    "LLA": 13.04,
+    "FP": 38.31,
     "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 27.7,
-    "Others": 12.3,
+    "Provincial": 33.69,
+    "Others": 14.96,
     "sample": 808,
     "methodology": "Presencial",
-    "margin_error": 3.4,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 3.4
   },
   {
     "date": "2025-10-02",
@@ -535,18 +511,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 30.7,
-    "FP": 22.3,
+    "LLA": 8,
+    "FP": 29.6,
     "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 25.8,
-    "Others": 21.2,
+    "Provincial": 34.25,
+    "Others": 28.14,
     "sample": 1600,
     "methodology": "Presencial",
-    "margin_error": 2.4,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 2.4
   },
   {
     "date": "2025-09-28",
@@ -582,8 +557,7 @@
     "Others": 16.4,
     "sample": 1240,
     "methodology": "Presencial",
-    "margin_error": 2.8,
-    "provincialPartyName": "MPN"
+    "margin_error": 2.8
   },
   {
     "date": "2025-09-27",
@@ -591,18 +565,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 32.4,
-    "FP": 22.3,
+    "LLA": 13.75,
+    "FP": 28.45,
     "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 26.2,
-    "Others": 19.1,
+    "Provincial": 33.43,
+    "Others": 24.37,
     "sample": 1084,
     "methodology": "Presencial",
-    "margin_error": 3,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 3
   },
   {
     "date": "2025-09-27",
@@ -620,8 +593,7 @@
     "Others": 22.2,
     "sample": 1200,
     "methodology": "Presencial",
-    "margin_error": 2.8,
-    "provincialPartyName": "Por San Juan"
+    "margin_error": 2.8
   },
   {
     "date": "2025-09-26",
@@ -629,18 +601,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 33.6,
-    "FP": 34.6,
+    "LLA": 10.21,
+    "FP": 46.79,
     "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 16.1,
-    "Others": 15.7,
+    "Provincial": 21.77,
+    "Others": 21.23,
     "sample": 1878,
     "methodology": "Presencial",
-    "margin_error": 2.3,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": 2.3
   },
   {
     "date": "2025-09-25",
@@ -910,8 +881,7 @@
     "Others": 27,
     "sample": 830,
     "methodology": "Presencial",
-    "margin_error": 3.4,
-    "provincialPartyName": "MPN"
+    "margin_error": 3.4
   },
   {
     "date": "2025-09-03",
@@ -929,8 +899,7 @@
     "Others": 34.8,
     "sample": 866,
     "methodology": "Presencial",
-    "margin_error": 3.3,
-    "provincialPartyName": "JSRN"
+    "margin_error": 3.3
   },
   {
     "date": "2025-09-01",
@@ -948,8 +917,7 @@
     "Others": 19,
     "sample": null,
     "methodology": "Presencial",
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Entre Ríos"
+    "margin_error": null
   },
   {
     "date": "2025-08-26",
@@ -1021,8 +989,7 @@
     "Others": 21,
     "sample": 612,
     "methodology": "Presencial",
-    "margin_error": 4,
-    "provincialPartyName": "Por San Juan"
+    "margin_error": 4
   },
   {
     "date": "2025-08-01",
@@ -1094,8 +1061,7 @@
     "Others": 20.5,
     "sample": null,
     "methodology": "Presencial",
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Republicana"
+    "margin_error": null
   },
   {
     "date": "2025-06-22",
@@ -1113,8 +1079,7 @@
     "Others": 30.5,
     "sample": 784,
     "methodology": "Telefónica + Online",
-    "margin_error": 3.5,
-    "provincialPartyName": "Unidos"
+    "margin_error": 3.5
   },
   {
     "date": "2025-06-09",
@@ -1132,8 +1097,7 @@
     "Others": 26.5,
     "sample": 540,
     "methodology": "Presencial",
-    "margin_error": 4.2,
-    "provincialPartyName": "Fuerza Republicana"
+    "margin_error": 4.2
   },
   {
     "date": "2025-06-08",
@@ -1151,8 +1115,7 @@
     "Others": 30,
     "sample": 400,
     "methodology": "Presencial",
-    "margin_error": 4.9,
-    "provincialPartyName": "Unidos"
+    "margin_error": 4.9
   },
   {
     "date": "2025-06-01",
@@ -1188,8 +1151,7 @@
     "Others": 22.1,
     "sample": null,
     "methodology": "Presencial",
-    "margin_error": null,
-    "provincialPartyName": "Frente Cívico"
+    "margin_error": null
   },
   {
     "date": "2025-06-01",
@@ -1225,8 +1187,7 @@
     "Others": 22,
     "sample": 2774,
     "methodology": "Presencial",
-    "margin_error": 1.9,
-    "provincialPartyName": "Fuerza Republicana"
+    "margin_error": 1.9
   },
   {
     "date": "2025-04-23",
@@ -1244,8 +1205,7 @@
     "Others": 39,
     "sample": 707,
     "methodology": "Presencial",
-    "margin_error": 3.7,
-    "provincialPartyName": "Jujuy Crece"
+    "margin_error": 3.7
   },
   {
     "date": "2025-03-01",
@@ -1273,21 +1233,15 @@
     "chamber": "diputados",
     "LLA": 34.24,
     "FP": 41.09,
-    "PU": 5.73,
+    "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 0,
+    "Others": 24.67,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "CC": 0.68,
-    "ProFederal": 1.61,
-    "Potencia": 2.74,
-    "ProyectoSur": 1.37,
-    "UnionFederal": 0.21,
-    "FrenteIzquierda": 12.33
+    "margin_error": null
   },
   {
     "date": "2025-10-20",
@@ -1297,21 +1251,15 @@
     "chamber": "diputados",
     "LLA": 29.3,
     "FP": 45.66,
-    "PU": 5.82,
+    "PU": null,
     "UCR": null,
     "PRO": null,
     "FIT": null,
     "Provincial": null,
-    "Others": 0,
+    "Others": 25.04,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "CC": 0.69,
-    "ProFederal": 1.63,
-    "Potencia": 2.78,
-    "ProyectoSur": 1.39,
-    "UnionFederal": 0.21,
-    "FrenteIzquierda": 12.51
+    "margin_error": null
   },
   {
     "date": "2025-10-17",
@@ -1319,18 +1267,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 14.52,
-    "FP": 6.08,
-    "PU": 40.77,
+    "LLA": 8.4,
+    "FP": 6.51,
+    "PU": 43.69,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 28.61,
-    "Others": 10.02,
+    "Provincial": 30.66,
+    "Others": 10.74,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": null
   },
   {
     "date": "2025-10-20",
@@ -1338,18 +1285,17 @@
     "scope": "provincial",
     "province": "Córdoba",
     "chamber": "diputados",
-    "LLA": 9.06,
-    "FP": 5.87,
-    "PU": 37.58,
+    "LLA": 11.57,
+    "FP": 5.71,
+    "PU": 36.54,
     "UCR": null,
     "PRO": null,
     "FIT": null,
-    "Provincial": 34.05,
-    "Others": 13.44,
+    "Provincial": 33.11,
+    "Others": 13.07,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Hacemos por Córdoba"
+    "margin_error": null
   },
   {
     "date": "2025-10-17",
@@ -1367,8 +1313,7 @@
     "Others": 43.11,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Entre Ríos"
+    "margin_error": null
   },
   {
     "date": "2025-10-20",
@@ -1386,7 +1331,6 @@
     "Others": 32.48,
     "sample": null,
     "methodology": null,
-    "margin_error": null,
-    "provincialPartyName": "Fuerza Entre Ríos"
+    "margin_error": null
   }
 ]
