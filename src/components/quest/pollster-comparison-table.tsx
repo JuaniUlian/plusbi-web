@@ -23,6 +23,14 @@ interface EncuestaData {
   sample?: number | null;
   methodology?: string | null;
   margin_error?: number | null;
+  // Campos expandidos
+  provincialPartyName?: string | null;
+  CC?: number | null;
+  ProFederal?: number | null;
+  Potencia?: number | null;
+  ProyectoSur?: number | null;
+  UnionFederal?: number | null;
+  FrenteIzquierda?: number | null;
 }
 
 interface PollsterComparisonTableProps {
@@ -108,13 +116,49 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
               <span>{formatPercentage(poll.FIT)}</span>
             </div>
           )}
-          {poll.Provincial !== null && (
+          {poll.CC !== null && poll.CC > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#f59e0b' }}>
+              <span>CC:</span>
+              <span>{formatPercentage(poll.CC)}</span>
+            </div>
+          )}
+          {poll.ProFederal !== null && poll.ProFederal > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#fbbf24' }}>
+              <span>ProFederal:</span>
+              <span>{formatPercentage(poll.ProFederal)}</span>
+            </div>
+          )}
+          {poll.Potencia !== null && poll.Potencia > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#a855f7' }}>
+              <span>Potencia:</span>
+              <span>{formatPercentage(poll.Potencia)}</span>
+            </div>
+          )}
+          {poll.ProyectoSur !== null && poll.ProyectoSur > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#ec4899' }}>
+              <span>ProyectoSur:</span>
+              <span>{formatPercentage(poll.ProyectoSur)}</span>
+            </div>
+          )}
+          {poll.UnionFederal !== null && poll.UnionFederal > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#06b6d4' }}>
+              <span>UniónFederal:</span>
+              <span>{formatPercentage(poll.UnionFederal)}</span>
+            </div>
+          )}
+          {poll.FrenteIzquierda !== null && poll.FrenteIzquierda > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#b91c1c' }}>
+              <span>FrenteIzq:</span>
+              <span>{formatPercentage(poll.FrenteIzquierda)}</span>
+            </div>
+          )}
+          {poll.Provincial !== null && poll.Provincial > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#849221' }}>
-              <span>{getProvincialPartyShortName(poll.province)}:</span>
+              <span>{poll.provincialPartyName || getProvincialPartyShortName(poll.province)}:</span>
               <span>{formatPercentage(poll.Provincial)}</span>
             </div>
           )}
-          {poll.Others !== null && (
+          {poll.Others !== null && poll.Others > 0 && (
             <div className="flex justify-between font-bold" style={{ color: '#64748b' }}>
               <span>Otros:</span>
               <span>{formatPercentage(poll.Others)}</span>
@@ -135,8 +179,26 @@ export function PollsterComparisonTable({ data, isPremium, comparisonCount, onCo
 
     data.forEach((poll) => {
       const existingPoll = map.get(poll.pollster);
-      if (!existingPoll || new Date(poll.date) > new Date(existingPoll.date)) {
+
+      // Priorizar encuestas nacionales sobre provinciales
+      // Si no hay ninguna, tomar cualquiera
+      // Si ya hay una, reemplazar solo si:
+      // 1. La nueva es nacional y la existente no, O
+      // 2. Ambas son del mismo scope y la nueva es más reciente
+      if (!existingPoll) {
         map.set(poll.pollster, poll);
+      } else {
+        const isNewNational = poll.scope === 'national';
+        const isExistingNational = existingPoll.scope === 'national';
+        const isNewer = new Date(poll.date) > new Date(existingPoll.date);
+
+        if (isNewNational && !isExistingNational) {
+          // Priorizar nacional sobre provincial
+          map.set(poll.pollster, poll);
+        } else if (isNewNational === isExistingNational && isNewer) {
+          // Mismo scope, tomar la más reciente
+          map.set(poll.pollster, poll);
+        }
       }
     });
     return map;

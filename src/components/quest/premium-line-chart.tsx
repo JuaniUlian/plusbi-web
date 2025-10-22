@@ -53,6 +53,12 @@ const PARTY_COLORS: { [key: string]: { border: string; rgb: string } } = {
   UCR: { border: '#ef4444', rgb: '239, 68, 68' },
   PRO: { border: '#eab308', rgb: '234, 179, 8' },
   FIT: { border: '#dc2626', rgb: '220, 38, 38' },
+  CC: { border: '#f59e0b', rgb: '245, 158, 11' },
+  ProFederal: { border: '#fbbf24', rgb: '251, 191, 36' },
+  Potencia: { border: '#a855f7', rgb: '168, 85, 247' },
+  ProyectoSur: { border: '#ec4899', rgb: '236, 72, 153' },
+  UnionFederal: { border: '#06b6d4', rgb: '6, 182, 212' },
+  FrenteIzquierda: { border: '#b91c1c', rgb: '185, 28, 28' },
   Provincial: { border: '#849221', rgb: '132, 146, 33' },
   Others: { border: '#64748b', rgb: '100, 116, 139' },
 };

@@ -52,9 +52,17 @@ interface EncuestaData {
   sample?: number | null;
   methodology?: string | null;
   margin_error?: number | null;
+  // Campos expandidos
+  provincialPartyName?: string | null;
+  CC?: number | null;
+  ProFederal?: number | null;
+  Potencia?: number | null;
+  ProyectoSur?: number | null;
+  UnionFederal?: number | null;
+  FrenteIzquierda?: number | null;
 }
 
-type PartyKey = 'LLA' | 'FP' | 'PU' | 'UCR' | 'PRO' | 'FIT' | 'Provincial' | 'Others';
+type PartyKey = 'LLA' | 'FP' | 'PU' | 'UCR' | 'PRO' | 'FIT' | 'Provincial' | 'Others' | 'CC' | 'ProFederal' | 'Potencia' | 'ProyectoSur' | 'UnionFederal' | 'FrenteIzquierda';
 
 export interface ProvinceData {
   name: string;

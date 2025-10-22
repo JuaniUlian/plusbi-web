@@ -25,6 +25,12 @@ interface PieChartData {
   FIT?: number | null;
   Provincial?: number | null;
   Others?: number | null;
+  CC?: number | null;
+  ProFederal?: number | null;
+  Potencia?: number | null;
+  ProyectoSur?: number | null;
+  UnionFederal?: number | null;
+  FrenteIzquierda?: number | null;
 }
 
 interface PremiumPieChartProps {
@@ -38,6 +44,12 @@ const PARTY_COLORS: { [key: string]: string } = {
   UCR: '#ef4444',
   PRO: '#eab308',
   FIT: '#dc2626',
+  CC: '#f59e0b',
+  ProFederal: '#fbbf24',
+  Potencia: '#a855f7',
+  ProyectoSur: '#ec4899',
+  UnionFederal: '#06b6d4',
+  FrenteIzquierda: '#b91c1c',
   Provincial: '#849221',
   Others: '#64748b',
 };

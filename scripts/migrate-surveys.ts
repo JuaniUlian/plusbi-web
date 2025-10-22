@@ -80,6 +80,14 @@ async function migrateSurveys() {
           methodology: encuesta.methodology || null,
           marginError: encuesta.margin_error || null,
           createdBy: 'migration_script',
+          // Campos expandidos
+          provincialPartyName: (encuesta as any).provincialPartyName || null,
+          CC: (encuesta as any).CC || null,
+          ProFederal: (encuesta as any).ProFederal || null,
+          Potencia: (encuesta as any).Potencia || null,
+          ProyectoSur: (encuesta as any).ProyectoSur || null,
+          UnionFederal: (encuesta as any).UnionFederal || null,
+          FrenteIzquierda: (encuesta as any).FrenteIzquierda || null,
         }));
 
         await prisma.survey.createMany({
