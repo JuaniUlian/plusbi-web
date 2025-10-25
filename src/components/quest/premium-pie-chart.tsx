@@ -50,6 +50,7 @@ const PARTY_COLORS: { [key: string]: string } = {
   UnionFederal: '#06b6d4',
   FrenteIzquierda: '#b91c1c',
   Provincial: '#849221',
+  Others: '#64748b',
 };
 
 

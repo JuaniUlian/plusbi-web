@@ -59,6 +59,7 @@ const PARTY_COLORS: { [key: string]: { border: string; rgb: string } } = {
   UnionFederal: { border: '#06b6d4', rgb: '6, 182, 212' },
   FrenteIzquierda: { border: '#b91c1c', rgb: '185, 28, 28' },
   Provincial: { border: '#849221', rgb: '132, 146, 33' },
+  Others: { border: '#64748b', rgb: '100, 116, 139' },
 };
 
 export function PremiumLineChart({ data, selectedProvince }: PremiumLineChartProps) {

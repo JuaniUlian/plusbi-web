@@ -19,6 +19,7 @@ interface EncuestaData {
   PRO: number | null;
   FIT: number | null;
   Provincial: number | null;
+  Others: number | null;
   sample?: number | null;
   methodology?: string | null;
   margin_error?: number | null;
@@ -155,6 +156,12 @@ const PollCard = ({ poll }: { poll: EncuestaData | undefined }) => {
             <div className="flex justify-between font-bold" style={{ color: '#849221' }}>
               <span>{poll.provincialPartyName || getProvincialPartyShortName(poll.province)}:</span>
               <span>{formatPercentage(poll.Provincial)}</span>
+            </div>
+          )}
+          {poll.Others !== null && poll.Others !== undefined && poll.Others > 0 && (
+            <div className="flex justify-between font-bold" style={{ color: '#64748b' }}>
+              <span>Otros:</span>
+              <span>{formatPercentage(poll.Others)}</span>
             </div>
           )}
         </div>
