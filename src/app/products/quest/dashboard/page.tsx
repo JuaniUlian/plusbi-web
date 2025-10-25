@@ -379,12 +379,13 @@ export default function DashboardPage() {
         FP: ultimasEncuestas.map(e => e.FP).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.FP!=null).length || 0,
         PU: ultimasEncuestas.map(e => e.PU).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.PU!=null).length || 0,
         Provincial: ultimasEncuestas.map(e => e.Provincial).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.Provincial!=null).length || 0,
+        Others: ultimasEncuestas.map(e => e.Others).filter(v => v!=null).reduce((a, b) => a + (b as number), 0) / ultimasEncuestas.filter(e => e.Others!=null).length || 0,
       };
 
       const maxPartido = Object.entries(promedios).reduce((a, b) => a[1] > b[1] ? a : b);
 
       const colores: { [key: string]: string } = {
-        LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#849221'
+        LLA: '#7c3aed', FP: '#3b82f6', PU: '#f97316', Provincial: '#849221', Others: '#64748b'
       };
 
       const percentages: { [key: string]: number } = {};
@@ -392,6 +393,7 @@ export default function DashboardPage() {
       if (promedios.FP > 0) percentages['FP'] = Math.round(promedios.FP * 10) / 10;
       if (promedios.PU > 0) percentages['PU'] = Math.round(promedios.PU * 10) / 10;
       if (promedios.Provincial > 0) percentages['Provincial'] = Math.round(promedios.Provincial * 10) / 10;
+      if (promedios.Others > 0) percentages['Others'] = Math.round(promedios.Others * 10) / 10;
 
       return {
         name: prov,

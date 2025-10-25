@@ -59,7 +59,8 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
 
     return provincesData.find((p) => {
       const normalizedDataName = normalizeName(p.name.toLowerCase());
-      return normalizedDataName === mappedGeoName;
+      const mappedDataName = nameMappings[normalizedDataName] || normalizedDataName;
+      return mappedDataName === mappedGeoName;
     });
   };
 
@@ -203,6 +204,7 @@ export function ArgentinaHeatmap({ provincesData, onProvinceClick }: ArgentinaHe
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#3b82f6'}}></div><span className="text-xs">FP</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#f97316'}}></div><span className="text-xs">PU</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#849221'}}></div><span className="text-xs">Provincial</span></div>
+          <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#64748b'}}></div><span className="text-xs">Otros</span></div>
           <div className="flex items-center gap-2"><div className="w-4 h-4 rounded" style={{backgroundColor: '#e5e7eb'}}></div><span className="text-xs">Sin datos</span></div>
         </div>
       </div>
