@@ -3,23 +3,27 @@
 
 import Link from 'next/link';
 import { Logo } from './logo';
-import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
+import { PRODUCTS, CONTACT_EMAIL } from '@/lib/products';
 
 const footerContent = {
   es: {
-    slogan: "Innovación GovTech para una sociedad más justa y transparente.",
-    contactTitle: "¿Hablamos?",
-    contactSubtitle: "Construyamos juntos una administración más eficiente.",
-    contactButton: "Agenda una reunión",
-    copyright: "© 2025 PLUS BI. Todos los derechos reservados."
+    slogan: "Tecnología para un mejor Gobierno.",
+    productsTitle: "Productos",
+    companyTitle: "Empresa",
+    home: "Inicio",
+    experience: "Experiencia",
+    contactTitle: "Contacto",
+    copyright: "© 2026 PLUS BI. Todos los derechos reservados."
   },
   en: {
-    slogan: "GovTech innovation for a more just and transparent society.",
-    contactTitle: "Let's talk?",
-    contactSubtitle: "Let's build a more efficient administration together.",
-    contactButton: "Schedule a meeting",
-    copyright: "© 2025 PLUS BI. All rights reserved."
+    slogan: "Technology for better Government.",
+    productsTitle: "Products",
+    companyTitle: "Company",
+    home: "Home",
+    experience: "Experience",
+    contactTitle: "Contact",
+    copyright: "© 2026 PLUS BI. All rights reserved."
   }
 }
 
@@ -27,37 +31,49 @@ export function Footer() {
   const { language } = useLanguage();
   const c = footerContent[language];
 
-  const generateMailto = () => {
-    const subject = "Solicitud de reunión desde el sitio web";
-    const body = "Hola Juan,\n\nHe visto su sitio web y me gustaría agendar una reunión para conversar sobre cómo PLUS BI puede ayudar a mi organización.\n\nSaludos.";
-    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-
   return (
-    <footer 
-      className="border-t border-white/20 text-white" 
-      style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}
-    >
-      <div className="container mx-auto px-4 py-12 text-center">
-        <div className="flex flex-col items-center gap-8 mb-8">
-            <div className="space-y-4">
-                <Link href="/" className="inline-flex items-center gap-2">
-                    <Logo className="h-10 w-10" />
-                    <span className="font-bold text-lg font-headline">PLUS BI</span>
+    <footer className="bg-primary text-primary-foreground">
+      <div className="container mx-auto max-w-7xl px-4 py-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
+          <div className="space-y-4 md:col-span-2">
+            <Link href="/" className="inline-flex items-center gap-2">
+              <Logo className="h-9 w-9" />
+              <span className="font-bold text-lg font-headline">PLUS BI</span>
+            </Link>
+            <p className="text-sm text-primary-foreground/70 max-w-xs">{c.slogan}</p>
+          </div>
+
+          <nav aria-label={c.productsTitle}>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-primary-foreground/50 mb-4">{c.productsTitle}</h3>
+            <ul className="space-y-3 text-sm">
+              {PRODUCTS.map((p) => (
+                <li key={p.id}>
+                  <Link href={p.href} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                    {p.name[language]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.15em] text-primary-foreground/50 mb-4">{c.contactTitle}</h3>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors break-all">
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li>
+                <Link href="/experience" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  {c.experience}
                 </Link>
-                <p className="text-sm text-white/70 max-w-xs mx-auto">{c.slogan}</p>
-            </div>
-            
-            <div className="flex flex-col items-center">
-                 <h3 className="font-semibold mb-2 text-lg">{c.contactTitle}</h3>
-                 <p className="text-sm text-white/70 mb-4 max-w-xs">{c.contactSubtitle}</p>
-                 <Button asChild variant="secondary">
-                     <a href={generateMailto()}>{c.contactButton}</a>
-                 </Button>
-            </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="border-t border-white/20 pt-8 text-center text-sm text-white/50">
-            <p>{c.copyright}</p>
+        <div className="border-t border-white/15 mt-12 pt-8 text-sm text-primary-foreground/50">
+          <p>{c.copyright}</p>
         </div>
       </div>
     </footer>

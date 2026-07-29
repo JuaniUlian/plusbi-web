@@ -39,8 +39,15 @@ export const LanguageSwitcher: React.FC = () => {
   const { language, toggleLanguage } = useLanguage();
 
   return (
-    <Button variant="outline" size="sm" onClick={toggleLanguage}>
-      {language === 'es' ? 'EN' : 'ES'}
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={toggleLanguage}
+      aria-label={language === 'es' ? 'Switch to English' : 'Cambiar a español'}
+    >
+      <span className={language === 'es' ? 'text-foreground' : 'text-muted-foreground/60'}>ES</span>
+      <span aria-hidden className="text-muted-foreground/40">·</span>
+      <span className={language === 'en' ? 'text-foreground' : 'text-muted-foreground/60'}>EN</span>
     </Button>
   );
 };
