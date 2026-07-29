@@ -36,8 +36,7 @@ const prompt = ai.definePrompt({
   prompt: `You are a helpful assistant for PLUS BI. Your goal is to recommend the best product for a potential client based on their needs.
   The available products are:
   - Quest: A Big Data and AI platform to process millions of data points and predict market trends. Ideal for clients who need to analyze large volumes of information to make strategic decisions.
-  - Mila: An AI solution for governments that validates legal documents (like decrees or tenders) in minutes, ensuring compliance and preventing errors. Perfect for public sector clients who want to speed up administrative processes.
-  - Vuro: An upcoming AI super-agent that automates the entire lifecycle of official documents (creation, review, signing, publication).
+  - Mila: An AI solution for governments that audits public files against the agency's own regulations in minutes, with a legal citation and evidence for every finding. Perfect for oversight bodies and public sector clients who want to strengthen internal control and speed up reviews.
   - Sistema de Expediente Electronico: A service to install, support, and train on electronic file systems. Best for organizations looking to digitize their paper-based processes and improve efficiency.
 
   Based on the client's stated need, recommend ONE of the products. 

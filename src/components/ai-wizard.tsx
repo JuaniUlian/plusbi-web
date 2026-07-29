@@ -73,7 +73,6 @@ const content = {
 const productInfo: Record<string, { link: string; icon: string }> = {
     'Quest': { link: '/products/quest', icon: '/logo/quest.png' },
     'Mila': { link: '/products/mila', icon: '/logo/mila.png' },
-    'Vuro': { link: '/products/vuro', icon: '/logo/plusbi.png' },
     'Sistema de Expediente Electronico': { link: '/products/see', icon: '/logo/plusbi.png' },
 }
 

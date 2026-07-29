@@ -41,18 +41,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
-      url: `${baseUrl}/products/vuro`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      alternates: {
-        languages: {
-          es: `${baseUrl}/products/vuro`,
-          en: `${baseUrl}/en/products/vuro`,
-        },
-      },
-    },
-    {
       url: `${baseUrl}/products/see`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

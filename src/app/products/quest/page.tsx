@@ -1,357 +1,262 @@
 
 'use client';
-import Image from 'next/image';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Mail, Target, Building2, TrendingUp, Users, Vote, Search, Lightbulb, Check, Clock } from 'lucide-react';
-import { useLanguage } from '@/contexts/language-context';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import {
+  Target,
+  Building2,
+  TrendingUp,
+  Users,
+  Vote,
+  Search,
+  Lightbulb,
+  Database,
+  GitCompareArrows,
+  Map,
+  LogIn,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { PageHero } from '@/components/shared/page-hero';
+import { ContactSection } from '@/components/shared/contact-section';
+import { useLanguage } from '@/contexts/language-context';
 
 const content = {
   es: {
-    badge: "Análisis de Datos",
-    title: "Quest",
-    subtitle: "La plataforma de inteligencia para la <strong>toma de decisiones</strong> en el sector público. Gobierna con datos, no con intuición.",
-    cta2025Button: "Acceder al Dashboard",
-    videoTitle: "Quest en Acción",
-    useCasesTitle: "Descubre lo que Quest puede hacer por ti",
-    useCasesSubtitle: "Selecciona tu área para ver cómo Quest transforma datos en decisiones estratégicas.",
-    tabs: {
-      governments: "Para Gobiernos",
-      campaigns: "Para Campañas Electorales"
-    },
-    govPoints: [
-      { icon: <Building2 className="text-primary size-8" />, title: "Gestión Eficiente", description: "Visualiza el estado de tu gestión y el impacto de tus políticas en tiempo real." },
-      { icon: <TrendingUp className="text-primary size-8" />, title: "Anticipación de Crisis", description: "Detecta tendencias y patrones para prever conflictos sociales o económicos." },
-      { icon: <Users className="text-primary size-8" />, title: "Conocimiento Ciudadano", description: "Comprende las demandas y el sentir de la población para guiar tus acciones." },
-      { icon: <Lightbulb className="text-primary size-8" />, title: "Recomendaciones de IA", description: "Recibe sugerencias de políticas públicas basadas en evidencia y datos." },
+    heroBadge: 'Quest · Análisis de datos',
+    heroTitle: 'La encuesta que citás en la reunión ya tiene dos semanas.',
+    heroSubtitle:
+      'Y la decisión que tomás con ella dura cuatro años. Quest reúne encuestas y datos electorales de todo el país en un tablero vivo, para que gobiernes y hagas campaña con la foto de hoy.',
+    heroCtaDashboard: 'Acceder al dashboard',
+    heroCtaDemo: 'Solicitá una presentación',
+
+    whatEyebrow: '01 · La solución',
+    whatTitle: 'Toda la conversación electoral del país, en un solo lugar.',
+    whatItems: [
+      {
+        icon: Database,
+        title: 'Base de encuestas centralizada',
+        text: 'La base de encuestas más grande de Argentina, actualizada permanentemente.',
+      },
+      {
+        icon: GitCompareArrows,
+        title: 'Comparación entre consultoras',
+        text: 'Metodologías, sesgos y aciertos históricos de cada encuestadora, lado a lado.',
+      },
+      {
+        icon: TrendingUp,
+        title: 'Tendencias día a día',
+        text: 'Evolución de intención de voto por candidato, espacio y territorio.',
+      },
+      {
+        icon: Map,
+        title: 'Informes por provincia',
+        text: 'Mapa de calor y estado de situación de cada distrito, con su historia electoral.',
+      },
     ],
-    campaignPoints: [
-        { icon: <Target className="text-primary size-8" />, title: "Optimización de Recursos", description: "Identifica las áreas geográficas clave para enfocar tus esfuerzos y tu presupuesto." },
-        { icon: <Vote className="text-primary size-8" />, title: "Segmentación de Votantes", description: "Conoce el perfil y las preocupaciones de distintos segmentos del electorado." },
-        { icon: <Search className="text-primary size-8" />, title: "Análisis de Competencia", description: "Monitorea el posicionamiento y la estrategia de tus adversarios." },
-        { icon: <Lightbulb className="text-primary size-8" />, title: "Mensajes Efectivos", description: "Ajusta tu discurso con recomendaciones de IA para conectar con cada audiencia." },
+
+    caseEyebrow: '02 · La prueba',
+    caseTitle: 'Elecciones presidenciales 2023: la prueba de fuego.',
+    caseValue: '+7,1M',
+    caseLabel: 'puntos de datos analizados',
+    caseText:
+      'Entre enero y noviembre de 2023 realizamos un estudio diario sobre los candidatos presidenciales de Argentina, cubriendo todo el país. Una visión del sentimiento del votante que las encuestas sueltas no pueden dar.',
+
+    useEyebrow: '03 · Para quién',
+    useTitle: 'Gobernar y hacer campaña son dos deportes distintos.',
+    useGovTitle: 'Para gobiernos',
+    useGovItems: [
+      { icon: Building2, text: 'Visualizá el estado de tu gestión y el impacto de tus políticas.' },
+      { icon: TrendingUp, text: 'Detectá tendencias para anticipar conflictos sociales o económicos.' },
+      { icon: Users, text: 'Entendé las demandas reales de la población antes de decidir.' },
     ],
-    caseTitle: "🇦🇷 Caso de Éxito: Elecciones Presidenciales de Argentina 2023",
-    caseDescription: "<p>Realizamos un estudio diario entre enero y noviembre de 2023, recopilando más de <strong>7,100,000 puntos de datos</strong> sobre los candidatos presidenciales en Argentina, cubriendo todo el país.</p><p class='mt-2'>Esto proporcionó una <strong>visión sin precedentes</strong> del sentimiento y las tendencias de los votantes, demostrando la fiabilidad y el poder de Quest en entornos complejos.</p>",
-    ctaTitle: "¿Listo para tomar decisiones basadas en datos?",
-    ctaSubtitle: "Descubre cómo Quest puede darte la visión estratégica que necesitas para anticiparte al futuro.",
-    ctaButton: "Solicita una presentación de Quest",
-    loginButton: "Iniciar Sesión",
+    useCampTitle: 'Para campañas',
+    useCampItems: [
+      { icon: Target, text: 'Identificá los territorios clave para enfocar recursos y presupuesto.' },
+      { icon: Vote, text: 'Conocé el perfil y las preocupaciones de cada segmento del electorado.' },
+      { icon: Search, text: 'Monitoreá el posicionamiento y la estrategia de tus adversarios.' },
+      { icon: Lightbulb, text: 'Ajustá tu mensaje con recomendaciones de IA por audiencia.' },
+    ],
   },
   en: {
-    badge: "Data Analysis",
-    title: "Quest",
-    subtitle: "The intelligence platform for <strong>decision-making</strong> in the public sector. Govern with data, not intuition.",
-    cta2025Button: "Access Dashboard",
-    videoTitle: "Quest in Action",
-    useCasesTitle: "Discover what Quest can do for you",
-    useCasesSubtitle: "Select your area to see how Quest turns data into strategic decisions.",
-    tabs: {
-      governments: "For Governments",
-      campaigns: "For Electoral Campaigns"
-    },
-    govPoints: [
-      { icon: <Building2 className="text-primary size-8" />, title: "Efficient Management", description: "Visualize the state of your administration and the impact of your policies in real-time." },
-      { icon: <TrendingUp className="text-primary size-8" />, title: "Crisis Anticipation", description: "Detect trends and patterns to foresee social or economic conflicts." },
-      { icon: <Users className="text-primary size-8" />, title: "Citizen Insight", description: "Understand the demands and sentiments of the population to guide your actions." },
-      { icon: <Lightbulb className="text-primary size-8" />, title: "AI Recommendations", description: "Receive evidence-based public policy suggestions generated by AI." },
+    heroBadge: 'Quest · Data analysis',
+    heroTitle: 'The poll you quote in meetings is already two weeks old.',
+    heroSubtitle:
+      'And the decision you make with it lasts four years. Quest gathers polls and electoral data from the whole country on a live dashboard, so you govern and campaign with today’s picture.',
+    heroCtaDashboard: 'Access the dashboard',
+    heroCtaDemo: 'Request a presentation',
+
+    whatEyebrow: '01 · The solution',
+    whatTitle: 'The country’s entire electoral conversation, in one place.',
+    whatItems: [
+      {
+        icon: Database,
+        title: 'Centralized poll database',
+        text: 'The largest poll database in Argentina, permanently updated.',
+      },
+      {
+        icon: GitCompareArrows,
+        title: 'Pollster comparison',
+        text: 'Methodologies, biases and historical accuracy of every pollster, side by side.',
+      },
+      {
+        icon: TrendingUp,
+        title: 'Day-by-day trends',
+        text: 'Evolution of voting intention by candidate, party and territory.',
+      },
+      {
+        icon: Map,
+        title: 'Reports by province',
+        text: 'Heatmap and situation report for every district, with its electoral history.',
+      },
     ],
-    campaignPoints: [
-        { icon: <Target className="text-primary size-8" />, title: "Resource Optimization", description: "Identify key geographical areas to focus your efforts and budget." },
-        { icon: <Vote className="text-primary size-8" />, title: "Voter Segmentation", description: "Know the profile and concerns of different voter segments." },
-        { icon: <Search className="text-primary size-8" />, title: "Competitor Analysis", description: "Monitor the positioning and strategy of your opponents." },
-        { icon: <Lightbulb className="text-primary size-8" />, title: "Effective Messaging", description: "Adjust your discourse with AI recommendations to connect with each audience." },
+
+    caseEyebrow: '02 · The proof',
+    caseTitle: '2023 presidential elections: the acid test.',
+    caseValue: '+7.1M',
+    caseLabel: 'data points analyzed',
+    caseText:
+      'Between January and November 2023 we ran a daily study on Argentina’s presidential candidates, covering the whole country. A view of voter sentiment that isolated polls cannot give.',
+
+    useEyebrow: '03 · Who it is for',
+    useTitle: 'Governing and campaigning are two different sports.',
+    useGovTitle: 'For governments',
+    useGovItems: [
+      { icon: Building2, text: 'Visualize the state of your administration and the impact of your policies.' },
+      { icon: TrendingUp, text: 'Detect trends to anticipate social or economic conflicts.' },
+      { icon: Users, text: 'Understand the real demands of the population before deciding.' },
     ],
-    caseTitle: "🇦🇷 Success Case: Argentine Presidential Elections 2023",
-    caseDescription: "<p>A daily study was conducted between January and November 2023, collecting more than <strong>7,100,000 data points</strong> on presidential candidates in Argentina, covering the entire country.</p><p class='mt-2'>This provided <strong>unprecedented insight</strong> into voter sentiment and trends, demonstrating Quest's reliability and power in complex environments.</p>",
-    ctaTitle: "Ready to make data-driven decisions?",
-    ctaSubtitle: "Discover how Quest can give you the strategic insight you need to anticipate the future.",
-    ctaButton: "Request a Quest presentation",
-    loginButton: "Login",
-  }
+    useCampTitle: 'For campaigns',
+    useCampItems: [
+      { icon: Target, text: 'Identify the key territories to focus resources and budget.' },
+      { icon: Vote, text: 'Know the profile and concerns of every segment of the electorate.' },
+      { icon: Search, text: 'Monitor your opponents’ positioning and strategy.' },
+      { icon: Lightbulb, text: 'Adjust your message with AI recommendations per audience.' },
+    ],
+  },
+};
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-quest">{children}</p>
+  );
 }
 
 export default function QuestPage() {
   const { language } = useLanguage();
   const c = content[language];
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number;
-    hours: number;
-  }>({ days: 0, hours: 0 });
-  const [guestAccessExpired, setGuestAccessExpired] = useState(false);
-
-  useEffect(() => {
-    const targetDate = new Date('2025-10-19T23:59:59-03:00');
-    const now = new Date();
-
-    if (now >= targetDate) {
-      setGuestAccessExpired(true);
-    } else {
-      const difference = targetDate.getTime() - now.getTime();
-      setTimeLeft({
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      });
-    }
-  }, []);
-
-  const generateMailto = () => {
-    const subject = `Solicitud de presentación de ${c.title}`;
-    const body = `Estimado Juan,\n\nMe gustaría coordinar una reunión para una presentación de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
-    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
-
-  const strategicAdvantages = [
-    { title: 'Base de Encuestas Centralizada', text: 'Accedé a la base de encuestas más grande del país.' },
-    { title: 'Comparación de Metodologías', text: 'Compará estudios y metodologías de todas las consultoras.' },
-    { title: 'Análisis de Tendencias', text: 'Seguí día a día las tendencias de voto y su evolución.' },
-    { title: 'Informes por Provincia', text: 'Explorá informes y estados de situación por provincia.' },
-    { title: 'Visualización Clara', text: 'Visualizá datos complejos con claridad y precisión.' },
-    { title: 'IA Generativa', text: 'Informes profesionales generados por inteligencia artificial.' },
-  ]
 
   return (
-    <>
-      <header className="py-20 bg-primary/10 relative" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex flex-col items-center">
-            <Image src="/logo/quest.png" alt="Quest Logo" width={80} height={80} className="mb-4" />
+    <div className="flex flex-col">
+      <PageHero
+        mesh="quest"
+        eyebrow={
+          <Badge className="border-transparent bg-quest/10 px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-quest hover:bg-quest/10">
+            {c.heroBadge}
+          </Badge>
+        }
+        title={<span className="font-serif font-bold">{c.heroTitle}</span>}
+        subtitle={c.heroSubtitle}
+      >
+        <Button asChild size="lg" className="bg-quest hover:bg-quest/90 text-white">
+          <Link href="/products/quest/login">
+            <LogIn aria-hidden />
+            {c.heroCtaDashboard}
+          </Link>
+        </Button>
+        <Button asChild size="lg" variant="outline">
+          <Link href="#contacto">{c.heroCtaDemo}</Link>
+        </Button>
+      </PageHero>
+
+      {/* 01 · La solución */}
+      <section className="bg-card border-y border-black/5">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.whatEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+            {c.whatTitle}
+          </h2>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {c.whatItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="flex gap-5 rounded-2xl border border-black/5 bg-background p-7 card-elevated">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <div>
+                    <h3 className="font-headline text-lg font-bold">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
-          <Badge className="mt-4">{c.badge}</Badge>
-          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto" dangerouslySetInnerHTML={{ __html: c.subtitle }}/>
         </div>
-      </header>
-      <main>
-        {/* Sección Hero Unificada - CTA Principal */}
-        <section className="relative py-20 md:py-32 overflow-hidden" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          {/* Overlay gradient para mejorar contraste */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95" />
+      </section>
 
-          <div className="container mx-auto px-4 relative z-10">
-            {/* Alerta de acceso como invitado */}
-            {!guestAccessExpired && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="max-w-4xl mx-auto mb-8"
-              >
-                <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
-                  <Clock className="h-5 w-5 text-yellow-600" />
-                  <AlertTitle className="text-base font-semibold text-yellow-900 dark:text-yellow-100">
-                    ¡Acceso gratuito por tiempo limitado!
-                  </AlertTitle>
-                  <AlertDescription className="text-sm text-yellow-800 dark:text-yellow-200 mt-2">
-                    Ingresa como invitado hasta el <strong>19 de octubre de 2025</strong> y explora Quest.
-                    <br />
-                    Quedan solo <strong>{timeLeft.days} días y {timeLeft.hours} horas</strong>
-                    <br />
-                    <span className="font-semibold text-base">🎉 60% OFF</span> en suscripción Premium si te registras antes del 19/10
-                  </AlertDescription>
-                </Alert>
-              </motion.div>
-            )}
-            {/* Card principal con borde sutil */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-6xl mx-auto"
-            >
-              <div className="rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-background/80 via-background/60 to-primary/5 backdrop-blur-xl shadow-2xl p-8 md:p-16">
-                {/* Título principal con efecto de aparecer */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-center mb-12"
-                >
-                  <div className="inline-block px-4 py-2 bg-primary/10 rounded-full mb-6">
-                    <span className="text-sm font-semibold text-primary">Elecciones Legislativas Argentina 2025</span>
-                  </div>
-                  <h2 className="text-4xl md:text-6xl font-bold font-headline tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                    Quest. Inteligencia que decide.
-                  </h2>
-                  <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                    La herramienta que transforma datos complejos en decisiones claras.
-                  </p>
-                </motion.div>
-
-                {/* Features Grid con animación escalonada */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="max-w-4xl mx-auto mb-12"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {strategicAdvantages.map((advantage, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                        className="group flex items-start gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all duration-300 hover:scale-[1.02]"
-                      >
-                        <div className="flex-shrink-0 mt-1">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                            <Check className="w-5 h-5 text-primary" strokeWidth={3} />
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-base md:text-lg mb-1 group-hover:text-primary transition-colors">
-                            {advantage.title}
-                          </h3>
-                          <p className="text-muted-foreground text-sm leading-relaxed">
-                            {advantage.text}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-
-                {/* Divider decorativo */}
-                <div className="relative h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent my-12" />
-
-                {/* CTA Final con efecto de brillo */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.8 }}
-                  className="text-center space-y-8"
-                >
-                  <div className="space-y-4">
-                    <h3 className="text-3xl md:text-4xl font-bold font-headline tracking-tight">
-                      Simple. Potente. Preciso.
-                    </h3>
-                    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                      Quest elimina la complejidad del análisis político. Lo que antes tomaba días, ahora toma minutos.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
-                    <Button asChild size="lg" className="text-lg px-10 py-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-primary to-primary/80">
-                      <Link href="/products/quest/login" className="flex items-center gap-2">
-                        Acceder al Dashboard
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </Link>
-                    </Button>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground/70 mt-6">
-                    Explora los datos, analiza tendencias y obtén una visión estratégica de cara a las próximas elecciones.
-                  </p>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Efectos decorativos de fondo */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl opacity-20 animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
-        </section>
-
-        <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold font-headline text-white tracking-tight">{c.useCasesTitle}</h2>
-              <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">{c.useCasesSubtitle}</p>
+      {/* 02 · La prueba */}
+      <section className="mesh-quest">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.caseEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+            {c.caseTitle}
+          </h2>
+          <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr]">
+            <div className="rounded-2xl glass p-10 text-center">
+              <p className="stat-number text-6xl md:text-7xl text-quest">{c.caseValue}</p>
+              <p className="mt-3 text-base text-muted-foreground">{c.caseLabel}</p>
             </div>
-            <Tabs defaultValue="governments" className="max-w-5xl mx-auto">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="governments" className="text-base">{c.tabs.governments}</TabsTrigger>
-                <TabsTrigger value="campaigns" className="text-base">{c.tabs.campaigns}</TabsTrigger>
-              </TabsList>
-              <TabsContent value="governments">
-                <div className="bg-background/95 backdrop-blur rounded-2xl p-8 md:p-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    {c.govPoints.map(point => (
-                      <div key={point.title} className="flex items-start gap-4">
-                        <div className="flex-shrink-0 mt-1">
-                          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Check className="w-4 h-4 text-primary" strokeWidth={3} />
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-base mb-1">{point.title}</h4>
-                          <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-              <TabsContent value="campaigns">
-                <div className="bg-background/95 backdrop-blur rounded-2xl p-8 md:p-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    {c.campaignPoints.map(point => (
-                      <div key={point.title} className="flex items-start gap-4">
-                        <div className="flex-shrink-0 mt-1">
-                          <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                            <Check className="w-4 h-4 text-primary" strokeWidth={3} />
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-base mb-1">{point.title}</h4>
-                          <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <p className="text-lg leading-relaxed text-muted-foreground">{c.caseText}</p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4">
-            <Card className="glassmorphism-light max-w-4xl mx-auto overflow-hidden card-hud-effect">
-              <div className="grid md:grid-cols-2 items-center">
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold font-headline">{c.caseTitle}</h3>
-                  <div className="prose prose-sm text-muted-foreground mt-4" dangerouslySetInnerHTML={{ __html: c.caseDescription }} />
-                </div>
-                <div className="relative h-64 md:h-full bg-gradient-to-br from-blue-400 via-white to-blue-400 flex items-center justify-center">
-                  {/* Placeholder for Argentina flag image - add /data/argentina-flag.jpg to display */}
-                  <div className="text-6xl">🇦🇷</div>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-24 bg-primary/10 text-center">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
-                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
-                <Button asChild size="lg" className="mt-8">
-                    <a href={generateMailto()}>{c.ctaButton} <Mail className="ml-2"/></a>
-                </Button>
+      {/* 03 · Para quién */}
+      <section className="bg-card border-y border-black/5">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.useEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+            {c.useTitle}
+          </h2>
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="rounded-2xl border border-black/5 bg-background p-8 card-elevated">
+              <h3 className="font-headline text-xl font-bold">{c.useGovTitle}</h3>
+              <ul className="mt-6 space-y-5">
+                {c.useGovItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.text} className="flex gap-4">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
+                        <Icon className="size-5" aria-hidden />
+                      </span>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-        </section>
-      </main>
-    </>
+            <div className="rounded-2xl border border-black/5 bg-background p-8 card-elevated">
+              <h3 className="font-headline text-xl font-bold">{c.useCampTitle}</h3>
+              <ul className="mt-6 space-y-5">
+                {c.useCampItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.text} className="flex gap-4">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
+                        <Icon className="size-5" aria-hidden />
+                      </span>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ContactSection />
+    </div>
   );
 }
-
-    

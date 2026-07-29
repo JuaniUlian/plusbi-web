@@ -48,7 +48,7 @@ export default function MapDemoPage() {
 
         {/* Province Info Panel */}
         <div className="lg:col-span-1">
-          <div className="bg-white border border-gray-300 rounded-lg p-6">
+          <div className="bg-card border border-border rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">
               Información de la Provincia
             </h2>
@@ -57,56 +57,56 @@ export default function MapDemoPage() {
               <div className="space-y-3">
                 <div>
                   <span className="font-medium">Nombre:</span>{" "}
-                  <span className="text-gray-700">{selectedProvince}</span>
+                  <span className="text-muted-foreground">{selectedProvince}</span>
                 </div>
 
                 {provinceData && (
                   <>
                     <div>
                       <span className="font-medium">Tipo:</span>{" "}
-                      <span className="text-gray-700">
+                      <span className="text-muted-foreground">
                         {provinceData.TYPE_1}
                       </span>
                     </div>
 
                     <div>
                       <span className="font-medium">Valor:</span>{" "}
-                      <span className="text-gray-700">
+                      <span className="text-muted-foreground">
                         ${new Intl.NumberFormat("es-AR").format(parseInt(provinceData.VALUE, 10))}
                       </span>
                     </div>
 
                     <div>
                       <span className="font-medium">HASC:</span>{" "}
-                      <span className="text-gray-700">
+                      <span className="text-muted-foreground">
                         {provinceData.HASC_1}
                       </span>
                     </div>
 
                     <div>
                       <span className="font-medium">GID:</span>{" "}
-                      <span className="text-gray-700">{provinceData.GID_1}</span>
+                      <span className="text-muted-foreground">{provinceData.GID_1}</span>
                     </div>
                   </>
                 )}
               </div>
             ) : (
-              <p className="text-gray-500 italic">
+              <p className="text-muted-foreground italic">
                 Haz clic en una provincia para ver su información
               </p>
             )}
           </div>
 
           {/* Instructions */}
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="font-semibold text-blue-900 mb-2">
+          <div className="mt-6 bg-primary/5 border border-primary/15 rounded-lg p-4">
+            <h3 className="font-semibold text-primary mb-2">
               Cómo usar el mapa:
             </h3>
-            <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+            <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
               <li>Haz clic en una provincia para ver sus datos</li>
               <li>Pasa el mouse sobre una provincia para ver un tooltip</li>
               <li>Usa los botones + y - para hacer zoom</li>
-              <li>Usa el botón Reset para volver al zoom inicial</li>
+              <li>Usá el botón Reiniciar para volver al zoom inicial</li>
             </ul>
           </div>
         </div>

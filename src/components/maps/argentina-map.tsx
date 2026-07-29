@@ -67,28 +67,28 @@ export function ArgentinaMap({
       <div className="flex gap-2">
         <button
           onClick={handleZoomIn}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          aria-label="Zoom in"
+          className="min-h-11 min-w-11 rounded-full bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
+          aria-label="Acercar"
         >
           +
         </button>
         <button
           onClick={handleZoomOut}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          aria-label="Zoom out"
+          className="min-h-11 min-w-11 rounded-full bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
+          aria-label="Alejar"
         >
           -
         </button>
         <button
           onClick={handleResetZoom}
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+          className="min-h-11 rounded-full bg-secondary px-4 py-2 text-secondary-foreground transition-colors hover:bg-secondary/80"
         >
-          Reset
+          Reiniciar
         </button>
       </div>
 
       {/* Map */}
-      <div className="w-full border border-gray-300 rounded-lg overflow-hidden bg-white">
+      <div className="w-full border border-border rounded-lg overflow-hidden bg-card">
         <ComposableMap
           width={width}
           height={height}
@@ -110,6 +110,9 @@ export function ArgentinaMap({
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`${NAME}: ${formattedValue}`}
                       onMouseEnter={() => {
                         setTooltipContent(`${NAME}: ${formattedValue}`);
                       }}
@@ -119,6 +122,14 @@ export function ArgentinaMap({
                       onClick={() => {
                         if (onProvinceClick) {
                           onProvinceClick(NAME, properties);
+                        }
+                      }}
+                      onKeyDown={(e: React.KeyboardEvent) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          if (onProvinceClick) {
+                            onProvinceClick(NAME, properties);
+                          }
                         }
                       }}
                       data-tooltip-id="map-tooltip"
