@@ -1,278 +1,400 @@
-'use client';
-import Image from 'next/image';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
-  CheckCircle2,
-  Mail,
-  Zap,
-  Eye,
-  AlertCircle,
-  Clock,
-  ShieldCheck,
-  Scale,
-  ArrowRight,
-  TrendingUp,
-  FlipHorizontal,
-  ClipboardCheck,
-  FileStack,
-  PieChart,
-} from 'lucide-react';
-import { useLanguage } from '@/contexts/language-context';
-import { Button } from '@/components/ui/button';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import { Separator } from '@/components/ui/separator';
 
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import {
+  ArrowRight,
+  FileText,
+  Layers,
+  AlertTriangle,
+  ScanSearch,
+  UserCheck,
+  MessageCircleQuestion,
+  Landmark,
+  Lock,
+  TrafficCone,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { PageHero } from '@/components/shared/page-hero';
+import { MilaWizardTour } from '@/components/shared/mila-wizard-tour';
+import { ContactSection } from '@/components/shared/contact-section';
+import { useLanguage } from '@/contexts/language-context';
 
 const content = {
   es: {
-    badge: "Validación de Documentos con IA",
-    title: "Mila",
-    subtitle: "La herramienta de IA para gobiernos que acelera procesos, previene errores y asegura el cumplimiento normativo. Mila valida decretos, licitaciones y otros documentos en minutos.",
-    interactiveTitle: "Del Problema a la Solución",
-    interactiveSubtitle: "Desliza para descubrir cómo Mila transforma los desafíos de la gestión pública.",
-    challenges: [
-        { id: 'errors', challenge: "Errores Manuales Costosos", solution: "Análisis Inteligente y Preciso", description: "Mila analiza los documentos punto por punto, detectando inconsistencias y riesgos que el ojo humano podría pasar por alto.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
-        { id: 'delays', challenge: "Procesos de Revisión Interminables", solution: "Validación en Minutos, No en Días", description: "Lo que antes tomaba semanas, Mila lo resuelve en minutos. Acelera la aprobación de decretos, licitaciones y más.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-green-500" /> },
-        { id: 'compliance', challenge: "Incertidumbre Normativa", solution: "Cumplimiento Garantizado", description: "Mila vincula cada observación a la norma específica, ofreciendo un puntaje legal y asegurando que cada documento esté en regla.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
-        { id: 'traceability', challenge: "Falta de Trazabilidad y Control", solution: "Control y Trazabilidad Total", description: "Edita y corrige en la plataforma, con un historial de cambios completo para una auditoría transparente y una versión final lista.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
+    heroBadge: 'Mila · Control inteligente',
+    heroTitle: 'Detecta irregularidades en minutos.',
+    heroSubtitle:
+      'Toda tu normativa. Todo el expediente. Mila hace el trabajo pesado sobre los documentos de tu organismo, para que decidas con toda la información ya analizada.',
+    heroCtaDemo: 'Solicitá una demo',
+    heroCtaHow: 'Ver cómo funciona',
+
+    martaEyebrow: '01 · El problema',
+    martaTitle: 'En toda Latinoamérica hay una Marta.',
+    martaP1:
+      'Síndica, contralora, auditora, revisora de cuentas. El nombre cambia; la responsabilidad es la misma: su firma dice que un expediente está en orden.',
+    martaP2:
+      'Las normas son muchísimas y los expedientes, más todavía. Entonces revisa lo estructural, o busca los problemas donde suelen esconderse.',
+    martaP3: 'Marta no debería tener que elegir qué parte controlar.',
+    martaStats: [
+      { icon: FileText, value: '+200', label: 'páginas por expediente, con 15 anexos técnicos' },
+      { icon: Layers, value: '+1.000', label: 'expedientes esperando revisión manual' },
     ],
-    modulesTitle: "Mila para cada caso",
-    modulesSubtitle: "Una solución flexible que se adapta a la complejidad de cada trámite, desde lo cotidiano hasta lo estratégico.",
-    modules: [
+    martaWarning:
+      'Cuando algo se escapa: la obra que no se termina, el servicio que no llega, la confianza en el Estado que se deteriora.',
+
+    approachEyebrow: '02 · El enfoque',
+    approachTitle: 'Tecnología, más persona.',
+    approachMachine: 'Lo repetitivo, la máquina',
+    approachMachineItems: ['Leer el expediente completo', 'Cruzarlo con cada norma', 'Rastrear lo que falta'],
+    approachHuman: 'El juicio, la persona',
+    approachHumanItems: ['El criterio', 'La experiencia', 'La resolución'],
+    approachNote:
+      'Mila no reemplaza al auditor ni decide por él: le saca el cuello de botella. Y aprende de su criterio con cada validación.',
+
+    howEyebrow: '03 · La solución',
+    howTitle: 'Subís un expediente. Mila lo audita en minutos.',
+    howSubtitle: 'Pantallas reales del producto, sin retoques. Así se ve trabajar con Mila.',
+
+    caseEyebrow: '04 · Validación',
+    caseTitle: 'Usada donde el control importa.',
+    caseLabel: 'Caso real',
+    caseAmount: '$22M',
+    casePrefix: 'auditado en',
+    caseSeconds: '30 segundos',
+    caseText:
+      'En un expediente real, Mila detectó que faltaba la intervención documentada del Tribunal de Cuentas — exigida por ordenanza, pero omitida. Eso solo ya justificaba la revisión completa del proceso.',
+    caseInUseTitle: 'En uso hoy',
+    caseInUse: [
+      'Sindicatura General de la Nación (Argentina), en implementación beta',
+      'Universidades nacionales: compras y contrataciones',
+      'Organismos de control evaluando su implementación',
+    ],
+    caseOrigin: 'Nacida en Corrupción Cero (CAF), entre los 20 proyectos seleccionados de la región.',
+
+    chainEyebrow: '05 · El impacto',
+    chainTitle: 'De minutos ganados a confianza recuperada.',
+    chainSteps: [
+      { value: '+10M', label: 'documentos gestionados en las plataformas de PLUS BI' },
+      { value: '+67%', label: 'más errores detectados que la revisión manual' },
+      { value: '76%', label: 'menos tiempo de validación por expediente' },
+      { value: '✓', label: 'expedientes en tiempo y forma: confianza en el Estado' },
+    ],
+
+    diffEyebrow: '06 · La diferencia',
+    diffTitle: 'No es una IA genérica.',
+    diffItems: [
       {
-        icon: <ClipboardCheck className="size-8 text-foreground" />,
-        title: "OPERATIVO",
-        description: "Trámites del día a día: solicitudes de reserva de espacio, comprar elementos de oficina, contratar limpieza o arreglar un aire acondicionado. Verifica que se cumplan los requisitos básicos.",
+        icon: ScanSearch,
+        title: 'Entrenada con tu normativa',
+        text: 'Extrae reglas de tus propias leyes, ordenanzas y pliegos — no de un corpus genérico de internet.',
       },
       {
-        icon: <FileStack className="size-8 text-foreground" />,
-        title: "TÉCNICO",
-        description: "Contratos que necesitan conocimiento especializado: abogados, arquitectos, sistemas informáticos o equipos médicos. Revisa que las propuestas técnicas sean correctas y cumplan las normas.",
+        icon: TrafficCone,
+        title: 'Clasifica por riesgo',
+        text: 'Cada hallazgo llega con severidad (crítico, alto, medio), cita normativa y evidencia textual.',
       },
       {
-        icon: <PieChart className="size-8 text-foreground" />,
-        title: "ESTRATÉGICO",
-        description: "Decisiones importantes: obras grandes, concesiones de servicios públicos o proyectos de infraestructura. Analiza si hay dinero suficiente, si es viable técnicamente y si cumple con todas las leyes y reglamentos.",
+        icon: MessageCircleQuestion,
+        title: 'Explica sus hallazgos',
+        text: 'Preguntale “¿por qué este hallazgo?” y te responde. Marcá falsos positivos y aprende de tu criterio.',
+      },
+      {
+        icon: Lock,
+        title: 'Datos sensibles, protegidos',
+        text: 'Modelos locales filtran la información sensible antes de cualquier análisis. Despliegue on-premise o nube privada.',
       },
     ],
-    resultsTitle: "Resultados Reales",
-    results: [
-      { value: '+67%', label: 'Errores detectados vs revisión humana' },
-      { value: '3 min vs 80 días', label: 'Tiempo de revisión MILA vs circuito tradicional' },
-      { value: '+82%', label: 'Gobiernos reportan mejoras en control interno' },
-      { value: '76%', label: 'Reducción de tiempos en validación' },
-    ],
-    diffTitle: "¿En qué se diferencia de ChatGPT y otras IA?",
-    diffSubtitle: "MILA no es una IA genérica. Es una herramienta especializada diseñada para los desafíos legales y administrativos únicos del sector público.",
-    diffPoints: [
-      { text: "<strong>Entrenamiento especializado:</strong> Entrenada específicamente con tus regulaciones locales y criterios de auditoría interna." },
-      { text: "<strong>Entiende documentos públicos:</strong> Identifica contratos, decretos y resoluciones con lógica jurídico-administrativa." },
-      { text: "<strong>Detecta riesgos, no solo errores:</strong> Clasifica las observaciones por riesgo legal, operativo o de control con un sistema de semáforo." },
-      { text: "<strong>Diseñada para gobiernos:</strong> Cada función está diseñada para secretarías legales, equipos técnicos y áreas administrativas del estado." },
-    ],
-    ctaTitle: "¿Listo para optimizar tus procesos?",
-    ctaSubtitle: "Descubre cómo Mila puede reducir errores, acelerar validaciones y fortalecer el control interno en tu organización.",
-    ctaButton: "Solicita una demo de Mila",
   },
   en: {
-    badge: "AI Document Validation",
-    title: "Mila",
-    subtitle: "The AI tool for governments that accelerates processes, prevents errors, and ensures regulatory compliance. Mila validates decrees, tenders, and other documents in minutes.",
-    interactiveTitle: "From Problem to Solution",
-    interactiveSubtitle: "Swipe to discover how Mila transforms public management challenges.",
-     challenges: [
-        { id: 'errors', challenge: "Costly Manual Errors", solution: "Intelligent and Accurate Analysis", description: "Mila analyzes documents point by point, detecting inconsistencies and risks that the human eye might miss.", challengeIcon: <AlertCircle className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
-        { id: 'delays', challenge: "Endless Review Processes", solution: "Validation in Minutes, Not Days", description: "What used to take weeks of back-and-forth, Mila resolves in minutes. It speeds up the approval of decrees, tenders, and more.", challengeIcon: <Clock className="size-10 text-destructive" />, solutionIcon: <Zap className="size-10 text-green-500" /> },
-        { id: 'compliance', challenge: "Regulatory Uncertainty", solution: "Guaranteed Compliance", description: "Mila links each observation to the specific norm, providing a legal score and ensuring every document is 100% compliant.", challengeIcon: <Scale className="size-10 text-destructive" />, solutionIcon: <ShieldCheck className="size-10 text-green-500" /> },
-        { id: 'traceability', challenge: "Lack of Traceability and Control", solution: "Total Control and Traceability", description: "Edit and correct on the platform, with a full change history for transparent auditing and a final version ready to go.", challengeIcon: <Eye className="size-10 text-destructive" />, solutionIcon: <TrendingUp className="size-10 text-green-500" /> },
+    heroBadge: 'Mila · Intelligent oversight',
+    heroTitle: 'Detect irregularities in minutes.',
+    heroSubtitle:
+      'All your regulations. The whole file. Mila does the heavy lifting on your agency’s documents, so you decide with all the information already analyzed.',
+    heroCtaDemo: 'Request a demo',
+    heroCtaHow: 'See how it works',
+
+    martaEyebrow: '01 · The problem',
+    martaTitle: 'All across Latin America there is a Marta.',
+    martaP1:
+      'Comptroller, auditor, account reviewer. The name changes; the responsibility is the same: her signature says a file is in order.',
+    martaP2:
+      'The rules are endless and the files even more so. So she reviews the structure, or looks for problems where they usually hide.',
+    martaP3: 'Marta should not have to choose which part to control.',
+    martaStats: [
+      { icon: FileText, value: '+200', label: 'pages per file, with 15 technical annexes' },
+      { icon: Layers, value: '+1,000', label: 'files waiting for manual review' },
     ],
-    modulesTitle: "Mila for Every Case",
-    modulesSubtitle: "A flexible solution that adapts to the complexity of each procedure, from the everyday to the strategic.",
-    modules: [
+    martaWarning:
+      'When something slips through: the public work that never finishes, the service that never arrives, the trust in the State that erodes.',
+
+    approachEyebrow: '02 · The approach',
+    approachTitle: 'Technology, plus people.',
+    approachMachine: 'The repetitive part: the machine',
+    approachMachineItems: ['Read the whole file', 'Check it against every rule', 'Track what is missing'],
+    approachHuman: 'The judgment: the person',
+    approachHumanItems: ['The criteria', 'The experience', 'The resolution'],
+    approachNote:
+      'Mila does not replace the auditor or decide for them: it removes the bottleneck. And it learns from their judgment with every validation.',
+
+    howEyebrow: '03 · The solution',
+    howTitle: 'Upload a file. Mila audits it in minutes.',
+    howSubtitle: 'Real product screens, untouched. This is what working with Mila looks like.',
+
+    caseEyebrow: '04 · Validation',
+    caseTitle: 'Used where oversight matters.',
+    caseLabel: 'Real case',
+    caseAmount: '$22M',
+    casePrefix: 'audited in',
+    caseSeconds: '30 seconds',
+    caseText:
+      'In a real file, Mila detected the missing documented intervention of the Court of Accounts — required by ordinance, but omitted. That alone justified a full review of the process.',
+    caseInUseTitle: 'In use today',
+    caseInUse: [
+      'Office of the Comptroller General of Argentina (SIGEN), beta implementation',
+      'National universities: procurement and hiring',
+      'Oversight agencies evaluating implementation',
+    ],
+    caseOrigin: 'Born in Corrupción Cero (CAF), among the 20 selected projects of the region.',
+
+    chainEyebrow: '05 · The impact',
+    chainTitle: 'From minutes saved to trust regained.',
+    chainSteps: [
+      { value: '+10M', label: 'documents managed on PLUS BI platforms' },
+      { value: '+67%', label: 'more errors detected than manual review' },
+      { value: '76%', label: 'less validation time per file' },
+      { value: '✓', label: 'files done on time: trust in the State' },
+    ],
+
+    diffEyebrow: '06 · The difference',
+    diffTitle: 'Not a generic AI.',
+    diffItems: [
       {
-        icon: <ClipboardCheck className="size-8 text-foreground" />,
-        title: "OPERATIONAL",
-        description: "Day-to-day tasks: space reservation requests, purchasing office supplies, hiring cleaning services, or fixing an air conditioner. Verifies that basic requirements are met.",
+        icon: ScanSearch,
+        title: 'Trained on your regulations',
+        text: 'It extracts rules from your own laws, ordinances and tender documents — not from a generic internet corpus.',
       },
       {
-        icon: <FileStack className="size-8 text-foreground" />,
-        title: "TECHNICAL",
-        description: "Contracts that require specialized knowledge: lawyers, architects, IT systems, or medical equipment. Reviews that technical proposals are correct and comply with regulations.",
+        icon: TrafficCone,
+        title: 'Classifies by risk',
+        text: 'Every finding comes with severity (critical, high, medium), legal citation and textual evidence.',
       },
       {
-        icon: <PieChart className="size-8 text-foreground" />,
-        title: "STRATEGIC",
-        description: "Important decisions: large-scale works, public service concessions, or infrastructure projects. Analyzes if there is enough money, if it is technically viable, and if it complies with all laws and regulations.",
+        icon: MessageCircleQuestion,
+        title: 'Explains its findings',
+        text: 'Ask “why this finding?” and it answers. Flag false positives and it learns from your judgment.',
+      },
+      {
+        icon: Lock,
+        title: 'Sensitive data, protected',
+        text: 'Local models filter sensitive information before any analysis. On-premise or private cloud deployment.',
       },
     ],
-    resultsTitle: "Real Results",
-    results: [
-      { value: '+67%', label: 'More errors detected vs human review' },
-      { value: '3 min vs 80 days', label: 'MILA review time vs traditional circuit' },
-      { value: '+82%', label: 'Governments report improvements in internal control' },
-      { value: '76%', label: 'Reduction in validation times' },
-    ],
-    diffTitle: "How is it different from ChatGPT and other AIs?",
-    diffSubtitle: "MILA is not a generic AI. It's a specialized tool designed for the public sector's unique legal and administrative challenges.",
-    diffPoints: [
-      { text: "<strong>Specialized Training:</strong> Trained specifically with your local regulations and internal audit criteria." },
-      { text: "<strong>Understands Public Documents:</strong> Identifies contracts, decrees, and resolutions with legal-administrative logic." },
-      { text: "<strong>Detects Risks, Not Just Errors:</strong> Classifies observations by legal, operational, or control risk with a traffic-light system." },
-      { text: "<strong>Designed for Governments:</strong> Every feature is designed for legal secretariats, technical teams, and administrative areas of the state." },
-    ],
-    ctaTitle: "Ready to optimize your processes?",
-    ctaSubtitle: "Discover how Mila can reduce errors, speed up validations, and strengthen internal control in your organization.",
-    ctaButton: "Request a Mila demo",
-  }
+  },
+};
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">{children}</p>
+  );
 }
 
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
-  
-  const generateMailto = () => {
-    const subject = `Solicitud de demo de ${c.title}`;
-    const body = `Estimado Juan,\n\nMe gustaría coordinar una reunión para un demo de ${c.title}.\n\nMe interesa porque...\n\nSaludos.`;
-    return `mailto:juan.ulian@pluscompol.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  };
 
   return (
-    <>
-      <header className="py-20 bg-primary/10 text-center" style={{backgroundImage: "url('/backgrounds/titulos.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center">
-            <Image src="/logo/Logo en blanco sin fondo2.png" alt="Mila Logo" width={80} height={80} className="mb-4" />
+    <div className="flex flex-col">
+      <PageHero
+        mesh="mila"
+        eyebrow={
+          <Badge className="glass-dark border-white/20 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-white hover:bg-white/10">
+            {c.heroBadge}
+          </Badge>
+        }
+        title={<span className="font-serif font-bold">{c.heroTitle}</span>}
+        subtitle={c.heroSubtitle}
+      >
+        <Button asChild size="lg" className="bg-mila-accent text-white hover:bg-mila-accent/90">
+          <Link href="#contacto">{c.heroCtaDemo}</Link>
+        </Button>
+        <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white">
+          <Link href="#como-funciona">{c.heroCtaHow}</Link>
+        </Button>
+      </PageHero>
+
+      {/* 01 · El problema — Marta */}
+      <section className="bg-background">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.martaEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">
+            {c.martaTitle}
+          </h2>
+          <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[6fr_5fr] lg:gap-16">
+            <div className="space-y-5 text-lg leading-relaxed text-muted-foreground">
+              <p>{c.martaP1}</p>
+              <p>{c.martaP2}</p>
+              <p className="font-semibold text-mila-accent">{c.martaP3}</p>
+            </div>
+            <div className="flex flex-col gap-5">
+              {c.martaStats.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <div key={s.value} className="flex items-center gap-5 rounded-2xl border border-black/5 bg-card p-6 card-elevated">
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    <div className="flex items-baseline gap-4">
+                      <span className="stat-number text-3xl md:text-4xl text-mila">{s.value}</span>
+                      <span className="text-sm leading-snug text-muted-foreground">{s.label}</span>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="flex items-center gap-5 rounded-2xl bg-mila p-6 text-white card-elevated">
+                <AlertTriangle className="size-6 shrink-0 text-mila-accent" aria-hidden />
+                <p className="text-sm md:text-base leading-relaxed">{c.martaWarning}</p>
+              </div>
+            </div>
           </div>
-          <h1 className="mt-2 text-4xl md:text-5xl font-bold font-headline text-white">{c.title}</h1>
-          <Badge className="mt-4">{c.badge}</Badge>
-          <p className="mt-4 text-lg text-white/90 max-w-3xl mx-auto">
-            {c.subtitle}
-          </p>
         </div>
-      </header>
-      <main>
-        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold font-headline">{c.interactiveTitle}</h2>
-                    <p className="mt-2 text-muted-foreground">{c.interactiveSubtitle}</p>
-                </div>
+      </section>
 
-                <Carousel className="w-full max-w-2xl mx-auto">
-                    <CarouselContent>
-                        {c.challenges.map((item) => (
-                            <CarouselItem key={item.id}>
-                                <div className="p-1">
-                                    <Card className="overflow-hidden shadow-xl card-hud-effect">
-                                        {/* Problem Section */}
-                                        <div className="relative p-8 text-center text-white" style={{backgroundImage: "url('/backgrounds/grave.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-                                            <div className="absolute inset-0 bg-black/50"></div>
-                                            <div className="relative z-10 flex flex-col items-center gap-4">
-                                                {item.challengeIcon}
-                                                <h3 className="text-xl font-semibold">{item.challenge}</h3>
-                                            </div>
-                                        </div>
-
-                                        <Separator />
-
-                                        {/* Solution Section */}
-                                        <div className="relative p-8 text-center" style={{backgroundImage: "url('/backgrounds/verde.png')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-                                             <div className="absolute inset-0 bg-black/20"></div>
-                                             <div className="relative z-10 flex flex-col items-center gap-4">
-                                                {item.solutionIcon}
-                                                <h3 className="text-xl font-semibold text-white">{item.solution}</h3>
-                                                <p className="text-white/90 text-base">{item.description}</p>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                    <div className="flex justify-center items-center gap-4 mt-4">
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </div>
-                </Carousel>
+      {/* 02 · El enfoque */}
+      <section className="bg-card border-y border-black/5">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.approachEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.approachTitle}</h2>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="rounded-2xl bg-mila p-8 md:p-10 text-white card-elevated">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">{c.approachMachine}</p>
+              <ul className="mt-6 space-y-4">
+                {c.approachMachineItems.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-lg">
+                    <ScanSearch className="size-5 shrink-0 text-mila-accent" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-        </section>
-
-        <section className="py-16 md:py-24 bg-primary/5" style={{backgroundImage: "url('/backgrounds/secciones b.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold font-headline text-white">{c.modulesTitle}</h2>
-              <p className="mt-2 text-white/80 max-w-2xl mx-auto">{c.modulesSubtitle}</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {c.modules.map((module) => (
-                <Card key={module.title} className="glassmorphism text-center flex flex-col p-6 card-hud-effect">
-                  <CardHeader className="items-center p-0">
-                    <div className="bg-primary/10 rounded-full p-4 mb-4">
-                      {module.icon}
-                    </div>
-                    <CardTitle className="text-xl text-foreground">{module.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-grow p-0 mt-4">
-                    <p className="text-foreground">{module.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="rounded-2xl border border-black/5 bg-background p-8 md:p-10 card-elevated">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.approachHuman}</p>
+              <ul className="mt-6 space-y-4">
+                {c.approachHumanItems.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-lg">
+                    <UserCheck className="size-5 shrink-0 text-mila-accent" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </section>
-        
-        <section className="py-16 md:py-24 bg-background" style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
-            <div className="container mx-auto px-4">
-                <div className="text-center my-16">
-                    <h3 className="text-3xl font-bold font-headline mb-8">{c.resultsTitle}</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-                    {c.results.map(item => (
-                        <Card key={item.label} className="p-4 glassmorphism card-hud-effect">
-                        <p className="text-4xl font-extrabold text-primary">{item.value}</p>
-                        <p className="text-sm text-muted-foreground mt-2">{item.label}</p>
-                        </Card>
-                    ))}
-                    </div>
-                </div>
-                <Card className="bg-primary/5 p-8 rounded-lg shadow-lg glassmorphism card-hud-effect">
-                    <div>
-                    <h3 className="text-2xl font-bold font-headline">{c.diffTitle}</h3>
-                    <p className="mt-4 text-muted-foreground">{c.diffSubtitle}</p>
+          <p className="mt-8 max-w-3xl text-base md:text-lg leading-relaxed text-muted-foreground">{c.approachNote}</p>
+        </div>
+      </section>
 
-                    <ul className="mt-6 space-y-4">
-                        {c.diffPoints.map((point, index) => (
-                        <li key={index} className="flex gap-3"><CheckCircle2 className="text-green-500 size-5 mt-0.5 shrink-0" /><span dangerouslySetInnerHTML={{ __html: point.text }} /></li>
-                        ))}
-                    </ul>
-                    </div>
-                </Card>
+      {/* 03 · La solución — tour por el producto */}
+      <section id="como-funciona" className="mesh-mila text-white scroll-mt-20">
+        <div className="container max-w-7xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.howEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
+          <p className="mt-4 max-w-2xl text-lg text-white/70">{c.howSubtitle}</p>
+          <div className="mt-12">
+            <MilaWizardTour />
+          </div>
+        </div>
+      </section>
+
+      {/* 04 · Validación */}
+      <section className="bg-background">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.caseEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.caseTitle}</h2>
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[7fr_5fr]">
+            <div className="rounded-2xl bg-mila p-8 md:p-12 text-white card-elevated">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.caseLabel}</p>
+              <div className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+                <span className="stat-number text-6xl md:text-8xl">{c.caseAmount}</span>
+                <span className="text-xl md:text-2xl text-white/75">
+                  {c.casePrefix} <strong className="text-mila-accent">{c.caseSeconds}</strong>
+                </span>
+              </div>
+              <p className="mt-6 text-base md:text-lg leading-relaxed text-white/85">{c.caseText}</p>
             </div>
-        </section>
-         <section className="py-16 md:py-24 bg-primary/10 text-center">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold font-headline">{c.ctaTitle}</h2>
-                <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">{c.ctaSubtitle}</p>
-                <Button asChild size="lg" className="mt-8">
-                    <a href={generateMailto()}>{c.ctaButton} <Mail className="ml-2"/></a>
-                </Button>
+            <div className="flex flex-col gap-6">
+              <div className="rounded-2xl border border-black/5 bg-card p-7 card-elevated">
+                <div className="flex items-center gap-3">
+                  <span className="flex size-11 items-center justify-center rounded-xl bg-mila/10 text-mila">
+                    <Landmark className="size-5" aria-hidden />
+                  </span>
+                  <p className="text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">{c.caseInUseTitle}</p>
+                </div>
+                <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                  {c.caseInUse.map((item) => (
+                    <li key={item} className="flex gap-2.5">
+                      <ArrowRight className="mt-0.5 size-4 shrink-0 text-mila-accent" aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-black/5 bg-card p-7 card-elevated">
+                <div className="flex items-center gap-4">
+                  <Image src="/logos/caf.jpg" alt="CAF — Banco de Desarrollo de América Latina" width={72} height={72} className="rounded-lg" />
+                  <p className="text-sm leading-relaxed text-muted-foreground">{c.caseOrigin}</p>
+                </div>
+              </div>
             </div>
-        </section>
-      </main>
-    </>
+          </div>
+        </div>
+      </section>
+
+      {/* 05 · Teoría de cambio */}
+      <section className="bg-card border-y border-black/5">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.chainEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
+          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {c.chainSteps.map((step, i) => (
+              <li key={step.label} className="rounded-2xl border border-black/5 bg-background p-7 card-elevated">
+                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <p className="stat-number mt-3 text-4xl text-mila">{step.value}</p>
+                <p className="mt-2 text-sm leading-snug text-muted-foreground">{step.label}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* 06 · La diferencia */}
+      <section className="bg-background">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Eyebrow>{c.diffEyebrow}</Eyebrow>
+          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.diffTitle}</h2>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {c.diffItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="flex gap-5 rounded-2xl border border-black/5 bg-card p-7 card-elevated">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <div>
+                    <h3 className="font-headline text-lg font-bold">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <ContactSection />
+    </div>
   );
 }
-
-    

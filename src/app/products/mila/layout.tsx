@@ -1,13 +1,23 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mila - Validación de Documentos con IA para Gobiernos',
-  description: 'Mila es una herramienta de inteligencia artificial que valida decretos, licitaciones y documentos públicos en minutos. Reduce errores 67%, acelera validaciones 76% y garantiza cumplimiento normativo.',
-  keywords: ['Mila', 'validación documentos IA', 'inteligencia artificial gobierno', 'revisión decretos', 'licitaciones públicas', 'cumplimiento normativo', 'automatización documentos gobierno'],
+  title: 'Mila — Detecta irregularidades en expedientes en minutos',
+  description:
+    'Mila audita expedientes públicos contra tu propia normativa en minutos, con cita legal y evidencia por cada hallazgo. En uso en organismos de control y universidades. Un producto de PLUS BI.',
+  keywords: [
+    'Mila',
+    'validación documentos IA',
+    'auditoría expedientes',
+    'inteligencia artificial gobierno',
+    'control interno',
+    'licitaciones públicas',
+    'cumplimiento normativo',
+  ],
   openGraph: {
-    title: 'Mila - IA para Validación de Documentos Públicos',
-    description: 'Validación inteligente de decretos y licitaciones en minutos. +67% errores detectados vs revisión humana.',
-    images: ['/logo/mila.png'],
+    title: 'Mila — Detecta irregularidades en expedientes en minutos',
+    description:
+      'Toda tu normativa. Todo el expediente. Hallazgos por nivel de riesgo con cita legal y evidencia.',
+    images: ['/products/mila/mila-07-hallazgo.png'],
   },
 };
 
