@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Nunito } from 'next/font/google';
+import { Archivo, Fraunces } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
@@ -9,9 +9,14 @@ import { LanguageProvider } from '@/contexts/language-context';
 import { AuthProvider } from '@/contexts/auth-context';
 import { OrganizationSchema } from '@/components/structured-data';
 
-const nunito = Nunito({
+const archivo = Archivo({
   subsets: ['latin'],
-  variable: '--font-nunito',
+  variable: '--font-archivo',
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
 });
 
 export const metadata: Metadata = {
@@ -20,8 +25,8 @@ export const metadata: Metadata = {
     default: 'PLUS BI - Soluciones GovTech e IA para Gobiernos | Argentina',
     template: '%s | PLUS BI'
   },
-  description: 'PLUS BI ofrece soluciones de inteligencia artificial y tecnología para gobiernos en Argentina. Productos como Quest (análisis de datos), Mila (validación de documentos con IA), Vuro (automatización con IA) y sistemas de expedientes electrónicos para modernizar la gestión pública.',
-  keywords: ['GovTech Argentina', 'inteligencia artificial gobiernos', 'IA sector público', 'transformación digital gobiernos', 'expedientes electrónicos', 'análisis de datos gubernamentales', 'validación documentos IA', 'automatización gobierno', 'PLUS BI', 'Quest', 'Mila', 'Vuro', 'tecnología gobierno Argentina', 'modernización estado', 'eficiencia pública'],
+  description: 'PLUS BI ofrece soluciones de inteligencia artificial y tecnología para gobiernos en Argentina. Productos como Quest (análisis de datos), Mila (validación de documentos con IA) y sistemas de expedientes electrónicos para modernizar la gestión pública.',
+  keywords: ['GovTech Argentina', 'inteligencia artificial gobiernos', 'IA sector público', 'transformación digital gobiernos', 'expedientes electrónicos', 'análisis de datos gubernamentales', 'validación documentos IA', 'automatización gobierno', 'PLUS BI', 'Quest', 'Mila', 'tecnología gobierno Argentina', 'modernización estado', 'eficiencia pública'],
   authors: [{ name: 'PLUS BI' }],
   creator: 'PLUS BI',
   publisher: 'PLUS BI',
@@ -43,7 +48,7 @@ export const metadata: Metadata = {
     url: 'https://plusbi.ar',
     siteName: 'PLUS BI',
     title: 'PLUS BI - Soluciones GovTech e IA para Gobiernos',
-    description: 'Soluciones de inteligencia artificial y tecnología para modernizar gobiernos. Quest, Mila, Vuro y sistemas de expedientes electrónicos.',
+    description: 'Soluciones de inteligencia artificial y tecnología para modernizar gobiernos. Quest, Mila y sistemas de expedientes electrónicos.',
     images: [
       {
         url: '/logo/plusbi.png',
@@ -84,20 +89,17 @@ export default function RootLayout({
   return (
     <LanguageProvider>
       <AuthProvider>
-        <html lang="es" className="scroll-smooth">
+        <html lang="es" className="motion-safe:scroll-smooth">
           <head>
             <link rel="icon" href="/logo/favicon-16x16.png" sizes="any" />
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet" />
             <OrganizationSchema />
           </head>
           <body
             className={cn(
               'min-h-screen bg-background font-body antialiased',
-              nunito.variable
+              archivo.variable,
+              fraunces.variable
             )}
-            style={{backgroundImage: "url('/backgrounds/cuerpo.jpeg')", backgroundAttachment: 'fixed', backgroundSize: 'cover'}}
           >
             <div className="relative flex min-h-dvh flex-col bg-transparent">
               <Header />

@@ -17,8 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Nunito', 'sans-serif'],
-        headline: ['Nunito', 'sans-serif'],
+        body: ['var(--font-archivo)', 'sans-serif'],
+        headline: ['var(--font-archivo)', 'sans-serif'],
+        serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
         code: ['monospace'],
       },
       colors: {
@@ -61,6 +62,16 @@ export default {
           '3': 'hsl(var(--chart-3))',
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
+        },
+        mila: {
+          DEFAULT: 'hsl(var(--mila))',
+          accent: 'hsl(var(--mila-accent))',
+        },
+        quest: {
+          DEFAULT: 'hsl(var(--quest))',
+        },
+        see: {
+          DEFAULT: 'hsl(var(--see))',
         },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',

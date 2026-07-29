@@ -4,80 +4,118 @@
 
 @layer base {
   :root {
-    --background: 231 60% 94%;
-    --foreground: 231 48% 15%;
+    /* Base neutra cálida — ver DESIGN.md */
+    --background: 40 30% 97%;
+    --foreground: 218 61% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 231 48% 15%;
+    --card-foreground: 218 61% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 231 48% 15%;
-    --primary: 231 48% 48%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 231 30% 88%;
-    --secondary-foreground: 231 48% 15%;
-    --muted: 231 30% 88%;
-    --muted-foreground: 231 20% 45%;
-    --accent: 261 32% 58%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 218 61% 15%;
+    --primary: 218 61% 19%;
+    --primary-foreground: 40 30% 97%;
+    --secondary: 40 22% 92%;
+    --secondary-foreground: 218 61% 15%;
+    --muted: 40 22% 92%;
+    --muted-foreground: 220 15% 42%;
+    --accent: 20 80% 57%;
+    --accent-foreground: 218 61% 15%;
+    --destructive: 0 72% 42%;
     --destructive-foreground: 0 0% 98%;
-    --border: 231 20% 85%;
-    --input: 231 20% 85%;
-    --ring: 231 48% 48%;
-    --chart-1: 231 48% 48%;
-    --chart-2: 261 32% 58%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 231 48% 10%;
-    --foreground: 231 60% 94%;
-    --card: 231 48% 15%;
-    --card-foreground: 231 60% 94%;
-    --popover: 231 48% 10%;
-    --popover-foreground: 231 60% 94%;
-    --primary: 231 60% 94%;
-    --primary-foreground: 231 48% 15%;
-    --secondary: 231 48% 20%;
-    --secondary-foreground: 231 60% 94%;
-    --muted: 231 48% 20%;
-    --muted-foreground: 231 20% 65%;
-    --accent: 261 42% 68%;
-    --accent-foreground: 231 48% 10%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 231 48% 25%;
-    --input: 231 48% 25%;
-    --ring: 261 42% 68%;
-    --chart-1: 231 60% 94%;
-    --chart-2: 261 42% 68%;
+    --border: 40 18% 88%;
+    --input: 40 18% 85%;
+    --ring: 218 61% 19%;
+    --chart-1: 218 61% 19%;
+    --chart-2: 20 80% 57%;
+    --chart-3: 24 94% 50%;
+    --chart-4: 152 55% 32%;
+    --chart-5: 220 15% 42%;
+    --radius: 1rem;
+
+    /* Acentos por producto */
+    --mila: 218 61% 19%;
+    --mila-accent: 20 80% 57%;
+    --quest: 24 94% 50%;
+    --see: 152 55% 32%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'ss01' on;
+  }
+  ::selection {
+    @apply bg-accent/30;
   }
 }
 
 @layer utilities {
+  /* Superficies glass — ver DESIGN.md */
+  .glass {
+    @apply bg-white/65 backdrop-blur-xl border border-black/5;
+    box-shadow: 0 1px 2px rgba(15, 33, 64, 0.04), 0 8px 40px rgba(15, 33, 64, 0.08);
+  }
+
+  .glass-dark {
+    @apply bg-white/10 backdrop-blur-xl border border-white/15;
+  }
+
+  .card-elevated {
+    box-shadow: 0 1px 2px rgba(15, 33, 64, 0.05), 0 16px 48px rgba(15, 33, 64, 0.09);
+  }
+
+  .card-hover {
+    @apply transition-all duration-200;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(15, 33, 64, 0.06), 0 24px 64px rgba(15, 33, 64, 0.14);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover:hover {
+      transform: none;
+    }
+  }
+
+  /* Fondos mesh por producto */
+  .mesh-brand {
+    background:
+      radial-gradient(900px 500px at 85% 0%, hsl(var(--mila-accent) / 0.10), transparent 60%),
+      radial-gradient(700px 450px at 5% 100%, hsl(var(--primary) / 0.08), transparent 55%),
+      hsl(var(--background));
+  }
+  .mesh-mila {
+    background:
+      radial-gradient(1000px 600px at 80% 10%, hsl(var(--mila-accent) / 0.16), transparent 62%),
+      radial-gradient(800px 500px at 10% 90%, hsl(222 45% 40% / 0.22), transparent 58%),
+      hsl(218 61% 16%);
+  }
+  .mesh-quest {
+    background:
+      radial-gradient(900px 500px at 85% 0%, hsl(var(--quest) / 0.12), transparent 60%),
+      radial-gradient(700px 450px at 5% 100%, hsl(var(--quest) / 0.06), transparent 55%),
+      hsl(var(--background));
+  }
+  .mesh-see {
+    background:
+      radial-gradient(900px 500px at 85% 0%, hsl(var(--see) / 0.11), transparent 60%),
+      radial-gradient(700px 450px at 5% 100%, hsl(var(--see) / 0.05), transparent 55%),
+      hsl(var(--background));
+  }
+
+  /* Legacy — usadas por Quest dashboard/login (no migradas al rediseño) */
   .glassmorphism {
     @apply bg-card/50 backdrop-blur-2xl border-white/20;
   }
-
   .glassmorphism-solid {
     @apply bg-card/95 backdrop-blur-xl border-white/30 shadow-2xl;
   }
-
   .glassmorphism-light {
     @apply bg-card/75 backdrop-blur-lg border-white/30 shadow-lg;
   }
-
   .neomorphism {
     @apply bg-card/90 backdrop-blur-md;
     box-shadow:
@@ -85,20 +123,16 @@
       -12px -12px 24px rgba(255, 255, 255, 0.7),
       inset 2px 2px 4px rgba(255, 255, 255, 0.1);
   }
-
   .perspective {
     perspective: 1000px;
   }
-
   .flip-card {
     transition: transform 0.6s;
     transform-style: preserve-3d;
   }
-
   .flip-card.flipped {
     transform: rotateY(180deg);
   }
-
   .flip-card-front,
   .flip-card-back {
     position: absolute;
@@ -107,17 +141,40 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
-
   .flip-card-back {
     transform: rotateY(180deg);
   }
-
   .card-hud-effect {
     @apply border-transparent transition-all duration-300;
   }
-
   .card-hud-effect:hover {
     @apply shadow-lg shadow-primary/20 border-primary/30;
     transform: translateY(-2px);
+  }
+
+  /* Números KPI */
+  .stat-number {
+    @apply font-extrabold tracking-tight tabular-nums;
+  }
+
+  /* Reveal al scroll — un solo patrón, respeta reduced motion */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in 0.5s ease-out both;
+    }
+    @keyframes reveal-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
   }
 }
