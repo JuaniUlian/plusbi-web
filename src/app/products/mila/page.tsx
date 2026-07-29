@@ -18,8 +18,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PageHero } from '@/components/shared/page-hero';
-import { MilaWizardTour } from '@/components/shared/mila-wizard-tour';
 import { ContactSection } from '@/components/shared/contact-section';
+import { Reveal, WordReveal } from '@/components/motion/reveal';
+import { CountUp } from '@/components/motion/count-up';
+import { ImpactChain } from '@/components/motion/impact-chain';
 import { useLanguage } from '@/contexts/language-context';
 
 const content = {
@@ -39,8 +41,8 @@ const content = {
       'Las normas son muchísimas y los expedientes, más todavía. Entonces revisa lo estructural, o busca los problemas donde suelen esconderse.',
     martaP3: 'Marta no debería tener que elegir qué parte controlar.',
     martaStats: [
-      { icon: FileText, value: '+200', label: 'páginas por expediente, con 15 anexos técnicos' },
-      { icon: Layers, value: '+1.000', label: 'expedientes esperando revisión manual' },
+      { icon: FileText, value: 200, label: 'páginas por expediente, con 15 anexos técnicos' },
+      { icon: Layers, value: 1000, label: 'expedientes esperando revisión manual' },
     ],
     martaWarning:
       'Cuando algo se escapa: la obra que no se termina, el servicio que no llega, la confianza en el Estado que se deteriora.',
@@ -56,7 +58,14 @@ const content = {
 
     howEyebrow: '03 · La solución',
     howTitle: 'Subís un expediente. Mila lo audita en minutos.',
-    howSubtitle: 'Pantallas reales del producto, sin retoques. Así se ve trabajar con Mila.',
+    howSubtitle: 'Tres pasos, sin manuales ni configuración previa.',
+    howSteps: [
+      { title: 'Subí el expediente', text: 'Carpetas completas o documentos sueltos: vos definís el alcance.' },
+      { title: 'Elegí tu normativa', text: 'Tus grupos de reglas, extraídos de tus propias leyes y pliegos.' },
+      { title: 'Recibí los hallazgos', text: 'Por nivel de riesgo, con cita normativa y evidencia textual. En minutos.' },
+    ],
+    howShotAlt: 'Pantalla real de Mila: hallazgo crítico con cita normativa, evidencia y nivel de riesgo',
+    howDemo: 'Queré ver la plataforma completa: pedí una demo en vivo.',
 
     caseEyebrow: '04 · Validación',
     caseTitle: 'Usada donde el control importa.',
@@ -77,10 +86,10 @@ const content = {
     chainEyebrow: '05 · El impacto',
     chainTitle: 'De minutos ganados a confianza recuperada.',
     chainSteps: [
-      { value: '+10M', label: 'documentos gestionados en las plataformas de PLUS BI' },
-      { value: '+67%', label: 'más errores detectados que la revisión manual' },
-      { value: '76%', label: 'menos tiempo de validación por expediente' },
-      { value: '✓', label: 'expedientes en tiempo y forma: confianza en el Estado' },
+      { stage: 'El insumo', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documentos gestionados en las plataformas de PLUS BI' },
+      { stage: 'El resultado', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más errores detectados que la revisión manual' },
+      { stage: 'El efecto', stat: { value: 76, suffix: '%' }, text: 'menos tiempo de validación por expediente' },
+      { stage: 'El impacto', headline: 'Confianza', text: 'expedientes en tiempo y forma: obras que se terminan, servicios que llegan' },
     ],
 
     diffEyebrow: '06 · La diferencia',
@@ -124,8 +133,8 @@ const content = {
       'The rules are endless and the files even more so. So she reviews the structure, or looks for problems where they usually hide.',
     martaP3: 'Marta should not have to choose which part to control.',
     martaStats: [
-      { icon: FileText, value: '+200', label: 'pages per file, with 15 technical annexes' },
-      { icon: Layers, value: '+1,000', label: 'files waiting for manual review' },
+      { icon: FileText, value: 200, label: 'pages per file, with 15 technical annexes' },
+      { icon: Layers, value: 1000, label: 'files waiting for manual review' },
     ],
     martaWarning:
       'When something slips through: the public work that never finishes, the service that never arrives, the trust in the State that erodes.',
@@ -141,7 +150,14 @@ const content = {
 
     howEyebrow: '03 · The solution',
     howTitle: 'Upload a file. Mila audits it in minutes.',
-    howSubtitle: 'Real product screens, untouched. This is what working with Mila looks like.',
+    howSubtitle: 'Three steps, no manuals, no prior setup.',
+    howSteps: [
+      { title: 'Upload the file', text: 'Whole folders or individual documents: you define the scope.' },
+      { title: 'Pick your regulations', text: 'Your rule groups, extracted from your own laws and tender documents.' },
+      { title: 'Get the findings', text: 'By risk level, with legal citation and textual evidence. In minutes.' },
+    ],
+    howShotAlt: 'Real Mila screen: critical finding with legal citation, evidence and risk level',
+    howDemo: 'Want to see the full platform? Ask for a live demo.',
 
     caseEyebrow: '04 · Validation',
     caseTitle: 'Used where oversight matters.',
@@ -162,10 +178,10 @@ const content = {
     chainEyebrow: '05 · The impact',
     chainTitle: 'From minutes saved to trust regained.',
     chainSteps: [
-      { value: '+10M', label: 'documents managed on PLUS BI platforms' },
-      { value: '+67%', label: 'more errors detected than manual review' },
-      { value: '76%', label: 'less validation time per file' },
-      { value: '✓', label: 'files done on time: trust in the State' },
+      { stage: 'The input', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documents managed on PLUS BI platforms' },
+      { stage: 'The result', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more errors detected than manual review' },
+      { stage: 'The effect', stat: { value: 76, suffix: '%' }, text: 'less validation time per file' },
+      { stage: 'The impact', headline: 'Trust', text: 'files done on time: public works finished, services delivered' },
     ],
 
     diffEyebrow: '06 · The difference',
@@ -210,11 +226,21 @@ export default function MilaPage() {
       <PageHero
         mesh="mila"
         eyebrow={
-          <Badge className="glass-dark border-white/20 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-white hover:bg-white/10">
-            {c.heroBadge}
-          </Badge>
+          <span className="flex flex-col items-center gap-5">
+            <Image
+              src="/products/mila/mila-logo.png"
+              alt="MILA"
+              width={110}
+              height={110}
+              priority
+              className="h-20 w-auto drop-shadow-[0_12px_40px_rgba(232,113,58,0.35)] md:h-24"
+            />
+            <Badge className="glass-dark border-white/20 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-white hover:bg-white/10">
+              {c.heroBadge}
+            </Badge>
+          </span>
         }
-        title={<span className="font-serif font-bold">{c.heroTitle}</span>}
+        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-mila-accent text-white hover:bg-mila-accent/90">
@@ -228,35 +254,41 @@ export default function MilaPage() {
       {/* 01 · El problema — Marta */}
       <section className="bg-background">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.martaEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">
-            {c.martaTitle}
-          </h2>
+          <Reveal>
+            <Eyebrow>{c.martaEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">
+              {c.martaTitle}
+            </h2>
+          </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[6fr_5fr] lg:gap-16">
-            <div className="space-y-5 text-lg leading-relaxed text-muted-foreground">
+            <Reveal className="space-y-5 text-lg leading-relaxed text-muted-foreground">
               <p>{c.martaP1}</p>
               <p>{c.martaP2}</p>
               <p className="font-semibold text-mila-accent">{c.martaP3}</p>
-            </div>
+            </Reveal>
             <div className="flex flex-col gap-5">
-              {c.martaStats.map((s) => {
+              {c.martaStats.map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <div key={s.value} className="flex items-center gap-5 rounded-2xl border border-black/5 bg-card p-6 card-elevated">
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
-                      <Icon className="size-5" aria-hidden />
-                    </span>
-                    <div className="flex items-baseline gap-4">
-                      <span className="stat-number text-3xl md:text-4xl text-mila">{s.value}</span>
-                      <span className="text-sm leading-snug text-muted-foreground">{s.label}</span>
+                  <Reveal key={s.label} delay={0.1 + i * 0.12}>
+                    <div className="flex items-center gap-5 rounded-2xl border border-black/5 bg-card p-6 card-elevated">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
+                        <Icon className="size-5" aria-hidden />
+                      </span>
+                      <div className="flex items-baseline gap-4">
+                        <CountUp value={s.value} prefix="+" className="text-3xl md:text-4xl text-mila" />
+                        <span className="text-sm leading-snug text-muted-foreground">{s.label}</span>
+                      </div>
                     </div>
-                  </div>
+                  </Reveal>
                 );
               })}
-              <div className="flex items-center gap-5 rounded-2xl bg-mila p-6 text-white card-elevated">
-                <AlertTriangle className="size-6 shrink-0 text-mila-accent" aria-hidden />
-                <p className="text-sm md:text-base leading-relaxed">{c.martaWarning}</p>
-              </div>
+              <Reveal delay={0.35}>
+                <div className="flex items-center gap-5 rounded-2xl bg-mila p-6 text-white card-elevated">
+                  <AlertTriangle className="size-6 shrink-0 text-mila-accent" aria-hidden />
+                  <p className="text-sm md:text-base leading-relaxed">{c.martaWarning}</p>
+                </div>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -295,14 +327,47 @@ export default function MilaPage() {
         </div>
       </section>
 
-      {/* 03 · La solución — tour por el producto */}
+      {/* 03 · La solución — pasos + una sola pantalla (el resto se muestra en demo) */}
       <section id="como-funciona" className="mesh-mila text-white scroll-mt-20">
-        <div className="container max-w-7xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.howEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
-          <p className="mt-4 max-w-2xl text-lg text-white/70">{c.howSubtitle}</p>
-          <div className="mt-12">
-            <MilaWizardTour />
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Reveal>
+            <Eyebrow>{c.howEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
+            <p className="mt-4 max-w-2xl text-lg text-white/70">{c.howSubtitle}</p>
+          </Reveal>
+          <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[4fr_8fr] lg:items-center">
+            <ol className="flex flex-col gap-8">
+              {c.howSteps.map((step, i) => (
+                <Reveal key={step.title} delay={0.1 + i * 0.15}>
+                  <li className="flex gap-5">
+                    <span className="stat-number text-2xl text-mila-accent">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className="text-lg font-bold">{step.title}</h3>
+                      <p className="mt-1 text-sm leading-relaxed text-white/65">{step.text}</p>
+                    </div>
+                  </li>
+                </Reveal>
+              ))}
+              <Reveal delay={0.55}>
+                <li className="flex gap-5">
+                  <span aria-hidden className="w-[2.1rem]" />
+                  <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white">
+                    <Link href="#contacto">{c.howDemo}</Link>
+                  </Button>
+                </li>
+              </Reveal>
+            </ol>
+            <Reveal delay={0.2} y={40}>
+              <figure className="overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+                <Image
+                  src="/products/mila/mila-07-hallazgo.png"
+                  alt={c.howShotAlt}
+                  width={1347}
+                  height={632}
+                  className="w-full h-auto"
+                />
+              </figure>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -316,7 +381,7 @@ export default function MilaPage() {
             <div className="rounded-2xl bg-mila p-8 md:p-12 text-white card-elevated">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.caseLabel}</p>
               <div className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-                <span className="stat-number text-6xl md:text-8xl">{c.caseAmount}</span>
+                <CountUp value={22} prefix="$" suffix="M" className="text-6xl md:text-8xl" />
                 <span className="text-xl md:text-2xl text-white/75">
                   {c.casePrefix} <strong className="text-mila-accent">{c.caseSeconds}</strong>
                 </span>
@@ -354,19 +419,13 @@ export default function MilaPage() {
       {/* 05 · Teoría de cambio */}
       <section className="bg-card border-y border-black/5">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.chainEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
-          <ol className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {c.chainSteps.map((step, i) => (
-              <li key={step.label} className="rounded-2xl border border-black/5 bg-background p-7 card-elevated">
-                <span className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground/60">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <p className="stat-number mt-3 text-4xl text-mila">{step.value}</p>
-                <p className="mt-2 text-sm leading-snug text-muted-foreground">{step.label}</p>
-              </li>
-            ))}
-          </ol>
+          <Reveal>
+            <Eyebrow>{c.chainEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
+          </Reveal>
+          <div className="mt-14">
+            <ImpactChain steps={c.chainSteps} accentText="text-mila-accent" accentBg="bg-mila-accent" />
+          </div>
         </div>
       </section>
 

@@ -1,198 +1,412 @@
 
 'use client';
+
+import { useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import AiWizard from '@/components/ai-wizard';
 import { useLanguage } from '@/contexts/language-context';
-import { PageHero } from '@/components/shared/page-hero';
-import { ProductCard } from '@/components/shared/product-card';
 import { BrowserFrame } from '@/components/shared/browser-frame';
 import { ContactSection } from '@/components/shared/contact-section';
-import { PRODUCTS } from '@/lib/products';
+import { Reveal, WordReveal } from '@/components/motion/reveal';
+import { CountUp } from '@/components/motion/count-up';
+import { ImpactChain } from '@/components/motion/impact-chain';
 
 const content = {
   es: {
-    heroEyebrow: 'GovTech · IA para el sector público',
-    heroTitle: 'Tecnología para un mejor Gobierno.',
+    heroEyebrow: 'PLUS BI · Tecnología para un mejor Gobierno',
+    heroTitle: 'Le devolvemos el tiempo a quienes gobiernan.',
     heroSubtitle:
-      '¿Cuántas horas perdió tu equipo esta semana leyendo expedientes, cruzando datos o buscando papeles? Creemos que gobernar bien no debería depender del trabajo repetitivo. Nuestras herramientas de IA hacen el trabajo pesado, para que las personas pongan el criterio.',
-    heroCtaProducts: 'Ver productos',
+      'Construimos IA que audita expedientes en minutos, tableros que leen la conversación electoral del día y sistemas que jubilan al papel. El trabajo pesado, la máquina; el criterio, las personas.',
+    heroCtaProducts: 'Descubrí cómo',
     heroCtaTalk: 'Hablemos',
-    stats: [
-      { value: '+67%', label: 'más errores detectados que la revisión manual', product: 'Mila' },
-      { value: '76%', label: 'menos tiempo de validación de expedientes', product: 'Mila' },
-      { value: '+10M', label: 'documentos gestionados en nuestras plataformas', product: 'PLUS BI' },
-      { value: '+7,1M', label: 'puntos de datos analizados en campañas', product: 'Quest' },
+    chaptersTitle: 'Tres herramientas, una convicción.',
+    chaptersSubtitle: 'Que cada hora recuperada vuelva a la gestión. Este es el camino.',
+    chapters: {
+      mila: {
+        number: '01',
+        product: 'Mila',
+        whisper: 'La firma de una auditora sostiene expedientes de miles de páginas.',
+        title: 'El control público puede ser instantáneo.',
+        text: 'Mila lee el expediente completo, lo cruza con toda tu normativa y devuelve cada hallazgo con su cita legal y evidencia. El criterio final siempre es de la persona — pero llega con todo analizado.',
+        cta: 'Conocé Mila',
+      },
+      quest: {
+        number: '02',
+        product: 'Quest',
+        whisper: 'Las decisiones de cuatro años se toman con encuestas de hace dos semanas.',
+        title: 'La foto electoral del país, al día.',
+        text: 'Quest reúne encuestas y datos electorales de todo el país, los cruza por provincia, cámara y encuestadora, y los convierte en un tablero vivo. Decidís con la información de hoy.',
+        cta: 'Conocé Quest',
+        statData: 'puntos de datos analizados en campañas',
+        statProvinces: 'provincias con datos electorales',
+      },
+      see: {
+        number: '03',
+        product: 'Expediente Electrónico',
+        whisper: 'El expediente que hoy duerme en un archivo puede viajar en un clic.',
+        title: 'El papel ya es opcional.',
+        text: 'Instalamos, damos soporte y capacitamos en sistemas de expediente electrónico de código abierto. Trámites trazables, auditables y accesibles desde cualquier lugar.',
+        cta: 'Conocé el sistema',
+        statImpl: 'implementaciones',
+        statUsers: 'usuarios activos',
+        statDocs: 'documentos gestionados',
+      },
+    },
+    milaShotAlt: 'Pantalla real de Mila mostrando un hallazgo crítico con su cita normativa y evidencia',
+    chainEyebrow: 'Por qué lo hacemos',
+    chainTitle: 'Cada minuto recuperado construye algo más grande.',
+    chain: [
+      { stage: 'La experiencia', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documentos gestionados en las plataformas de PLUS BI' },
+      { stage: 'Lo que ve la IA', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más errores detectados que la revisión manual' },
+      { stage: 'Lo que se libera', stat: { value: 76, suffix: '%' }, text: 'menos tiempo de validación por expediente' },
+      { stage: 'Lo que se construye', headline: 'Confianza', text: 'expedientes en tiempo y forma, obras que se terminan, servicios que llegan' },
     ],
-    productsTitle: 'Empezamos por el dolor, no por la tecnología.',
-    productsSubtitle:
-      'Cada producto nació de un problema real de la gestión pública. Elegí el tuyo.',
-    milaQuote: 'En toda Latinoamérica hay una Marta.',
-    milaText:
-      'Síndica, contralora, auditora: su firma dice que un expediente está en orden, pero las normas son muchísimas y los expedientes, más todavía. Mila lee todo el expediente, lo cruza con toda tu normativa y le muestra qué cumple, qué no y en qué página mirar — con la cita legal al lado.',
-    milaCta: 'Conocé Mila',
-    milaShotAlt:
-      'Pantalla real de Mila mostrando un hallazgo crítico con su cita normativa y evidencia',
-    questQuote: 'La encuesta que citás en la reunión ya tiene dos semanas.',
-    questText:
-      'Quest reúne encuestas y datos electorales de todo el país, los cruza por provincia, cámara y encuestadora, y te los muestra en un tablero vivo. Decidís con la foto de hoy, no con la del mes pasado.',
-    questCta: 'Conocé Quest',
-    wizardTitle: '¿No sabés por dónde empezar?',
-    wizardSubtitle:
-      'Contale tu problema a nuestro asistente y te recomienda la herramienta indicada.',
+    wizardTitle: 'Contanos tu desafío.',
+    wizardSubtitle: 'Nuestro asistente de IA te recomienda la herramienta indicada para tu problema.',
   },
   en: {
-    heroEyebrow: 'GovTech · AI for the public sector',
-    heroTitle: 'Technology for better Government.',
+    heroEyebrow: 'PLUS BI · Technology for better Government',
+    heroTitle: 'We give time back to those who govern.',
     heroSubtitle:
-      'How many hours did your team lose this week reading files, cross-checking data or chasing paper? We believe governing well should not depend on repetitive work. Our AI tools do the heavy lifting, so people can apply their judgment.',
-    heroCtaProducts: 'See products',
+      'We build AI that audits files in minutes, dashboards that read the day’s electoral conversation, and systems that retire paper. The heavy lifting for the machine; the judgment for people.',
+    heroCtaProducts: 'See how',
     heroCtaTalk: "Let's talk",
-    stats: [
-      { value: '+67%', label: 'more errors detected than manual review', product: 'Mila' },
-      { value: '76%', label: 'less time spent validating files', product: 'Mila' },
-      { value: '+10M', label: 'documents managed on our platforms', product: 'PLUS BI' },
-      { value: '+7.1M', label: 'data points analyzed in campaigns', product: 'Quest' },
+    chaptersTitle: 'Three tools, one conviction.',
+    chaptersSubtitle: 'Every recovered hour should go back into governing. This is the path.',
+    chapters: {
+      mila: {
+        number: '01',
+        product: 'Mila',
+        whisper: 'An auditor’s signature carries files thousands of pages long.',
+        title: 'Public oversight can be instant.',
+        text: 'Mila reads the whole file, checks it against all your regulations and returns every finding with its legal citation and evidence. The final judgment is always human — but it arrives fully analyzed.',
+        cta: 'Meet Mila',
+      },
+      quest: {
+        number: '02',
+        product: 'Quest',
+        whisper: 'Four-year decisions are made with two-week-old polls.',
+        title: 'The country’s electoral picture, up to date.',
+        text: 'Quest gathers polls and electoral data from the whole country, cross-references them by province, chamber and pollster, and turns them into a live dashboard. You decide with today’s information.',
+        cta: 'Meet Quest',
+        statData: 'data points analyzed in campaigns',
+        statProvinces: 'provinces with electoral data',
+      },
+      see: {
+        number: '03',
+        product: 'Electronic Records',
+        whisper: 'The file sleeping in an archive today could travel in one click.',
+        title: 'Paper is now optional.',
+        text: 'We install, support and train teams on open-source electronic record systems. Procedures that are traceable, auditable and accessible from anywhere.',
+        cta: 'Meet the system',
+        statImpl: 'implementations',
+        statUsers: 'active users',
+        statDocs: 'documents managed',
+      },
+    },
+    milaShotAlt: 'Real Mila screen showing a critical finding with its legal citation and evidence',
+    chainEyebrow: 'Why we do it',
+    chainTitle: 'Every recovered minute builds something bigger.',
+    chain: [
+      { stage: 'The experience', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documents managed on PLUS BI platforms' },
+      { stage: 'What the AI sees', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more errors detected than manual review' },
+      { stage: 'What gets freed', stat: { value: 76, suffix: '%' }, text: 'less validation time per file' },
+      { stage: 'What gets built', headline: 'Trust', text: 'files done on time, public works finished, services delivered' },
     ],
-    productsTitle: 'We start from the pain, not the technology.',
-    productsSubtitle:
-      'Every product was born from a real problem in public administration. Pick yours.',
-    milaQuote: 'All across Latin America there is a Marta.',
-    milaText:
-      'Comptroller, auditor, reviewer: her signature says a file is in order, but the rules are endless and the files even more so. Mila reads the whole file, checks it against all your regulations and shows what complies, what does not and which page to look at — with the legal citation next to it.',
-    milaCta: 'Meet Mila',
-    milaShotAlt:
-      'Real Mila screen showing a critical finding with its legal citation and evidence',
-    questQuote: 'The poll you quote in meetings is already two weeks old.',
-    questText:
-      'Quest gathers polls and electoral data from the whole country, cross-references them by province, chamber and pollster, and shows them on a live dashboard. You decide with today’s picture, not last month’s.',
-    questCta: 'Meet Quest',
-    wizardTitle: 'Not sure where to start?',
-    wizardSubtitle:
-      'Tell our assistant your problem and it will recommend the right tool.',
+    wizardTitle: 'Tell us your challenge.',
+    wizardSubtitle: 'Our AI assistant recommends the right tool for your problem.',
   },
 };
+
+const EASE = [0.21, 0.47, 0.32, 0.98] as const;
+
+function ChapterMarker({ number, accentBg }: { number: string; accentBg: string }) {
+  return (
+    <div aria-hidden className="absolute -left-[41px] top-1 hidden lg:flex">
+      <span className={`flex size-8 items-center justify-center rounded-full text-xs font-bold text-white ${accentBg}`}>
+        {number}
+      </span>
+    </div>
+  );
+}
 
 export default function Home() {
   const { language } = useLanguage();
   const c = content[language];
+  const reduce = useReducedMotion();
+
+  const threadRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: threadRef,
+    offset: ['start 0.75', 'end 0.7'],
+  });
+  const threadScale = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
 
   return (
-    <div className="flex flex-col">
-      <PageHero
-        eyebrow={<Badge variant="secondary" className="px-4 py-1.5 text-xs tracking-[0.15em] uppercase">{c.heroEyebrow}</Badge>}
-        title={c.heroTitle}
-        subtitle={c.heroSubtitle}
-      >
-        <Button asChild size="lg">
-          <Link href="#productos">{c.heroCtaProducts}</Link>
-        </Button>
-        <Button asChild size="lg" variant="outline">
-          <Link href="#contacto">{c.heroCtaTalk}</Link>
-        </Button>
-      </PageHero>
-
-      <section aria-label="Resultados" className="border-y border-black/5 bg-card">
-        <div className="container max-w-6xl px-4 py-12 md:py-16">
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
-            {c.stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <dd className="stat-number text-4xl md:text-5xl text-primary">{s.value}</dd>
-                <dt className="mt-2 text-sm leading-snug text-muted-foreground">{s.label}</dt>
-                <span className="mt-2 inline-block text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground/60">
-                  {s.product}
-                </span>
-              </div>
-            ))}
-          </dl>
+    <div className="flex flex-col overflow-x-clip">
+      {/* Hero */}
+      <section className="relative mesh-brand overflow-hidden">
+        {!reduce && (
+          <>
+            <motion.div
+              aria-hidden
+              className="absolute -top-32 right-[-10%] size-[420px] rounded-full bg-accent/15 blur-3xl"
+              animate={{ y: [0, 26, 0], x: [0, -14, 0] }}
+              transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              aria-hidden
+              className="absolute bottom-[-20%] left-[-8%] size-[380px] rounded-full bg-primary/10 blur-3xl"
+              animate={{ y: [0, -22, 0], x: [0, 16, 0] }}
+              transition={{ duration: 17, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </>
+        )}
+        <div className="container relative max-w-5xl px-4 py-24 md:py-36 text-center">
+          <motion.p
+            className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            {c.heroEyebrow}
+          </motion.p>
+          <h1 className="mt-6 font-headline text-4xl font-extrabold tracking-tight md:text-7xl text-balance">
+            <WordReveal text={c.heroTitle} delay={0.15} />
+          </h1>
+          <motion.p
+            className="mx-auto mt-7 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground text-balance"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7, ease: EASE }}
+          >
+            {c.heroSubtitle}
+          </motion.p>
+          <motion.div
+            className="mt-10 flex flex-wrap items-center justify-center gap-4"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.9, ease: EASE }}
+          >
+            <Button asChild size="lg">
+              <Link href="#historia">{c.heroCtaProducts}</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="#contacto">{c.heroCtaTalk}</Link>
+            </Button>
+          </motion.div>
         </div>
       </section>
 
-      <section id="productos" className="scroll-mt-20">
+      {/* El hilo: tres capítulos conectados */}
+      <section id="historia" className="scroll-mt-20 bg-card border-y border-black/5">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <div className="max-w-2xl">
+          <Reveal>
             <h2 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-              {c.productsTitle}
+              {c.chaptersTitle}
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">{c.productsSubtitle}</p>
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {PRODUCTS.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
+            <p className="mt-4 max-w-xl text-lg text-muted-foreground">{c.chaptersSubtitle}</p>
+          </Reveal>
+
+          <div ref={threadRef} className="relative mt-16 lg:pl-16">
+            {/* Línea que crece con el scroll */}
+            <div aria-hidden className="absolute left-[15px] top-0 hidden h-full w-px bg-border lg:block" />
+            <motion.div
+              aria-hidden
+              className="absolute left-[15px] top-0 hidden h-full w-px origin-top bg-gradient-to-b from-mila via-quest to-see lg:block"
+              style={reduce ? undefined : { scaleY: threadScale }}
+            />
+
+            <div className="flex flex-col gap-24 md:gap-32">
+              {/* 01 · Mila */}
+              <div className="relative">
+                <ChapterMarker number={c.chapters.mila.number} accentBg="bg-mila" />
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr]">
+                  <div>
+                    <Reveal>
+                      <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-mila">
+                        <Image src="/logo/mila.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
+                        {c.chapters.mila.number} · {c.chapters.mila.product}
+                      </p>
+                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                        {c.chapters.mila.whisper}
+                      </p>
+                      <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
+                        {c.chapters.mila.title}
+                      </h3>
+                      <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+                        {c.chapters.mila.text}
+                      </p>
+                    </Reveal>
+                    <Reveal delay={0.15}>
+                      <div className="mt-6 flex gap-10">
+                        <p>
+                          <CountUp value={67} prefix="+" suffix="%" className="text-3xl text-mila" />
+                          <span className="mt-1 block max-w-[10rem] text-xs leading-snug text-muted-foreground">
+                            {language === 'es' ? 'más errores detectados' : 'more errors detected'}
+                          </span>
+                        </p>
+                        <p>
+                          <CountUp value={76} suffix="%" className="text-3xl text-mila" />
+                          <span className="mt-1 block max-w-[10rem] text-xs leading-snug text-muted-foreground">
+                            {language === 'es' ? 'menos tiempo de validación' : 'less validation time'}
+                          </span>
+                        </p>
+                      </div>
+                      <Button asChild size="lg" className="mt-8 bg-mila hover:bg-mila/90 text-white">
+                        <Link href="/products/mila">
+                          {c.chapters.mila.cta}
+                          <ArrowRight aria-hidden />
+                        </Link>
+                      </Button>
+                    </Reveal>
+                  </div>
+                  <Reveal delay={0.1} y={40}>
+                    <BrowserFrame
+                      src="/products/mila/mila-07-hallazgo.png"
+                      alt={c.milaShotAlt}
+                      url="mila.docufy.ar"
+                      width={1347}
+                      height={632}
+                    />
+                  </Reveal>
+                </div>
+              </div>
+
+              {/* 02 · Quest */}
+              <div className="relative">
+                <ChapterMarker number={c.chapters.quest.number} accentBg="bg-quest" />
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[7fr_5fr]">
+                  <Reveal delay={0.1} y={40} className="order-2 lg:order-1">
+                    <div className="rounded-2xl glass p-8 md:p-10">
+                      <div className="grid grid-cols-2 gap-8">
+                        <p>
+                          <CountUp value={7.1} prefix="+" suffix="M" decimals={1} className="text-4xl md:text-5xl text-quest" />
+                          <span className="mt-2 block text-sm leading-snug text-muted-foreground">
+                            {c.chapters.quest.statData}
+                          </span>
+                        </p>
+                        <p>
+                          <CountUp value={24} className="text-4xl md:text-5xl text-quest" />
+                          <span className="mt-2 block text-sm leading-snug text-muted-foreground">
+                            {c.chapters.quest.statProvinces}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </Reveal>
+                  <div className="order-1 lg:order-2">
+                    <Reveal>
+                      <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-quest">
+                        <Image src="/logo/quest.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
+                        {c.chapters.quest.number} · {c.chapters.quest.product}
+                      </p>
+                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                        {c.chapters.quest.whisper}
+                      </p>
+                      <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
+                        {c.chapters.quest.title}
+                      </h3>
+                      <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+                        {c.chapters.quest.text}
+                      </p>
+                      <Button asChild size="lg" className="mt-8 bg-quest hover:bg-quest/90 text-white">
+                        <Link href="/products/quest">
+                          {c.chapters.quest.cta}
+                          <ArrowRight aria-hidden />
+                        </Link>
+                      </Button>
+                    </Reveal>
+                  </div>
+                </div>
+              </div>
+
+              {/* 03 · Expediente Electrónico */}
+              <div className="relative">
+                <ChapterMarker number={c.chapters.see.number} accentBg="bg-see" />
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr]">
+                  <div>
+                    <Reveal>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-see">
+                        {c.chapters.see.number} · {c.chapters.see.product}
+                      </p>
+                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                        {c.chapters.see.whisper}
+                      </p>
+                      <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
+                        {c.chapters.see.title}
+                      </h3>
+                      <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+                        {c.chapters.see.text}
+                      </p>
+                      <Button asChild size="lg" className="mt-8 bg-see hover:bg-see/90 text-white">
+                        <Link href="/products/see">
+                          {c.chapters.see.cta}
+                          <ArrowRight aria-hidden />
+                        </Link>
+                      </Button>
+                    </Reveal>
+                  </div>
+                  <Reveal delay={0.1} y={40}>
+                    <div className="rounded-2xl glass p-8 md:p-10">
+                      <div className="grid grid-cols-3 gap-6 text-center">
+                        <p>
+                          <CountUp value={30} prefix="+" className="text-3xl md:text-4xl text-see" />
+                          <span className="mt-2 block text-xs leading-snug text-muted-foreground">{c.chapters.see.statImpl}</span>
+                        </p>
+                        <p>
+                          <CountUp value={40} prefix="+" suffix="k" className="text-3xl md:text-4xl text-see" />
+                          <span className="mt-2 block text-xs leading-snug text-muted-foreground">{c.chapters.see.statUsers}</span>
+                        </p>
+                        <p>
+                          <CountUp value={10} prefix="+" suffix="M" className="text-3xl md:text-4xl text-see" />
+                          <span className="mt-2 block text-xs leading-snug text-muted-foreground">{c.chapters.see.statDocs}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </Reveal>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-card border-y border-black/5">
+      {/* Teoría de cambio */}
+      <section className="mesh-brand">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[5fr_7fr]">
-            <div>
-              <p className="font-serif text-2xl md:text-3xl leading-snug text-mila">{c.milaQuote}</p>
-              <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">{c.milaText}</p>
-              <Button asChild size="lg" className="mt-8 bg-mila hover:bg-mila/90 text-white">
-                <Link href="/products/mila">
-                  {c.milaCta}
-                  <ArrowRight aria-hidden />
-                </Link>
-              </Button>
-            </div>
-            <BrowserFrame
-              src="/products/mila/mila-07-hallazgo.png"
-              alt={c.milaShotAlt}
-              url="mila.docufy.ar"
-              width={1347}
-              height={632}
+          <Reveal>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">{c.chainEyebrow}</p>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {c.chainTitle}
+            </h2>
+          </Reveal>
+          <div className="mt-14">
+            <ImpactChain
+              steps={c.chain}
+              accentText="text-accent"
+              accentBg="bg-accent"
             />
           </div>
         </div>
       </section>
 
-      <section className="mesh-quest">
-        <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[7fr_5fr]">
-            <div className="order-2 lg:order-1 rounded-2xl glass p-8 md:p-10">
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <p className="stat-number text-4xl md:text-5xl text-quest">24</p>
-                  <p className="mt-1 text-sm text-muted-foreground">provincias con datos electorales</p>
-                </div>
-                <div>
-                  <p className="stat-number text-4xl md:text-5xl text-quest">+7,1M</p>
-                  <p className="mt-1 text-sm text-muted-foreground">puntos de datos analizados</p>
-                </div>
-                <div className="col-span-2 border-t border-black/5 pt-6">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {language === 'es'
-                      ? 'Encuestas, resultados y tendencias por provincia, cámara y encuestadora — en un solo tablero.'
-                      : 'Polls, results and trends by province, chamber and pollster — on a single dashboard.'}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <p className="font-serif text-2xl md:text-3xl leading-snug text-quest">{c.questQuote}</p>
-              <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">{c.questText}</p>
-              <Button asChild size="lg" className="mt-8 bg-quest hover:bg-quest/90 text-white">
-                <Link href="/products/quest">
-                  {c.questCta}
-                  <ArrowRight aria-hidden />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Wizard IA */}
       <section id="products-wizard" className="bg-card border-y border-black/5 scroll-mt-20">
         <div className="container max-w-3xl px-4 py-20 md:py-28 text-center">
-          <h2 className="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">{c.wizardTitle}</h2>
-          <p className="mt-4 text-lg text-muted-foreground">{c.wizardSubtitle}</p>
-          <div className="mt-10 text-left">
-            <AiWizard />
-          </div>
+          <Reveal>
+            <h2 className="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">{c.wizardTitle}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{c.wizardSubtitle}</p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="mt-10 text-left">
+              <AiWizard />
+            </div>
+          </Reveal>
         </div>
       </section>
 

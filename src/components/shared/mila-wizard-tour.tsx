@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/language-context';
 
@@ -26,20 +27,40 @@ const steps = {
   ],
 };
 
-/** Recorrido por el producto con screenshots reales — stepper manual, accesible por teclado. */
+/**
+ * Recorrido por el producto con screenshots reales — avanza solo mientras está
+ * en pantalla, se detiene al primer click del usuario, accesible por teclado.
+ */
 export function MilaWizardTour() {
   const { language } = useLanguage();
   const [active, setActive] = useState(0);
+  const [userTookOver, setUserTookOver] = useState(false);
   const s = steps[language];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef, { margin: '-120px 0px' });
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    if (userTookOver || reduce || !inView) return;
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % s.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [userTookOver, reduce, inView, s.length]);
+
+  const selectStep = (i: number) => {
+    setUserTookOver(true);
+    setActive(i);
+  };
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[4fr_8fr] lg:items-start">
+    <div ref={containerRef} className="grid grid-cols-1 gap-8 lg:grid-cols-[4fr_8fr] lg:items-start">
       <ol className="flex flex-col gap-1" aria-label={language === 'es' ? 'Pasos del recorrido' : 'Tour steps'}>
         {s.map((step, i) => (
           <li key={step.src}>
             <button
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => selectStep(i)}
               aria-current={active === i ? 'step' : undefined}
               className={cn(
                 'w-full rounded-xl px-4 py-3 text-left transition-colors min-h-11',
@@ -69,15 +90,45 @@ export function MilaWizardTour() {
           </li>
         ))}
       </ol>
-      <figure className="overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+      <figure className="relative overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+        {/* Reserva el alto con la primera imagen; las demás crossfadean encima */}
         <Image
-          src={s[active].src}
-          alt={s[active].label}
+          src={s[0].src}
+          alt=""
+          aria-hidden
           width={1347}
           height={632}
-          className="w-full h-auto"
-          priority={false}
+          className="invisible w-full h-auto"
         />
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={s[active].src}
+            className="absolute inset-0"
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduce ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
+            <Image
+              src={s[active].src}
+              alt={s[active].label}
+              width={1347}
+              height={632}
+              className="w-full h-auto"
+            />
+          </motion.div>
+        </AnimatePresence>
+        {/* Barra de progreso del paso activo */}
+        {!reduce && !userTookOver && (
+          <motion.div
+            key={`progress-${active}`}
+            aria-hidden
+            className="absolute bottom-0 left-0 h-1 bg-mila-accent"
+            initial={{ width: '0%' }}
+            animate={{ width: inView ? '100%' : '0%' }}
+            transition={{ duration: 4.5, ease: 'linear' }}
+          />
+        )}
         <figcaption className="sr-only">{s[active].detail}</figcaption>
       </figure>
     </div>

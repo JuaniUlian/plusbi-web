@@ -19,14 +19,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PageHero } from '@/components/shared/page-hero';
 import { ContactSection } from '@/components/shared/contact-section';
+import { Reveal, WordReveal } from '@/components/motion/reveal';
+import { CountUp } from '@/components/motion/count-up';
 import { useLanguage } from '@/contexts/language-context';
 
 const content = {
   es: {
     heroBadge: 'Quest · Análisis de datos',
-    heroTitle: 'La encuesta que citás en la reunión ya tiene dos semanas.',
+    heroTitle: 'La foto electoral del país, al día.',
     heroSubtitle:
-      'Y la decisión que tomás con ella dura cuatro años. Quest reúne encuestas y datos electorales de todo el país en un tablero vivo, para que gobiernes y hagas campaña con la foto de hoy.',
+      'Las decisiones de cuatro años no merecen encuestas de hace dos semanas. Quest reúne encuestas y datos electorales de todo el país en un tablero vivo, para gobernar y hacer campaña con la información de hoy.',
     heroCtaDashboard: 'Acceder al dashboard',
     heroCtaDemo: 'Solicitá una presentación',
 
@@ -80,9 +82,9 @@ const content = {
   },
   en: {
     heroBadge: 'Quest · Data analysis',
-    heroTitle: 'The poll you quote in meetings is already two weeks old.',
+    heroTitle: 'The country’s electoral picture, up to date.',
     heroSubtitle:
-      'And the decision you make with it lasts four years. Quest gathers polls and electoral data from the whole country on a live dashboard, so you govern and campaign with today’s picture.',
+      'Four-year decisions deserve better than two-week-old polls. Quest gathers polls and electoral data from the whole country on a live dashboard, so you govern and campaign with today’s information.',
     heroCtaDashboard: 'Access the dashboard',
     heroCtaDemo: 'Request a presentation',
 
@@ -155,7 +157,7 @@ export default function QuestPage() {
             {c.heroBadge}
           </Badge>
         }
-        title={<span className="font-serif font-bold">{c.heroTitle}</span>}
+        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-quest hover:bg-quest/90 text-white">
@@ -172,23 +174,27 @@ export default function QuestPage() {
       {/* 01 · La solución */}
       <section className="bg-card border-y border-black/5">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.whatEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-            {c.whatTitle}
-          </h2>
+          <Reveal>
+            <Eyebrow>{c.whatEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {c.whatTitle}
+            </h2>
+          </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
-            {c.whatItems.map((item) => {
+            {c.whatItems.map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="flex gap-5 rounded-2xl border border-black/5 bg-background p-7 card-elevated">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
-                    <Icon className="size-5" aria-hidden />
-                  </span>
-                  <div>
-                    <h3 className="font-headline text-lg font-bold">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                <Reveal key={item.title} delay={(i % 2) * 0.12}>
+                  <div className="flex h-full gap-5 rounded-2xl border border-black/5 bg-background p-7 card-elevated card-hover">
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
+                      <Icon className="size-5" aria-hidden />
+                    </span>
+                    <div>
+                      <h3 className="font-headline text-lg font-bold">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
+                    </div>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>
@@ -198,16 +204,22 @@ export default function QuestPage() {
       {/* 02 · La prueba */}
       <section className="mesh-quest">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.caseEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-            {c.caseTitle}
-          </h2>
+          <Reveal>
+            <Eyebrow>{c.caseEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {c.caseTitle}
+            </h2>
+          </Reveal>
           <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr]">
-            <div className="rounded-2xl glass p-10 text-center">
-              <p className="stat-number text-6xl md:text-7xl text-quest">{c.caseValue}</p>
-              <p className="mt-3 text-base text-muted-foreground">{c.caseLabel}</p>
-            </div>
-            <p className="text-lg leading-relaxed text-muted-foreground">{c.caseText}</p>
+            <Reveal y={40}>
+              <div className="rounded-2xl glass p-10 text-center">
+                <CountUp value={7.1} prefix="+" suffix="M" decimals={1} className="text-6xl md:text-7xl text-quest" />
+                <p className="mt-3 text-base text-muted-foreground">{c.caseLabel}</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p className="text-lg leading-relaxed text-muted-foreground">{c.caseText}</p>
+            </Reveal>
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/language-context';
@@ -27,8 +28,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
       )}
     >
       <div className="flex items-center gap-3">
-        <span className={cn('flex size-11 items-center justify-center rounded-xl', product.chipClass)}>
-          <Icon className="size-5" aria-hidden />
+        <span className={cn('flex size-11 items-center justify-center overflow-hidden rounded-xl', product.chipClass)}>
+          {product.logo ? (
+            <Image src={product.logo} alt="" aria-hidden width={44} height={44} className="size-11 object-contain" />
+          ) : (
+            <Icon className="size-5" aria-hidden />
+          )}
         </span>
         <div>
           <h3 className="font-headline text-xl font-bold leading-tight">{product.name[language]}</h3>

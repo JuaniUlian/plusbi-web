@@ -9,6 +9,8 @@ export interface ProductDef {
   id: ProductId;
   href: string;
   icon: LucideIcon;
+  /** Logo real del producto (si existe, se muestra en vez del ícono) */
+  logo?: string;
   /** Clases literales para que Tailwind las compile */
   chipClass: string;
   badgeClass: string;
@@ -24,6 +26,7 @@ export const PRODUCTS: ProductDef[] = [
     id: 'mila',
     href: '/products/mila',
     icon: ShieldCheck,
+    logo: '/logo/mila.png',
     chipClass: 'bg-mila/10 text-mila',
     badgeClass: 'bg-mila/10 text-mila border-transparent',
     name: { es: 'Mila', en: 'Mila' },
@@ -41,6 +44,7 @@ export const PRODUCTS: ProductDef[] = [
     id: 'quest',
     href: '/products/quest',
     icon: BarChart3,
+    logo: '/logo/quest.png',
     chipClass: 'bg-quest/10 text-quest',
     badgeClass: 'bg-quest/10 text-quest border-transparent',
     name: { es: 'Quest', en: 'Quest' },

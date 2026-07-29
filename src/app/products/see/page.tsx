@@ -20,14 +20,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PageHero } from '@/components/shared/page-hero';
 import { ContactSection } from '@/components/shared/contact-section';
+import { Reveal, WordReveal } from '@/components/motion/reveal';
+import { CountUp } from '@/components/motion/count-up';
 import { useLanguage } from '@/contexts/language-context';
 
 const content = {
   es: {
     heroBadge: 'Expediente Electrónico · Transformación digital',
-    heroTitle: 'El expediente que necesitás hoy está en papel, en otro edificio.',
+    heroTitle: 'El papel ya es opcional.',
     heroSubtitle:
-      'Cada trámite que viaja en papel es tiempo de tu equipo y del ciudadano. Instalamos, damos soporte y capacitamos en sistemas de expediente electrónico — más de 10 millones de documentos ya gestionados en nuestras plataformas.',
+      'Los trámites pueden ser trazables, auditables y accesibles desde cualquier lugar. Instalamos, damos soporte y capacitamos en sistemas de expediente electrónico — más de 10 millones de documentos ya gestionados en nuestras plataformas.',
     heroCta: 'Hablemos de tu digitalización',
 
     challengesEyebrow: '01 · Del problema a la solución',
@@ -113,9 +115,9 @@ const content = {
   },
   en: {
     heroBadge: 'Electronic Records · Digital transformation',
-    heroTitle: 'The file you need today is on paper, in another building.',
+    heroTitle: 'Paper is now optional.',
     heroSubtitle:
-      'Every procedure that travels on paper costs your team’s and the citizen’s time. We install, support and train teams on electronic record systems — over 10 million documents already managed on our platforms.',
+      'Procedures can be traceable, auditable and accessible from anywhere. We install, support and train teams on electronic record systems — over 10 million documents already managed on our platforms.',
     heroCta: 'Let’s talk about your digitalization',
 
     challengesEyebrow: '01 · From problem to solution',
@@ -223,7 +225,7 @@ export default function SeePage() {
             {c.heroBadge}
           </Badge>
         }
-        title={<span className="font-serif font-bold">{c.heroTitle}</span>}
+        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-see hover:bg-see/90 text-white">
