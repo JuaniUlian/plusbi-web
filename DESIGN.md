@@ -34,9 +34,7 @@ Regla: el acento se usa para badge, ícono, links y detalles del producto — nu
 
 ## Tipografía
 
-- **Display / headings**: `Archivo` (700–800, tracking -0.02em). Misma familia que el deck de Mila.
-- **Body**: `Archivo` (400–500).
-- **Serif editorial**: `Fraunces` — solo para momentos narrativos (citas, la historia de Marta, headings de la página de Mila, espejando la app real que usa serif).
+- **Una sola familia en todo el sitio: `Archivo`** (display 700–800 con tracking -0.02em; body 400–500). Sin serif: los momentos narrativos (susurros de dolor) se diferencian con itálica + `text-muted-foreground`, no con otra fuente.
 - **Números grandes (KPIs)**: Archivo 800, tabular-nums, tamaño ≥ text-5xl.
 - Escala: h1 `text-5xl md:text-7xl`, h2 `text-3xl md:text-5xl`, body `text-base md:text-lg`, eyebrow `text-sm tracking-[0.2em] uppercase font-semibold`.
 

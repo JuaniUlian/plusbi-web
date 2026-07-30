@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Archivo, Fraunces } from 'next/font/google';
+import { Archivo } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
@@ -12,11 +12,6 @@ import { OrganizationSchema } from '@/components/structured-data';
 const archivo = Archivo({
   subsets: ['latin'],
   variable: '--font-archivo',
-});
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  variable: '--font-fraunces',
 });
 
 export const metadata: Metadata = {
@@ -97,8 +92,7 @@ export default function RootLayout({
           <body
             className={cn(
               'min-h-screen bg-background font-body antialiased',
-              archivo.variable,
-              fraunces.variable
+              archivo.variable
             )}
           >
             <div className="relative flex min-h-dvh flex-col bg-transparent">

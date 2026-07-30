@@ -36,7 +36,7 @@ export default function MilaAliadosPage() {
             className="mx-auto h-28 w-auto drop-shadow-[0_12px_40px_rgba(232,113,58,0.35)]"
           />
           <p className="mt-6 text-sm uppercase tracking-[0.25em] text-white/50">by PLUS BI</p>
-          <h1 className="mt-8 font-serif text-4xl md:text-6xl font-bold tracking-tight text-balance">
+          <h1 className="mt-8 font-headline text-4xl md:text-6xl font-bold tracking-tight text-balance">
             Detecta irregularidades{' '}
             <span className="text-mila-accent">en minutos.</span>
           </h1>
@@ -52,7 +52,7 @@ export default function MilaAliadosPage() {
       <section className="bg-background text-foreground">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">01 · El problema</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">
             En toda Latinoamérica hay una Marta.
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[6fr_5fr]">
@@ -103,7 +103,7 @@ export default function MilaAliadosPage() {
       <section className="mesh-mila">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">02 · El enfoque</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">
             Tecnología, <span className="text-mila-accent">más persona.</span>
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -147,7 +147,7 @@ export default function MilaAliadosPage() {
       <section className="bg-[hsl(218,61%,13%)]">
         <div className="container max-w-7xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">03 · La solución</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">
             Subís un expediente. <span className="text-mila-accent">MILA lo audita en minutos.</span>
           </h2>
           <div className="mt-12">
@@ -171,7 +171,7 @@ export default function MilaAliadosPage() {
       <section className="bg-background text-foreground">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">04 · Validación</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">
             Usada donde el control importa.
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[7fr_5fr]">
@@ -220,7 +220,7 @@ export default function MilaAliadosPage() {
       <section className="mesh-mila">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">05 · Quiénes están detrás</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">
             Tecnología para un mejor Gobierno.
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -270,7 +270,7 @@ export default function MilaAliadosPage() {
       <section className="bg-background text-foreground">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">06 · Cómo empezar</p>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">
             Uso por asiento, todo incluido.
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -307,7 +307,7 @@ export default function MilaAliadosPage() {
                   5 primeros
                 </span>
               </div>
-              <p className="mt-8 font-serif text-3xl md:text-4xl font-bold">
+              <p className="mt-8 font-headline text-3xl md:text-4xl font-bold">
                 Llegar primero <span className="text-mila-accent">tiene privilegios.</span>
               </p>
               <ul className="mx-auto mt-8 max-w-sm space-y-4 text-left text-base text-white/85">
@@ -340,7 +340,7 @@ export default function MilaAliadosPage() {
             height={100}
             className="mx-auto h-20 w-auto drop-shadow-[0_0_50px_rgba(240,138,87,0.45)]"
           />
-          <h2 className="mt-10 font-serif text-5xl md:text-7xl font-bold tracking-tight">¿Arrancamos?</h2>
+          <h2 className="mt-10 font-headline text-5xl md:text-7xl font-bold tracking-tight">¿Arrancamos?</h2>
           <div className="mx-auto mt-10 h-px w-32 bg-gradient-to-r from-transparent via-mila-accent to-transparent" />
           <p className="mt-10 text-2xl md:text-3xl font-bold text-mila-accent">plusbi.ar/products/mila</p>
           <p className="mt-8 inline-flex flex-wrap items-center justify-center gap-3 rounded-full glass-dark px-8 py-4 text-base">

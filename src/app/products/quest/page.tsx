@@ -157,7 +157,7 @@ export default function QuestPage() {
             {c.heroBadge}
           </Badge>
         }
-        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
+        title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-quest hover:bg-quest/90 text-white">

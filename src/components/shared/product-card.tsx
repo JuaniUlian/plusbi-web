@@ -42,7 +42,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </p>
         </div>
       </div>
-      <p className="mt-5 font-serif text-lg leading-snug text-foreground/90">
+      <p className="mt-5 font-headline text-lg leading-snug text-foreground/90">
         {product.pain[language]}
       </p>
       <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">

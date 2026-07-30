@@ -225,7 +225,7 @@ export default function SeePage() {
             {c.heroBadge}
           </Badge>
         }
-        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
+        title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-see hover:bg-see/90 text-white">

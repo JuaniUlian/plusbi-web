@@ -232,7 +232,7 @@ export default function Home() {
                         <Image src="/logo/mila.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
                         {c.chapters.mila.number} · {c.chapters.mila.product}
                       </p>
-                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                      <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
                         {c.chapters.mila.whisper}
                       </p>
                       <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
@@ -305,7 +305,7 @@ export default function Home() {
                         <Image src="/logo/quest.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
                         {c.chapters.quest.number} · {c.chapters.quest.product}
                       </p>
-                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                      <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
                         {c.chapters.quest.whisper}
                       </p>
                       <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
@@ -334,7 +334,7 @@ export default function Home() {
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-see">
                         {c.chapters.see.number} · {c.chapters.see.product}
                       </p>
-                      <p className="mt-4 font-serif text-lg italic leading-snug text-muted-foreground">
+                      <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
                         {c.chapters.see.whisper}
                       </p>
                       <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">

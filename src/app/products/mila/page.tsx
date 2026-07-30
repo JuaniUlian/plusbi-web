@@ -240,7 +240,7 @@ export default function MilaPage() {
             </Badge>
           </span>
         }
-        title={<span className="font-serif font-bold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
+        title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
         <Button asChild size="lg" className="bg-mila-accent text-white hover:bg-mila-accent/90">
@@ -256,7 +256,7 @@ export default function MilaPage() {
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.martaEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">
               {c.martaTitle}
             </h2>
           </Reveal>
@@ -298,7 +298,7 @@ export default function MilaPage() {
       <section className="bg-card border-y border-black/5">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Eyebrow>{c.approachEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.approachTitle}</h2>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">{c.approachTitle}</h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-mila p-8 md:p-10 text-white card-elevated">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">{c.approachMachine}</p>
@@ -332,7 +332,7 @@ export default function MilaPage() {
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.howEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
             <p className="mt-4 max-w-2xl text-lg text-white/70">{c.howSubtitle}</p>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[4fr_8fr] lg:items-center">
@@ -376,7 +376,7 @@ export default function MilaPage() {
       <section className="bg-background">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Eyebrow>{c.caseEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.caseTitle}</h2>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">{c.caseTitle}</h2>
           <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-[7fr_5fr]">
             <div className="rounded-2xl bg-mila p-8 md:p-12 text-white card-elevated">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.caseLabel}</p>
@@ -421,7 +421,7 @@ export default function MilaPage() {
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.chainEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
           </Reveal>
           <div className="mt-14">
             <ImpactChain steps={c.chainSteps} accentText="text-mila-accent" accentBg="bg-mila-accent" />
@@ -433,7 +433,7 @@ export default function MilaPage() {
       <section className="bg-background">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Eyebrow>{c.diffEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-serif text-3xl md:text-5xl font-bold tracking-tight">{c.diffTitle}</h2>
+          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">{c.diffTitle}</h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
             {c.diffItems.map((item) => {
               const Icon = item.icon;
