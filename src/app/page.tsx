@@ -7,9 +7,9 @@ import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import AiWizard from '@/components/ai-wizard';
 import { useLanguage } from '@/contexts/language-context';
 import { BrowserFrame } from '@/components/shared/browser-frame';
+import { QuestDashboardMock } from '@/components/shared/quest-dashboard-mock';
 import { ContactSection } from '@/components/shared/contact-section';
 import { Reveal, WordReveal } from '@/components/motion/reveal';
 import { CountUp } from '@/components/motion/count-up';
@@ -20,7 +20,7 @@ const content = {
     heroEyebrow: 'PLUS BI · Tecnología para un mejor Gobierno',
     heroTitle: 'Le devolvemos el tiempo a quienes gobiernan.',
     heroSubtitle:
-      'Construimos IA que audita expedientes en minutos, tableros que leen la conversación electoral del día y sistemas que jubilan al papel. El trabajo pesado, la máquina; el criterio, las personas.',
+      'Que tu equipo firme expedientes ya revisados, decida con la foto de hoy y tramite sin papel. Del trabajo pesado nos encargamos nosotros; el criterio lo ponen las personas.',
     heroCtaProducts: 'Descubrí cómo',
     heroCtaTalk: 'Hablemos',
     chaptersTitle: 'Tres herramientas, una convicción.',
@@ -61,18 +61,18 @@ const content = {
     chainTitle: 'Cada minuto recuperado construye algo más grande.',
     chain: [
       { stage: 'La experiencia', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documentos gestionados en las plataformas de PLUS BI' },
-      { stage: 'Lo que ve la IA', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más errores detectados que la revisión manual' },
-      { stage: 'Lo que se libera', stat: { value: 76, suffix: '%' }, text: 'menos tiempo de validación por expediente' },
-      { stage: 'Lo que se construye', headline: 'Confianza', text: 'expedientes en tiempo y forma, obras que se terminan, servicios que llegan' },
+      { stage: 'Lo que tu equipo encuentra', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más errores detectados antes de firmar' },
+      { stage: 'Lo que recupera', stat: { value: 76, suffix: '%' }, text: 'menos tiempo de validación por expediente' },
+      { stage: 'Lo que construye', headline: 'Confianza', text: 'expedientes en tiempo y forma, obras que se terminan, servicios que llegan' },
     ],
     wizardTitle: 'Contanos tu desafío.',
-    wizardSubtitle: 'Nuestro asistente de IA te recomienda la herramienta indicada para tu problema.',
+    wizardSubtitle: 'Describilo con tus palabras y te decimos qué herramienta lo resuelve.',
   },
   en: {
     heroEyebrow: 'PLUS BI · Technology for better Government',
     heroTitle: 'We give time back to those who govern.',
     heroSubtitle:
-      'We build AI that audits files in minutes, dashboards that read the day’s electoral conversation, and systems that retire paper. The heavy lifting for the machine; the judgment for people.',
+      'Your team signs files already reviewed, decides with today’s picture and works without paper. We take care of the heavy lifting; people bring the judgment.',
     heroCtaProducts: 'See how',
     heroCtaTalk: "Let's talk",
     chaptersTitle: 'Three tools, one conviction.',
@@ -113,12 +113,12 @@ const content = {
     chainTitle: 'Every recovered minute builds something bigger.',
     chain: [
       { stage: 'The experience', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documents managed on PLUS BI platforms' },
-      { stage: 'What the AI sees', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more errors detected than manual review' },
-      { stage: 'What gets freed', stat: { value: 76, suffix: '%' }, text: 'less validation time per file' },
-      { stage: 'What gets built', headline: 'Trust', text: 'files done on time, public works finished, services delivered' },
+      { stage: 'What your team finds', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more errors detected before signing' },
+      { stage: 'What it recovers', stat: { value: 76, suffix: '%' }, text: 'less validation time per file' },
+      { stage: 'What it builds', headline: 'Trust', text: 'files done on time, public works finished, services delivered' },
     ],
     wizardTitle: 'Tell us your challenge.',
-    wizardSubtitle: 'Our AI assistant recommends the right tool for your problem.',
+    wizardSubtitle: 'Describe it in your own words and we tell you which tool solves it.',
   },
 };
 
@@ -229,8 +229,10 @@ export default function Home() {
                   <div>
                     <Reveal>
                       <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-mila">
-                        <Image src="/logo/mila.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
-                        {c.chapters.mila.number} · {c.chapters.mila.product}
+                        <span className="flex size-8 items-center justify-center rounded-lg border border-mila/15 bg-white p-1">
+                          <Image src="/products/mila/mila-logo-dark.png" alt="" aria-hidden width={28} height={28} className="size-6 object-contain" />
+                        </span>
+                        {c.chapters.mila.product}
                       </p>
                       <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
                         {c.chapters.mila.whisper}
@@ -257,7 +259,7 @@ export default function Home() {
                           </span>
                         </p>
                       </div>
-                      <Button asChild size="lg" className="mt-8 bg-mila hover:bg-mila/90 text-white">
+                      <Button asChild size="lg" className="mt-8 bg-mila text-white shadow-lg shadow-mila/25 hover:bg-mila/90 hover:shadow-xl hover:shadow-mila/30">
                         <Link href="/products/mila">
                           {c.chapters.mila.cta}
                           <ArrowRight aria-hidden />
@@ -277,52 +279,39 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* 02 · Quest */}
+              {/* 02 · Quest — el mock es el protagonista, con modos interactivos */}
               <div className="relative">
                 <ChapterMarker number={c.chapters.quest.number} accentBg="bg-quest" />
-                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[7fr_5fr]">
-                  <Reveal delay={0.1} y={40} className="order-2 lg:order-1">
-                    <div className="rounded-2xl glass p-8 md:p-10">
-                      <div className="grid grid-cols-2 gap-8">
-                        <p>
-                          <CountUp value={7.1} prefix="+" suffix="M" decimals={1} className="text-4xl md:text-5xl text-quest" />
-                          <span className="mt-2 block text-sm leading-snug text-muted-foreground">
-                            {c.chapters.quest.statData}
-                          </span>
-                        </p>
-                        <p>
-                          <CountUp value={24} className="text-4xl md:text-5xl text-quest" />
-                          <span className="mt-2 block text-sm leading-snug text-muted-foreground">
-                            {c.chapters.quest.statProvinces}
-                          </span>
-                        </p>
-                      </div>
-                    </div>
+                <div className="mx-auto max-w-3xl text-center">
+                  <Reveal>
+                    <p className="flex items-center justify-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-quest">
+                      <span className="flex size-8 items-center justify-center rounded-lg border border-quest/15 bg-white p-1">
+                        <Image src="/logo/quest.png" alt="" aria-hidden width={28} height={28} className="size-6 object-contain" />
+                      </span>
+                      {c.chapters.quest.product}
+                    </p>
+                    <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
+                      {c.chapters.quest.whisper}
+                    </p>
+                    <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
+                      {c.chapters.quest.title}
+                    </h3>
+                    <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
+                      {c.chapters.quest.text}
+                    </p>
                   </Reveal>
-                  <div className="order-1 lg:order-2">
-                    <Reveal>
-                      <p className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-quest">
-                        <Image src="/logo/quest.png" alt="" aria-hidden width={28} height={28} className="size-7 rounded-md object-contain" />
-                        {c.chapters.quest.number} · {c.chapters.quest.product}
-                      </p>
-                      <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
-                        {c.chapters.quest.whisper}
-                      </p>
-                      <h3 className="mt-4 font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-balance">
-                        {c.chapters.quest.title}
-                      </h3>
-                      <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
-                        {c.chapters.quest.text}
-                      </p>
-                      <Button asChild size="lg" className="mt-8 bg-quest hover:bg-quest/90 text-white">
-                        <Link href="/products/quest">
-                          {c.chapters.quest.cta}
-                          <ArrowRight aria-hidden />
-                        </Link>
-                      </Button>
-                    </Reveal>
-                  </div>
                 </div>
+                <Reveal delay={0.15} y={40} className="mx-auto mt-10 max-w-3xl">
+                  <QuestDashboardMock />
+                </Reveal>
+                <Reveal delay={0.2} className="mt-8 text-center">
+                  <Button asChild size="lg" className="bg-quest text-white shadow-lg shadow-quest/25 hover:bg-quest/90 hover:shadow-xl hover:shadow-quest/30">
+                    <Link href="/products/quest">
+                      {c.chapters.quest.cta}
+                      <ArrowRight aria-hidden />
+                    </Link>
+                  </Button>
+                </Reveal>
               </div>
 
               {/* 03 · Expediente Electrónico */}
@@ -332,7 +321,7 @@ export default function Home() {
                   <div>
                     <Reveal>
                       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-see">
-                        {c.chapters.see.number} · {c.chapters.see.product}
+                        {c.chapters.see.product}
                       </p>
                       <p className="mt-4 font-headline text-lg italic leading-snug text-muted-foreground">
                         {c.chapters.see.whisper}
@@ -343,7 +332,7 @@ export default function Home() {
                       <p className="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">
                         {c.chapters.see.text}
                       </p>
-                      <Button asChild size="lg" className="mt-8 bg-see hover:bg-see/90 text-white">
+                      <Button asChild size="lg" className="mt-8 bg-see text-white shadow-lg shadow-see/25 hover:bg-see/90 hover:shadow-xl hover:shadow-see/30">
                         <Link href="/products/see">
                           {c.chapters.see.cta}
                           <ArrowRight aria-hidden />
@@ -392,21 +381,6 @@ export default function Home() {
               accentBg="bg-accent"
             />
           </div>
-        </div>
-      </section>
-
-      {/* Wizard IA */}
-      <section id="products-wizard" className="bg-card border-y border-black/5 scroll-mt-20">
-        <div className="container max-w-3xl px-4 py-20 md:py-28 text-center">
-          <Reveal>
-            <h2 className="font-headline text-3xl md:text-4xl font-extrabold tracking-tight">{c.wizardTitle}</h2>
-            <p className="mt-4 text-lg text-muted-foreground">{c.wizardSubtitle}</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="mt-10 text-left">
-              <AiWizard />
-            </div>
-          </Reveal>
         </div>
       </section>
 

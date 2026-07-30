@@ -21,7 +21,6 @@ import { PageHero } from '@/components/shared/page-hero';
 import { ContactSection } from '@/components/shared/contact-section';
 import { Reveal, WordReveal } from '@/components/motion/reveal';
 import { CountUp } from '@/components/motion/count-up';
-import { ImpactChain } from '@/components/motion/impact-chain';
 import { useLanguage } from '@/contexts/language-context';
 
 const content = {
@@ -84,12 +83,27 @@ const content = {
     caseOrigin: 'Nacida en Corrupción Cero (CAF), entre los 20 proyectos seleccionados de la región.',
 
     chainEyebrow: '05 · El impacto',
-    chainTitle: 'De minutos ganados a confianza recuperada.',
-    chainSteps: [
-      { stage: 'El insumo', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documentos gestionados en las plataformas de PLUS BI' },
-      { stage: 'El resultado', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más errores detectados que la revisión manual' },
-      { stage: 'El efecto', stat: { value: 76, suffix: '%' }, text: 'menos tiempo de validación por expediente' },
-      { stage: 'El impacto', headline: 'Confianza', text: 'expedientes en tiempo y forma: obras que se terminan, servicios que llegan' },
+    chainTitle: 'Qué cambia cuando el control llega a tiempo.',
+    chainIntro: 'Los números solos no cuentan nada. Esta es la cadena que importa:',
+    chainStory: [
+      {
+        sentence: 'Marta ya no elige qué parte del expediente controlar.',
+        detail: 'Lo revisa completo, con cada error señalado y la norma al lado.',
+        stat: { value: 67, prefix: '+', suffix: '%', label: 'más errores encontrados antes de firmar' },
+      },
+      {
+        sentence: 'El expediente que dormía semanas en una bandeja sale en días.',
+        detail: 'La firma deja de ser el cuello de botella de todo el circuito.',
+        stat: { value: 76, suffix: '%', label: 'menos tiempo de validación' },
+      },
+      {
+        sentence: 'El tribunal pide la auditoría — y ya está lista.',
+        detail: 'La obra arranca a tiempo. El proveedor cobra cuando corresponde. El servicio llega.',
+      },
+      {
+        sentence: 'Y la confianza en el Estado deja de ser un discurso.',
+        detail: 'Porque se nota en cada expediente que sale en tiempo y forma.',
+      },
     ],
 
     diffEyebrow: '06 · La diferencia',
@@ -176,12 +190,27 @@ const content = {
     caseOrigin: 'Born in Corrupción Cero (CAF), among the 20 selected projects of the region.',
 
     chainEyebrow: '05 · The impact',
-    chainTitle: 'From minutes saved to trust regained.',
-    chainSteps: [
-      { stage: 'The input', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documents managed on PLUS BI platforms' },
-      { stage: 'The result', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more errors detected than manual review' },
-      { stage: 'The effect', stat: { value: 76, suffix: '%' }, text: 'less validation time per file' },
-      { stage: 'The impact', headline: 'Trust', text: 'files done on time: public works finished, services delivered' },
+    chainTitle: 'What changes when oversight arrives on time.',
+    chainIntro: 'Numbers alone say nothing. This is the chain that matters:',
+    chainStory: [
+      {
+        sentence: 'Marta no longer chooses which part of the file to control.',
+        detail: 'She reviews all of it, with every error flagged and the rule right next to it.',
+        stat: { value: 67, prefix: '+', suffix: '%', label: 'more errors found before signing' },
+      },
+      {
+        sentence: 'The file that slept for weeks in a tray goes out in days.',
+        detail: 'The signature stops being the bottleneck of the whole circuit.',
+        stat: { value: 76, suffix: '%', label: 'less validation time' },
+      },
+      {
+        sentence: 'The tribunal asks for the audit — and it is already done.',
+        detail: 'The public work starts on time. The supplier gets paid when due. The service arrives.',
+      },
+      {
+        sentence: 'And trust in the State stops being a speech.',
+        detail: 'Because it shows in every file that goes out on time.',
+      },
     ],
 
     diffEyebrow: '06 · The difference',
@@ -243,7 +272,7 @@ export default function MilaPage() {
         title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
-        <Button asChild size="lg" className="bg-mila-accent text-white hover:bg-mila-accent/90">
+        <Button asChild size="lg" className="bg-mila-accent text-white shadow-lg shadow-mila-accent/30 hover:bg-mila-accent/90 hover:shadow-xl hover:shadow-mila-accent/40">
           <Link href="#contacto">{c.heroCtaDemo}</Link>
         </Button>
         <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white">
@@ -416,16 +445,46 @@ export default function MilaPage() {
         </div>
       </section>
 
-      {/* 05 · Teoría de cambio */}
+      {/* 05 · Teoría de cambio — narrativa encadenada, no tiles de números */}
       <section className="bg-card border-y border-black/5">
-        <div className="container max-w-6xl px-4 py-20 md:py-28">
+        <div className="container max-w-3xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.chainEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.chainTitle}</h2>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">{c.chainTitle}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{c.chainIntro}</p>
           </Reveal>
-          <div className="mt-14">
-            <ImpactChain steps={c.chainSteps} accentText="text-mila-accent" accentBg="bg-mila-accent" />
-          </div>
+          <ol className="relative mt-14 flex flex-col gap-14 border-l-2 border-mila/15 pl-8 md:pl-12">
+            {c.chainStory.map((step, i) => (
+              <Reveal key={step.sentence} delay={i * 0.12}>
+                <li className="relative">
+                  <span
+                    aria-hidden
+                    className={
+                      'absolute -left-[41px] top-1.5 size-4 rounded-full border-2 border-card md:-left-[57px] ' +
+                      (i === c.chainStory.length - 1 ? 'bg-mila-accent' : 'bg-mila')
+                    }
+                  />
+                  <p className="font-headline text-2xl md:text-3xl font-extrabold leading-snug tracking-tight text-balance">
+                    {step.sentence}
+                  </p>
+                  <p className="mt-2 text-base md:text-lg leading-relaxed text-muted-foreground">
+                    {step.detail}
+                  </p>
+                  {step.stat && (
+                    <p className="mt-4 inline-flex items-baseline gap-2.5 rounded-full bg-mila/5 px-5 py-2">
+                      <CountUp
+                        value={step.stat.value}
+                        prefix={step.stat.prefix}
+                        suffix={step.stat.suffix}
+                        className="text-xl text-mila-accent"
+                      />
+                      <span className="text-sm text-muted-foreground">{step.stat.label}</span>
+                    </p>
+                  )}
+                </li>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </section>
 

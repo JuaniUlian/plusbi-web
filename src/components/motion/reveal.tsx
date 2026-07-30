@@ -14,14 +14,14 @@ interface RevealProps {
   className?: string;
 }
 
-/** Entrada al hacer scroll: fade + slide. Un solo patrón en todo el sitio (ver DESIGN.md). */
+/** Entrada al hacer scroll: fade + slide + zoom sutil. Un solo patrón en todo el sitio (ver DESIGN.md). */
 export function Reveal({ children, delay = 0, y = 28, className }: RevealProps) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      initial={reduce ? false : { opacity: 0, y, scale: 0.975 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-80px 0px' }}
       transition={{ duration: 0.7, delay, ease: EASE }}
     >

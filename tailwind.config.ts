@@ -17,9 +17,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['var(--font-archivo)', 'system-ui', 'sans-serif'],
-        headline: ['var(--font-archivo)', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-archivo)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        headline: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

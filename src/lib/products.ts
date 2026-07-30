@@ -9,6 +9,7 @@ export interface ProductDef {
   id: ProductId;
   href: string;
   icon: LucideIcon;
+  logo?: string;
   /** Logo real del producto (si existe, se muestra en vez del ícono) */
   logo?: string;
   /** Clases literales para que Tailwind las compile */
@@ -26,6 +27,7 @@ export const PRODUCTS: ProductDef[] = [
     id: 'mila',
     href: '/products/mila',
     icon: ShieldCheck,
+    logo: '/products/mila/mila-logo-dark.png',
     logo: '/logo/mila.png',
     chipClass: 'bg-mila/10 text-mila',
     badgeClass: 'bg-mila/10 text-mila border-transparent',

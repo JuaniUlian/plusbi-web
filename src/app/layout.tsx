@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Archivo } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
@@ -9,9 +9,9 @@ import { LanguageProvider } from '@/contexts/language-context';
 import { AuthProvider } from '@/contexts/auth-context';
 import { OrganizationSchema } from '@/components/structured-data';
 
-const archivo = Archivo({
+const manrope = Manrope({
   subsets: ['latin'],
-  variable: '--font-archivo',
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
@@ -92,7 +92,7 @@ export default function RootLayout({
           <body
             className={cn(
               'min-h-screen bg-background font-body antialiased',
-              archivo.variable
+              manrope.variable
             )}
           >
             <div className="relative flex min-h-dvh flex-col bg-transparent">

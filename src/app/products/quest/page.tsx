@@ -3,13 +3,7 @@
 
 import Link from 'next/link';
 import {
-  Target,
-  Building2,
   TrendingUp,
-  Users,
-  Vote,
-  Search,
-  Lightbulb,
   Database,
   GitCompareArrows,
   Map,
@@ -18,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PageHero } from '@/components/shared/page-hero';
+import { QuestDashboardMock } from '@/components/shared/quest-dashboard-mock';
 import { ContactSection } from '@/components/shared/contact-section';
 import { Reveal, WordReveal } from '@/components/motion/reveal';
 import { CountUp } from '@/components/motion/count-up';
@@ -58,27 +53,15 @@ const content = {
     ],
 
     caseEyebrow: '02 · La prueba',
-    caseTitle: 'Elecciones presidenciales 2023: la prueba de fuego.',
-    caseValue: '+7,1M',
-    caseLabel: 'puntos de datos analizados',
+    caseTitle: '2023: cuando nadie sabía qué creer, Quest lo vio venir.',
+    caseStatLabel: 'puntos de diferencia entre nuestro pronóstico y el resultado final de la presidencial',
     caseText:
-      'Entre enero y noviembre de 2023 realizamos un estudio diario sobre los candidatos presidenciales de Argentina, cubriendo todo el país. Una visión del sentimiento del votante que las encuestas sueltas no pueden dar.',
+      'Un año de encuestas contradictorias, tres candidatos con chances reales y un país entero sin certezas. Quest siguió más de 7 millones de puntos de datos, todos los días, en todas las provincias. Cuando se contaron los votos, nuestro pronóstico estaba a un punto y medio del resultado.',
+    caseKicker: 'Esa es la diferencia entre opinar y saber.',
 
     useEyebrow: '03 · Para quién',
-    useTitle: 'Gobernar y hacer campaña son dos deportes distintos.',
-    useGovTitle: 'Para gobiernos',
-    useGovItems: [
-      { icon: Building2, text: 'Visualizá el estado de tu gestión y el impacto de tus políticas.' },
-      { icon: TrendingUp, text: 'Detectá tendencias para anticipar conflictos sociales o económicos.' },
-      { icon: Users, text: 'Entendé las demandas reales de la población antes de decidir.' },
-    ],
-    useCampTitle: 'Para campañas',
-    useCampItems: [
-      { icon: Target, text: 'Identificá los territorios clave para enfocar recursos y presupuesto.' },
-      { icon: Vote, text: 'Conocé el perfil y las preocupaciones de cada segmento del electorado.' },
-      { icon: Search, text: 'Monitoreá el posicionamiento y la estrategia de tus adversarios.' },
-      { icon: Lightbulb, text: 'Ajustá tu mensaje con recomendaciones de IA por audiencia.' },
-    ],
+    useTitle: 'Gobernar y hacer campaña son dos deportes distintos. Quest juega los dos.',
+    useSubtitle: 'Elegí tu cancha y mirá cómo cambia el tablero:',
   },
   en: {
     heroBadge: 'Quest · Data analysis',
@@ -114,27 +97,15 @@ const content = {
     ],
 
     caseEyebrow: '02 · The proof',
-    caseTitle: '2023 presidential elections: the acid test.',
-    caseValue: '+7.1M',
-    caseLabel: 'data points analyzed',
+    caseTitle: '2023: when nobody knew what to believe, Quest saw it coming.',
+    caseStatLabel: 'points of difference between our forecast and the final presidential result',
     caseText:
-      'Between January and November 2023 we ran a daily study on Argentina’s presidential candidates, covering the whole country. A view of voter sentiment that isolated polls cannot give.',
+      'A year of contradictory polls, three candidates with real chances and a whole country without certainty. Quest tracked over 7 million data points, every day, in every province. When the votes were counted, our forecast was a point and a half from the result.',
+    caseKicker: 'That is the difference between guessing and knowing.',
 
     useEyebrow: '03 · Who it is for',
-    useTitle: 'Governing and campaigning are two different sports.',
-    useGovTitle: 'For governments',
-    useGovItems: [
-      { icon: Building2, text: 'Visualize the state of your administration and the impact of your policies.' },
-      { icon: TrendingUp, text: 'Detect trends to anticipate social or economic conflicts.' },
-      { icon: Users, text: 'Understand the real demands of the population before deciding.' },
-    ],
-    useCampTitle: 'For campaigns',
-    useCampItems: [
-      { icon: Target, text: 'Identify the key territories to focus resources and budget.' },
-      { icon: Vote, text: 'Know the profile and concerns of every segment of the electorate.' },
-      { icon: Search, text: 'Monitor your opponents’ positioning and strategy.' },
-      { icon: Lightbulb, text: 'Adjust your message with AI recommendations per audience.' },
-    ],
+    useTitle: 'Governing and campaigning are two different sports. Quest plays both.',
+    useSubtitle: 'Pick your field and watch the board change:',
   },
 };
 
@@ -160,7 +131,7 @@ export default function QuestPage() {
         title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
-        <Button asChild size="lg" className="bg-quest hover:bg-quest/90 text-white">
+        <Button asChild size="lg" className="bg-quest text-white shadow-lg shadow-quest/25 hover:bg-quest/90 hover:shadow-xl hover:shadow-quest/30">
           <Link href="/products/quest/login">
             <LogIn aria-hidden />
             {c.heroCtaDashboard}
@@ -210,61 +181,34 @@ export default function QuestPage() {
               {c.caseTitle}
             </h2>
           </Reveal>
-          <div className="mt-12 grid grid-cols-1 items-center gap-10 lg:grid-cols-[5fr_7fr]">
+          <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-[5fr_7fr]">
             <Reveal y={40}>
               <div className="rounded-2xl glass p-10 text-center">
-                <CountUp value={7.1} prefix="+" suffix="M" decimals={1} className="text-6xl md:text-7xl text-quest" />
-                <p className="mt-3 text-base text-muted-foreground">{c.caseLabel}</p>
+                <CountUp value={1.47} decimals={2} className="text-7xl md:text-8xl text-quest" />
+                <p className="mt-3 text-base leading-snug text-muted-foreground">{c.caseStatLabel}</p>
               </div>
             </Reveal>
             <Reveal delay={0.15}>
               <p className="text-lg leading-relaxed text-muted-foreground">{c.caseText}</p>
+              <p className="mt-5 font-headline text-xl font-bold text-quest">{c.caseKicker}</p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* 03 · Para quién */}
+      {/* 03 · Para quién — mock interactivo con modos */}
       <section className="bg-card border-y border-black/5">
-        <div className="container max-w-6xl px-4 py-20 md:py-28">
-          <Eyebrow>{c.useEyebrow}</Eyebrow>
-          <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
-            {c.useTitle}
-          </h2>
-          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="rounded-2xl border border-black/5 bg-background p-8 card-elevated">
-              <h3 className="font-headline text-xl font-bold">{c.useGovTitle}</h3>
-              <ul className="mt-6 space-y-5">
-                {c.useGovItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.text} className="flex gap-4">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
-                        <Icon className="size-5" aria-hidden />
-                      </span>
-                      <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <div className="rounded-2xl border border-black/5 bg-background p-8 card-elevated">
-              <h3 className="font-headline text-xl font-bold">{c.useCampTitle}</h3>
-              <ul className="mt-6 space-y-5">
-                {c.useCampItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.text} className="flex gap-4">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-quest/10 text-quest">
-                        <Icon className="size-5" aria-hidden />
-                      </span>
-                      <p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
+        <div className="container max-w-4xl px-4 py-20 md:py-28 text-center">
+          <Reveal>
+            <div className="flex justify-center"><Eyebrow>{c.useEyebrow}</Eyebrow></div>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {c.useTitle}
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">{c.useSubtitle}</p>
+          </Reveal>
+          <Reveal delay={0.15} y={40} className="mt-10 text-left">
+            <QuestDashboardMock defaultMode="gobierno" />
+          </Reveal>
         </div>
       </section>
 

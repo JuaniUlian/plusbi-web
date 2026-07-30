@@ -25,7 +25,7 @@ export function BrowserFrame({
   return (
     <figure
       className={cn(
-        'overflow-hidden rounded-2xl border border-black/10 bg-white card-elevated',
+        'overflow-hidden rounded-2xl border border-black/10 bg-white card-elevated zoom-hover',
         className
       )}
     >

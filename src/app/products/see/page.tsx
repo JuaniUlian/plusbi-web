@@ -228,7 +228,7 @@ export default function SeePage() {
         title={<span className="font-headline font-extrabold"><WordReveal text={c.heroTitle} delay={0.1} /></span>}
         subtitle={c.heroSubtitle}
       >
-        <Button asChild size="lg" className="bg-see hover:bg-see/90 text-white">
+        <Button asChild size="lg" className="bg-see text-white shadow-lg shadow-see/25 hover:bg-see/90 hover:shadow-xl hover:shadow-see/30">
           <Link href="#contacto">{c.heroCta}</Link>
         </Button>
       </PageHero>
