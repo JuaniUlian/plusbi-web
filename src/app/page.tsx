@@ -21,7 +21,7 @@ const content = {
     heroEyebrow: 'PLUS BI · Tecnología para un mejor Gobierno',
     heroTitle: 'Le devolvemos el tiempo a quienes gobiernan.',
     heroSubtitle:
-      'Que tu equipo firme expedientes ya revisados, decida con la foto de hoy y tramite sin papel. Del trabajo pesado nos encargamos nosotros; el criterio lo ponen las personas.',
+      'Nos encargamos del trabajo pesado de la gestión pública — leer, revisar, cruzar datos — para que tu equipo se dedique a decidir.',
     heroCtaProducts: 'Descubrí cómo',
     heroCtaTalk: 'Hablemos',
     chaptersTitle: 'Tres herramientas, una convicción.',
@@ -73,7 +73,7 @@ const content = {
     heroEyebrow: 'PLUS BI · Technology for better Government',
     heroTitle: 'We give time back to those who govern.',
     heroSubtitle:
-      'Your team signs files already reviewed, decides with today’s picture and works without paper. We take care of the heavy lifting; people bring the judgment.',
+      'We take care of public administration’s heavy lifting — reading, reviewing, cross-checking data — so your team can focus on deciding.',
     heroCtaProducts: 'See how',
     heroCtaTalk: "Let's talk",
     chaptersTitle: 'Three tools, one conviction.',
