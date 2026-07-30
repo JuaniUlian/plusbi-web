@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/language-context';
 import { BrowserFrame } from '@/components/shared/browser-frame';
 import { QuestDashboardMock } from '@/components/shared/quest-dashboard-mock';
+import { TrustedBy } from '@/components/shared/trusted-by';
 import { ContactSection } from '@/components/shared/contact-section';
 import { Reveal, WordReveal } from '@/components/motion/reveal';
 import { CountUp } from '@/components/motion/count-up';
@@ -364,6 +365,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <TrustedBy />
 
       {/* Teoría de cambio */}
       <section className="mesh-brand">
