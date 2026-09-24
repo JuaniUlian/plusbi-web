@@ -196,3 +196,13 @@
     }
   }
 }
+
+/* Barra de progreso de los pasos de Mila (auto-avance) */
+@keyframes mila-step {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

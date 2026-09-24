@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -77,26 +77,25 @@ const content = {
     caseText:
       'En una licitación, faltaba la intervención del Tribunal de Cuentas, exigida por ordenanza. Una observación fundada alcanzó para revisar el proceso completo a tiempo.',
     caseInUseTitle: 'En uso hoy',
+    caseInUseLead: 'Sindicatura General de la Nación (Argentina)',
     caseInUse: [
-      'Sindicatura General de la Nación (Argentina), en beta',
       'Universidades nacionales',
       'Organismos de control evaluando su implementación',
     ],
-    caseOrigin: 'Nacida en Corrupción Cero (CAF), entre los 20 proyectos seleccionados de la región.',
+    caseOrigin: <>Nacida en Corrupción Cero (<strong>CAF</strong>), entre los 20 proyectos seleccionados de la región.</>,
 
     impactEyebrow: '05 · El impacto',
-    impactTitle: 'Lo que gana cada uno.',
     impactStory: [
       {
-        sentence: 'Gabriela dedica su tiempo a evaluar el riesgo y decidir, no a leer.',
+        sentence: <>Gabriela dedica su tiempo a <strong>evaluar el riesgo y decidir</strong>, no a leer.</>,
         stat: { value: 76, suffix: '%', label: 'menos tiempo de validación' },
       },
       {
-        sentence: 'El organismo corrige el error cuando todavía cuesta poco, y gana un aliado en vez de un controlador.',
+        sentence: <>El organismo <strong>corrige el error cuando todavía cuesta poco</strong>, y gana <strong>un aliado</strong> en vez de un controlador.</>,
         stat: { value: 67, prefix: '+', suffix: '%', label: 'más observaciones fundadas' },
       },
       {
-        sentence: 'La ciudadanía puede confiar en lo que se firmó, porque cada decisión se puede explicar, hoy y dentro de tres años.',
+        sentence: <>La ciudadanía puede <strong>confiar en lo que se firmó</strong>, porque cada decisión <strong>se puede explicar</strong>, hoy y dentro de tres años.</>,
       },
     ],
     impactClosing: 'Porque transparencia es confianza.',
@@ -187,26 +186,25 @@ const content = {
     caseText:
       'In a tender, the intervention of the Court of Accounts, required by ordinance, was missing. One well-founded observation was enough to review the whole process in time.',
     caseInUseTitle: 'In use today',
+    caseInUseLead: 'Office of the Comptroller General of Argentina (SIGEN)',
     caseInUse: [
-      'Office of the Comptroller General of Argentina (SIGEN), in beta',
       'National universities',
       'Oversight agencies evaluating implementation',
     ],
-    caseOrigin: 'Born in Corrupción Cero (CAF), among the 20 selected projects of the region.',
+    caseOrigin: <>Born in Corrupción Cero (<strong>CAF</strong>), among the 20 selected projects of the region.</>,
 
     impactEyebrow: '05 · The impact',
-    impactTitle: 'What each one gains.',
     impactStory: [
       {
-        sentence: 'Gabriela spends her time assessing risk and deciding, not reading.',
+        sentence: <>Gabriela spends her time <strong>assessing risk and deciding</strong>, not reading.</>,
         stat: { value: 76, suffix: '%', label: 'less validation time' },
       },
       {
-        sentence: 'The agency fixes the error while it is still cheap, and gains an ally instead of a controller.',
+        sentence: <>The agency <strong>fixes the error while it is still cheap</strong>, and gains <strong>an ally</strong> instead of a controller.</>,
         stat: { value: 67, prefix: '+', suffix: '%', label: 'more well-founded observations' },
       },
       {
-        sentence: 'Citizens can trust what was signed, because every decision can be explained, today and three years from now.',
+        sentence: <>Citizens can <strong>trust what was signed</strong>, because every decision <strong>can be explained</strong>, today and three years from now.</>,
       },
     ],
     impactClosing: 'Because transparency is trust.',
@@ -249,6 +247,8 @@ const content = {
   },
 };
 
+const STEP_MS = 4500;
+
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-sm font-semibold uppercase tracking-[0.2em] text-mila-accent">{children}</p>
@@ -260,6 +260,12 @@ export default function MilaPage() {
   const c = content[language];
   const [activeStep, setActiveStep] = useState(0);
   const activeShot = c.howSteps[activeStep].shot;
+
+  // Los pasos avanzan solos; un clic salta a ese paso y reinicia el temporizador.
+  useEffect(() => {
+    const id = setTimeout(() => setActiveStep((i) => (i + 1) % c.howSteps.length), STEP_MS);
+    return () => clearTimeout(id);
+  }, [activeStep, c.howSteps.length]);
 
   return (
     <div className="flex flex-col">
@@ -374,7 +380,6 @@ export default function MilaPage() {
                     <button
                       type="button"
                       onClick={() => setActiveStep(i)}
-                      onMouseEnter={() => setActiveStep(i)}
                       aria-pressed={activeStep === i}
                       className={cn(
                         'flex w-full gap-5 rounded-xl p-4 text-left transition-colors',
@@ -382,14 +387,25 @@ export default function MilaPage() {
                       )}
                     >
                       <span className="stat-number text-2xl text-mila-accent">{String(i + 1).padStart(2, '0')}</span>
-                      <p
-                        className={cn(
-                          'text-base leading-relaxed transition-colors [&_strong]:font-bold [&_strong]:text-white',
-                          activeStep === i ? 'text-white/90' : 'text-white/65'
-                        )}
-                      >
-                        {step.text}
-                      </p>
+                      <div className="flex-1">
+                        <p
+                          className={cn(
+                            'text-base leading-relaxed transition-colors [&_strong]:font-bold [&_strong]:text-white',
+                            activeStep === i ? 'text-white/90' : 'text-white/65'
+                          )}
+                        >
+                          {step.text}
+                        </p>
+                        <span aria-hidden className="mt-3 block h-0.5 overflow-hidden rounded-full bg-white/10">
+                          {activeStep === i && (
+                            <span
+                              key={activeStep}
+                              className="block h-full origin-left bg-mila-accent motion-safe:animate-[mila-step_var(--step-ms)_linear_forwards]"
+                              style={{ ['--step-ms' as string]: `${STEP_MS}ms` }}
+                            />
+                          )}
+                        </span>
+                      </div>
                     </button>
                   </li>
                 </Reveal>
@@ -439,7 +455,11 @@ export default function MilaPage() {
                   <Landmark className="size-6 shrink-0 text-mila" aria-hidden />
                   <p className="text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">{c.caseInUseTitle}</p>
                 </div>
-                <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <div className="mt-5 flex items-center gap-4 rounded-xl border border-black/5 bg-white p-3">
+                  <Image src="/logos/sigen.jpg" alt="SIGEN — Sindicatura General de la Nación" width={56} height={56} className="shrink-0 rounded-md" />
+                  <p className="text-sm font-semibold leading-snug text-foreground">{c.caseInUseLead}</p>
+                </div>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
                   {c.caseInUse.map((item) => (
                     <li key={item} className="flex gap-2.5">
                       <ArrowRight className="mt-0.5 size-4 shrink-0 text-mila-accent" aria-hidden />
@@ -451,7 +471,7 @@ export default function MilaPage() {
               <div className="rounded-2xl border border-black/5 bg-card p-7 card-elevated">
                 <div className="flex items-center gap-4">
                   <Image src="/logos/caf.jpg" alt="CAF — Banco de Desarrollo de América Latina" width={72} height={72} className="rounded-lg" />
-                  <p className="text-sm leading-relaxed text-muted-foreground">{c.caseOrigin}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground [&_strong]:font-bold [&_strong]:text-mila-accent">{c.caseOrigin}</p>
                 </div>
               </div>
             </div>
@@ -459,38 +479,40 @@ export default function MilaPage() {
         </div>
       </section>
 
-      {/* 05 · El impacto — qué gana cada actor */}
+      {/* 05 · El impacto — el número primero, después qué gana cada actor */}
       <section className="bg-card border-y border-black/5">
         <div className="container max-w-3xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.impactEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">{c.impactTitle}</h2>
           </Reveal>
-          <ol className="relative mt-14 flex flex-col gap-14 border-l-2 border-mila/15 pl-8 md:pl-12">
+          <ol className="relative mt-12 flex flex-col gap-14 border-l-2 border-mila/15 pl-8 md:pl-12">
             {c.impactStory.map((step, i) => (
-              <Reveal key={step.sentence} delay={i * 0.12}>
+              <Reveal key={i} delay={i * 0.12}>
                 <li className="relative">
                   <span
                     aria-hidden
-                    className={
-                      'absolute -left-[41px] top-1.5 size-4 rounded-full border-2 border-card md:-left-[57px] ' +
-                      (i === c.impactStory.length - 1 ? 'bg-mila-accent' : 'bg-mila')
-                    }
+                    className={cn(
+                      'absolute -left-[41px] size-4 rounded-full border-2 border-card md:-left-[57px]',
+                      step.stat ? 'top-5 md:top-8' : 'top-2.5 md:top-3',
+                      i === c.impactStory.length - 1 ? 'bg-mila-accent' : 'bg-mila'
+                    )}
                   />
-                  <p className="font-headline text-2xl md:text-3xl font-extrabold leading-snug tracking-tight text-balance">
-                    {step.sentence}
-                  </p>
                   {step.stat && (
-                    <p className="mt-4 inline-flex items-baseline gap-2.5 rounded-full bg-mila/5 px-5 py-2">
+                    <div className="mb-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
                       <CountUp
                         value={step.stat.value}
                         prefix={step.stat.prefix}
                         suffix={step.stat.suffix}
-                        className="text-xl text-mila-accent"
+                        className="text-5xl md:text-7xl text-mila-accent"
                       />
-                      <span className="text-sm text-muted-foreground">{step.stat.label}</span>
-                    </p>
+                      <span className="text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                        {step.stat.label}
+                      </span>
+                    </div>
                   )}
+                  <p className="font-headline text-2xl md:text-3xl font-normal leading-snug tracking-tight text-balance [&_strong]:font-extrabold">
+                    {step.sentence}
+                  </p>
                 </li>
               </Reveal>
             ))}
@@ -508,13 +530,13 @@ export default function MilaPage() {
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Eyebrow>{c.diffEyebrow}</Eyebrow>
           <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">{c.diffTitle}</h2>
-          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {c.diffItems.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="flex items-center gap-6 rounded-2xl border border-black/5 bg-card p-7 card-elevated">
-                  <Icon className="size-8 shrink-0 text-mila" aria-hidden />
-                  <div>
+                <div key={item.title} className="flex flex-col gap-6 rounded-3xl border border-black/5 bg-card p-7 card-elevated sm:aspect-square">
+                  <Icon className="size-9 shrink-0 text-mila" aria-hidden />
+                  <div className="mt-4">
                     <h3 className="font-headline text-lg font-bold">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
                   </div>
