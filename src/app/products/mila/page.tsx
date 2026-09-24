@@ -539,7 +539,7 @@ export default function MilaPage() {
               const Icon = item.icon;
               return (
                 <div key={item.title} className="flex flex-col gap-6 rounded-3xl border border-black/5 bg-card p-7 card-elevated sm:aspect-square">
-                  <Icon className="size-9 shrink-0 text-mila" aria-hidden />
+                  <Icon className="size-9 shrink-0 self-center text-mila" aria-hidden />
                   <div className="mt-4">
                     <h3 className="font-headline text-lg font-bold">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
