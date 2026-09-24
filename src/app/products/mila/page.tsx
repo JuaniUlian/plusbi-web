@@ -10,6 +10,7 @@ import {
   Layers,
   ScanSearch,
   UserCheck,
+  CircleUserRound,
   MessageCircleQuestion,
   Landmark,
   Lock,
@@ -48,9 +49,8 @@ const content = {
 
     approachEyebrow: '02 · El enfoque',
     approachTitle: 'Tecnología, más persona.',
-    approachMachine: 'Mila',
     approachMachineItems: ['Lee todo', 'Lo compara con cada norma', 'Señala lo que falta'],
-    approachHuman: 'La persona',
+    approachHuman: 'Auditor',
     approachHumanItems: ['Interpreta', 'Contrasta', 'Decide'],
     approachNote:
       'Así el auditor deja de ser quien llega al final a buscar culpables, y pasa a ser el socio de confianza del organismo.',
@@ -157,9 +157,8 @@ const content = {
 
     approachEyebrow: '02 · The approach',
     approachTitle: 'Technology, plus people.',
-    approachMachine: 'Mila',
     approachMachineItems: ['Reads everything', 'Checks it against every rule', 'Flags what is missing'],
-    approachHuman: 'The person',
+    approachHuman: 'Auditor',
     approachHumanItems: ['Interprets', 'Cross-checks', 'Decides'],
     approachNote:
       'So the auditor stops being the one who arrives at the end looking for someone to blame, and becomes the agency’s trusted partner.',
@@ -339,8 +338,10 @@ export default function MilaPage() {
           <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight">{c.approachTitle}</h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-mila p-8 md:p-10 text-white card-elevated">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">{c.approachMachine}</p>
-              <ul className="mt-6 space-y-4">
+              <div className="flex h-24 items-center justify-center">
+                <Image src="/products/mila/mila-logo.png" alt="Mila" width={669} height={641} className="h-16 w-auto" />
+              </div>
+              <ul className="mx-auto mt-6 w-fit space-y-4">
                 {c.approachMachineItems.map((item) => (
                   <li key={item} className="flex items-center gap-3 text-lg">
                     <ScanSearch className="size-5 shrink-0 text-mila-accent" aria-hidden />
@@ -350,8 +351,11 @@ export default function MilaPage() {
               </ul>
             </div>
             <div className="rounded-2xl border border-black/5 bg-background p-8 md:p-10 card-elevated">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.approachHuman}</p>
-              <ul className="mt-6 space-y-4">
+              <div className="flex h-24 flex-col items-center justify-center gap-2">
+                <CircleUserRound className="size-12 text-mila" strokeWidth={1.5} aria-hidden />
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mila-accent">{c.approachHuman}</p>
+              </div>
+              <ul className="mx-auto mt-6 w-fit space-y-4">
                 {c.approachHumanItems.map((item) => (
                   <li key={item} className="flex items-center gap-3 text-lg">
                     <UserCheck className="size-5 shrink-0 text-mila-accent" aria-hidden />
