@@ -25,7 +25,7 @@ const content = {
 };
 
 /** Sección de contacto canónica: email protagonista, visible y copiable. Sin formularios. */
-export function ContactSection() {
+export function ContactSection({ subtitle }: { subtitle?: string } = {}) {
   const { language } = useLanguage();
   const c = content[language];
   const [copied, setCopied] = useState(false);
@@ -45,7 +45,7 @@ export function ContactSection() {
       <div className="container max-w-3xl px-4 py-20 md:py-28 text-center">
         <Reveal>
           <h2 className="font-headline text-3xl font-extrabold tracking-tight md:text-5xl">{c.title}</h2>
-          <p className="mt-4 text-lg text-muted-foreground">{c.subtitle}</p>
+          <p className="mt-4 text-lg text-muted-foreground">{subtitle ?? c.subtitle}</p>
         </Reveal>
         <Reveal delay={0.1}>
           <div className="mx-auto mt-10 flex flex-col items-center gap-5 rounded-2xl glass p-8 md:p-10">

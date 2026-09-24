@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Mila — Detecta irregularidades en expedientes en minutos',
+  title: 'Mila — El expediente, leído antes de que lo firmes',
   description:
-    'Mila audita expedientes públicos contra tu propia normativa en minutos, con cita legal y evidencia por cada hallazgo. En uso en organismos de control y universidades. Un producto de PLUS BI.',
+    'Mila revisa el expediente completo, lo cruza con la norma y te entrega cada hallazgo con su evidencia. En uso en organismos de control y universidades. Un producto de PLUS BI.',
   keywords: [
     'Mila',
     'validación documentos IA',
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     'cumplimiento normativo',
   ],
   openGraph: {
-    title: 'Mila — Detecta irregularidades en expedientes en minutos',
+    title: 'Mila — El expediente, leído antes de que lo firmes',
     description:
-      'Toda tu normativa. Todo el expediente. Hallazgos por nivel de riesgo con cita legal y evidencia.',
-    images: ['/products/mila/mila-07-hallazgo.png'],
+      'Mila lo revisa completo, lo cruza con la norma y te entrega cada hallazgo con su evidencia. Usted decide.',
+    images: ['/products/mila/mila-validacion-resultados.png'],
   },
 };
 

@@ -1,19 +1,20 @@
 
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
   FileText,
   Layers,
-  AlertTriangle,
   ScanSearch,
   UserCheck,
   MessageCircleQuestion,
   Landmark,
   Lock,
-  TrafficCone,
+  ShieldQuestion,
+  History,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,222 +22,230 @@ import { PageHero } from '@/components/shared/page-hero';
 import { ContactSection } from '@/components/shared/contact-section';
 import { Reveal, WordReveal } from '@/components/motion/reveal';
 import { CountUp } from '@/components/motion/count-up';
+import { ImpactChain } from '@/components/motion/impact-chain';
 import { useLanguage } from '@/contexts/language-context';
+import { cn } from '@/lib/utils';
 
 const content = {
   es: {
     heroBadge: 'Mila · Control inteligente',
-    heroTitle: 'Detecta irregularidades en minutos.',
+    heroTitle: 'El expediente, leído antes de que lo firmes.',
     heroSubtitle:
-      'Toda tu normativa. Todo el expediente. Mila hace el trabajo pesado sobre los documentos de tu organismo, para que decidas con toda la información ya analizada.',
+      'Mila lo revisa completo, lo cruza con la norma y te entrega cada hallazgo con su evidencia. Usted decide.',
     heroCtaDemo: 'Solicitá una demo',
     heroCtaHow: 'Ver cómo funciona',
 
-    martaEyebrow: '01 · El problema',
-    martaTitle: 'En toda Latinoamérica hay una Marta.',
-    martaP1:
-      'Síndica, contralora, auditora, revisora de cuentas. El nombre cambia; la responsabilidad es la misma: su firma dice que un expediente está en orden.',
-    martaP2:
-      'Las normas son muchísimas y los expedientes, más todavía. Entonces revisa lo estructural, o busca los problemas donde suelen esconderse.',
-    martaP3: 'Marta no debería tener que elegir qué parte controlar.',
-    martaStats: [
-      { icon: FileText, value: 200, label: 'páginas por expediente, con 15 anexos técnicos' },
-      { icon: Layers, value: 1000, label: 'expedientes esperando revisión manual' },
+    problemEyebrow: '01 · El problema',
+    problemTitle: 'En toda Latinoamérica hay una Gabriela.',
+    problemP1: 'Síndica, contralora, auditora: su firma dice que un expediente está en orden.',
+    problemP2:
+      'Pero un expediente tiene cientos de páginas, y ella tiene decenas esperando. Entonces revisa una parte, firma, y el error aparece meses después, cuando ya se pagó, ya se contrató o ya se ejecutó.',
+    problemP3: 'Con Mila, Gabriela revisa todo, y lo revisa antes.',
+    problemStats: [
+      { icon: FileText, value: 200, label: 'páginas por expediente' },
+      { icon: Layers, value: 1000, label: 'expedientes esperando revisión' },
     ],
-    martaWarning:
-      'Cuando algo se escapa: la obra que no se termina, el servicio que no llega, la confianza en el Estado que se deteriora.',
 
     approachEyebrow: '02 · El enfoque',
     approachTitle: 'Tecnología, más persona.',
-    approachMachine: 'Lo repetitivo, la máquina',
-    approachMachineItems: ['Leer el expediente completo', 'Cruzarlo con cada norma', 'Rastrear lo que falta'],
-    approachHuman: 'El juicio, la persona',
-    approachHumanItems: ['El criterio', 'La experiencia', 'La resolución'],
+    approachMachine: 'Mila',
+    approachMachineItems: ['Lee todo', 'Lo compara con cada norma', 'Señala lo que falta'],
+    approachHuman: 'La persona',
+    approachHumanItems: ['Interpreta', 'Contrasta', 'Decide'],
     approachNote:
-      'Mila no reemplaza al auditor ni decide por él: le saca el cuello de botella. Y aprende de su criterio con cada validación.',
+      'Así el auditor deja de ser quien llega al final a buscar culpables, y pasa a ser el socio de confianza del organismo.',
 
-    howEyebrow: '03 · La solución',
-    howTitle: 'Subís un expediente. Mila lo audita en minutos.',
-    howSubtitle: 'Tres pasos, sin manuales ni configuración previa.',
+    howEyebrow: '03 · Cómo funciona',
+    howTitle: 'Cuatro pasos, sin configuración previa.',
     howSteps: [
-      { title: 'Subí el expediente', text: 'Carpetas completas o documentos sueltos: vos definís el alcance.' },
-      { title: 'Elegí tu normativa', text: 'Tus grupos de reglas, extraídos de tus propias leyes y pliegos.' },
-      { title: 'Recibí los hallazgos', text: 'Por nivel de riesgo, con cita normativa y evidencia textual. En minutos.' },
+      { shot: 0, text: <><strong>Subí el expediente</strong>, completo o por partes.</> },
+      { shot: 1, text: <><strong>Mila reconoce la norma</strong> que el expediente cita y arma el <em>programa de trabajo</em>.</> },
+      { shot: 2, text: <><strong>Recibí los hallazgos</strong>, cada uno con artículo y evidencia, y aparte, lo que queda por verificar.</> },
+      { shot: 2, text: <><strong>Decidí:</strong> aceptá, corregí o descartá con motivo, y registralo en el informe.</> },
     ],
-    howShotAlt: 'Pantalla real de Mila: hallazgo crítico con cita normativa, evidencia y nivel de riesgo',
-    howDemo: 'Queré ver la plataforma completa: pedí una demo en vivo.',
+    howShots: [
+      { src: '/products/mila/mila-inicio-sesion.png', width: 1365, height: 630, alt: 'Pantalla real de Mila: inicio de una sesión nueva para cargar el expediente' },
+      { src: '/products/mila/mila-programa-trabajo.png', width: 1365, height: 628, alt: 'Pantalla real de Mila: programa de trabajo de auditoría armado a partir de la norma del expediente' },
+      { src: '/products/mila/mila-validacion-resultados.png', width: 1348, height: 629, alt: 'Pantalla real de Mila: resultado de una validación con observaciones graves, reglas sin respaldo y cumplimientos' },
+    ],
 
     caseEyebrow: '04 · Validación',
     caseTitle: 'Usada donde el control importa.',
-    caseLabel: 'Caso real',
-    caseAmount: '$22M',
-    casePrefix: 'auditado en',
+    caseLabel: 'En la práctica',
+    casePrefix: 'revisados en',
     caseSeconds: '30 segundos',
     caseText:
-      'En un expediente real, Mila detectó que faltaba la intervención documentada del Tribunal de Cuentas — exigida por ordenanza, pero omitida. Eso solo ya justificaba la revisión completa del proceso.',
+      'En una licitación, faltaba la intervención del Tribunal de Cuentas, exigida por ordenanza. Una observación fundada alcanzó para revisar el proceso completo a tiempo.',
     caseInUseTitle: 'En uso hoy',
     caseInUse: [
-      'Sindicatura General de la Nación (Argentina), en implementación beta',
-      'Universidades nacionales: compras y contrataciones',
+      'Sindicatura General de la Nación (Argentina), en beta',
+      'Universidades nacionales',
       'Organismos de control evaluando su implementación',
     ],
     caseOrigin: 'Nacida en Corrupción Cero (CAF), entre los 20 proyectos seleccionados de la región.',
 
-    chainEyebrow: '05 · El impacto',
-    chainTitle: 'Qué cambia cuando el control llega a tiempo.',
-    chainIntro: 'Los números solos no cuentan nada. Esta es la cadena que importa:',
-    chainStory: [
+    impactEyebrow: '05 · El impacto',
+    impactTitle: 'Lo que gana cada uno.',
+    impactStory: [
       {
-        sentence: 'Marta ya no elige qué parte del expediente controlar.',
-        detail: 'Lo revisa completo, con cada error señalado y la norma al lado.',
-        stat: { value: 67, prefix: '+', suffix: '%', label: 'más errores encontrados antes de firmar' },
-      },
-      {
-        sentence: 'El expediente que dormía semanas en una bandeja sale en días.',
-        detail: 'La firma deja de ser el cuello de botella de todo el circuito.',
+        sentence: 'Gabriela dedica su tiempo a evaluar el riesgo y decidir, no a leer.',
         stat: { value: 76, suffix: '%', label: 'menos tiempo de validación' },
       },
       {
-        sentence: 'El tribunal pide la auditoría — y ya está lista.',
-        detail: 'La obra arranca a tiempo. El proveedor cobra cuando corresponde. El servicio llega.',
+        sentence: 'El organismo corrige el error cuando todavía cuesta poco, y gana un aliado en vez de un controlador.',
+        stat: { value: 67, prefix: '+', suffix: '%', label: 'más observaciones fundadas' },
       },
       {
-        sentence: 'Y la confianza en el Estado deja de ser un discurso.',
-        detail: 'Porque se nota en cada expediente que sale en tiempo y forma.',
+        sentence: 'La ciudadanía puede confiar en lo que se firmó, porque cada decisión se puede explicar, hoy y dentro de tres años.',
       },
     ],
+    impactClosing: 'Porque transparencia es confianza.',
 
     diffEyebrow: '06 · La diferencia',
-    diffTitle: 'No es una IA genérica.',
+    diffTitle: 'Hecha para quien firma.',
     diffItems: [
       {
-        icon: ScanSearch,
-        title: 'Entrenada con tu normativa',
-        text: 'Extrae reglas de tus propias leyes, ordenanzas y pliegos — no de un corpus genérico de internet.',
-      },
-      {
-        icon: TrafficCone,
-        title: 'Clasifica por riesgo',
-        text: 'Cada hallazgo llega con severidad (crítico, alto, medio), cita normativa y evidencia textual.',
+        icon: ShieldQuestion,
+        title: 'Dice lo que no sabe',
+        text: 'Separa evidencia de señal y declara qué no pudo verificar.',
       },
       {
         icon: MessageCircleQuestion,
-        title: 'Explica sus hallazgos',
-        text: 'Preguntale “¿por qué este hallazgo?” y te responde. Marcá falsos positivos y aprende de tu criterio.',
+        title: 'Explica cada hallazgo',
+        text: 'Con la norma, el documento y el razonamiento.',
+      },
+      {
+        icon: History,
+        title: 'Recuerda tu criterio',
+        text: 'Cada descarte queda registrado y se considera la próxima vez.',
       },
       {
         icon: Lock,
-        title: 'Datos sensibles, protegidos',
-        text: 'Modelos locales filtran la información sensible antes de cualquier análisis. Despliegue on-premise o nube privada.',
+        title: 'Protege lo sensible',
+        text: 'La información confidencial queda dentro del organismo.',
       },
     ],
+
+    chainEyebrow: 'Por qué lo hacemos',
+    chainTitle: 'Cada minuto recuperado construye algo más grande.',
+    chain: [
+      { stage: 'La experiencia', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documentos gestionados' },
+      { stage: 'Lo que se encuentra', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'más observaciones fundadas' },
+      { stage: 'Lo que se recupera', stat: { value: 76, suffix: '%' }, text: 'menos tiempo' },
+      { stage: 'Lo que construye', headline: 'Confianza', text: 'del organismo en su auditor y de la ciudadanía en el Estado' },
+    ],
+
+    contactSubtitle: 'Traé un expediente y lo revisamos juntos, en vivo. Respondemos en menos de 48 horas.',
   },
   en: {
     heroBadge: 'Mila · Intelligent oversight',
-    heroTitle: 'Detect irregularities in minutes.',
+    heroTitle: 'The file, read before you sign it.',
     heroSubtitle:
-      'All your regulations. The whole file. Mila does the heavy lifting on your agency’s documents, so you decide with all the information already analyzed.',
+      'Mila reviews all of it, checks it against the rules and hands you every finding with its evidence. You decide.',
     heroCtaDemo: 'Request a demo',
     heroCtaHow: 'See how it works',
 
-    martaEyebrow: '01 · The problem',
-    martaTitle: 'All across Latin America there is a Marta.',
-    martaP1:
-      'Comptroller, auditor, account reviewer. The name changes; the responsibility is the same: her signature says a file is in order.',
-    martaP2:
-      'The rules are endless and the files even more so. So she reviews the structure, or looks for problems where they usually hide.',
-    martaP3: 'Marta should not have to choose which part to control.',
-    martaStats: [
-      { icon: FileText, value: 200, label: 'pages per file, with 15 technical annexes' },
-      { icon: Layers, value: 1000, label: 'files waiting for manual review' },
+    problemEyebrow: '01 · The problem',
+    problemTitle: 'All across Latin America there is a Gabriela.',
+    problemP1: 'Comptroller, controller, auditor: her signature says a file is in order.',
+    problemP2:
+      'But a file has hundreds of pages, and she has dozens waiting. So she reviews part of it, signs, and the error shows up months later, when it was already paid, already hired or already executed.',
+    problemP3: 'With Mila, Gabriela reviews everything, and reviews it sooner.',
+    problemStats: [
+      { icon: FileText, value: 200, label: 'pages per file' },
+      { icon: Layers, value: 1000, label: 'files waiting for review' },
     ],
-    martaWarning:
-      'When something slips through: the public work that never finishes, the service that never arrives, the trust in the State that erodes.',
 
     approachEyebrow: '02 · The approach',
     approachTitle: 'Technology, plus people.',
-    approachMachine: 'The repetitive part: the machine',
-    approachMachineItems: ['Read the whole file', 'Check it against every rule', 'Track what is missing'],
-    approachHuman: 'The judgment: the person',
-    approachHumanItems: ['The criteria', 'The experience', 'The resolution'],
+    approachMachine: 'Mila',
+    approachMachineItems: ['Reads everything', 'Checks it against every rule', 'Flags what is missing'],
+    approachHuman: 'The person',
+    approachHumanItems: ['Interprets', 'Cross-checks', 'Decides'],
     approachNote:
-      'Mila does not replace the auditor or decide for them: it removes the bottleneck. And it learns from their judgment with every validation.',
+      'So the auditor stops being the one who arrives at the end looking for someone to blame, and becomes the agency’s trusted partner.',
 
-    howEyebrow: '03 · The solution',
-    howTitle: 'Upload a file. Mila audits it in minutes.',
-    howSubtitle: 'Three steps, no manuals, no prior setup.',
+    howEyebrow: '03 · How it works',
+    howTitle: 'Four steps, no prior setup.',
     howSteps: [
-      { title: 'Upload the file', text: 'Whole folders or individual documents: you define the scope.' },
-      { title: 'Pick your regulations', text: 'Your rule groups, extracted from your own laws and tender documents.' },
-      { title: 'Get the findings', text: 'By risk level, with legal citation and textual evidence. In minutes.' },
+      { shot: 0, text: <><strong>Upload the file</strong>, whole or in parts.</> },
+      { shot: 1, text: <><strong>Mila recognizes the regulation</strong> the file cites and builds the <em>audit work program</em>.</> },
+      { shot: 2, text: <><strong>Get the findings</strong>, each with its article and evidence, and separately, what is left to verify.</> },
+      { shot: 2, text: <><strong>Decide:</strong> accept, correct or dismiss with a reason, and record it in the report.</> },
     ],
-    howShotAlt: 'Real Mila screen: critical finding with legal citation, evidence and risk level',
-    howDemo: 'Want to see the full platform? Ask for a live demo.',
+    howShots: [
+      { src: '/products/mila/mila-inicio-sesion.png', width: 1365, height: 630, alt: 'Real Mila screen: starting a new session to upload the file' },
+      { src: '/products/mila/mila-programa-trabajo.png', width: 1365, height: 628, alt: 'Real Mila screen: audit work program built from the regulation the file cites' },
+      { src: '/products/mila/mila-validacion-resultados.png', width: 1348, height: 629, alt: 'Real Mila screen: validation result with serious observations, unsupported rules and compliant items' },
+    ],
 
     caseEyebrow: '04 · Validation',
     caseTitle: 'Used where oversight matters.',
-    caseLabel: 'Real case',
-    caseAmount: '$22M',
-    casePrefix: 'audited in',
+    caseLabel: 'In practice',
+    casePrefix: 'reviewed in',
     caseSeconds: '30 seconds',
     caseText:
-      'In a real file, Mila detected the missing documented intervention of the Court of Accounts — required by ordinance, but omitted. That alone justified a full review of the process.',
+      'In a tender, the intervention of the Court of Accounts, required by ordinance, was missing. One well-founded observation was enough to review the whole process in time.',
     caseInUseTitle: 'In use today',
     caseInUse: [
-      'Office of the Comptroller General of Argentina (SIGEN), beta implementation',
-      'National universities: procurement and hiring',
+      'Office of the Comptroller General of Argentina (SIGEN), in beta',
+      'National universities',
       'Oversight agencies evaluating implementation',
     ],
     caseOrigin: 'Born in Corrupción Cero (CAF), among the 20 selected projects of the region.',
 
-    chainEyebrow: '05 · The impact',
-    chainTitle: 'What changes when oversight arrives on time.',
-    chainIntro: 'Numbers alone say nothing. This is the chain that matters:',
-    chainStory: [
+    impactEyebrow: '05 · The impact',
+    impactTitle: 'What each one gains.',
+    impactStory: [
       {
-        sentence: 'Marta no longer chooses which part of the file to control.',
-        detail: 'She reviews all of it, with every error flagged and the rule right next to it.',
-        stat: { value: 67, prefix: '+', suffix: '%', label: 'more errors found before signing' },
-      },
-      {
-        sentence: 'The file that slept for weeks in a tray goes out in days.',
-        detail: 'The signature stops being the bottleneck of the whole circuit.',
+        sentence: 'Gabriela spends her time assessing risk and deciding, not reading.',
         stat: { value: 76, suffix: '%', label: 'less validation time' },
       },
       {
-        sentence: 'The tribunal asks for the audit — and it is already done.',
-        detail: 'The public work starts on time. The supplier gets paid when due. The service arrives.',
+        sentence: 'The agency fixes the error while it is still cheap, and gains an ally instead of a controller.',
+        stat: { value: 67, prefix: '+', suffix: '%', label: 'more well-founded observations' },
       },
       {
-        sentence: 'And trust in the State stops being a speech.',
-        detail: 'Because it shows in every file that goes out on time.',
+        sentence: 'Citizens can trust what was signed, because every decision can be explained, today and three years from now.',
       },
     ],
+    impactClosing: 'Because transparency is trust.',
 
     diffEyebrow: '06 · The difference',
-    diffTitle: 'Not a generic AI.',
+    diffTitle: 'Built for whoever signs.',
     diffItems: [
       {
-        icon: ScanSearch,
-        title: 'Trained on your regulations',
-        text: 'It extracts rules from your own laws, ordinances and tender documents — not from a generic internet corpus.',
-      },
-      {
-        icon: TrafficCone,
-        title: 'Classifies by risk',
-        text: 'Every finding comes with severity (critical, high, medium), legal citation and textual evidence.',
+        icon: ShieldQuestion,
+        title: 'It says what it doesn’t know',
+        text: 'It separates evidence from signal and states what it could not verify.',
       },
       {
         icon: MessageCircleQuestion,
-        title: 'Explains its findings',
-        text: 'Ask “why this finding?” and it answers. Flag false positives and it learns from your judgment.',
+        title: 'It explains every finding',
+        text: 'With the rule, the document and the reasoning.',
+      },
+      {
+        icon: History,
+        title: 'It remembers your judgment',
+        text: 'Every dismissal is recorded and taken into account next time.',
       },
       {
         icon: Lock,
-        title: 'Sensitive data, protected',
-        text: 'Local models filter sensitive information before any analysis. On-premise or private cloud deployment.',
+        title: 'It protects what is sensitive',
+        text: 'Confidential information stays inside the agency.',
       },
     ],
+
+    chainEyebrow: 'Why we do it',
+    chainTitle: 'Every recovered minute builds something bigger.',
+    chain: [
+      { stage: 'The experience', stat: { value: 10, prefix: '+', suffix: 'M' }, text: 'documents managed' },
+      { stage: 'What gets found', stat: { value: 67, prefix: '+', suffix: '%' }, text: 'more well-founded observations' },
+      { stage: 'What gets recovered', stat: { value: 76, suffix: '%' }, text: 'less time' },
+      { stage: 'What it builds', headline: 'Trust', text: 'of the agency in its auditor, and of citizens in the State' },
+    ],
+
+    contactSubtitle: 'Bring a file and we review it together, live. We reply within 48 hours.',
   },
 };
 
@@ -249,6 +258,8 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 export default function MilaPage() {
   const { language } = useLanguage();
   const c = content[language];
+  const [activeStep, setActiveStep] = useState(0);
+  const activeShot = c.howSteps[activeStep].shot;
 
   return (
     <div className="flex flex-col">
@@ -280,30 +291,28 @@ export default function MilaPage() {
         </Button>
       </PageHero>
 
-      {/* 01 · El problema — Marta */}
+      {/* 01 · El problema — Gabriela */}
       <section className="bg-background">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Reveal>
-            <Eyebrow>{c.martaEyebrow}</Eyebrow>
+            <Eyebrow>{c.problemEyebrow}</Eyebrow>
             <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">
-              {c.martaTitle}
+              {c.problemTitle}
             </h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[6fr_5fr] lg:gap-16">
             <Reveal className="space-y-5 text-lg leading-relaxed text-muted-foreground">
-              <p>{c.martaP1}</p>
-              <p>{c.martaP2}</p>
-              <p className="font-semibold text-mila-accent">{c.martaP3}</p>
+              <p>{c.problemP1}</p>
+              <p>{c.problemP2}</p>
+              <p className="font-semibold text-mila-accent">{c.problemP3}</p>
             </Reveal>
-            <div className="flex flex-col gap-5">
-              {c.martaStats.map((s, i) => {
+            <div className="flex flex-col justify-center gap-5">
+              {c.problemStats.map((s, i) => {
                 const Icon = s.icon;
                 return (
                   <Reveal key={s.label} delay={0.1 + i * 0.12}>
                     <div className="flex items-center gap-5 rounded-2xl border border-black/5 bg-card p-6 card-elevated">
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
-                        <Icon className="size-5" aria-hidden />
-                      </span>
+                      <Icon className="size-7 shrink-0 text-mila" aria-hidden />
                       <div className="flex items-baseline gap-4">
                         <CountUp value={s.value} prefix="+" className="text-3xl md:text-4xl text-mila" />
                         <span className="text-sm leading-snug text-muted-foreground">{s.label}</span>
@@ -312,12 +321,6 @@ export default function MilaPage() {
                   </Reveal>
                 );
               })}
-              <Reveal delay={0.35}>
-                <div className="flex items-center gap-5 rounded-2xl bg-mila p-6 text-white card-elevated">
-                  <AlertTriangle className="size-6 shrink-0 text-mila-accent" aria-hidden />
-                  <p className="text-sm md:text-base leading-relaxed">{c.martaWarning}</p>
-                </div>
-              </Reveal>
             </div>
           </div>
         </div>
@@ -356,45 +359,58 @@ export default function MilaPage() {
         </div>
       </section>
 
-      {/* 03 · La solución — pasos + una sola pantalla (el resto se muestra en demo) */}
+      {/* 03 · Cómo funciona — cada paso muestra su pantalla real */}
       <section id="como-funciona" className="mesh-mila text-white scroll-mt-20">
         <div className="container max-w-6xl px-4 py-20 md:py-28">
           <Reveal>
             <Eyebrow>{c.howEyebrow}</Eyebrow>
             <h2 className="mt-4 font-headline text-3xl md:text-5xl font-bold tracking-tight text-balance">{c.howTitle}</h2>
-            <p className="mt-4 max-w-2xl text-lg text-white/70">{c.howSubtitle}</p>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-[4fr_8fr] lg:items-center">
-            <ol className="flex flex-col gap-8">
+            <ol className="flex flex-col gap-3">
               {c.howSteps.map((step, i) => (
-                <Reveal key={step.title} delay={0.1 + i * 0.15}>
-                  <li className="flex gap-5">
-                    <span className="stat-number text-2xl text-mila-accent">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3 className="text-lg font-bold">{step.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-white/65">{step.text}</p>
-                    </div>
+                <Reveal key={i} delay={0.1 + i * 0.12}>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => setActiveStep(i)}
+                      onMouseEnter={() => setActiveStep(i)}
+                      aria-pressed={activeStep === i}
+                      className={cn(
+                        'flex w-full gap-5 rounded-xl p-4 text-left transition-colors',
+                        activeStep === i ? 'bg-white/10' : 'hover:bg-white/5'
+                      )}
+                    >
+                      <span className="stat-number text-2xl text-mila-accent">{String(i + 1).padStart(2, '0')}</span>
+                      <p
+                        className={cn(
+                          'text-base leading-relaxed transition-colors [&_strong]:font-bold [&_strong]:text-white',
+                          activeStep === i ? 'text-white/90' : 'text-white/65'
+                        )}
+                      >
+                        {step.text}
+                      </p>
+                    </button>
                   </li>
                 </Reveal>
               ))}
-              <Reveal delay={0.55}>
-                <li className="flex gap-5">
-                  <span aria-hidden className="w-[2.1rem]" />
-                  <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white">
-                    <Link href="#contacto">{c.howDemo}</Link>
-                  </Button>
-                </li>
-              </Reveal>
             </ol>
             <Reveal delay={0.2} y={40}>
-              <figure className="overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
-                <Image
-                  src="/products/mila/mila-07-hallazgo.png"
-                  alt={c.howShotAlt}
-                  width={1347}
-                  height={632}
-                  className="w-full h-auto"
-                />
+              <figure className="grid overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+                {c.howShots.map((shot, i) => (
+                  <Image
+                    key={shot.src}
+                    src={shot.src}
+                    alt={shot.alt}
+                    width={shot.width}
+                    height={shot.height}
+                    aria-hidden={activeShot !== i}
+                    className={cn(
+                      'h-auto w-full transition-opacity duration-500 [grid-area:1/1]',
+                      activeShot === i ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+                ))}
               </figure>
             </Reveal>
           </div>
@@ -420,9 +436,7 @@ export default function MilaPage() {
             <div className="flex flex-col gap-6">
               <div className="rounded-2xl border border-black/5 bg-card p-7 card-elevated">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-mila/10 text-mila">
-                    <Landmark className="size-5" aria-hidden />
-                  </span>
+                  <Landmark className="size-6 shrink-0 text-mila" aria-hidden />
                   <p className="text-sm font-semibold uppercase tracking-[0.15em] text-muted-foreground">{c.caseInUseTitle}</p>
                 </div>
                 <ul className="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
@@ -445,30 +459,26 @@ export default function MilaPage() {
         </div>
       </section>
 
-      {/* 05 · Teoría de cambio — narrativa encadenada, no tiles de números */}
+      {/* 05 · El impacto — qué gana cada actor */}
       <section className="bg-card border-y border-black/5">
         <div className="container max-w-3xl px-4 py-20 md:py-28">
           <Reveal>
-            <Eyebrow>{c.chainEyebrow}</Eyebrow>
-            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">{c.chainTitle}</h2>
-            <p className="mt-4 text-lg text-muted-foreground">{c.chainIntro}</p>
+            <Eyebrow>{c.impactEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">{c.impactTitle}</h2>
           </Reveal>
           <ol className="relative mt-14 flex flex-col gap-14 border-l-2 border-mila/15 pl-8 md:pl-12">
-            {c.chainStory.map((step, i) => (
+            {c.impactStory.map((step, i) => (
               <Reveal key={step.sentence} delay={i * 0.12}>
                 <li className="relative">
                   <span
                     aria-hidden
                     className={
                       'absolute -left-[41px] top-1.5 size-4 rounded-full border-2 border-card md:-left-[57px] ' +
-                      (i === c.chainStory.length - 1 ? 'bg-mila-accent' : 'bg-mila')
+                      (i === c.impactStory.length - 1 ? 'bg-mila-accent' : 'bg-mila')
                     }
                   />
                   <p className="font-headline text-2xl md:text-3xl font-extrabold leading-snug tracking-tight text-balance">
                     {step.sentence}
-                  </p>
-                  <p className="mt-2 text-base md:text-lg leading-relaxed text-muted-foreground">
-                    {step.detail}
                   </p>
                   {step.stat && (
                     <p className="mt-4 inline-flex items-baseline gap-2.5 rounded-full bg-mila/5 px-5 py-2">
@@ -485,6 +495,11 @@ export default function MilaPage() {
               </Reveal>
             ))}
           </ol>
+          <Reveal delay={0.4}>
+            <p className="mt-14 font-headline text-2xl md:text-3xl font-extrabold tracking-tight text-mila-accent">
+              {c.impactClosing}
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -497,10 +512,8 @@ export default function MilaPage() {
             {c.diffItems.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="flex gap-5 rounded-2xl border border-black/5 bg-card p-7 card-elevated">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-mila/10 text-mila">
-                    <Icon className="size-5" aria-hidden />
-                  </span>
+                <div key={item.title} className="flex items-center gap-6 rounded-2xl border border-black/5 bg-card p-7 card-elevated">
+                  <Icon className="size-8 shrink-0 text-mila" aria-hidden />
                   <div>
                     <h3 className="font-headline text-lg font-bold">{item.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
@@ -512,7 +525,22 @@ export default function MilaPage() {
         </div>
       </section>
 
-      <ContactSection />
+      {/* Por qué lo hacemos — mismo formato que el home */}
+      <section className="mesh-brand">
+        <div className="container max-w-6xl px-4 py-20 md:py-28">
+          <Reveal>
+            <Eyebrow>{c.chainEyebrow}</Eyebrow>
+            <h2 className="mt-4 font-headline text-3xl md:text-5xl font-extrabold tracking-tight text-balance">
+              {c.chainTitle}
+            </h2>
+          </Reveal>
+          <div className="mt-14">
+            <ImpactChain steps={c.chain} accentText="text-mila-accent" accentBg="bg-mila-accent" />
+          </div>
+        </div>
+      </section>
+
+      <ContactSection subtitle={c.contactSubtitle} />
     </div>
   );
 }
